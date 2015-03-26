@@ -1,2 +1,2 @@
 # CppPlayground
-A playground for C++ applications
+A playground for C++ applications and experiments...
