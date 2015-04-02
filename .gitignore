@@ -28,7 +28,8 @@
 *.app
 
 # Ignore the build and lib dirs
-build
+build/json/*
+build/*.o
 lib/*
 
 # Ignore any executables
