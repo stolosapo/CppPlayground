@@ -29,7 +29,7 @@
 
 # Ignore the build and lib dirs
 build/json/*
-build/*.o
+!build/json/README
 lib/*
 
 # Ignore any executables
