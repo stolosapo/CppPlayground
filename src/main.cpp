@@ -1,6 +1,6 @@
 #include <iostream>
-#include "json/JsonServiceFactory.h"
 #include <string>
+#include "json/JsonServiceFactory.h"
 #include "log/LogServiceFactory.h"
 
 using namespace std;
@@ -8,10 +8,10 @@ using namespace std;
 int main()
 {
 
-	ILogService *srv = LogServiceFactory::create();
-	srv->test();
+	ILogService *logSrv = LogServiceFactory::create();
+	logSrv->test();
 
-	IJsonService* srv = JsonServiceFactory::create();
-	srv->test();
+	IJsonService *JsonSrv = JsonServiceFactory::create();
+	JsonSrv->test();
 
 }
