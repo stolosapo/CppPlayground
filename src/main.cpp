@@ -1,8 +1,10 @@
 #include <iostream>
+#include "log/LogServiceFactory.h"
 
 using namespace std;
 
 int main()
 {
-	cout << "Hello World!" << endl;
+	ILogService *srv = LogServiceFactory::create();
+	srv->test();
 }
