@@ -28,7 +28,9 @@
 *.app
 
 # Ignore the build and lib dirs
-build
+build/*.o
+build/lib/*.o
+!build/log/README
 lib/*
 
 # Ignore any executables
