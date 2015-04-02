@@ -1,17 +1,14 @@
 #include <iostream>
+#include "JsonServiceFactory.h"
 #include "JzonService.cpp"
 
-class JsonServiceFactory
+JsonServiceFactory::JsonServiceFactory() 
 {
-public:
-	JsonServiceFactory() 
-	{
 
-	}
+}
 
-	static IJsonService *create()
-	{
-		JzonService* srv = new JzonService;
-		return  (IJsonService*) srv;
-	}
-};
+IJsonService *JsonServiceFactory::create()
+{
+	JzonService* srv = new JzonService;
+	return  (IJsonService*) srv;
+}
