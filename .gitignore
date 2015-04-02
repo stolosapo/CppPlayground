@@ -29,8 +29,10 @@
 
 # Ignore the build and lib dirs
 build/*.o
-build/lib/*.o
+build/log/*.o
 !build/log/README
+build/time/*.o
+!build/time/README
 lib/*
 
 # Ignore any executables
