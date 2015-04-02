@@ -28,8 +28,11 @@
 *.app
 
 # Ignore the build and lib dirs
+build/*.o
 build/json/*
 !build/json/README
+build/log/*
+!build/log/README
 lib/*
 
 # Ignore any executables
