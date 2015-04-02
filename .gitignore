@@ -29,10 +29,12 @@
 
 # Ignore the build and lib dirs
 build/*.o
-build/json/*
+build/json/*.o
 !build/json/README
-build/log/*
+build/log/*.o
 !build/log/README
+build/time/*.o
+!build/time/README
 lib/*
 
 # Ignore any executables
