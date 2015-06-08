@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "log/LogServiceFactory.h"
 #include "time/TimeServiceFactory.h"
+#include "menu/MenuFactory.h"
 
 using namespace std;
 
@@ -23,4 +24,6 @@ int main()
 	timeinfo = localtime ( &now );
 	string strTime = asctime (timeinfo);
 	srv->info("Now is " + strTime);
+
+	MenuFactory::print();
 }

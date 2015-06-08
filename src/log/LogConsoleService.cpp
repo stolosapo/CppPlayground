@@ -17,6 +17,16 @@ public:
 
 	}
 
+	void print(string message)
+	{
+		cout << message;
+	}
+
+	void printl(string message)
+	{
+		cout << message << endl;
+	}
+
 	void info(string message)
 	{
 		cout << " *** [ INFO ]: " << message << endl;

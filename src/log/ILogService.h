@@ -12,6 +12,8 @@ public:
 	ILogService() { };
 	virtual ~ILogService() { };
 	
+	virtual void print(string message) = 0;
+	virtual void printl(string message) = 0;
 	virtual void info(string message) = 0;
 	virtual void debug(string message) = 0;
 	virtual void error(string message) = 0;
