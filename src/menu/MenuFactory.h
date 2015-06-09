@@ -3,15 +3,28 @@
 
 #include <iostream>
 #include "Menu.h"
+#include "../log/LogServiceFactory.h"
 
 class MenuFactory
 {
+private:
+	ILogService* logSrv;
+	Menu* menu;
+	int option;
+
+	void clearScreen();
+	void prompt();
+	void promptError();
+	void readOption();
+	bool checkOption();
+
 public:
 	MenuFactory();
 	~MenuFactory();
 	
-	static Menu *create();
-	static void print();
+	Menu* create();
+	void print();
+	void run();
 };
 
 #endif // #ifndef MenuFactory_h__
