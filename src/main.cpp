@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "log/LogServiceFactory.h"
 #include "time/TimeServiceFactory.h"
-// #include "euler/Problem001.cpp"
 #include "euler/EulerProblemContainer.h"
 
 using namespace std;

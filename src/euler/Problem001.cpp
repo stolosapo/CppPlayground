@@ -59,7 +59,7 @@ public:
 
 	~Problem001()
 	{
-		delete multipliers;
+		delete[] multipliers;
 	}
 
 };
