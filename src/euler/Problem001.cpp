@@ -30,16 +30,14 @@ private:
 	}
 
 protected:
-	void example()
+	int example()
 	{
-		int current = run(10);
-		cout << "Example : " << current << endl;
+		return run(10);
 	}
 
-	void solve()
+	int solve()
 	{
-		int current = run(1000);
-		cout << current;
+		return run(1000);
 	}
 	
 public:

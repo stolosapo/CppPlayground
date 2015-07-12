@@ -19,14 +19,18 @@ private:
 		
 		while (newTerm <= limit)
 		{
-			/*
-			cout << "onePrev:" << onePrev
-			<< " twoPrev:" << twoPrev
-			<< " newTerm:" << newTerm
-			<< " sum:" << sum
-			<< " cnt:" << cnt
-			<< endl << endl;
-			*/
+			
+			output("onePrev:");
+			output(Convert<int>::NumberToString(onePrev));
+			output(" twoPrev:");
+			output(Convert<int>::NumberToString(twoPrev));
+			output(" newTerm:");
+			output(Convert<int>::NumberToString(newTerm));
+			output(" sum:");
+			output(Convert<int>::NumberToString(sum));
+			output(" cnt:");
+			output(Convert<int>::NumberToString(cnt));
+			output("\n\n");	
 
 			twoPrev = onePrev;
 			onePrev = newTerm;
@@ -46,16 +50,14 @@ private:
 	}
 
 protected:
-	void example()
+	int example()
 	{
-		long current = run(90);
-		cout << "Example : " << current << endl;
+		return run(90);
 	}
 
-	void solve()
+	int solve()
 	{
-		long current = run(4000000);
-		cout << current << endl;
+		return run(4000000);
 	}
 	
 public:
@@ -71,7 +73,7 @@ public:
 		"whose values do not exceed four million, \n"
 		"find the sum of the even-valued terms.")
 	{
-		
+		showOutput = false;	
 	}
 
 	~Problem002()

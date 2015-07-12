@@ -10,6 +10,9 @@ EulerProblem::EulerProblem(int id, string name, string title, string description
 	this->name = name;
 	this->title = title;
 	this->description = description;
+
+	this->showOutput = true;
+	this->showExample = true;
 }
 
 EulerProblem::~EulerProblem()
@@ -37,6 +40,39 @@ string EulerProblem::getDescription()
 	return description;
 }
 
+bool EulerProblem::getShowOutput()
+{
+	return showOutput;
+}
+
+bool EulerProblem::getShowExample()
+{
+	return showExample;
+}
+
+int EulerProblem::getSolution()
+{
+	return solution;
+}
+
+void EulerProblem::setShowOutput(bool showOutput)
+{
+	this->showOutput = showOutput;
+}
+
+void EulerProblem::setShowExample(bool showExample)
+{
+	this->showExample = showExample;
+}
+
+void EulerProblem::output(string message)
+{
+	if (this->showOutput)
+	{
+		cout << message;
+	}
+}
+
 string EulerProblem::identify()
 {
 	string message = this->getName() + "\n\n" +
@@ -57,7 +93,7 @@ void EulerProblem::afterSolve()
 
 }
 
-void EulerProblem::example()
+int EulerProblem::example()
 {
 	
 }
@@ -71,9 +107,16 @@ void EulerProblem::findSolution()
 
 	this->beforeSolve();
 
-	this->example();
 
-	this->solve();
+	this->solution = solve();
+
+	if (this->showExample)
+	{
+		cout << "Example : " << this->example() << endl;
+	}
+
+	cout << solution << endl;
+
 
 	this->afterSolve();
 
