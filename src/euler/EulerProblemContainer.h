@@ -16,6 +16,7 @@ private:
 	void fillProblems();
 	void showProblems();
 	EulerProblem *findProblem(int id);
+	void clearScreen();
 
 public:
 	EulerProblemContainer();
