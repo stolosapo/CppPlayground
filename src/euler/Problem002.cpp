@@ -1,42 +1,45 @@
 #include <iostream>
 #include <string>
 #include "EulerProblem.h"
+#include "../shared/convert.h"
 
 using namespace std;
 
 class Problem002 : public EulerProblem
 {
 private:
-	long run(const long limit)
+	int run(const int limit)
 	{
-		long onePrev = 2L;
-		long twoPrev = 1L;
-		long newTerm = onePrev + twoPrev;
-		long sum = onePrev + twoPrev + newTerm;
+		int onePrev = 2;
+		int twoPrev = 1;
+		int newTerm = onePrev + twoPrev;
+		int sum = onePrev;
 		bool go = true;
-		long cnt = 3L;
-
-		while (cnt <= limit)
+		int cnt = 3;
+		
+		while (newTerm <= limit)
 		{
 			/*
-			cout << "onePrev:" << onePrev 
-				<< " twoPrev:" << twoPrev
-				<< " newTerm:" << newTerm
-				<< " sum:" << sum 
-				<< " cnt:" << cnt
-				<< endl << endl;
+			cout << "onePrev:" << onePrev
+			<< " twoPrev:" << twoPrev
+			<< " newTerm:" << newTerm
+			<< " sum:" << sum
+			<< " cnt:" << cnt
+			<< endl << endl;
 			*/
 
 			twoPrev = onePrev;
 			onePrev = newTerm;
-			
 			newTerm = onePrev + twoPrev;
-			
-			sum += newTerm;	
-			cnt++;
 
-			if (cnt == limit)
+			if (newTerm > limit)
 				break;
+
+			if (newTerm % 2 == 0)
+				sum += newTerm;
+
+			cnt++;
+			
 		}
 
 		return sum;
@@ -45,13 +48,13 @@ private:
 protected:
 	void example()
 	{
-		long current = run(10L);
+		long current = run(90);
 		cout << "Example : " << current << endl;
 	}
 
 	void solve()
 	{
-		long current = run(4000000L);
+		long current = run(4000000);
 		cout << current << endl;
 	}
 	
