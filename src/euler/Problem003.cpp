@@ -13,12 +13,12 @@ class Problem003 : public EulerProblem
 private:
 	vector<int> primeNumbers;
 
-	int run(const int len, int bigNumber[])
+	int run(long long int number)
 	{
 		int rest = 0;
-		int *result = divide(len, bigNumber, 2, rest);
+		//int *result = divide(len, bigNumber, 2, rest);
 
-		return result[0];
+		return rest;
 	}
 
 	int* divide(const int len, int bigNumber[], int divitedBy, int &rest)
@@ -45,24 +45,12 @@ private:
 protected:
 	int example()
 	{
-		const int LEN = 5;
-		int bigNumber[LEN] = {
-			1, 3, 1, 9, 5
-		};
-
-		return run(LEN, bigNumber);
+		return run(13195);
 	}
 
 	int solve()
 	{
-		const int LEN = 12;
-
-		int bigNumber[LEN] = {
-			6, 0, 0, 8, 5, 1, 4, 7, 5, 1, 4, 3
-		};
-
-
-		return run(LEN, bigNumber);
+		return run(600851475143);
 	}
 	
 public:
