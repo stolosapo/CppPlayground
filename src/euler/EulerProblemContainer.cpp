@@ -3,12 +3,13 @@
 #include "EulerProblemContainer.h"
 #include "Problem001.cpp"
 #include "Problem002.cpp"
+#include "Problem003.cpp"
 
 using namespace std;
 
 EulerProblemContainer::EulerProblemContainer()
 {
-	const int SIZE = 2;
+	const int SIZE = 3;
 	this->size = SIZE;
 	this->problems = new EulerProblem *[SIZE];
 
@@ -24,6 +25,7 @@ void EulerProblemContainer::fillProblems()
 {
 	this->problems[0] = new Problem001;
 	this->problems[1] = new Problem002;
+	this->problems[2] = new Problem003;
 }
 
 void EulerProblemContainer::showProblems()
