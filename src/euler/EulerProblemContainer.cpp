@@ -2,12 +2,14 @@
 #include <string>
 #include "EulerProblemContainer.h"
 #include "Problem001.cpp"
+#include "Problem002.cpp"
+#include "Problem003.cpp"
 
 using namespace std;
 
 EulerProblemContainer::EulerProblemContainer()
 {
-	const int SIZE = 1;
+	const int SIZE = 3;
 	this->size = SIZE;
 	this->problems = new EulerProblem *[SIZE];
 
@@ -22,10 +24,16 @@ EulerProblemContainer::~EulerProblemContainer()
 void EulerProblemContainer::fillProblems()
 {
 	this->problems[0] = new Problem001;
+	this->problems[1] = new Problem002;
+	this->problems[2] = new Problem003;
 }
 
 void EulerProblemContainer::showProblems()
 {
+	cout << endl 
+		<< 0 << ". Exit"
+		<< endl << endl;
+
 	for (int i = 0; i < size; ++i)
 	{
 		EulerProblem *current = this->problems[i];
@@ -33,12 +41,12 @@ void EulerProblemContainer::showProblems()
 			<< current->getName() << endl;
 	}
 
-	cout << endl << -1 << ". Exit";
+	cout << endl;
 }
 
 EulerProblem *EulerProblemContainer::findProblem(int id)
 {
-	if (id == -1)
+	if (id == 0)
 		return NULL;
 
 	EulerProblem *current;
@@ -58,18 +66,42 @@ EulerProblem *EulerProblemContainer::findProblem(int id)
 	return this->findProblem(id);
 }
 
+void EulerProblemContainer::clearScreen()
+{
+	cout << string(50, '\n');
+}
+
 void EulerProblemContainer::run()
 {
 	int id;
-	this->showProblems();
+	string question;
 
-	cout << endl << "Choose a problem: ";
-	cin >> id;
-
-	EulerProblem *selected = this->findProblem(id);
-	if (selected != NULL)
+	while (1)
 	{
-		cout << selected->identify();
-		selected->findSolution();
+		clearScreen();
+		this->showProblems();
+
+		cout << endl << "Choose a problem: ";
+		cin >> id;
+
+		EulerProblem *selected = this->findProblem(id);
+		if (selected != NULL)
+		{
+			clearScreen();
+			cout << selected->identify();
+			selected->findSolution();
+
+			cout << endl << "Solve other problem ? (y/n): ";
+			cin >> question;
+
+			if (question != "y" && question != "Y")
+			{
+				break;
+			}
+		}
+		else
+		{
+			break;
+		}
 	}
 }

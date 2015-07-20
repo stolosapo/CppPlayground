@@ -5,6 +5,7 @@
 #include "log/LogServiceFactory.h"
 #include "time/TimeServiceFactory.h"
 #include "menu/MenuFactory.h"
+#include "euler/EulerProblemContainer.h"
 
 using namespace std;
 

@@ -13,12 +13,17 @@ private:
 	string name;
 	string title;
 	string description;
+	int solution;
 
 protected:
+	bool showOutput;
+	bool showExample;
+
 	virtual void beforeSolve();
 	virtual void afterSolve();
-	virtual void example();
-	virtual void solve() = 0;
+	virtual int example();
+	virtual int solve() = 0;
+	virtual void output(string message);
 
 public:
 	EulerProblem(int id, string name, string title, string description);
@@ -28,6 +33,12 @@ public:
 	string getName();
 	string getTitle();
 	string getDescription();
+	bool getShowOutput();
+	bool getShowExample();
+	int getSolution();
+
+	void setShowOutput(bool showOutput);
+	void setShowExample(bool showExample);
 
 	virtual string identify();
 	virtual void findSolution();
