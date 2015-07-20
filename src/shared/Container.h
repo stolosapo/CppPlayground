@@ -14,25 +14,36 @@ private:
 	string name;
 	string caption;
 	bool enable;
+	string question;
+	int selection;
+	int exitCode;
+	bool useOptions;
 
 public:
-	Container();
+	Container(int id, string name, string caption, int exitCode);
 	virtual ~Container();
 	
 	int getId();
-	void setId(int id);
-
 	string getName();
-	void setName(string name);
-
 	string getCaption();
-	void setCaption(string caption);
-
 	bool getEnable();
-	void setEnable(bool enable);
+	string getQuestion();
+	int getSelection();
+	int getExitCode();
+	bool getUseOptions();
 
 	void run();
-	void execute() = 0;
+
+protected:
+	void setEnable(bool enable);
+	void setUseOptions(bool useOptions);
+	void setQuestion(string question);
+
+	void clearScreen();
+	int promptQuestion();
+
+	virtual void execute() = 0;
+	virtual void showOptions() = 0;
 };
 
 #endif // Container_h__
