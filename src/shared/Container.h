@@ -32,17 +32,17 @@ public:
 	int getExitCode();
 	bool getUseOptions();
 
-	void run();
+	virtual void run();
 
 protected:
 	void setEnable(bool enable);
 	void setUseOptions(bool useOptions);
 	void setQuestion(string question);
 
-	void clearScreen();
-	int promptQuestion();
+	virtual void clearScreen();
+	virtual int promptQuestion();
 
-	virtual void execute() = 0;
+	virtual void execute(int id) = 0;
 	virtual void showOptions() = 0;
 };
 

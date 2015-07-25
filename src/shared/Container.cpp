@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Container::Container(int id, string name, string caption, string exitCode) 
+Container::Container(int id, string name, string caption, int exitCode) 
 {
 	this->id = id;
 	this->name = name;
