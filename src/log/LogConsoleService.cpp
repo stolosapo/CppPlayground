@@ -29,7 +29,11 @@ public:
 
 	void info(string message)
 	{
-		cout << " *** [ INFO ]: " << message << endl;
+		outString(" *** [ INFO ]: ");
+		outString(message);
+		outString("\n");
+
+		// cout << " *** [ INFO ]: " << message << endl;
 	}
 
 	void debug(string message)
@@ -49,6 +53,7 @@ public:
 
 	void test() 
 	{
-		cout<<"Hello World!!"<<endl;
+		outString("Hello World!!");
+		// cout<<"Hello World!!"<<endl;
 	}
 };

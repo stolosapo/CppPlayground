@@ -3,13 +3,14 @@
 
 #include <iostream>
 #include <string>
+#include "../shared/InOut.h"
 
 using namespace std;
 
-class ILogService
+class ILogService : public InOut
 {
 public:
-	ILogService() { };
+	ILogService()  : InOut() { };
 	virtual ~ILogService() { };
 	
 	virtual void print(string message) = 0;
