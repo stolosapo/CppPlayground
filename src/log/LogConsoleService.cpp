@@ -19,12 +19,13 @@ public:
 
 	void print(string message)
 	{
-		cout << message;
+		outString(message);
 	}
 
 	void printl(string message)
 	{
-		cout << message << endl;
+		outString(message);
+		outString("\n");
 	}
 
 	void info(string message)
@@ -32,28 +33,31 @@ public:
 		outString(" *** [ INFO ]: ");
 		outString(message);
 		outString("\n");
-
-		// cout << " *** [ INFO ]: " << message << endl;
 	}
 
 	void debug(string message)
 	{
-		cout << " *** [ DEBUG ]: " << message << endl;	
+		outString(" *** [ DEBUG ]: ");
+		outString(message);
+		outString("\n");
 	}
 
 	void error(string message)
 	{
-		cout << " *** [ ERROR ]: " << message << endl;	
+		outString(" *** [ ERROR ]: ");
+		outString(message);
+		outString("\n");
 	}
 
 	void fatal(string message)
 	{
-		cout << " *** [ FATAL ]: " << message << endl;	
+		outString(" *** [ FATAL ]: ");
+		outString(message);
+		outString("\n");
 	}
 
 	void test() 
 	{
 		outString("Hello World!!");
-		// cout<<"Hello World!!"<<endl;
 	}
 };
