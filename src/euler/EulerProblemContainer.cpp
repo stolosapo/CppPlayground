@@ -11,7 +11,7 @@ EulerProblemContainer::EulerProblemContainer() : Container(
 	1, 
 	"EulerProblems",
 	"Euler Problems",
-	3)
+	1)
 {
 
 }
@@ -37,5 +37,5 @@ void EulerProblemContainer::execute(int menuItemId)
 
 void EulerProblemContainer::fillOptions()
 {
-
+	this->addMenuItem(0, NULL);
 }
