@@ -3,26 +3,20 @@
 
 #include <iostream>
 #include <string>
-#include "EulerProblem.h"
+#include "../shared/Container.h"
 
 using namespace std;
 
-class EulerProblemContainer
+class EulerProblemContainer : public Container
 {
-private:
-	EulerProblem **problems;
-	int size;
-
-	void fillProblems();
-	void showProblems();
-	EulerProblem *findProblem(int id);
-	void clearScreen();
-
 public:
 	EulerProblemContainer();
 	virtual ~EulerProblemContainer();
-	
-	void run();
+
+protected:
+	virtual void execute(int menuItemId);
+	virtual void fillOptions();
+
 };
 
 #endif // EulerProblemContainer_h__

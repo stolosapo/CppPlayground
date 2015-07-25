@@ -17,6 +17,11 @@ public:
 
 	}
 
+	void clearScreen()
+	{
+		outString(string(50, '\n'));
+	}
+
 	void print(string message)
 	{
 		outString(message);

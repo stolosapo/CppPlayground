@@ -3,47 +3,52 @@
 
 #include <iostream>
 #include <string>
+#include "../log/ILogService.h"
+#include "../menu/MenuItem.h"
 
 
 using namespace std;
 
-class Container
+class Container : public MenuItem
 {
 private:
-	int id;
-	string name;
-	string caption;
-	bool enable;
+	static const int DEFAULT_EXIT_CODE = 0;
+
+	int size;
 	string question;
 	int selection;
 	int exitCode;
 	bool useOptions;
 
+	ILogService *logSrv;
+	MenuItem **menuItems;
+
 public:
-	Container(int id, string name, string caption, int exitCode);
+	Container(int id, string name, string title, const int size);
 	virtual ~Container();
 	
-	int getId();
-	string getName();
-	string getCaption();
-	bool getEnable();
+	int getSize();
 	string getQuestion();
 	int getSelection();
 	int getExitCode();
 	bool getUseOptions();
 
-	virtual void run();
+	virtual void action();
+	virtual string identify();
 
 protected:
-	void setEnable(bool enable);
+
 	void setUseOptions(bool useOptions);
 	void setQuestion(string question);
 
-	virtual void clearScreen();
+	void addMenuItem(int index, MenuItem *menuItem);
+	
+	virtual MenuItem *findMenuItem();
 	virtual int promptQuestion();
+	virtual void showOptions();
 
-	virtual void execute(int id) = 0;
-	virtual void showOptions() = 0;
+	virtual void execute(int menuItemId) = 0;
+	virtual void fillOptions() = 0;
 };
 
 #endif // Container_h__

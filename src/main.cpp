@@ -6,11 +6,12 @@
 #include "time/TimeServiceFactory.h"
 #include "menu/MenuFactory.h"
 #include "euler/EulerProblemContainer.h"
+#include "menu/MainMenu.cpp"
 
 using namespace std;
 
 int main()
 {
-	MenuFactory* menuFactory = new MenuFactory;
-	menuFactory->run();
+	MainMenu *menu = new MainMenu;
+	menu->action();
 }

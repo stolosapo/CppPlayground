@@ -29,7 +29,7 @@ MenuItem MenuConfig::createLogMenuItem()
 	
 	item.setId(1);
 	item.setName("Log");
-	item.setCaption("Test Loging Service");
+	item.setTitle("Test Loging Service");
 	item.setEnable(true);
 
 	return item;

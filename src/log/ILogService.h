@@ -13,6 +13,7 @@ public:
 	ILogService()  : InOut() { };
 	virtual ~ILogService() { };
 	
+	virtual void clearScreen() = 0;
 	virtual void print(string message) = 0;
 	virtual void printl(string message) = 0;
 	virtual void info(string message) = 0;

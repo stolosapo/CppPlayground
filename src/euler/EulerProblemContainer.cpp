@@ -7,101 +7,35 @@
 
 using namespace std;
 
-EulerProblemContainer::EulerProblemContainer()
+EulerProblemContainer::EulerProblemContainer() : Container(
+	1, 
+	"EulerProblems",
+	"Euler Problems",
+	3)
 {
-	const int SIZE = 3;
-	this->size = SIZE;
-	this->problems = new EulerProblem *[SIZE];
 
-	fillProblems();
 }
 
 EulerProblemContainer::~EulerProblemContainer()
 {
-	delete this->problems;
+
 }
 
-void EulerProblemContainer::fillProblems()
+void EulerProblemContainer::execute(int menuItemId)
 {
-	this->problems[0] = new Problem001;
-	this->problems[1] = new Problem002;
-	this->problems[2] = new Problem003;
+	// cout << selected->identify();
+	// selected->findSolution();
+
+	// cout << endl << "Solve other problem ? (y/n): ";
+	// cin >> question;
+
+	// if (question != "y" && question != "Y")
+	// {
+	// 	break;
+	// }
 }
 
-void EulerProblemContainer::showProblems()
+void EulerProblemContainer::fillOptions()
 {
-	cout << endl 
-		<< 0 << ". Exit"
-		<< endl << endl;
 
-	for (int i = 0; i < size; ++i)
-	{
-		EulerProblem *current = this->problems[i];
-		cout << current->getId() << ". " 
-			<< current->getName() << endl;
-	}
-
-	cout << endl;
-}
-
-EulerProblem *EulerProblemContainer::findProblem(int id)
-{
-	if (id == 0)
-		return NULL;
-
-	EulerProblem *current;
-
-	for (int i = 0; i < this->size; ++i)
-	{
-		current = this->problems[i];
-		if (current->getId() == id)
-		{
-			return current;
-		}
-	}
-
-	cout << "No such problem exists!!!" << endl << endl;
-	cout << "Choose again: ";
-	cin >> id;
-	return this->findProblem(id);
-}
-
-void EulerProblemContainer::clearScreen()
-{
-	cout << string(50, '\n');
-}
-
-void EulerProblemContainer::run()
-{
-	int id;
-	string question;
-
-	while (1)
-	{
-		clearScreen();
-		this->showProblems();
-
-		cout << endl << "Choose a problem: ";
-		cin >> id;
-
-		EulerProblem *selected = this->findProblem(id);
-		if (selected != NULL)
-		{
-			clearScreen();
-			cout << selected->identify();
-			selected->findSolution();
-
-			cout << endl << "Solve other problem ? (y/n): ";
-			cin >> question;
-
-			if (question != "y" && question != "Y")
-			{
-				break;
-			}
-		}
-		else
-		{
-			break;
-		}
-	}
 }

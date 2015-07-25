@@ -19,29 +19,19 @@ int MenuItem::getId()
 	return this->id;
 }
 
-void MenuItem::setId(int id)
-{
-	this->id = id;
-}
-
 string MenuItem::getName()
 {
 	return this->name;
 }
 
-void MenuItem::setName(string name)
+string MenuItem::getTitle()
 {
-	this->name = name;
+	return this->title;
 }
 
-string MenuItem::getCaption()
+string MenuItem::getDescription()
 {
-	return this->caption;
-}
-
-void MenuItem::setCaption(string caption)
-{
-	this->caption = caption;
+	return this->description;
 }
 
 bool MenuItem::getEnable()
@@ -49,17 +39,45 @@ bool MenuItem::getEnable()
 	return this->enable;
 }
 
+
+void MenuItem::setId(int id)
+{
+	this->id = id;
+}
+
+void MenuItem::setName(string name)
+{
+	this->name = name;
+}
+
+void MenuItem::setTitle(string title)
+{
+	this->title = title;
+}
+
+void MenuItem::setDescription(string description)
+{
+	this->description = description;
+}
+
+
 void MenuItem::setEnable(bool enable)
 {
 	this->enable = enable;
 }
 
-// Menu *MenuItem::getSubMenu()
-// {
-// 	return this->subMenu;
-// }
 
-// void MenuItem::setSubMenu(Menu* subMenu)
-// {
-// 	this->subMenu = subMenu;
-// }
+void MenuItem::action()
+{
+	
+}
+
+string MenuItem::identify()
+{
+	string message = this->getName() + "\n\n" +
+	this->getTitle() + "\n" +
+	"####################################" + "\n\n" +
+	this->getDescription();
+
+	return message;
+}

@@ -85,7 +85,7 @@ void MenuFactory::print()
 	{
 		string id = Convert<int>::NumberToString(items[i].getId());
 		string name = items[i].getName();
-		string caption = items[i].getCaption();
+		string caption = items[i].getTitle();
 		bool enable = items[i].getEnable();
 
 		if (enable)

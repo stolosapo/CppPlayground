@@ -1,73 +1,206 @@
 #include <iostream>
 #include <vector>
 #include "Container.h"
+#include "../log/LogServiceFactory.h"
 
 using namespace std;
 
-Container::Container(int id, string name, string caption, int exitCode) 
+/*******************************
+*
+*		CONSTRUCTORS
+*
+********************************/
+
+Container::Container(int id, string name, string title, const int size) : MenuItem()
 {
-	this->id = id;
-	this->name = name;
-	this->caption = caption;
-	this-> enable = true;
-	this->exitCode = exitCode;
+	this->setId(id);
+	this->setName(name);
+	this->setTitle(title);
+	this->setEnable(true);
+
+	this->exitCode = DEFAULT_EXIT_CODE;
 	this->useOptions = true;
 	this->question = "Give option: ";
+
+	this->size = size;
+	this->menuItems = new MenuItem *[size];
+
+	logSrv = LogServiceFactory::create();
 }
 
 Container::~Container()
 {
-
+	this->logSrv = NULL;
+	delete[] this->menuItems;
 }
 
-int Container::getId()
+
+
+/*******************************
+*
+*		GETTERS SETTERS
+*
+********************************/
+
+int Container::getSize()
 {
-	return this->id;
+	return this->size;
 }
 
-string Container::getName()
+string Container::getQuestion()
 {
-	return this->name;
+	return this->question;
 }
 
-string Container::getCaption()
+int Container::getSelection()
 {
-	return this->caption;
+	return this->selection;
 }
 
-bool Container::getEnable()
+int Container::getExitCode()
 {
-	return this->enable;
+	return this->exitCode;
 }
 
-void Container::setEnable(bool enable)
+bool Container::getUseOptions()
 {
-	this->enable = enable;
+	return this->useOptions;
 }
 
-void Container::clearScreen()
+
+void Container::setUseOptions(bool useOptions)
 {
-	cout << string(50, '\n');
+	this->useOptions = useOptions;
+}
+
+void Container::setQuestion(string question)
+{
+	this->question = question;
+}
+
+
+/*******************************
+*
+*		PRIVATE METHODS
+*
+********************************/
+
+
+
+
+
+/*******************************
+*
+*		PROTECTED METHODS
+*
+********************************/
+
+void Container::addMenuItem(int index, MenuItem *menuItem)
+{
+	this->menuItems[index] = menuItem;
+}
+
+MenuItem *Container::findMenuItem()
+{
+	if (this->selection == this->exitCode)
+		return NULL;
+
+	MenuItem *current;
+
+	for (int i = 0; i < this->size; ++i)
+	{
+		if (this->menuItems[i] != NULL)
+		{
+			current = this->menuItems[i];
+			if (current->getId() == this->selection)
+			{
+				return current;
+			}
+		}
+	}
+
+	logSrv->outString("No such item exists!!!\n\n");
+	logSrv->outString("Choose again: ");
+	this->selection = logSrv->inInt();
+	
+	return this->findMenuItem();
 }
 
 int Container::promptQuestion()
 {
-	cout << question;
-	cin >> this->selection;
+	logSrv->print(question);
+	this->selection = logSrv->inInt();
 
 	return this->selection;
 }
 
-void Container::run()
+void Container::showOptions() 
+{
+	this->fillOptions();
+	
+	if (this->useOptions && menuItems != NULL)
+	{
+
+		logSrv->print("\n");
+		logSrv->outInt(this->exitCode);
+		logSrv->print(". Exit");
+		logSrv->print("\n\n");
+
+		for (int i = 0; i < this->size; ++i)
+		{
+			if (this->menuItems[i] != NULL)
+			{
+				MenuItem *current = this->menuItems[i];
+				logSrv->outInt(current->getId());
+				logSrv->outString(". ");
+				logSrv->outString(current->getName());
+				logSrv->outString("\n");
+			}
+		}
+
+		logSrv->outString("\n");
+	}
+}
+
+
+
+/*******************************
+*
+*		PUBLIC METHODS
+*
+********************************/
+
+void Container::action()
 {
 	while(1)
 	{
-		this->clearScreen();
+		logSrv->clearScreen();
+
+		logSrv->outString(this->identify());
 
 		this->showOptions();
 
 		this->promptQuestion();
 
-		this->execute(this->selection);
+		MenuItem *selectedItem = this->findMenuItem();
+		if (selectedItem != NULL)
+		{
+			logSrv->clearScreen();
+			selectedItem->action();
+		}
+		else
+		{
+			break;
+		}
 	}
+}
+
+
+string Container::identify()
+{
+	string message = this->getTitle() + "\n" +
+	"####################################" + "\n\n" +
+	this->getDescription();
+
+	return message;
 }

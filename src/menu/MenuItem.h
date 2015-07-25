@@ -11,30 +11,32 @@ class MenuItem
 {
 private:
 	int id;
+
 	string name;
-	string caption;
+	string title;
+	string description;
+
 	bool enable;
-	int action;
-	// Menu* subMenu;
 
 public:
 	MenuItem();
 	virtual ~MenuItem();
 	
 	int getId();
-	void setId(int id);
-
 	string getName();
-	void setName(string name);
-
-	string getCaption();
-	void setCaption(string caption);
-
+	string getTitle();
+	string getDescription();
 	bool getEnable();
+	
+	void setId(int id);
+	void setName(string name);
+	void setTitle(string title);
+	void setDescription(string description);
 	void setEnable(bool enable);
 
-	// Menu *getSubMenu();
-	// void setSubMenu(Menu* subMenu);
+	virtual void action();
+	virtual string identify();
+
 };
 
 #endif // MenuItem_h__
