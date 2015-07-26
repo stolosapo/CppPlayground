@@ -19,8 +19,8 @@ private:
 	int selection;
 	int exitCode;
 	bool useOptions;
+	bool continueQuestion;
 
-	ILogService *logSrv;
 	MenuItem **menuItems;
 
 public:
@@ -29,6 +29,7 @@ public:
 	
 	int getSize();
 	string getQuestion();
+	bool getContinueQuestion();
 	int getSelection();
 	int getExitCode();
 	bool getUseOptions();
@@ -37,17 +38,19 @@ public:
 	virtual string identify();
 
 protected:
+	ILogService *logSrv;
 
 	void setUseOptions(bool useOptions);
 	void setQuestion(string question);
+	void setContinueQuestion(bool continueQuestion);
 
 	void addMenuItem(int index, MenuItem *menuItem);
 	
 	virtual MenuItem *findMenuItem();
 	virtual int promptQuestion();
+	virtual bool promptContinueQuestion();
 	virtual void showOptions();
 
-	virtual void execute(int menuItemId) = 0;
 	virtual void fillOptions() = 0;
 };
 

@@ -4,12 +4,24 @@
 
 using namespace std;
 
-EulerProblem::EulerProblem(int id, string name, string title, string description)
+/*********************************
+*
+*		CONSTRUCTORS
+*
+**********************************/
+EulerProblem::EulerProblem(
+	ILogService *logSrv, 
+	int id, 
+	string name, 
+	string title, 
+	string description) : MenuItem()
 {
-	this->id = id;
-	this->name = name;
-	this->title = title;
-	this->description = description;
+	this->logSrv = logSrv;
+
+	this->setId(id);
+	this->setName(name);
+	this->setTitle(title);
+	this->setDescription(description);
 
 	this->showOutput = true;
 	this->showExample = true;
@@ -20,25 +32,12 @@ EulerProblem::~EulerProblem()
 
 }
 
-int EulerProblem::getId()
-{
-	return this->id;
-}
 
-string EulerProblem::getName()
-{
-	return name;
-}
-
-string EulerProblem::getTitle()
-{
-	return title;
-}
-
-string EulerProblem::getDescription()
-{
-	return description;
-}
+/*********************************
+*
+*		GETTERS SETTERS
+*
+**********************************/
 
 bool EulerProblem::getShowOutput()
 {
@@ -65,23 +64,13 @@ void EulerProblem::setShowExample(bool showExample)
 	this->showExample = showExample;
 }
 
-void EulerProblem::output(string message)
-{
-	if (this->showOutput)
-	{
-		cout << message;
-	}
-}
 
-string EulerProblem::identify()
-{
-	string message = this->getName() + "\n\n" +
-	this->getTitle() + "\n" +
-	"####################################" + "\n\n" +
-	this->getDescription();
 
-	return message;
-}
+/*********************************
+*
+*		PROTECTED METHODS
+*
+**********************************/
 
 void EulerProblem::beforeSolve()
 {
@@ -98,28 +87,46 @@ int EulerProblem::example()
 	
 }
 
-void EulerProblem::findSolution()
+void EulerProblem::output(string message)
 {
-	cout << endl << endl
-		<< "################" << endl
-		<< "### SOLUTION ###" << endl
-		<< "################" << endl << endl;
+	if (this->showOutput)
+	{
+		this->logSrv->outString(message);
+	}
+}
+
+
+
+/*********************************
+*
+*		PUBLIC METHODS
+*
+**********************************/
+
+void EulerProblem::action()
+{
+	logSrv->outString("\n\n");
+	logSrv->outString("################\n");
+	logSrv->outString("### SOLUTION ###\n");
+	logSrv->outString("################\n\n");
 
 	this->beforeSolve();
-
 
 	this->solution = solve();
 
 	if (this->showExample)
 	{
-		cout << "Example : " << this->example() << endl;
+		logSrv->outString("Example : ");
+		logSrv->outInt(this->example());
+		logSrv->outString("\n");
 	}
 
-	cout << solution << endl;
+	logSrv->outInt(solution);
+	logSrv->outString("\n");
 
 
 	this->afterSolve();
 
-	cout << endl << endl
-		<< "################" << endl << endl;
+	logSrv->outString("\n\n");
+	logSrv->outString("################\n\n");
 }

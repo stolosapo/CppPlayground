@@ -1,41 +1,35 @@
 #include <iostream>
 #include <string>
-#include "EulerProblemContainer.h"
+#include "../shared/Container.h"
 #include "Problem001.cpp"
 #include "Problem002.cpp"
 #include "Problem003.cpp"
 
 using namespace std;
 
-EulerProblemContainer::EulerProblemContainer() : Container(
-	1, 
-	"EulerProblems",
-	"Euler Problems",
-	1)
+class EulerProblemContainer : public Container
 {
+public:
+	EulerProblemContainer() : Container(
+		1, 
+		"Euler Problems",
+		"Euler Problems",
+		3)
+	{
+		this->setContinueQuestion(true);
+	}
 
-}
+	virtual ~EulerProblemContainer()
+	{
 
-EulerProblemContainer::~EulerProblemContainer()
-{
+	}
 
-}
+protected:
+	virtual void fillOptions()
+	{
+		this->addMenuItem(0, new Problem001(logSrv));
+		this->addMenuItem(1, new Problem002(logSrv));
+		this->addMenuItem(2, new Problem003(logSrv));
+	}
 
-void EulerProblemContainer::execute(int menuItemId)
-{
-	// cout << selected->identify();
-	// selected->findSolution();
-
-	// cout << endl << "Solve other problem ? (y/n): ";
-	// cin >> question;
-
-	// if (question != "y" && question != "Y")
-	// {
-	// 	break;
-	// }
-}
-
-void EulerProblemContainer::fillOptions()
-{
-	this->addMenuItem(0, NULL);
-}
+};

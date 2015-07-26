@@ -21,6 +21,7 @@ Container::Container(int id, string name, string title, const int size) : MenuIt
 	this->exitCode = DEFAULT_EXIT_CODE;
 	this->useOptions = true;
 	this->question = "Give option: ";
+	this->continueQuestion = false;
 
 	this->size = size;
 	this->menuItems = new MenuItem *[size];
@@ -67,6 +68,11 @@ bool Container::getUseOptions()
 	return this->useOptions;
 }
 
+bool Container::getContinueQuestion()
+{
+	return this->continueQuestion;
+}
+
 
 void Container::setUseOptions(bool useOptions)
 {
@@ -76,6 +82,11 @@ void Container::setUseOptions(bool useOptions)
 void Container::setQuestion(string question)
 {
 	this->question = question;
+}
+
+void Container::setContinueQuestion(bool continueQuestion)
+{
+	this->continueQuestion = continueQuestion;
 }
 
 
@@ -134,6 +145,19 @@ int Container::promptQuestion()
 	return this->selection;
 }
 
+bool Container::promptContinueQuestion()
+{
+	logSrv->print("Choose other option? (y/n): ");
+	string cont = logSrv->inString();
+	
+	if (cont == "y" || cont == "Y")
+	{
+		return true;
+	}
+
+	return false;
+}
+
 void Container::showOptions() 
 {
 	this->fillOptions();
@@ -153,7 +177,7 @@ void Container::showOptions()
 				MenuItem *current = this->menuItems[i];
 				logSrv->outInt(current->getId());
 				logSrv->outString(". ");
-				logSrv->outString(current->getName());
+				logSrv->outString(current->getTitle());
 				logSrv->outString("\n");
 			}
 		}
@@ -186,7 +210,18 @@ void Container::action()
 		if (selectedItem != NULL)
 		{
 			logSrv->clearScreen();
+			logSrv->outString(selectedItem->identify());
 			selectedItem->action();
+
+			if (this->continueQuestion)
+			{
+				bool cont = this->promptContinueQuestion();
+				if (!cont)
+				{
+					break;
+				}
+			}
+
 		}
 		else
 		{

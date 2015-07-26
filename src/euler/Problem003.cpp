@@ -3,6 +3,7 @@
 #include <limits>
 #include <vector>
 #include "EulerProblem.h"
+#include "../log/ILogService.h"
 #include "../shared/PrimeFactor.h"
 #include "../shared/convert.h"
 
@@ -54,7 +55,8 @@ protected:
 	}
 	
 public:
-	Problem003() : EulerProblem(
+	Problem003(ILogService *logSrv) : EulerProblem(
+		logSrv,
 		3, 
 		"Problem 003", 
 		"Largest prime factor", 

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../shared/Container.h"
-#include "../euler/EulerProblemContainer.h"
+#include "../euler/EulerProblemContainer.cpp"
 
 using namespace std;
 
@@ -24,11 +24,6 @@ public:
 	}
 
 protected:
-	virtual void execute(int menuItemId)
-	{
-
-	}
-
 	virtual void fillOptions()
 	{
 		this->addMenuItem(0, new EulerProblemContainer);
