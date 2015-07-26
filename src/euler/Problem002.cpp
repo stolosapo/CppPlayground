@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "EulerProblem.h"
+#include "../log/ILogService.h"
 #include "../shared/convert.h"
 
 using namespace std;
@@ -61,7 +62,8 @@ protected:
 	}
 	
 public:
-	Problem002() : EulerProblem(
+	Problem002(ILogService *logSrv) : EulerProblem(
+		logSrv,
 		2, 
 		"Problem 002", 
 		"Even Fibonacci numbers", 
