@@ -17,28 +17,52 @@ public:
 
 	}
 
+	void clearScreen()
+	{
+		outString(string(50, '\n'));
+	}
+
+	void print(string message)
+	{
+		outString(message);
+	}
+
+	void printl(string message)
+	{
+		outString(message);
+		outString("\n");
+	}
+
 	void info(string message)
 	{
-		cout << " *** [ INFO ]: " << message << endl;
+		outString(" *** [ INFO ]: ");
+		outString(message);
+		outString("\n");
 	}
 
 	void debug(string message)
 	{
-		cout << " *** [ DEBUG ]: " << message << endl;	
+		outString(" *** [ DEBUG ]: ");
+		outString(message);
+		outString("\n");
 	}
 
 	void error(string message)
 	{
-		cout << " *** [ ERROR ]: " << message << endl;	
+		outString(" *** [ ERROR ]: ");
+		outString(message);
+		outString("\n");
 	}
 
 	void fatal(string message)
 	{
-		cout << " *** [ FATAL ]: " << message << endl;	
+		outString(" *** [ FATAL ]: ");
+		outString(message);
+		outString("\n");
 	}
 
 	void test() 
 	{
-		cout<<"Hello World!!"<<endl;
+		outString("Hello World!!");
 	}
 };
