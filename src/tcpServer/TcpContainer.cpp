@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "TcpServer.h"
+#include "TcpClient.h"
 #include "../shared/Container.h"
 
 using namespace std;
@@ -26,7 +27,7 @@ protected:
 	virtual void fillOptions()
 	{
 		this->addMenuItem(0, new TcpServer(logSrv));
-		this->addMenuItem(1, NULL);
+		this->addMenuItem(1, new TcpClient(logSrv));
 	}
 
 };
