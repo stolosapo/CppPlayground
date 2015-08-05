@@ -6,8 +6,6 @@ using namespace std;
 
 class MainMenu : public Container
 {
-private:
-
 public:
 	MainMenu() : Container(
 		1,
