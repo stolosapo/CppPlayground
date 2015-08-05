@@ -59,6 +59,7 @@ public:
 		outString(" *** [ FATAL ]: ");
 		outString(message);
 		outString("\n");
+		// exit(1);
 	}
 
 	void test() 

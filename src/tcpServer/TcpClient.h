@@ -14,6 +14,7 @@ private:
 	ILogService *logSrv;
 
 	void test();
+	void testConnect();
 
 public:
 	TcpClient(ILogService *logSrv);
