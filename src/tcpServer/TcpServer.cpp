@@ -113,7 +113,7 @@ void TcpServer::start()
          logSrv->fatal("ERROR on accept");
 
     bzero(buffer, 256);
-    n = read(newsockfd,buffer, 255);
+    n = read(newsockfd, buffer, 255);
 
     if (n < 0) 
     	logSrv->fatal("ERROR reading from socket");
