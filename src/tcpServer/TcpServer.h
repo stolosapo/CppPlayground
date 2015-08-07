@@ -11,9 +11,12 @@ using namespace std;
 class TcpServer : public MenuItem
 {
 private:
+	static const int DEFAULT_PORT = 51717;
+
 	ILogService *logSrv;
 
-	bool isActive;
+	int port;
+	bool active;
 
 	void activate();
 	void passivate();
@@ -21,6 +24,11 @@ private:
 public:
 	TcpServer(ILogService *logSrv);
 	virtual ~TcpServer();
+
+	int getPort();
+	bool isActive();
+
+	void setPort(int port);
 
 	void start();
 	virtual void action();
