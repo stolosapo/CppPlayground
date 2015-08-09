@@ -52,6 +52,8 @@ public:
 		"The sum of these multiples is 23. \n"
 		"Find the sum of all the multiples of 3 or 5 below 1000.")
 	{
+		solved = true;
+				 
 		multipliers = new int [2];
 		multipliers[0] = 3;
 		multipliers[1] = 5;

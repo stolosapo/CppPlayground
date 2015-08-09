@@ -75,6 +75,8 @@ public:
 		"whose values do not exceed four million, \n"
 		"find the sum of the even-valued terms.")
 	{
+		solved = true;
+		
 		showOutput = false;	
 	}
 
