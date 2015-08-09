@@ -74,6 +74,41 @@ void TcpServer::passivate()
 	this->logSrv->info("Server passivated");
 }
 
+int TcpServer::openSocket()
+{
+
+}
+
+int TcpServer::doBind()
+{
+
+}
+
+int TcpServer::listenSocket()
+{
+
+}
+
+int TcpServer::acceptConnection()
+{
+
+}
+
+int TcpServer::receive()
+{
+
+}
+
+int TcpServer::send()
+{
+
+}
+
+void TcpServer::test()
+{
+    
+}
+
 
 /*********************************
 *

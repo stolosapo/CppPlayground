@@ -18,8 +18,18 @@ private:
 	int port;
 	bool active;
 
+	
+
 	void activate();
 	void passivate();
+
+	int openSocket();
+	int doBind();
+	int listenSocket();
+	int acceptConnection();
+	int receive();
+	int send();
+	void test();
 
 public:
 	TcpServer(ILogService *logSrv);
