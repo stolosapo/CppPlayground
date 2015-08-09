@@ -111,6 +111,30 @@ void Container::addMenuItem(int index, MenuItem *menuItem)
 	this->menuItems[index] = menuItem;
 }
 
+int Container::getMaxDisplaySize()
+{
+	int max = 0;
+	int curSize = 0;
+
+	MenuItem *current;
+
+	for (int i = 0; i < this->size; ++i)
+	{
+		if (this->menuItems[i] != NULL)
+		{
+			current = this->menuItems[i];
+			curSize = current->getTitle().length();
+
+			if (curSize > max)
+			{
+				max = curSize;
+			}
+		}
+	}
+
+	return max;
+}
+
 MenuItem *Container::findMenuItem()
 {
 	if (this->selection == this->exitCode)

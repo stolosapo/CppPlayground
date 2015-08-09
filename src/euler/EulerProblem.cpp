@@ -25,6 +25,7 @@ EulerProblem::EulerProblem(
 
 	this->showOutput = true;
 	this->showExample = true;
+	this->solved = false;
 }
 
 EulerProblem::~EulerProblem()
@@ -52,6 +53,11 @@ bool EulerProblem::getShowExample()
 int EulerProblem::getSolution()
 {
 	return solution;
+}
+
+bool EulerProblem::isSolved()
+{
+	return solved;
 }
 
 void EulerProblem::setShowOutput(bool showOutput)

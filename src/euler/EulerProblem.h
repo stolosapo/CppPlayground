@@ -18,11 +18,11 @@ private:
 protected:
 	bool showOutput;
 	bool showExample;
+	bool solved;
 
 	virtual void beforeSolve();
 	virtual void afterSolve();
 	virtual int example();
-
 
 	virtual int solve() = 0;
 	virtual void output(string message);
@@ -39,6 +39,7 @@ public:
 	bool getShowOutput();
 	bool getShowExample();
 	int getSolution();
+	bool isSolved();
 
 	void setShowOutput(bool showOutput);
 	void setShowExample(bool showExample);
