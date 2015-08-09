@@ -6,6 +6,7 @@
 #include "Problem003.cpp"
 #include "Problem004.cpp"
 #include "Problem005.cpp"
+#include "Problem006.cpp"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ public:
 		1, 
 		"Euler Problems",
 		"Euler Problems",
-		5)
+		6)
 	{
 		this->setContinueQuestion(true);
 	}
@@ -34,6 +35,7 @@ protected:
 		this->addMenuItem(2, new Problem003(logSrv));
 		this->addMenuItem(3, new Problem004(logSrv));
 		this->addMenuItem(4, new Problem005(logSrv));
+		this->addMenuItem(5, new Problem006(logSrv));
 	}
 
 };
