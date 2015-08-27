@@ -118,14 +118,14 @@ void EulerProblem::action()
 
 	this->beforeSolve();
 
-	this->solution = solve();
-
 	if (this->showExample)
 	{
 		logSrv->outString("Example : ");
 		logSrv->outInt(this->example());
 		logSrv->outString("\n");
 	}
+
+	this->solution = solve();
 
 	logSrv->outInt(solution);
 	logSrv->outString("\n");
