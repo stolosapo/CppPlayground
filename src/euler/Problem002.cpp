@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Problem002 : public EulerProblem
+class Problem002 : public EulerProblem<int>
 {
 private:
 	int run(const int limit)

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Problem004 : public EulerProblem
+class Problem004 : public EulerProblem<int>
 {
 private:
 	bool isPalindrome(int number)

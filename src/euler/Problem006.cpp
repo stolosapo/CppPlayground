@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class Problem006 : public EulerProblem
+class Problem006 : public EulerProblem<int>
 {
 private:
 	int run(const int MIN, const int MAX)

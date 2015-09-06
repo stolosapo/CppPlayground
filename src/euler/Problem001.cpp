@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class Problem001 : public EulerProblem
+class Problem001 : public EulerProblem<int>
 {
 private:
 	int *multipliers;

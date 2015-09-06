@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Problem003 : public EulerProblem
+class Problem003 : public EulerProblem<int>
 {
 private:
 	vector<int> primeNumbers;

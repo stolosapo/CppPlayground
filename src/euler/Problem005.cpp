@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Problem005 : public EulerProblem
+class Problem005 : public EulerProblem<int>
 {
 private:
 	int run(const int MIN_DIV, const int MAX_DIV, const int BASE_LOWER_NUMBER)

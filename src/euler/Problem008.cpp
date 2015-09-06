@@ -7,12 +7,12 @@
 
 using namespace std;
 
-class Problem008 : public EulerProblem
+class Problem008 : public EulerProblem<long long>
 {
 private:
 	string strDigits;
 
-	int run(const int ADJACENT)
+	long long run(const int ADJACENT)
 	{
 		int curIndex = 0;
 		int digitLen = strDigits.length();
@@ -84,8 +84,6 @@ private:
 		}
 
 		output(" = ");
-		output(Convert<long long>::NumberToString(maxProduct));
-		output("   ");
 
 		return maxProduct;
 	}
@@ -115,14 +113,14 @@ private:
 	}
 
 protected:
-	int example()
+	long long example()
 	{
 		const int ADJACENT = 4;
 
 		return run(ADJACENT);
 	}
 
-	int solve()
+	long long solve()
 	{
 		const int ADJACENT = 13;
 
@@ -183,7 +181,7 @@ public:
 
 
 		//23514624000
-		// solved = true;
+		solved = true;
 		showExample = true;
 		showOutput = false;
 	}
