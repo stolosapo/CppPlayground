@@ -76,6 +76,7 @@ public:
 		"find the sum of the even-valued terms.")
 	{
 		solved = true;
+		setCorrectAnswer(4613732);
 		
 		showOutput = false;	
 	}

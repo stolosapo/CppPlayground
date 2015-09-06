@@ -81,6 +81,7 @@ public:
 		"of the first one hundred natural numbers and the square of the sum.")
 	{
 		solved = true;
+		setCorrectAnswer(25164150);
 	}
 
 	~Problem006()

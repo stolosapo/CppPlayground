@@ -14,6 +14,7 @@ class EulerProblem : public MenuItem
 {
 private:
 	T solution;
+	T correctAnswer;
 
 	ILogService *logSrv;
 
@@ -21,6 +22,9 @@ protected:
 	bool showOutput;
 	bool showExample;
 	bool solved;
+
+	T getCorrectAnswer();
+	void setCorrectAnswer(T correctAnswer);
 
 	virtual void beforeSolve();
 	virtual void afterSolve();
@@ -120,6 +124,14 @@ bool EulerProblem<T>::isSolved()
 }
 
 template <typename T>
+T EulerProblem<T>::getCorrectAnswer()
+{
+	return correctAnswer;
+}
+
+
+
+template <typename T>
 void EulerProblem<T>::setShowOutput(bool showOutput)
 {
 	this->showOutput = showOutput;
@@ -130,6 +142,14 @@ void EulerProblem<T>::setShowExample(bool showExample)
 {
 	this->showExample = showExample;
 }
+
+template <typename T>
+void EulerProblem<T>::setCorrectAnswer(T correctAnswer)
+{
+	this->correctAnswer = correctAnswer;
+}
+
+
 
 
 

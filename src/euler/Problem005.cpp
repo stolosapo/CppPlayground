@@ -71,6 +71,7 @@ public:
 		"evenly divisible by all of the numbers from 1 to 20?")
 	{
 		solved = true;
+		setCorrectAnswer(232792560);
 	}
 
 	~Problem005()

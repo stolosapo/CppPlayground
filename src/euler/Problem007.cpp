@@ -40,6 +40,7 @@ public:
 		"What is the 10001st prime number?")
 	{
 		solved = true;
+		setCorrectAnswer(104743);
 	}
 
 	~Problem007()
