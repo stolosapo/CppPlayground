@@ -45,11 +45,11 @@ private:
 				char curChar = strDigits[curAdjIndex];
 				int curValue = Convert<int>::StringToNumber(string(1, curChar));
 
-				// if (curValue == 0)
-				// {
-				// 	zeroFound = true;
-				// 	break;
-				// }
+				if (curValue == 0)
+				{
+					zeroFound = true;
+					break;
+				}
 
 				buffer[i] = curValue;
 			}
@@ -57,25 +57,15 @@ private:
 			if (!zeroFound)
 			{
 				product = multiply(buffer, ADJACENT);
+			
+				if (product > maxProduct)
+				{
+					maxProduct = product;
+					maxBuffer = copyBuffer(buffer, ADJACENT);
+					maxBeginIndex = curIndex;
+					maxEndIndex = endIndex;
+				}
 			}
-
-			if (product > maxProduct)
-			{
-				maxProduct = product;
-				maxBuffer = copyBuffer(buffer, ADJACENT);
-				maxBeginIndex = curIndex;
-				maxEndIndex = endIndex;
-			}
-
-			// cout<<"start: "<<curIndex<<" ";
-			// cout<<"end: "<<endIndex<<" -> ";
-
-			// for (int i = 0; i < ADJACENT; ++i)
-			// {
-			// 	cout<<buffer[i];
-			// }
-
-			// cout<<" product: "<<product<<endl;
 
 			delete[] buffer;
 
@@ -94,6 +84,8 @@ private:
 		}
 
 		output(" = ");
+		output(Convert<long long>::NumberToString(maxProduct));
+		output("   ");
 
 		return maxProduct;
 	}
@@ -125,10 +117,6 @@ private:
 protected:
 	int example()
 	{
-
-		long long i = 9999999999999;
-		cout<<i<<endl;
-
 		const int ADJACENT = 4;
 
 		return run(ADJACENT);
@@ -193,6 +181,8 @@ public:
 					"05886116467109405077541002256983155200055935729725"
 					"71636269561882670428252483600823257530420752963450";
 
+
+		//23514624000
 		// solved = true;
 		showExample = true;
 		showOutput = false;
