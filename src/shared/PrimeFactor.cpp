@@ -22,6 +22,30 @@ vector<int> PrimeFactor::upTo(int upperBound)
 	return result;
 }
 
+int PrimeFactor::getByIndex(int index)
+{
+	int cnt = 0;
+	int i = 2;
+	int primeNumber = 0;
+	bool isPrime;
+
+	while(cnt < index)
+	{
+		isPrime = PrimeFactor::isPrime(i);
+
+		if (isPrime)
+		{
+			cnt++;
+			primeNumber = i;
+		}
+
+		i++;
+	}
+
+	return primeNumber;
+}
+
+
 bool PrimeFactor::isPrime(int number)
 {
 	bool isPrime = true;

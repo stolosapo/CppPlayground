@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Problem002 : public EulerProblem
+class Problem002 : public EulerProblem<int>
 {
 private:
 	int run(const int limit)
@@ -75,6 +75,9 @@ public:
 		"whose values do not exceed four million, \n"
 		"find the sum of the even-valued terms.")
 	{
+		solved = true;
+		setCorrectAnswer(4613732);
+		
 		showOutput = false;	
 	}
 

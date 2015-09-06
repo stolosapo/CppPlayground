@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Problem004 : public EulerProblem
+class Problem004 : public EulerProblem<int>
 {
 private:
 	bool isPalindrome(int number)
@@ -126,6 +126,9 @@ public:
 		"numbers is 9009 = 91 × 99. \n"
 		"Find the largest palindrome made from the product of two 3-digit numbers.")
 	{
+		solved = true;
+		setCorrectAnswer(906609);
+		
 		setShowOutput(false);
 	}
 

@@ -6,6 +6,8 @@ CC := g++ # This is the main compiler
 # CC := clang --analyze # and comment out the linker last line for sanity
 SRCDIR := src
 BUILDDIR := build
+CLEANDIR := build/*.o
+CLEANSUBDIR := build/**/*.o
 TARGET := bin/runner
  
 SRCEXT := cpp
@@ -26,7 +28,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 clean:
 	@echo " Cleaning..."; 
-	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
+	@echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET)"; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET)
 
 # Tests
 tester:

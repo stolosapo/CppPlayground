@@ -29,14 +29,12 @@
 
 # Ignore the build and lib dirs
 build/*.o
-build/log/*.o
-!build/log/README
-build/time/*.o
-!build/time/README
+build/**/*.o
 lib/*
 
 # Ignore any executables
 bin/*
+!bin/README
 
 # Ignore Mac specific files
 .DS_Store

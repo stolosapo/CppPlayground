@@ -45,6 +45,8 @@ protected:
 	void setContinueQuestion(bool continueQuestion);
 
 	void addMenuItem(int index, MenuItem *menuItem);
+
+	int getMaxDisplaySize();
 	
 	virtual MenuItem *findMenuItem();
 	virtual int promptQuestion();
