@@ -9,17 +9,27 @@ using namespace std;
 
 class ILogService : public InOut
 {
+protected:
+	bool useColor;
+
 public:
 	ILogService()  : InOut() { };
 	virtual ~ILogService() { };
+
+	bool getUseColor();
+	void setUseColor(bool useColor);
 	
 	virtual void clearScreen() = 0;
+	
 	virtual void print(string message) = 0;
 	virtual void printl(string message) = 0;
+	virtual void printColor(string message) = 0;
+
 	virtual void info(string message) = 0;
 	virtual void debug(string message) = 0;
 	virtual void error(string message) = 0;
 	virtual void fatal(string message) = 0;
+	
 	virtual void test() = 0;
 };
 
