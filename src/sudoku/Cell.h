@@ -10,7 +10,8 @@ private:
 
 	int row;
 	int column;
-	int block;
+	int blockRow;
+	int blockColumn;
 
 	int value;
 
@@ -26,7 +27,8 @@ public:
 
 	int getRow();
 	int getColumn();
-	int getBlock();
+	int getBlockRow();
+	int getBlockColumn();
 
 	int getValue();
 
@@ -37,7 +39,8 @@ public:
 	/* SETTERS */
 	void setRow(int row);
 	void setColumn(int column);
-	void setBlock(int block);
+	void setBlockRow(int blockRow);
+	void setBlockColumn(int blockColumn);
 
 	void setValue(int value);
 

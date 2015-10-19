@@ -1,13 +1,19 @@
 #include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
 #include "Cell.h"
 #include "Sudoku.h"
+#include "../shared/FileReader.h"
+
+using namespace std;
 
 Sudoku::Sudoku(const int dimension)
 {
 	const int c_size = dimension * dimension;
 
 	this->dimension = dimension;
-	this->size = size;
+	this->size = c_size;
 
 	this->cells = new Cell *[c_size];
 }
@@ -47,10 +53,6 @@ Cell** Sudoku::getCells()
 
 
 /* PRIVATE METHODS */
-void Sudoku::refreshCells()
-{
-
-}
 
 void Sudoku::applySolvedCheck()
 {
@@ -72,12 +74,55 @@ void Sudoku::applySquareRule(int block)
 
 }
 
+void Sudoku::readSudokuFromFile()
+{
+	string filePath = "sudoku.txt";
+
+	FileReader* reader = new FileReader(filePath.c_str());
+
+	reader->read();
+
+	vector<string> lines = reader->getLines();
+
+	if (lines.size() != this->dimension)
+	{
+		// TODO: throw Exception;
+	}
+
+	for (int row = 0; row < lines.size(); ++row)
+	{
+		string line = lines[row];
+
+		if (line.length() != this->dimension)
+		{
+			// TODO: throw Exception;
+		}
+
+		for (int col = 0; col < this->dimension - 1; ++col)
+		{
+			char chNum = line[col];
+
+			Cell* cell = new Cell(this->dimension);
+
+			cell->setRow(row);
+			cell->setColumn(col);
+
+			// cell->setValue()
+		}
+	}
+}
+
+void Sudoku::refreshCells()
+{
+	
+}
+
 
 
 /* PUBLIC METHODS */
 void Sudoku::initialize()
 {
-
+	readSudokuFromFile();
 }
 
 void Sudoku::solve()

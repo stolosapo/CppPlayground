@@ -2,7 +2,10 @@
 #define Sudoku_h__
 
 #include <iostream>
+#include <string>
 #include "Cell.h"
+
+using namespace std;
 
 class Sudoku 
 {
@@ -16,13 +19,13 @@ private:
 
 
 	/* METHODS */
-	void refreshCells();
-
 	void applySolvedCheck();
-
 	void applyHorizondialRule(int row);
 	void applyVerticalRule(int column);
 	void applySquareRule(int block);
+
+	void readSudokuFromFile();
+	void refreshCells();
 
 public:
 	Sudoku(int dimension);

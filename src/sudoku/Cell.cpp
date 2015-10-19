@@ -25,9 +25,14 @@ int Cell::getColumn()
 	return this->column;
 }
 
-int Cell::getBlock()
+int Cell::getBlockRow()
 {
-	return this->block;
+	return this->blockRow;
+}
+
+int Cell::getBlockColumn()
+{
+	return this->blockColumn;
 }
 
 int Cell::getValue()
@@ -57,9 +62,14 @@ void Cell::setColumn(int column)
 	this->column = column;
 }
 
-void Cell::setBlock(int block)
+void Cell::setBlockRow(int blockRow)
 {
-	this->block = block;
+	this->blockRow = blockRow;
+}
+
+void Cell::setBlockColumn(int blockColumn)
+{
+	this->blockColumn = blockColumn;
 }
 
 void Cell::setValue(int value)
