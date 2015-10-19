@@ -17,7 +17,7 @@ class EulerProblemContainer : public Container
 {
 public:
 	EulerProblemContainer() : Container(
-		1, 
+		2, 
 		"Euler Problems",
 		"Euler Problems",
 		9)
