@@ -13,7 +13,7 @@ public:
 		1,
 		"Main Menu",
 		"Main Menu",
-		2)
+		3)
 	{
 
 	}
