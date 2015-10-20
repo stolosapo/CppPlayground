@@ -8,7 +8,7 @@ class LogServiceFactory
 {
 public:
 	LogServiceFactory();
-	~LogServiceFactory();
+	virtual ~LogServiceFactory();
 	
 	static ILogService *create();
 };
