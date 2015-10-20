@@ -4,7 +4,9 @@
 #include <vector>
 #include "Cell.h"
 #include "Sudoku.h"
+#include "CellFactory.h"
 #include "../shared/FileReader.h"
+#include "../shared/convert.h"
 
 using namespace std;
 
@@ -98,16 +100,24 @@ void Sudoku::readSudokuFromFile()
 			// TODO: throw Exception;
 		}
 
-		for (int col = 0; col < this->dimension - 1; ++col)
+		for (int col = 0; col < this->dimension; ++col)
 		{
-			char chNum = line[col];
+			string chNum = line.substr(col, 1);
 
-			Cell* cell = new Cell(this->dimension);
+			int value = Convert<int>::StringToNumber(chNum);
 
-			cell->setRow(row);
-			cell->setColumn(col);
+			Cell* cell = CellFactory::create(
+				this->dimension,
+				row,
+				col,
+				0,
+				0,
+				value);
 
-			// cell->setValue()
+			int index = row * col;
+			this->cells[index] = cell;
+
+			cout << endl << index << " -> " << cell->getValue();
 		}
 	}
 }

@@ -1,5 +1,5 @@
-#ifndef Sudoku_h__
-#define Sudoku_h__
+#ifndef SUDOKU_h__
+#define SUDOKU_h__
 
 #include <iostream>
 #include <string>
@@ -28,7 +28,7 @@ private:
 	void refreshCells();
 
 public:
-	Sudoku(int dimension);
+	Sudoku(const int dimension);
 	virtual ~Sudoku();
 
 	/* GETTERS */
@@ -46,4 +46,4 @@ public:
 
 };
 
-#endif // Sudoku_h__
+#endif // SUDOKU_h__
