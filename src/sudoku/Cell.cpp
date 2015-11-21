@@ -75,6 +75,16 @@ void Cell::setBlockColumn(int blockColumn)
 void Cell::setValue(int value)
 {
 	this->value = value;
+
+	if (value != 0)
+	{
+		this->found = true;
+
+		for (int i = 0; i < this->size; ++i)
+		{
+			this->possible[i] = 0;
+		}
+	}
 }
 
 void Cell::setPossible(int* possible)
@@ -89,16 +99,27 @@ void Cell::setFound(bool found)
 
 
 /* METHODS */
+void Cell::addPossible(int value)
+{
+	this->possible[value] = value;
+}
+
 void Cell::applyFoundCheck()
 {
-	this->found = true;
+	int cnt = 0;
+	int index = -1;
 
 	for (int i = 0; i < this->size; ++i)
 	{
 		if (this->possible[i] != 0)
 		{
-			this->found = false;
-			break;
+			cnt++;
+			index = i;
 		}
+	}
+
+	if (cnt == 1)
+	{
+		this->setValue(this->possible[index]);
 	}
 }

@@ -20,17 +20,24 @@ Cell* CellFactory::create(
 		int blockColumn,
 		int value)
 {
+
+	bool found = false;
 	Cell* cell = new Cell(size);
 
 	cell->setRow(row);
-	cell->setColumn(row);
+	cell->setColumn(column);
 
 	cell->setBlockRow(blockRow);
 	cell->setBlockColumn(blockColumn);
 
 	cell->setValue(value);
 
-	cell->setFound(false);
+	if (value != 0)
+	{
+		found = true;
+	}
+	
+	cell->setFound(found);
 
 	return cell;
 }

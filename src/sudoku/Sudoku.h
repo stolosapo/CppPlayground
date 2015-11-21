@@ -21,9 +21,12 @@ private:
 
 	/* METHODS */
 	void applySolvedCheck();
-	void applyHorizondialRule(int row);
-	void applyVerticalRule(int column);
-	void applySquareRule(int block);
+	bool applyHorizondialRule(Cell *cell, int value);
+	bool applyVerticalRule(Cell *cell, int value);
+	bool applySquareRule(Cell *cell, int value);
+
+	int findColumnBlock(int column);
+	int findRowBlock(int row);
 
 	void readSudokuFromFile();
 	void refreshCells();
@@ -45,6 +48,7 @@ public:
 	/* METHODS */
 	void initialize();
 	void solve();
+	void print();
 
 };
 

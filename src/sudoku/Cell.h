@@ -49,6 +49,7 @@ public:
 
 
 	/* METHODS */
+	void addPossible(int value);
 	void applyFoundCheck();
 };
 
