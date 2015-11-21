@@ -12,9 +12,11 @@ using namespace std;
 
 Sudoku::Sudoku(const int dimension)
 {
-	const int c_size = dimension * dimension;
+	const int col_size = dimension * dimension;
+	const int c_size = col_size * col_size;
 
 	this->dimension = dimension;
+	this->columnSize = col_size;
 	this->size = c_size;
 
 	this->cells = new Cell *[c_size];
@@ -79,6 +81,7 @@ void Sudoku::applySquareRule(int block)
 void Sudoku::readSudokuFromFile()
 {
 	string filePath = "sudoku.txt";
+	int index = 0;
 
 	FileReader* reader = new FileReader(filePath.c_str());
 
@@ -86,21 +89,22 @@ void Sudoku::readSudokuFromFile()
 
 	vector<string> lines = reader->getLines();
 
-	if (lines.size() != this->dimension)
+	if (lines.size() != this->columnSize)
 	{
 		// TODO: throw Exception;
 	}
+
 
 	for (int row = 0; row < lines.size(); ++row)
 	{
 		string line = lines[row];
 
-		if (line.length() != this->dimension)
+		if (line.length() != this->columnSize)
 		{
 			// TODO: throw Exception;
 		}
 
-		for (int col = 0; col < this->dimension; ++col)
+		for (int col = 0; col < this->columnSize; ++col)
 		{
 			string chNum = line.substr(col, 1);
 
@@ -114,10 +118,9 @@ void Sudoku::readSudokuFromFile()
 				0,
 				value);
 
-			int index = row * col;
 			this->cells[index] = cell;
 
-			cout << endl << index << " -> " << cell->getValue();
+			index++;
 		}
 	}
 }

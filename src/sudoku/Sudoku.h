@@ -12,6 +12,7 @@ class Sudoku
 private:
 	int dimension;
 	int size;
+	int columnSize;
 
 	bool solved;
 
@@ -34,6 +35,7 @@ public:
 	/* GETTERS */
 	int getDimension();
 	int getSize();
+	int getColumnSize();
 
 	bool isSolved();
 
