@@ -46,6 +46,24 @@ int PrimeFactor::getByIndex(int index)
 }
 
 
+int PrimeFactor::getNextPrime(int prime)
+{
+	prime++;
+	
+	if (PrimeFactor::isPrime(prime))
+	{
+		return prime;
+	}
+
+	while (!PrimeFactor::isPrime(prime))
+	{
+		prime++;
+	}
+
+	return prime;
+}
+
+
 bool PrimeFactor::isPrime(int number)
 {
 	bool isPrime = true;
