@@ -9,6 +9,7 @@
 #include "Problem006.cpp"
 #include "Problem007.cpp"
 #include "Problem008.cpp"
+#include "Problem009.cpp"
 
 using namespace std;
 
@@ -16,10 +17,10 @@ class EulerProblemContainer : public Container
 {
 public:
 	EulerProblemContainer() : Container(
-		1, 
+		2, 
 		"Euler Problems",
 		"Euler Problems",
-		8)
+		9)
 	{
 		this->setContinueQuestion(true);
 	}
@@ -40,6 +41,7 @@ protected:
 		this->addMenuItem(5, new Problem006(logSrv));
 		this->addMenuItem(6, new Problem007(logSrv));
 		this->addMenuItem(7, new Problem008(logSrv));
+		this->addMenuItem(8, new Problem009(logSrv));
 	}
 
 };

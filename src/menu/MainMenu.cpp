@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../shared/Container.h"
+#include "../log/LogServiceContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
 
 using namespace std;
@@ -11,7 +12,7 @@ public:
 		1,
 		"Main Menu",
 		"Main Menu",
-		1)
+		2)
 	{
 
 	}
@@ -24,7 +25,8 @@ public:
 protected:
 	virtual void fillOptions()
 	{
-		this->addMenuItem(0, new EulerProblemContainer);
+		this->addMenuItem(0, new LogServiceContainer);
+		this->addMenuItem(1, new EulerProblemContainer);
 	}
 
 };
