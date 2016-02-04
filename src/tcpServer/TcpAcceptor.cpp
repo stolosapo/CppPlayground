@@ -1,22 +1,22 @@
 #include <stdio.h>
 #include <string.h>
 #include <arpa/inet.h>
-#include "TCPAcceptor.h"
+#include "TcpAcceptor.h"
  
-TCPAcceptor::TCPAcceptor(int port, const char* address) 
+TcpAcceptor::TcpAcceptor(int port, const char* address) 
     : m_lsd(0), m_port(port), m_address(address), m_listening(false) 
 {
 
 }
 
-TCPAcceptor::~TCPAcceptor()
+TcpAcceptor::~TcpAcceptor()
 {
     if (m_lsd > 0) {
         close(m_lsd);
     }
 }
 
-int TCPAcceptor::start()
+int TcpAcceptor::start()
 {
     if (m_listening == true) {
         return 0;
@@ -52,7 +52,7 @@ int TCPAcceptor::start()
     return result;
 }
 
-TCPStream* TCPAcceptor::accept()
+TcpStream* TcpAcceptor::accept()
 {
     if (m_listening == false) {
         return NULL;
@@ -66,5 +66,5 @@ TCPStream* TCPAcceptor::accept()
         perror("accept() failed");
         return NULL;
     }
-    return new TCPStream(sd, &address);
+    return new TcpStream(sd, &address);
 }

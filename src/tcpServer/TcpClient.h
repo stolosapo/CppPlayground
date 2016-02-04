@@ -1,25 +1,25 @@
 #ifndef TcpClient_h__
 #define TcpClient_h__
 
-#include <iostream>
-#include <string>
 #include "ITcpClient.h"
 #include "../log/ILogService.h"
-
-using namespace std;
 
 class TcpClient : public ITcpClient
 {
 private:
+	static const int DEFAULT_PORT = 51717;
+	static const char* DEFAULT_HOSTNAME;
+
 	ILogService *logSrv;
 
-	void test();
-	void testConnect();
+	int port;
+	const char* hostname;
 
 public:
 	TcpClient(ILogService *logSrv);
 	virtual ~TcpClient();
 
+	void start();
 	virtual void action();
 };
 

@@ -1,9 +1,9 @@
 #include <string.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-#include "TCPConnector.h"
+#include "TcpConnector.h"
  
-TCPStream* TCPConnector::connect(int port, const char* server)
+TcpStream* TcpConnector::connect(int port, const char* server)
 {
     struct sockaddr_in address;
  
@@ -17,10 +17,10 @@ TCPStream* TCPConnector::connect(int port, const char* server)
     if (::connect(sd, (struct sockaddr*)&address, sizeof(address)) != 0) {
         return NULL;
     }
-    return new TCPStream(sd, &address);
+    return new TcpStream(sd, &address);
 }
 
-int TCPConnector::resolveHost(const char* host, struct in_addr* addr)
+int TcpConnector::resolveHost(const char* host, struct in_addr* addr)
 {
     struct addrinfo *res;
  

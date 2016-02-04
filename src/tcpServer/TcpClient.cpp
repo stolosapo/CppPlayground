@@ -1,17 +1,13 @@
-#include <iostream>
-#include <string>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-
+#include <string>
 #include "TcpClient.h"
+#include "TcpConnector.h"
 
 using namespace std;
+
+const char* TcpClient::DEFAULT_HOSTNAME = "localhost";
+
 
 /*********************************
 *
@@ -21,6 +17,9 @@ using namespace std;
 TcpClient::TcpClient(ILogService *logSrv) : ITcpClient()
 {
 	this->logSrv = logSrv;
+
+    this->port = TcpClient::DEFAULT_PORT;
+    this->hostname = TcpClient::DEFAULT_HOSTNAME;
 
 	this->setId(2);
 	this->setName("Tcp Client");
@@ -36,72 +35,60 @@ TcpClient::~TcpClient()
 
 /*********************************
 *
-*		PRIVATE METHODS
-*
-**********************************/
-void TcpClient::test()
-{
-	this->logSrv->info("This is a Tcp test");
-
-	this->testConnect();
-}
-
-void TcpClient::testConnect()
-{
-	char* hostname = "localhost";
-	int sockfd, portno = 51717, n;
-
-    struct sockaddr_in serv_addr;
-    struct hostent *server;
-
-    char buffer[256];
-    
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0)
-        logSrv->fatal("ERROR opening socket");
-
-    server = gethostbyname(hostname);
-    if (server == NULL) {
-        fprintf(stderr, "ERROR, no such host\n");
-        exit(0);
-    }
-
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-
-    serv_addr.sin_port = htons(portno);
-
-    if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
-        logSrv->fatal("ERROR connecting");
-
-    printf("Please enter the message: ");
-    bzero(buffer, 256);
-    fgets(buffer, 255, stdin);
-    n = write(sockfd,buffer, strlen(buffer));
-
-    if (n < 0)
-        logSrv->fatal("ERROR writing to socket");
-
-    bzero(buffer, 256);
-    n = read(sockfd, buffer, 255);
-    if (n < 0)
-        logSrv->fatal("ERROR reading from socket");
-
-    printf("%s\n", buffer);
-    close(sockfd);
-}
-
-
-/*********************************
-*
 *		PUBLIC METHODS
 *
 **********************************/
+void TcpClient::start()
+{
+    int len;
+    string message;
+    char line[256];
+
+    TcpConnector* connector = new TcpConnector();
+    TcpStream* stream = connector->connect(port, hostname);
+
+    if (stream) 
+    {
+        message = "Is there life on Mars?";
+        stream->send(message.c_str(), message.size());
+        // printf("sent - %s\n", message.c_str());
+        this->logSrv->info("sent - " + message + "\n");
+
+
+        len = stream->receive(line, sizeof(line));
+        line[len] = 0;
+        string mess(line);
+        // printf("received - %s\n", line);
+        this->logSrv->info("received - " + mess + "\n");
+
+        delete stream;
+    }
+
+
+    stream = connector->connect(port, hostname);
+    if (stream) 
+    {
+        message = "Why is there air?";
+        stream->send(message.c_str(), message.size());
+        // printf("sent - %s\n", message.c_str());
+        this->logSrv->info("sent - " + message + "\n");
+
+
+        len = stream->receive(line, sizeof(line));
+        line[len] = 0;
+        string mess(line);
+        // printf("received - %s\n", line);
+        this->logSrv->info("received - " + mess + "\n");
+
+        delete stream;
+    }
+
+}
+
 void TcpClient::action()
 {
 	this->identify();
 	this->logSrv->outString("\n\n");
 
-	this->test();
+	this->start();
 }
