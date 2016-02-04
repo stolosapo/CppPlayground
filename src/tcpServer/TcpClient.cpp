@@ -18,7 +18,7 @@ using namespace std;
 *		CONSTRUCTORS
 *
 **********************************/
-TcpClient::TcpClient(ILogService *logSrv) : MenuItem()
+TcpClient::TcpClient(ILogService *logSrv) : ITcpClient()
 {
 	this->logSrv = logSrv;
 

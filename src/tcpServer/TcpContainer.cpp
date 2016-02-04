@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "TcpServer.h"
-#include "TcpClient.h"
+#include "TcpServerFactory.h"
+#include "TcpClientFactory.h"
 #include "../shared/Container.h"
 
 using namespace std;
@@ -26,8 +26,8 @@ public:
 protected:
 	virtual void fillOptions()
 	{
-		this->addMenuItem(0, new TcpServer(logSrv));
-		this->addMenuItem(1, new TcpClient(logSrv));
+		this->addMenuItem(0, TcpServerFactory::create(logSrv));
+		this->addMenuItem(1, TcpClientFactory::create(logSrv));
 	}
 
 };

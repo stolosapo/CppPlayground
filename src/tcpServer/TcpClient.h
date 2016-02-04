@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include <string>
-#include "../menu/MenuItem.h"
+#include "ITcpClient.h"
 #include "../log/ILogService.h"
 
 using namespace std;
 
-class TcpClient : public MenuItem
+class TcpClient : public ITcpClient
 {
 private:
 	ILogService *logSrv;
@@ -19,7 +19,7 @@ private:
 public:
 	TcpClient(ILogService *logSrv);
 	virtual ~TcpClient();
-;
+
 	virtual void action();
 };
 

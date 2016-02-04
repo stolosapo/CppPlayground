@@ -2,13 +2,11 @@
 #define TcpServer_h__
 
 #include <iostream>
-#include <string>
+#include "ITcpServer.h"
 #include "../menu/MenuItem.h"
 #include "../log/ILogService.h"
 
-using namespace std;
-
-class TcpServer : public MenuItem
+class TcpServer : public ITcpServer
 {
 private:
 	static const int DEFAULT_PORT = 51717;
@@ -17,8 +15,6 @@ private:
 
 	int port;
 	bool active;
-
-	
 
 	void activate();
 	void passivate();
@@ -40,7 +36,7 @@ public:
 
 	void setPort(int port);
 
-	void start();
+	virtual void start();
 	virtual void action();
 };
 

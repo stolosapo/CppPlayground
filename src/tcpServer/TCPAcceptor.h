@@ -3,7 +3,7 @@
 
 #include <string>
 #include <netinet/in.h>
-#include "tcpstream.h"
+#include "TCPStream.h"
  
 using namespace std;
  
