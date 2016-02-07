@@ -20,8 +20,8 @@ class TcpStream
  
     ~TcpStream();
  
-    ssize_t send(const char* buffer, size_t len);
-    ssize_t receive(char* buffer, size_t len);
+    ssize_t send(string message);
+    ssize_t receive(string& message);
  
     string getPeerIP();
     int getPeerPort();
@@ -30,6 +30,9 @@ class TcpStream
     TcpStream(int sd, struct sockaddr_in* address);
     TcpStream();
     TcpStream(const TcpStream& stream);
+    
+    ssize_t send(const char* buffer, size_t len);
+    ssize_t receive(char* buffer, size_t len);
 };
 
 #endif // TcpStream_h__

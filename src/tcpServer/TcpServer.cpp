@@ -48,25 +48,14 @@ bool TcpServer::acceptClient()
 {
     bool accept = false;
 
-    size_t len;
-    char line[256];
     string input = "";
+    stream->receive(input);
 
-    len = stream->receive(line, sizeof(line));
-
-    if (len > 0)
+    if (input == (string) TcpProtocol::CLIENT_CONNECT)
     {
-        line[len] = 0;
-        input = (string) line;
+        stream->send((string) TcpProtocol::OK);
 
-        if (input == (string) TcpProtocol::CLIENT_CONNECT)
-        {
-            string ok = (string) TcpProtocol::OK;
-
-            stream->send(ok.c_str(), ok.size());
-
-            accept = true;
-        }
+        accept = true;
     }
 
     return accept;
@@ -82,6 +71,7 @@ bool TcpServer::acceptClient()
 void TcpServer::start()
 {
     string input = "";
+    string message = "";
 
     logSrv->info("Server is starting...");
 
@@ -91,6 +81,7 @@ void TcpServer::start()
 
         while (!TcpProtocol::shutdown(input))
         {
+            // Accept new client
             stream = acceptor->accept();
 
             if (stream  != NULL)
@@ -98,21 +89,19 @@ void TcpServer::start()
                 logSrv->printl("");
                 logSrv->info("Server start to accept new client");
 
+                // Check new client for acceptance
                 if (acceptClient())
                 {
                     logSrv->info("Server accepted new client");
 
-                    size_t len;
-                    char line[256];
-
-                    while ((len = stream->receive(line, sizeof(line))) > 0)
+                    // receive messages
+                    while (stream->receive(message) > 0)
                     {
-                        line[len] = 0;
-
-                        input = (string) line;
+                        input = message;
                         logSrv->printl("received - " + input);
 
-                        stream->send(line, len);
+                        // send message back                        
+                        stream->send(input);
                     }
                 }
                 else

@@ -46,62 +46,58 @@ TcpClient::~TcpClient()
 **********************************/
 void TcpClient::test()
 {
-    int len;
-    string message;
-    char line[256];
+    // int len;
+    // string message;
+    // char line[256];
 
-    stream = connector->connect(port, hostname);
+    // stream = connector->connect(port, hostname);
 
-    if (stream) 
-    {
-        message = "Is there life on Mars?";
-        stream->send(message.c_str(), message.size());
-        // printf("sent - %s\n", message.c_str());
-        this->logSrv->info("sent - " + message + "\n");
-
-
-        len = stream->receive(line, sizeof(line));
-        line[len] = 0;
-        string mess(line);
-        // printf("received - %s\n", line);
-        this->logSrv->info("received - " + mess + "\n");
-
-        delete stream;
-    }
+    // if (stream) 
+    // {
+    //     message = "Is there life on Mars?";
+    //     stream->send(message.c_str(), message.size());
+    //     // printf("sent - %s\n", message.c_str());
+    //     this->logSrv->info("sent - " + message + "\n");
 
 
-    stream = connector->connect(port, hostname);
-    if (stream) 
-    {
-        message = "Why is there air?";
-        stream->send(message.c_str(), message.size());
-        // printf("sent - %s\n", message.c_str());
-        this->logSrv->info("sent - " + message + "\n");
+    //     len = stream->receive(line, sizeof(line));
+    //     line[len] = 0;
+    //     string mess(line);
+    //     // printf("received - %s\n", line);
+    //     this->logSrv->info("received - " + mess + "\n");
+
+    //     delete stream;
+    // }
 
 
-        len = stream->receive(line, sizeof(line));
-        line[len] = 0;
-        string mess(line);
-        // printf("received - %s\n", line);
-        this->logSrv->info("received - " + mess + "\n");
+    // stream = connector->connect(port, hostname);
+    // if (stream) 
+    // {
+    //     message = "Why is there air?";
+    //     stream->send(message.c_str(), message.size());
+    //     // printf("sent - %s\n", message.c_str());
+    //     this->logSrv->info("sent - " + message + "\n");
 
-        delete stream;
-    }
+
+    //     len = stream->receive(line, sizeof(line));
+    //     line[len] = 0;
+    //     string mess(line);
+    //     // printf("received - %s\n", line);
+    //     this->logSrv->info("received - " + mess + "\n");
+
+    //     delete stream;
+    // }
 
 }
 
 bool TcpClient::askServerPermission()
 {
-    string cmd = (string) TcpProtocol::CLIENT_CONNECT;
-    
     // ask for permission
-    stream->send(cmd.c_str(), cmd.size());
+    stream->send((string) TcpProtocol::CLIENT_CONNECT);
 
     // receive answer of permission
-    char line[256];
-    int len = stream->receive(line, sizeof(line));
-    line[len] = 0;
-    string answer = (string) line;
+    string answer = "";
+    stream->receive(answer);
 
     return answer == (string) TcpProtocol::OK;
 }
@@ -115,9 +111,7 @@ bool TcpClient::askServerPermission()
 **********************************/
 void TcpClient::start()
 {
-    int len;
     string message;
-    char line[256];
     string input = "";
 
     
@@ -141,12 +135,10 @@ void TcpClient::start()
                 input = in->inString();
 
                 // Send messege to server
-                stream->send(input.c_str(), input.size());
+                stream->send(input);
 
                 // Receive messege from server
-                len = stream->receive(line, sizeof(line));
-                line[len] = 0;
-                string mess = (string) line;
+                stream->receive(message);
             }
         }
         else

@@ -43,8 +43,31 @@ ssize_t TcpStream::send(const char* buffer, size_t len)
 {
 	return write(m_sd, buffer, len);
 }
+
+ssize_t TcpStream::send(string message)
+{
+	return send(message.c_str(), message.size());
+}
     
 ssize_t TcpStream::receive(char* buffer, size_t len)
 {
 	return read(m_sd, buffer, len);
+}
+
+ssize_t TcpStream::receive(string& message)
+{
+	char line[256];
+    int len = receive(line, sizeof(line));
+
+    if (len > 0)
+    {
+	    line[len] = 0;
+	    message = (string) line;
+    }
+    else
+    {
+    	message = "";
+    }
+
+    return len;
 }
