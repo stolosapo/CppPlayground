@@ -3,6 +3,7 @@
 
 #include <string>
 #include "ITcpServer.h"
+#include "TcpAcceptor.h"
 #include "../log/ILogService.h"
 
 using namespace std;
@@ -17,6 +18,11 @@ private:
 
 	int port;
 	const char* hostname;
+
+	TcpAcceptor *acceptor;
+	TcpStream *stream;
+
+	bool acceptClient();
 
 public:
 	TcpServer(ILogService *logSrv);

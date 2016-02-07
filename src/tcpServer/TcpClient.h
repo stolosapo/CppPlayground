@@ -2,6 +2,7 @@
 #define TcpClient_h__
 
 #include "ITcpClient.h"
+#include "TcpConnector.h"
 #include "../log/ILogService.h"
 
 class TcpClient : public ITcpClient
@@ -15,6 +16,12 @@ private:
 	int port;
 	const char* hostname;
 
+	TcpConnector *connector;
+	TcpStream *stream;
+
+	void test();
+	bool askServerPermission();
+	
 public:
 	TcpClient(ILogService *logSrv);
 	virtual ~TcpClient();

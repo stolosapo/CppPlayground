@@ -4,6 +4,7 @@
 
 #include "TcpServer.h"
 #include "TcpAcceptor.h"
+#include "TcpProtocol.h"
 
 using namespace std;
 
@@ -25,11 +26,50 @@ TcpServer::TcpServer(ILogService *logSrv) : ITcpServer()
 	this->setName("Tcp Server");
 	this->setTitle("Tcp Server");
 	this->setDescription("The First Kube Tcp Server");
+
+    // initialize server
+    stream = NULL;
+    acceptor = new TcpAcceptor(port, hostname);
 }
 
 TcpServer::~TcpServer()
 {
+    delete acceptor;
+}
 
+
+
+/*********************************
+*
+*       PRIVATE METHODS
+*
+**********************************/
+bool TcpServer::acceptClient()
+{
+    bool accept = false;
+
+    size_t len;
+    char line[256];
+    string input = "";
+
+    len = stream->receive(line, sizeof(line));
+
+    if (len > 0)
+    {
+        line[len] = 0;
+        input = (string) line;
+
+        if (input == (string) TcpProtocol::CLIENT_CONNECT)
+        {
+            string ok = (string) TcpProtocol::OK;
+
+            stream->send(ok.c_str(), ok.size());
+
+            accept = true;
+        }
+    }
+
+    return accept;
 }
 
 
@@ -41,42 +81,59 @@ TcpServer::~TcpServer()
 **********************************/
 void TcpServer::start()
 {
+    string input = "";
 
-    TcpStream* stream = NULL;
-    TcpAcceptor* acceptor = new TcpAcceptor(port, hostname);
+    logSrv->info("Server is starting...");
 
     if (acceptor->start() == 0)
     {
-        this->logSrv->info("Tcp Server started and is waiting");
+        logSrv->info("Server is started");
 
-        while (1)
+        while (!TcpProtocol::shutdown(input))
         {
             stream = acceptor->accept();
 
             if (stream  != NULL)
             {
-                size_t len;
-                char line[256];
+                logSrv->printl("");
+                logSrv->info("Server start to accept new client");
 
-                while ((len = stream->receive(line, sizeof(line))) > 0)
+                if (acceptClient())
                 {
-                    line[len] = 0;
+                    logSrv->info("Server accepted new client");
 
-                    string mess(line);
-                    this->logSrv->info("received - " + mess + "\n");
+                    size_t len;
+                    char line[256];
 
-                    stream->send(line, len);
+                    while ((len = stream->receive(line, sizeof(line))) > 0)
+                    {
+                        line[len] = 0;
+
+                        input = (string) line;
+                        logSrv->printl("received - " + input);
+
+                        stream->send(line, len);
+                    }
+                }
+                else
+                {
+                    logSrv->info("Server denied access to the client");
                 }
 
                 delete stream;
 
+                logSrv->info("Server accepted client terminated");
+
             } // if (stream  != NULL)
  
-        } // while (1)
+        } // while (!TcpProtocol::shutdown(input))
 
     } // if (acceptor->start() == 0)
+    else
+    {
+        logSrv->error("Could not start the Server");
+    }
 
-    this->logSrv->error("Could not start the Server");
 }
 
 void TcpServer::action()
