@@ -23,6 +23,7 @@ private:
 	TcpStream *stream;
 
 	bool acceptClient();
+	bool handshake();
 
 public:
 	TcpServer(ILogService *logSrv);

@@ -55,10 +55,15 @@ bool TcpServer::acceptClient()
     {
         stream->send((string) TcpProtocol::OK);
 
-        accept = true;
+        accept = handshake();
     }
 
     return accept;
+}
+
+bool TcpServer::handshake()
+{
+
 }
 
 
