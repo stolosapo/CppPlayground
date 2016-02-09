@@ -6,7 +6,7 @@ using namespace std;
 
 InOut::InOut()
 {
-
+	
 }
 
 InOut::~InOut()

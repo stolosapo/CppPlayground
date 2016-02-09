@@ -1,55 +1,71 @@
 #include <iostream>
 #include <string>
-#include <limits>
-#include <vector>
 #include "EulerProblem.h"
 #include "../log/ILogService.h"
-#include "../shared/PrimeFactor.h"
 #include "../shared/convert.h"
+#include "../shared/PrimeFactor.h"
 
 using namespace std;
 
-class Problem003 : public EulerProblem<int>
+class Problem003 : public EulerProblem<long long>
 {
 private:
-	vector<int> primeNumbers;
-
-	int run(long long int number)
+	long long run(long long number)
 	{
-		int rest = 0;
-		//int *result = divide(len, bigNumber, 2, rest);
-
-		return rest;
+		return maxPrimeFactorization(number);
 	}
 
-	int* divide(const int len, int bigNumber[], int divitedBy, int &rest)
+	long long maxPrimeFactorization(long long number)
 	{
-		int cur = 0;
-		int curDev = 0;
-		int curRes = 0;
-
-		int *result = new int[len];
-
-		for (int i = len - 1; i >= 0; i--)
+		if (isPrime(number))
 		{
-			cur = bigNumber[i] + curRes;
-			curDev = cur / divitedBy;
-			curRes = cur % divitedBy;
+			output("Put : ");
+			output(Convert<long long>::NumberToString(number));
+			output("\n");	
+			return number;
+		}
+		else 
+		{
+			int baseDiv = 2;
+			while (number % baseDiv != 0)
+			{
+				baseDiv = PrimeFactor::getNextPrime(baseDiv);
+			}
 
-			result[i] = curRes;
+			long long numberDiv = number / baseDiv;
+
+			output("Div : ");
+			output(Convert<long long>::NumberToString(number));
+			output(" / ");
+			output(Convert<long long>::NumberToString(baseDiv));
+			output(" = ");
+			output(Convert<long long>::NumberToString(numberDiv));
+			output("\n");
+		
+			return maxPrimeFactorization(numberDiv);
+		}
+	}
+
+	bool isPrime(long long number)
+	{
+		for (int j = 2; j <= number; j++)
+		{
+			if (number % j == 0 && number != j && j != 1)
+			{
+				return false;
+			}
 		}
 
-
-		return result;
+		return true;
 	}
 
 protected:
-	int example()
+	long long example()
 	{
 		return run(13195);
 	}
 
-	int solve()
+	long long solve()
 	{
 		return run(600851475143);
 	}
@@ -63,15 +79,15 @@ public:
 		"The prime factors of 13195 are 5, 7, 13 and 29. \n"
 		"What is the largest prime factor of the number 600851475143 ?  \n")
 	{
-		// showOutput = false;	
-
-		primeNumbers = PrimeFactor::upTo(1000);
+		solved = true;
+		setCorrectAnswer(6857);
+		
+		showOutput = false;	
 	}
 
 	~Problem003()
 	{
-		vector<int> clear;
-		primeNumbers.swap(clear);
+		
 	}
 
 };
