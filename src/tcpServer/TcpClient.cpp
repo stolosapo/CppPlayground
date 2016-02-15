@@ -139,6 +139,11 @@ void TcpClient::start()
 
                 // Receive messege from server
                 stream->receive(message);
+
+                if (TcpProtocol::error(message))
+                {
+                    logSrv->error(message);
+                }
             }
         }
         else

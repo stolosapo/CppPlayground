@@ -24,6 +24,7 @@ private:
 
 	bool acceptClient();
 	bool handshake();
+	void processCommand(TcpStream *stream, string command);
 
 public:
 	TcpServer(ILogService *logSrv);

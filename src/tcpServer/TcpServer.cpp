@@ -51,11 +51,14 @@ bool TcpServer::acceptClient()
     string input = "";
     stream->receive(input);
 
-    if (input == (string) TcpProtocol::CLIENT_CONNECT)
+    if (TcpProtocol::validAckCommand(input))
     {
-        stream->send((string) TcpProtocol::OK);
+        if (input == (string) TcpProtocol::CLIENT_CONNECT)
+        {
+            stream->send((string) TcpProtocol::OK);
 
-        accept = handshake();
+            accept = handshake();
+        }
     }
 
     return accept;
@@ -63,9 +66,13 @@ bool TcpServer::acceptClient()
 
 bool TcpServer::handshake()
 {
-
+    return true;
 }
 
+void TcpServer::processCommand(TcpStream *stream, string command)
+{
+
+}
 
 
 /*********************************
@@ -105,8 +112,20 @@ void TcpServer::start()
                         input = message;
                         logSrv->printl("received - " + input);
 
-                        // send message back                        
-                        stream->send(input);
+                        if (TcpProtocol::validCommand(input))
+                        {
+
+                            /* Process Message */
+                            processCommand(stream, input);
+
+
+                            stream->send(input);
+                        }
+                        else
+                        {
+                            // send error message back
+                            stream->send((string) TcpProtocol::INVALID_COMMAND);
+                        }
                     }
                 }
                 else
