@@ -1,7 +1,6 @@
 #ifndef LogServiceFactory_h__
 #define LogServiceFactory_h__
 
-#include <iostream>
 #include "ILogService.h"
 
 class LogServiceFactory
