@@ -1,5 +1,6 @@
-#include <boost/algorithm/string.hpp>
+// #include <boost/algorithm/string.hpp>
 #include "TcpProtocol.h"
+#include <locale>
 
 
 const char* TcpProtocol::PROMPT = "tfk > ";
@@ -46,7 +47,13 @@ TcpProtocol::~TcpProtocol()
  **********************/
 void TcpProtocol::toLower(string command)
 {
-	boost::to_lower(command);
+	locale loc;
+	for (string::size_type i=0; i<command.length(); ++i)
+	{
+	    command[i] = std::tolower(command[i], loc);
+	}
+
+	// boost::to_lower(command);
 }
 
 bool TcpProtocol::exists(const char* const array[], int size, string command)
