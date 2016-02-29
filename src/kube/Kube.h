@@ -2,20 +2,35 @@
 #define Kube_h__
 
 #include "KubeSide.h"
-#include "../shared/Printable.h"
 
-class Kube : public Printable
+class Kube
 {
 private:
-	static const int SIDE_NUM = 6;
-
-	KubeSide sides[SIDE_NUM];
+	KubeSide* front;
+	KubeSide* right;
+	KubeSide* back;
+	KubeSide* left;
+	KubeSide* upper;
+	KubeSide* bottom;	
 
 public:
 	Kube();
 	virtual ~Kube();
 
-	virtual void print();
+	KubeSide* getFront();
+	KubeSide* getRight();
+	KubeSide* getBack();
+	KubeSide* getLeft();
+	KubeSide* getUpper();
+	KubeSide* getBottom();
+
+	void setFront(KubeSide *side);
+	void setRight(KubeSide *side);
+	void setBack(KubeSide *side);
+	void setLeft(KubeSide *side);
+	void setUpper(KubeSide *side);
+	void setBottom(KubeSide *side);
+
 };
 
 #endif // Kube_h__

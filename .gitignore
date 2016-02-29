@@ -35,6 +35,7 @@ lib/*
 # Ignore any executables
 bin/*
 !bin/README.md
+!bin/*.txt
 
 # Ignore Mac specific files
 .DS_Store

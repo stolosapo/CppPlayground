@@ -1,35 +1,36 @@
 #ifndef KubeSide_h__
 #define KubeSide_h__
 
-#include "../shared/Printable.h"
-
-class KubeSide : public Printable
+class KubeSide
 {
 public:
 	enum Color
 	{
 		MAIN = 0,
 
-		FIRST = 1,
+		MAIN_RIGHT = 1,
 
-		SECOND = 2,
+		MAIN_BACK = 2,
 
-		THIRD = 3,
+		MAIN_LEFT = 3,
 
-		FORTH = 4,
+		MAIN_UP = 4,
 
-		FIFTH = 5
+		MAIN_DOWN = 5
 	};
 
 	KubeSide();
 	virtual ~KubeSide();
 
-	virtual void print();
+	Color** getTiles();
+
+	void setMainColor(Color mainColor);
+	void setTile(int row, int col, Color color);
 
 private:
 	Color mainColor;
 
-	Color tiles[3][3];
+	Color** tiles;
 
 };
 
