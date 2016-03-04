@@ -12,7 +12,6 @@ CLEANSUBDIR := build/**/*.o
 TARGET := bin/runner
 TESTTARGET := bin/tester
 TICKETTARGET := bin/ticket
-MISCTARGET := bin/misc
  
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
@@ -33,7 +32,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 clean:
 	@echo " Cleaning..."; 
-	@echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) $(MISCTARGET)"; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) $(MISCTARGET)
+	@echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) "; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET)
 
 # Tests
 tester:
@@ -43,8 +42,4 @@ tester:
 ticket:
 	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o $(TICKETTARGET)
 
-# Other executables
-misc:
-	$(CC) $(CFLAGS) misc/app.cpp $(INC) $(LIB) -o $(MISCTARGET)
-
-.PHONY: clean misc
+.PHONY: clean
