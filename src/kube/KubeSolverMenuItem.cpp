@@ -1,4 +1,6 @@
 #include "KubeSolverMenuItem.h"
+#include "KubeLoader.h"
+#include "KubePrinter.h"
 
 KubeSolverMenuItem::KubeSolverMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -17,5 +19,13 @@ KubeSolverMenuItem::~KubeSolverMenuItem()
 
 void KubeSolverMenuItem::action()
 {
+	KubeLoader *loader = new KubeLoader;
 
+	Kube *kube;
+
+	kube = loader->load();
+
+	KubePrinter *printer = new KubePrinter(logSrv, kube);
+
+	printer->printKube();
 }

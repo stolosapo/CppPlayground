@@ -30,7 +30,7 @@ public:
 private:
 	Color mainColor;
 
-	Color** tiles;
+	Color **tiles;
 
 };
 

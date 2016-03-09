@@ -15,32 +15,24 @@ KubePrinter::~KubePrinter()
 }
 
 
-void KubePrinter::printKubeSide(KubeSide *side)
+void KubePrinter::printKubeRowSide(KubeSide *side, int row)
 {
-	for (int row = 0; row < 3; ++row)
+	for (int col = 0; col < 3; ++col)
 	{
-		for (int col = 0; col < 3; ++col)
-		{
-			KubeSide::Color color = side->getTiles()[row][col];
-			int c = static_cast<int>(color);
-			
-			cout << "[" << c << "]";
-		}
+		// KubeSide::Color color = side->getTiles()[row][col];
+		// int c = static_cast<int>(color);
+		
+		// cout << "[" << c << "]";
 
-		cout << endl;
+		cout << "[X]";
 	}
 }
 
-void KubePrinter::printEmptyKubeSpace()
+void KubePrinter::printEmptyKubeRowSpace()
 {
-	for (int row = 0; row < 3; ++row)
+	for (int col = 0; col < 3; ++col)
 	{
-		for (int col = 0; col < 3; ++col)
-		{
-			cout << "   ";
-		}
-
-		cout << endl;
+		cout << "   ";
 	}
 }
 
@@ -48,34 +40,44 @@ void KubePrinter::printKube()
 {
 	//1st kube level
 
-	printEmptyKubeSpace();
+	for (int row = 0; row < 3; ++row)
+	{
+		printEmptyKubeRowSpace();
 
-	printKubeSide(kube->getUpper());
+		printKubeRowSide(kube->getUpper(), row);
 
-	printEmptyKubeSpace();
+		printEmptyKubeRowSpace();
 
-	logSvc->printl("");
+		logSvc->printl("");
+	}
 
 
 	// 2nd kube level
 
-	printKubeSide(kube->getLeft());
+	for (int row = 0; row < 3; ++row)
+	{
+		printKubeRowSide(kube->getLeft(), row);
 
-	printKubeSide(kube->getFront());
+		printKubeRowSide(kube->getFront(), row);
 
-	printKubeSide(kube->getRight());
+		printKubeRowSide(kube->getRight(), row);
 
-	printKubeSide(kube->getBack());
+		printKubeRowSide(kube->getBack(), row);
 
-	logSvc->printl("");
-
+		logSvc->printl("");
+	}
+	
 
 	// 3rd kube level
 
-	printEmptyKubeSpace();
+	for (int row = 0; row < 3; ++row)
+	{
+		printEmptyKubeRowSpace();
 
-	printKubeSide(kube->getBottom());
+		printKubeRowSide(kube->getBottom(), row);
+
+		logSvc->printl("");
+	}
 
 	logSvc->printl("");
-
 }

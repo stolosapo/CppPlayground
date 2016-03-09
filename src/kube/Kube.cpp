@@ -1,8 +1,14 @@
 #include "Kube.h"
+#include <cstddef>
 
 Kube::Kube()
 {
-	
+	this->front = NULL;
+	this->right = NULL;
+	this->back = NULL;
+	this->left = NULL;
+	this->upper = NULL;
+	this->bottom = NULL;
 }
 
 Kube::~Kube()

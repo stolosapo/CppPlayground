@@ -11,8 +11,8 @@ private:
 
 	Kube *kube;
 
-	void printKubeSide(KubeSide *side);
-	void printEmptyKubeSpace();
+	void printKubeRowSide(KubeSide *side, int row);
+	void printEmptyKubeRowSpace();
 
 public:
 	KubePrinter(ILogService *logSvc, Kube *kube);

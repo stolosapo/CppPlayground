@@ -1,8 +1,11 @@
+#include <iostream>
 #include "KubeSide.h"
+
+using namespace std;
 
 KubeSide::KubeSide()
 {
-	tiles = new KubeSide::Color*[3];
+	tiles = new KubeSide::Color* [3];
 	for (int i = 0; i < 3; ++i)
 	{
 		tiles[i] = new KubeSide::Color[3];

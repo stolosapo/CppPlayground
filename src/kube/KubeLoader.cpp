@@ -4,6 +4,7 @@
 #include <vector>
 #include "KubeLoader.h"
 #include "KubeColorMapper.h"
+#include "../shared/FileReader.h"
 
 using namespace std;
 
@@ -20,32 +21,36 @@ KubeLoader::~KubeLoader()
 
 void KubeLoader::setKubeSide(Kube *kube, int sideIndex, int lineIndex, string line)
 {
+	KubeSide *side;
+
 	switch (sideIndex)
 	{
 		case 0:
-			setKubeSideTiles(kube->getFront(), sideIndex, lineIndex, line);
+			side = kube->getFront();
 			break;
 
 		case 1:
-			setKubeSideTiles(kube->getRight(), sideIndex, lineIndex, line);
+			side = kube->getRight();
 			break;
 
 		case 2:
-			setKubeSideTiles(kube->getBack(), sideIndex, lineIndex, line);
+			side = kube->getBack();
 			break;
 
 		case 3:
-			setKubeSideTiles(kube->getLeft(), sideIndex, lineIndex, line);
+			side = kube->getLeft();
 			break;
 
 		case 4:
-			setKubeSideTiles(kube->getUpper(), sideIndex, lineIndex, line);
+			side = kube->getUpper();
 			break;
 
 		case 5:
-			setKubeSideTiles(kube->getBottom(), sideIndex, lineIndex, line);
+			side = kube->getBottom();
 			break;
 	}
+
+	setKubeSideTiles(side, sideIndex, lineIndex, line);
 }
 
 void KubeLoader::setKubeSideTiles(KubeSide *side, int sideIndex, int lineIndex, string line)
@@ -68,44 +73,40 @@ Kube* KubeLoader::load()
 	Kube *kube = new Kube;
 
 	string filePath = "kube.txt";
-	// int index = 0;
+	int index = 0;
 
-	// FileReader* reader = new FileReader(filePath.c_str());
+	FileReader* reader = new FileReader(filePath.c_str());
 	
-	// reader->read();
-	// vector<string> lines = reader->getLines();
+	reader->read();
+	vector<string> lines = reader->getLines();
 
+	int sideIndex = 0;
+	int sideRowIndex = 0;
 
-	// int kubeLevel = 0;
-	// int sideLevel = 0;
+	for (int row = 0; row < lines.size(); ++row)
+	{
+		string line = lines[row];
 
-	// KubeSide *side;
+		if (line == "---")
+		{
+			sideIndex++;
+			sideRowIndex = 0;
+			continue;
+		}
 
-	// for (int row = 0; row < lines.size(); ++row)
-	// {
-	// 	string line = lines[row];
+		setKubeSide(kube, sideIndex, sideRowIndex, line);
 
-	// 	if (line == "")
-	// 	{
-	// 		kubeLevel++;
-	// 		sideLevel = 0;
-	// 		continue;
-	// 	}
+		sideRowIndex++;
+	}
 
-	// 	if (sideLevel == 0)
-	// 	{
-	// 		 side = new KubeSide;
-	// 	}
-
-		
-
-	// 	for (int col = 0; col < 3; ++col)
-	// 	{
-	// 		char colorChar = line[col];
-
-
-	// 	}
-	// }
+	if (kube->getUpper() == NULL)
+	{
+		cout << "empty" << endl;
+	}
+	else
+	{
+		cout << "full" << endl;
+	}
 
 	return kube;
 }
