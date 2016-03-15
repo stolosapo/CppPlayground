@@ -7,6 +7,7 @@
 #define MAGENTA 	"\033[35m"      		/* Magenta */
 #define CYAN    	"\033[36m"      		/* Cyan */
 #define WHITE   	"\033[37m"      		/* White */
+#define ORANGE   	"\033[91m"      		/* Orange */
 
 #define BOLDBLACK   "\033[1m\033[30m"      	/* Bold Black */
 #define BOLDRED     "\033[1m\033[31m"      	/* Bold Red */
@@ -16,3 +17,4 @@
 #define BOLDMAGENTA "\033[1m\033[35m"      	/* Bold Magenta */
 #define BOLDCYAN    "\033[1m\033[36m"      	/* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      	/* Bold White */
+#define BOLDORANGE	"\033[1m\033[91m"  		/* Orange */

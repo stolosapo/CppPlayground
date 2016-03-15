@@ -2,10 +2,13 @@
 #define Kube_h__
 
 #include "KubeSide.h"
+#include "KubeColorMapper.h"
 
 class Kube
 {
 private:
+	KubeColorMapper **mapper;
+
 	KubeSide* front;
 	KubeSide* right;
 	KubeSide* back;
@@ -16,6 +19,8 @@ private:
 public:
 	Kube();
 	virtual ~Kube();
+
+	KubeColorMapper** getColorMapper();
 
 	KubeSide* getFront();
 	KubeSide* getRight();
@@ -31,6 +36,7 @@ public:
 	void setUpper(KubeSide *side);
 	void setBottom(KubeSide *side);
 
+	KubeSide::Color getColor(char colorChar);
 };
 
 #endif // Kube_h__

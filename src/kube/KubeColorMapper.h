@@ -8,6 +8,7 @@ using namespace std;
 
 class KubeColorMapper
 {
+private:
 	char colorChar;
 	KubeSide::Color sideColor;
 	string colorCode;
@@ -15,9 +16,14 @@ class KubeColorMapper
 public:
 	KubeColorMapper();
 	virtual ~KubeColorMapper();
+
+	char getColorChar();
+	KubeSide::Color getSideColor();
+	string getColorCode();
 	
 	static KubeColorMapper* mapColor(char colorChar, int colorIndex);
 	static KubeSide::Color convert(int colorIndex);
+	static int convert(KubeSide::Color color);
 };
 
 #endif // KubeColorMapper_h__

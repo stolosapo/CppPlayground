@@ -1,6 +1,7 @@
 #include "KubeSolverMenuItem.h"
 #include "KubeLoader.h"
 #include "KubePrinter.h"
+#include "KubeColorMapper.h"
 
 KubeSolverMenuItem::KubeSolverMenuItem(ILogService *logSrv) : MenuItem()
 {

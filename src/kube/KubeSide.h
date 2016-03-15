@@ -23,6 +23,7 @@ public:
 	virtual ~KubeSide();
 
 	Color** getTiles();
+	Color getMainColor();
 
 	void setMainColor(Color mainColor);
 	void setTile(int row, int col, Color color);

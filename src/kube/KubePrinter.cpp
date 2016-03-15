@@ -1,5 +1,6 @@
-#include "KubePrinter.h"
 #include <string>
+#include "KubePrinter.h"
+#include "KubeColorMapper.h"
 
 using namespace std;
 
@@ -19,12 +20,13 @@ void KubePrinter::printKubeRowSide(KubeSide *side, int row)
 {
 	for (int col = 0; col < 3; ++col)
 	{
-		// KubeSide::Color color = side->getTiles()[row][col];
-		// int c = static_cast<int>(color);
-		
-		// cout << "[" << c << "]";
+		KubeSide::Color color = side->getTiles()[row][col];
 
-		cout << "[X]";
+		int c = KubeColorMapper::convert(color);
+
+		KubeColorMapper *map = kube->getColorMapper()[c];
+		
+		logSvc->print("[*]", map->getColorCode());
 	}
 }
 
