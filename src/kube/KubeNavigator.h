@@ -1,6 +1,8 @@
 #ifndef KubeNavigator_h__
 #define KubeNavigator_h__
 
+#include "Kube.h"
+
 class KubeNavigator
 {
 private:

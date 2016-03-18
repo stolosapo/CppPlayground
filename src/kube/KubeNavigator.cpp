@@ -1,5 +1,4 @@
 #include "KubeNavigator.h"
-#include "Kube.h"
 
 KubeNavigator::KubeNavigator(Kube *kube)
 {
