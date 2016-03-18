@@ -34,6 +34,26 @@ void KubeNavigator::front()
 	kube->getBack()->getTiles()[0][0] = buffer[0];
 	kube->getBack()->getTiles()[0][1] = buffer[1];
 	kube->getBack()->getTiles()[0][2] = buffer[2];
+
+
+	KubeSide *upper = kube->getUpper();
+
+	KubeSide::Color *upperBuffer = new KubeSide::Color[3];
+
+	upperBuffer[0] = upper->getTiles()[0][0];
+
+	upper->getTiles()[0][0] = upper->getTiles()[2][0];
+	upper->getTiles()[0][1] = upper->getTiles()[1][0];
+	upper->getTiles()[0][2] = upperBuffer[0];
+
+	upper->getTiles()[1][0] = upper->getTiles()[2][1];
+	upper->getTiles()[2][0] = upper->getTiles()[2][2];
+	
+	upper->getTiles()[1][0] = upperBuffer[0];
+
+	upper->getTiles()[2][2] = upperBuffer[0];
+
+	upper->getTiles()[2][1] = upper->getTiles()[1][0];
 }
 
 void KubeNavigator::back()
