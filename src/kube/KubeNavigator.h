@@ -8,6 +8,10 @@ class KubeNavigator
 private:
 	Kube *kube;
 
+	void moveHorizontial(bool clockwise, bool straight, int row);
+	void moveVertical(bool clockwise, bool straight, int col);
+	void moveFace(bool clockwise, bool straight, KubeSide *faceSide);
+
 public:
 	KubeNavigator(Kube *kube);
 	virtual ~KubeNavigator();
@@ -15,6 +19,7 @@ public:
 	void front();
 	void back();
 	void up();
+	void down();
 	void left();
 	void right();
 
@@ -25,6 +30,7 @@ public:
 	void aFront();
 	void aBack();
 	void aUp();
+	void aDown();
 	void aLeft();
 	void aRight();
 
