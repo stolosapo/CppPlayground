@@ -10,6 +10,19 @@ KubeNavigator::~KubeNavigator()
 
 }
 
+int KubeNavigator::reverseIndex(int index)
+{
+	if (index == 0)
+	{
+		return 2;
+	}
+	else if (index == 2)
+	{
+		return 0;
+	}
+
+	return index;
+}
 
 void KubeNavigator::moveHorizontial(bool clockwise, bool straight, int row)
 {
@@ -67,7 +80,7 @@ void KubeNavigator::moveVertical(bool clockwise, bool straight, int col)
 	buffer[1] = kube->getFront()->getTiles()[1][col];
 	buffer[2] = kube->getFront()->getTiles()[2][col];
 
-	if (clockwise && straight)
+	if (clockwise ^ straight)
 	{
 		nextSide = kube->getUpper();
 		prevSide = kube->getBottom();
@@ -84,14 +97,14 @@ void KubeNavigator::moveVertical(bool clockwise, bool straight, int col)
 	kube->getFront()->getTiles()[2][col] = nextSide->getTiles()[2][col];
 
 	/* Next Side (Right if clockwise else Left) */
-	nextSide->getTiles()[0][col] = kube->getBack()->getTiles()[0][col];
-	nextSide->getTiles()[1][col] = kube->getBack()->getTiles()[1][col];
-	nextSide->getTiles()[2][col] = kube->getBack()->getTiles()[2][col];
+	nextSide->getTiles()[0][col] = kube->getBack()->getTiles()[reverseIndex(0)][reverseIndex(col)];
+	nextSide->getTiles()[1][col] = kube->getBack()->getTiles()[reverseIndex(1)][reverseIndex(col)];
+	nextSide->getTiles()[2][col] = kube->getBack()->getTiles()[reverseIndex(2)][reverseIndex(col)];
 
 	/* Back Side */
-	kube->getBack()->getTiles()[0][col] = prevSide->getTiles()[0][col];
-	kube->getBack()->getTiles()[1][col] = prevSide->getTiles()[1][col];
-	kube->getBack()->getTiles()[2][col] = prevSide->getTiles()[2][col];
+	kube->getBack()->getTiles()[reverseIndex(0)][reverseIndex(col)] = prevSide->getTiles()[0][col];
+	kube->getBack()->getTiles()[reverseIndex(1)][reverseIndex(col)] = prevSide->getTiles()[1][col];
+	kube->getBack()->getTiles()[reverseIndex(2)][reverseIndex(col)] = prevSide->getTiles()[2][col];
 
 	/* Previous Side (Left if clockwise else Right) */
 	prevSide->getTiles()[0][col] = buffer[0];
