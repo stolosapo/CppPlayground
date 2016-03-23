@@ -38,12 +38,20 @@ void KubeSolverMenuItem::action()
 	cout << endl << "Move U" << endl << endl;;
 	printer->printKube();
 
+	// nav->right();
+	// cout << endl << "Move R" << endl << endl;;
+	// printer->printKube();
+
 	nav->aUp();
 	cout << endl << "Move U'" << endl << endl;;
 	printer->printKube();
 
 	nav->down();
 	cout << endl << "Move D" << endl << endl;;
+	printer->printKube();
+
+	nav->right();
+	cout << endl << "Move R" << endl << endl;;
 	printer->printKube();
 
 	nav->aDown();

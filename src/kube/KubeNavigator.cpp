@@ -162,6 +162,8 @@ void KubeNavigator::moveFace(bool clockwise, bool straight, KubeSide *faceSide)
 
 void KubeNavigator::front()
 {
+	bool clockwise = true;
+	bool straight = true;
 
 }
 
@@ -187,23 +189,23 @@ void KubeNavigator::down()
 
 	moveHorizontial(clockwise, straight, 2);
 
-	moveFace(clockwise, straight, kube->getBottom());
+	moveFace(clockwise, !straight, kube->getBottom());
 }
 
 void KubeNavigator::left()
 {
 	bool clockwise = true;
-	bool straight = true;
+	bool straight = false;
 
 	moveVertical(clockwise, straight, 0);
 
-	moveFace(clockwise, straight, kube->getLeft());
+	moveFace(clockwise, !straight, kube->getLeft());
 }
 
 void KubeNavigator::right()
 {
 	bool clockwise = true;
-	bool straight = false;
+	bool straight = true;
 
 	moveVertical(clockwise, straight, 2);
 
@@ -254,23 +256,23 @@ void KubeNavigator::aDown()
 
 	moveHorizontial(clockwise, straight, 2);
 
-	moveFace(clockwise, straight, kube->getBottom());
+	moveFace(clockwise, !straight, kube->getBottom());
 }
 
 void KubeNavigator::aLeft()
 {
 	bool clockwise = false;
-	bool straight = true;
+	bool straight = false;
 
 	moveVertical(clockwise, straight, 0);
 
-	moveFace(clockwise, straight, kube->getLeft());
+	moveFace(clockwise, !straight, kube->getLeft());
 }
 
 void KubeNavigator::aRight()
 {
 	bool clockwise = false;
-	bool straight = false;
+	bool straight = true;
 
 	moveVertical(clockwise, straight, 2);
 
