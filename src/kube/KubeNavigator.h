@@ -9,9 +9,12 @@ private:
 	Kube *kube;
 
 	int reverseIndex(int index);
-	
+
 	void moveHorizontial(bool clockwise, bool straight, int row);
-	void moveVertical(bool clockwise, bool straight, int col);
+	
+	void moveVerticalX(bool clockwise, bool straight, int col);
+	void moveVerticalZ(bool clockwise, bool straight, int row, int col);
+
 	void moveFace(bool clockwise, bool straight, KubeSide *faceSide);
 
 public:

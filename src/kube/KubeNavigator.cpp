@@ -68,7 +68,7 @@ void KubeNavigator::moveHorizontial(bool clockwise, bool straight, int row)
 	prevSide->getTiles()[row][2] = buffer[2];
 }
 
-void KubeNavigator::moveVertical(bool clockwise, bool straight, int col)
+void KubeNavigator::moveVerticalX(bool clockwise, bool straight, int col)
 {
 	KubeSide *nextSide;
 	KubeSide *prevSide;
@@ -110,6 +110,50 @@ void KubeNavigator::moveVertical(bool clockwise, bool straight, int col)
 	prevSide->getTiles()[0][col] = buffer[0];
 	prevSide->getTiles()[1][col] = buffer[1];
 	prevSide->getTiles()[2][col] = buffer[2];
+}
+
+void KubeNavigator::moveVerticalZ(bool clockwise, bool straight, int row, int col)
+{
+	KubeSide *nextSide;
+	KubeSide *prevSide;
+
+	/* First Side column Buffer */
+	KubeSide::Color *buffer = new KubeSide::Color[3];
+
+	buffer[0] = kube->getUpper()->getTiles()[row][0];
+	buffer[1] = kube->getUpper()->getTiles()[row][1];
+	buffer[2] = kube->getUpper()->getTiles()[row][2];
+
+	if (clockwise ^ straight)
+	{
+		nextSide = kube->getRight();
+		prevSide = kube->getLeft();
+	}
+	else
+	{
+		nextSide = kube->getLeft();
+		prevSide = kube->getRight();
+	}
+
+	/* Front Side */
+	kube->getUpper()->getTiles()[row][0] = nextSide->getTiles()[0][col];
+	kube->getUpper()->getTiles()[row][1] = nextSide->getTiles()[1][col];
+	kube->getUpper()->getTiles()[row][2] = nextSide->getTiles()[2][col];
+
+	/* Next Side (Right if clockwise else Left) */
+	nextSide->getTiles()[0][col] = kube->getBottom()->getTiles()[reverseIndex(row)][reverseIndex(0)];
+	nextSide->getTiles()[1][col] = kube->getBottom()->getTiles()[reverseIndex(row)][reverseIndex(1)];
+	nextSide->getTiles()[2][col] = kube->getBottom()->getTiles()[reverseIndex(row)][reverseIndex(2)];
+
+	/* Back Side */
+	kube->getBottom()->getTiles()[reverseIndex(row)][reverseIndex(0)] = prevSide->getTiles()[0][col];
+	kube->getBottom()->getTiles()[reverseIndex(row)][reverseIndex(1)] = prevSide->getTiles()[1][col];
+	kube->getBottom()->getTiles()[reverseIndex(row)][reverseIndex(2)] = prevSide->getTiles()[2][col];
+
+	/* Previous Side (Left if clockwise else Right) */
+	prevSide->getTiles()[0][reverseIndex(col)] = buffer[0];
+	prevSide->getTiles()[1][reverseIndex(col)] = buffer[1];
+	prevSide->getTiles()[2][reverseIndex(col)] = buffer[2];
 }
 
 void KubeNavigator::moveFace(bool clockwise, bool straight, KubeSide *faceSide)
@@ -165,11 +209,19 @@ void KubeNavigator::front()
 	bool clockwise = true;
 	bool straight = true;
 
+	moveVerticalZ(clockwise, straight, 2, 2);
+
+	moveFace(clockwise, straight, kube->getFront());
 }
 
 void KubeNavigator::back()
 {
+	bool clockwise = true;
+	bool straight = false;
 
+	moveVerticalZ(clockwise, straight, 0, 0);
+
+	moveFace(clockwise, !straight, kube->getFront());
 }
 
 void KubeNavigator::up()
@@ -197,7 +249,7 @@ void KubeNavigator::left()
 	bool clockwise = true;
 	bool straight = false;
 
-	moveVertical(clockwise, straight, 0);
+	moveVerticalX(clockwise, straight, 0);
 
 	moveFace(clockwise, !straight, kube->getLeft());
 }
@@ -207,7 +259,7 @@ void KubeNavigator::right()
 	bool clockwise = true;
 	bool straight = true;
 
-	moveVertical(clockwise, straight, 2);
+	moveVerticalX(clockwise, straight, 2);
 
 	moveFace(clockwise, straight, kube->getRight());
 }
@@ -231,12 +283,22 @@ void KubeNavigator::moveZ()
 
 void KubeNavigator::aFront()
 {
+	bool clockwise = false;
+	bool straight = true;
 
+	moveVerticalZ(clockwise, straight, 2, 2);
+
+	moveFace(clockwise, straight, kube->getFront());
 }
 
 void KubeNavigator::aBack()
 {
+	bool clockwise = false;
+	bool straight = false;
 
+	moveVerticalZ(clockwise, straight, 0, 0);
+
+	moveFace(clockwise, straight, kube->getFront());
 }
 
 void KubeNavigator::aUp()
@@ -264,7 +326,7 @@ void KubeNavigator::aLeft()
 	bool clockwise = false;
 	bool straight = false;
 
-	moveVertical(clockwise, straight, 0);
+	moveVerticalX(clockwise, straight, 0);
 
 	moveFace(clockwise, !straight, kube->getLeft());
 }
@@ -274,7 +336,7 @@ void KubeNavigator::aRight()
 	bool clockwise = false;
 	bool straight = true;
 
-	moveVertical(clockwise, straight, 2);
+	moveVerticalX(clockwise, straight, 2);
 
 	moveFace(clockwise, straight, kube->getRight());
 }

@@ -34,13 +34,28 @@ void KubeSolverMenuItem::action()
 	/* Make some moves */
 	KubeNavigator *nav = new KubeNavigator(kube);
 
+	nav->front();
+	cout << endl << "Move F" << endl << endl;;
+	printer->printKube();
+
+	nav->aFront();
+	cout << endl << "Move F'" << endl << endl;;
+	printer->printKube();
+
+
+	nav->back();
+	cout << endl << "Move B" << endl << endl;;
+	printer->printKube();
+
+	nav->aBack();
+	cout << endl << "Move B'" << endl << endl;;
+	printer->printKube();
+
+
+
 	nav->up();
 	cout << endl << "Move U" << endl << endl;;
 	printer->printKube();
-
-	// nav->right();
-	// cout << endl << "Move R" << endl << endl;;
-	// printer->printKube();
 
 	nav->aUp();
 	cout << endl << "Move U'" << endl << endl;;
@@ -48,10 +63,6 @@ void KubeSolverMenuItem::action()
 
 	nav->down();
 	cout << endl << "Move D" << endl << endl;;
-	printer->printKube();
-
-	nav->right();
-	cout << endl << "Move R" << endl << endl;;
 	printer->printKube();
 
 	nav->aDown();
