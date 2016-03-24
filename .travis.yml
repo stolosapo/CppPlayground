@@ -7,4 +7,5 @@ compiler: g++
 # Build steps
 script:
   - cd build
+  - make clean
   - make
