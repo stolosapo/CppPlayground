@@ -5,4 +5,6 @@ language: cpp
 compiler: g++
 
 # Build steps
-script: make
+script: 
+	- mkdir bin
+	- make
