@@ -7,4 +7,4 @@ compiler: g++
 # Build steps
 script:
   - cd build
-  - ./configure && make && make test
+  - make
