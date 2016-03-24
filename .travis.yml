@@ -5,6 +5,4 @@ language: cpp
 compiler: g++
 
 # Build steps
-script:
-  - cd build
-  - make
+script: make
