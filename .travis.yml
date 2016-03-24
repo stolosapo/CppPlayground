@@ -6,5 +6,5 @@ compiler: g++
 
 # Build steps
 script: 
-	- mkdir bin
-	- make
+ - mkdir bin
+ - make
