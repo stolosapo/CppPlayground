@@ -3,6 +3,7 @@
 #include "../log/LogServiceContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/TcpContainer.cpp"
+#include "MainMenuHeader.cpp"
 
 using namespace std;
 
@@ -29,6 +30,13 @@ protected:
 		this->addMenuItem(0, new LogServiceContainer);
 		this->addMenuItem(1, new EulerProblemContainer);
 		this->addMenuItem(2, new TcpContainer);
+	}
+
+	virtual string getHeader()
+	{
+		MainMenuHeader *header = new MainMenuHeader;
+
+		return header->getRandomHeader();
 	}
 
 };

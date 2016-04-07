@@ -257,7 +257,9 @@ void Container::action()
 
 string Container::identify()
 {
-	string message = this->getTitle() + "\n" +
+	string header = this->getHeader();
+
+	string message = header + "\n" +
 	"####################################" + "\n\n" +
 	this->getDescription();
 

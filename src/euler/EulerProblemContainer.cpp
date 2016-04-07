@@ -44,4 +44,9 @@ protected:
 		this->addMenuItem(8, new Problem009(logSrv));
 	}
 
+	virtual string getHeader()
+	{
+		return "";
+	}
+
 };
