@@ -4,6 +4,7 @@
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/TcpContainer.cpp"
 #include "../kube/KubeContainer.cpp"
+#include "MainMenuHeader.cpp"
 
 using namespace std;
 
@@ -31,6 +32,13 @@ protected:
 		this->addMenuItem(1, new EulerProblemContainer);
 		this->addMenuItem(2, new TcpContainer);
 		this->addMenuItem(3, new KubeContainer);
+	}
+
+	virtual string getHeader()
+	{
+		MainMenuHeader header;
+
+		return header.getRandomHeader();
 	}
 
 };
