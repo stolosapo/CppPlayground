@@ -34,9 +34,9 @@ protected:
 
 	virtual string getHeader()
 	{
-		MainMenuHeader *header = new MainMenuHeader;
+		MainMenuHeader header;
 
-		return header->getRandomHeader();
+		return header.getRandomHeader();
 	}
 
 };

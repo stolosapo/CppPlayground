@@ -259,6 +259,11 @@ string Container::identify()
 {
 	string header = this->getHeader();
 
+	if (header == "")
+	{
+		header = this->getTitle();
+	}
+
 	string message = header + "\n" +
 	"####################################" + "\n\n" +
 	this->getDescription();

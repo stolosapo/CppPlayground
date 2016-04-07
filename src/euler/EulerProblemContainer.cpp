@@ -10,6 +10,7 @@
 #include "Problem007.cpp"
 #include "Problem008.cpp"
 #include "Problem009.cpp"
+#include "EulerProblemHeader.cpp"
 
 using namespace std;
 
@@ -46,7 +47,8 @@ protected:
 
 	virtual string getHeader()
 	{
-		return "";
+		EulerProblemHeader header;
+		return header.getRandomHeader();
 	}
 
 };
