@@ -30,4 +30,9 @@ protected:
 		this->addMenuItem(1, TcpClientFactory::create(logSrv));
 	}
 
+	virtual string getHeader()
+	{
+		return "";
+	}
+
 };

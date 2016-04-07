@@ -10,6 +10,7 @@
 #include "Problem007.cpp"
 #include "Problem008.cpp"
 #include "Problem009.cpp"
+#include "EulerProblemHeader.cpp"
 
 using namespace std;
 
@@ -42,6 +43,12 @@ protected:
 		this->addMenuItem(6, new Problem007(logSrv));
 		this->addMenuItem(7, new Problem008(logSrv));
 		this->addMenuItem(8, new Problem009(logSrv));
+	}
+
+	virtual string getHeader()
+	{
+		EulerProblemHeader header;
+		return header.getRandomHeader();
 	}
 
 };

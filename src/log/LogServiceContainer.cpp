@@ -28,4 +28,9 @@ protected:
 		this->addMenuItem(0, new LogActionItem(logSrv));
 	}
 
+	virtual string getHeader()
+	{
+		return "";
+	}
+
 };
