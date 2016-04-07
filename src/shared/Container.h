@@ -53,6 +53,7 @@ protected:
 	virtual bool promptContinueQuestion();
 	virtual void showOptions();
 
+	virtual string getHeader() = 0;
 	virtual void fillOptions() = 0;
 };
 

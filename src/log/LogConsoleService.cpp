@@ -87,6 +87,8 @@ public:
 		outString(message);
 		outString("\n");
 		
+		// exit(1);
+		
 		printColor(RESET);
 	}
 

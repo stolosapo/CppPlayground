@@ -8,14 +8,18 @@ SRCDIR := src
 BUILDDIR := build
 CLEANDIR := build/*.o
 CLEANSUBDIR := build/**/*.o
+
 TARGET := bin/runner
+TESTTARGET := bin/tester
+TICKETTARGET := bin/ticket
  
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -g # -Wall
 # LIB := -pthread -lmongoclient -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
-LIB := -pthread -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
+# LIB := -pthread -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
+LIB := -pthread -L lib
 INC := -I include
 
 $(TARGET): $(OBJECTS)
@@ -28,14 +32,14 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 clean:
 	@echo " Cleaning..."; 
-	@echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET)"; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET)
+	@echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) "; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET)
 
 # Tests
 tester:
-	$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
+	$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o $(TESTTARGET)
 
 # Spikes
 ticket:
-	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
+	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o $(TICKETTARGET)
 
 .PHONY: clean
