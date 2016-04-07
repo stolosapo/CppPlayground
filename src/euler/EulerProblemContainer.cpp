@@ -11,6 +11,7 @@
 #include "Problem008.cpp"
 #include "Problem009.cpp"
 #include "Problem010.cpp"
+#include "EulerProblemHeader.cpp"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ class EulerProblemContainer : public Container
 {
 public:
 	EulerProblemContainer() : Container(
-		1, 
+		2, 
 		"Euler Problems",
 		"Euler Problems",
 		10)
@@ -44,6 +45,12 @@ protected:
 		this->addMenuItem(7, new Problem008(logSrv));
 		this->addMenuItem(8, new Problem009(logSrv));
 		this->addMenuItem(9, new Problem010(logSrv));
+	}
+
+	virtual string getHeader()
+	{
+		EulerProblemHeader header;
+		return header.getRandomHeader();
 	}
 
 };
