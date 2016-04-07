@@ -3,6 +3,7 @@
 #include "KubeConfigMenuItem.h"
 #include "KubeSolverMenuItem.h"
 #include "../shared/Container.h"
+#include "KubeHeader.cpp"
 
 using namespace std;
 
@@ -28,6 +29,12 @@ protected:
     {
         this->addMenuItem(0, new KubeConfigMenuItem(logSrv));
         this->addMenuItem(1, new KubeSolverMenuItem(logSrv));
+    }
+
+    virtual string getHeader()
+    {
+        KubeHeader header;
+        return header.getRandomHeader();
     }
 
 };
