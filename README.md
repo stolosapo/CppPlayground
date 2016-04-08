@@ -4,7 +4,7 @@
 A playground for C++ applications and experiments...
 
 
-## Installation
+### Installation
 
 ```
 ./initialize.sh
@@ -12,7 +12,7 @@ make
 ```
 
 
-## Run
+### Run
 
 ```
 cd bin
