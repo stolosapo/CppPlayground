@@ -10,3 +10,11 @@ A playground for C++ applications and experiments...
 ./initialize.sh
 make
 ```
+
+
+## Run
+
+```
+cd bin
+./runner
+```
