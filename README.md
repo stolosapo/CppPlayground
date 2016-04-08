@@ -4,8 +4,9 @@
 A playground for C++ applications and experiments...
 
 
-Installation
-------------
+## Installation
 
-`./initialize.sh`
-`make`
+```
+./initialize.sh
+make
+```
