@@ -10,7 +10,8 @@ FigletHeader::FigletHeader()
 
 FigletHeader::~FigletHeader()
 {
-
+	headers.clear();
+	vector<string>().swap(headers);
 }
 
 int FigletHeader::getRandomNumber()
