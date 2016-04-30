@@ -8,13 +8,13 @@
 
 using namespace std;
 
-class Problem010 : public EulerProblem<int>
+class Problem010 : public EulerProblem<long long>
 {
 private:
-	int run(const int BELOW)
+	long long run(const int BELOW)
 	{
 		vector<int> upTo = PrimeFactor::upTo(BELOW);
-		int sum = 0;
+		long long sum = 0;
 
 		for (int i = 0; i < upTo.size(); ++i)
 		{
@@ -25,14 +25,14 @@ private:
 	}
 
 protected:
-	int example()
+	long long example()
 	{
 		const int BELOW = 10;
 
 		return run(BELOW);
 	}
 
-	int solve()
+	long long solve()
 	{
 		const int BELOW = 2000000;
 
@@ -48,8 +48,8 @@ public:
 		"The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17. \n "
 		"Find the sum of all the primes below two million.")
 	{
-		solved = false;
-		// setCorrectAnswer(31875000);
+		solved = true;
+		setCorrectAnswer(142913828922);
 
 		showExample = true;
 		showOutput = true;
