@@ -28,13 +28,11 @@
 *.app
 
 # Ignore the build and lib dirs
-build/*.o
-build/**/*.o
+build/*
 lib/*
 
 # Ignore any executables
 bin/*
-!bin/**/*.md
 
 # Ignore Mac specific files
 .DS_Store

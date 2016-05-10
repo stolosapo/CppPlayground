@@ -8,6 +8,7 @@ vector<int> PrimeFactor::upTo(int upperBound)
 {
 	vector<int> result;
 	bool isPrime;
+	int cnt = 0;
 
 	for (int i = 2; i <= upperBound; i++)
 	{
@@ -70,7 +71,7 @@ bool PrimeFactor::isPrime(int number)
 
 	for (int j = 2; j <= number; j++)
 	{
-		if (number % j == 0 && number != j && j != 1)
+		if (number % j == 0 && number != j)
 		{
 			isPrime = false;
 			break;	
