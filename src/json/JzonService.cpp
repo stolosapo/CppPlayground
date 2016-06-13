@@ -7,12 +7,26 @@ using namespace std;
 class JzonService : public IJsonService
 {
 public:
-	JzonService()
+	JzonService() : IJsonService()
+	{
+
+	}
+
+	virtual ~JzonService()
 	{
 
 	}
 
 	void test()
+	{
+		testWrite();
+
+		cout << endl << endl;
+
+		testRead();
+	}
+
+	void testWrite()
 	{
 		Jzon::Node node = Jzon::object();
 		node.add("name", "value");
@@ -41,6 +55,16 @@ public:
 		  subnode.add("key2", "val2");
 		  node.add("subnode", subnode);
 		}
+
+		Jzon::Writer writer;
+		writer.writeStream(node, cout);
+	}
+
+	void testRead()
+	{
+		Jzon::Parser parser;
+
+		Jzon::Node node = parser.parseFile("test.json");
 
 		Jzon::Writer writer;
 		writer.writeStream(node, cout);

@@ -6,7 +6,10 @@
 class IJsonService
 {
 public:
-	virtual ~IJsonService() {}
+	IJsonService() { };
+	virtual ~IJsonService() { };
+
+
 	virtual void test() = 0;
 };
 
