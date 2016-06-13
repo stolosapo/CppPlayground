@@ -23,9 +23,9 @@ public:
 	}
 
 
-	virtual Model* deserializeModel(string raw)
+	virtual void deserializeModel(Model *model, string raw)
 	{
-		return NULL;
+		
 	}
 
 	virtual void saveModelToFile(Model *model, const string &fileName)
@@ -33,9 +33,9 @@ public:
 
 	}
 
-	virtual Model* readModelFromFile(const string &fileName)
+	virtual void loadModelFromFile(Model *model, const string &fileName)
 	{
-		return NULL;
+		
 	}
 
 	void test()

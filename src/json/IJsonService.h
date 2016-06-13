@@ -15,10 +15,10 @@ public:
 	virtual ~IJsonService() { };
 
 	virtual string serializeModel(Model *model) = 0;
-	virtual Model* deserializeModel(string raw) = 0;
+	virtual void deserializeModel(Model *model, string raw) = 0;
 
 	virtual void saveModelToFile(Model *model, const string &fileName) = 0;
-	virtual Model* readModelFromFile(const string &fileName) = 0;
+	virtual void loadModelFromFile(Model *model, const string &fileName) = 0;
 
 	virtual void test() = 0;
 };
