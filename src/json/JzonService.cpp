@@ -17,6 +17,27 @@ public:
 
 	}
 
+	virtual string serializeModel(Model *model)
+	{
+		return "";
+	}
+
+
+	virtual Model* deserializeModel(string raw)
+	{
+		return NULL;
+	}
+
+	virtual void saveModelToFile(Model *model, const string &fileName)
+	{
+
+	}
+
+	virtual Model* readModelFromFile(const string &fileName)
+	{
+		return NULL;
+	}
+
 	void test()
 	{
 		testWrite();

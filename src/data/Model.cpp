@@ -175,5 +175,3 @@ bool Model::boolPropertyExists(string name)
 
 	return it == boolProperties.end();
 }
-
-
