@@ -10,6 +10,8 @@ class PrimeFactor
 {
 public:	
 	static vector<int> upTo(int upperBound);
+	static int getByIndex(int index);
+	static int getNextPrime(int prime);
 	static bool isPrime(int number);
 };
 

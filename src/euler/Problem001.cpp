@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class Problem001 : public EulerProblem
+class Problem001 : public EulerProblem<int>
 {
 private:
 	int *multipliers;
@@ -52,6 +52,9 @@ public:
 		"The sum of these multiples is 23. \n"
 		"Find the sum of all the multiples of 3 or 5 below 1000.")
 	{
+		solved = true;
+		setCorrectAnswer(233168);
+				 
 		multipliers = new int [2];
 		multipliers[0] = 3;
 		multipliers[1] = 5;
