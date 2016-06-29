@@ -175,3 +175,34 @@ bool Model::boolPropertyExists(string name)
 
 	return it == boolProperties.end();
 }
+
+
+map<int, string> Model::getAllProperties()
+{
+	return allProperties;
+}
+
+
+map<string, int> Model::getIntProperties()
+{
+	return intProperties;
+}
+
+
+map<string, long> Model::getLongProperties()
+{
+	return longProperties;
+}
+
+
+map<string, string> Model::getStringProperties()
+{
+	return stringProperties;
+}
+
+
+map<string, bool> Model::getBoolProperties()
+{
+	return boolProperties;
+}
+

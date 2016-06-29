@@ -48,5 +48,11 @@ public:
 	virtual ~Model();
 
 
+	map<int, string> getAllProperties();
+
+	map<string, int> getIntProperties();
+	map<string, long> getLongProperties();
+	map<string, string> getStringProperties();
+	map<string, bool> getBoolProperties();
 };
 #endif // Model_h__
