@@ -1,18 +1,18 @@
-#ifndef IJsonService_cpp__
-#define IJsonService_cpp__
+#ifndef ISerializationService_h__
+#define ISerializationService_h__
 
 #include <iostream>
 #include <string>
 
-#include "../../data/Model.h"
+#include "../data/Model.h"
 
 using namespace std;
 
-class IJsonService
+class ISerializationService
 {
 public:
-	IJsonService() { };
-	virtual ~IJsonService() { };
+	ISerializationService() { };
+	virtual ~ISerializationService() { };
 
 	virtual string serializeModel(Model *model) = 0;
 	virtual void deserializeModel(Model *model, string raw) = 0;
@@ -23,4 +23,4 @@ public:
 	virtual void test() = 0;
 };
 
-#endif // IJsonService_cpp__
+#endif // ISerializationService_h__

@@ -1,10 +1,11 @@
 #include <iostream>
+
 #include "MainMenuHeader.cpp"
 #include "../shared/Container.h"
 #include "../log/LogServiceContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/TcpContainer.cpp"
-#include "../serialization/json/JsonContainer.cpp"
+#include "../serialization/SerializationContainer.cpp"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ protected:
 		this->addMenuItem(0, new LogServiceContainer);
 		this->addMenuItem(1, new EulerProblemContainer);
 		this->addMenuItem(2, new TcpContainer);
-		this->addMenuItem(3, new JsonContainer);
+		this->addMenuItem(3, new SerializationContainer);
 	}
 
 	virtual string getHeader()

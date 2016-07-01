@@ -1,13 +1,14 @@
 #include <iostream>
-#include "IJsonService.h"
+
 #include "Jzon.h"
+#include "../ISerializationService.h"
 
 using namespace std;
 
-class JzonService : public IJsonService
+class JzonService : public ISerializationService
 {
 public:
-	JzonService() : IJsonService()
+	JzonService() : ISerializationService()
 	{
 
 	}

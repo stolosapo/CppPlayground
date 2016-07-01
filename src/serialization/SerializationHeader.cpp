@@ -1,18 +1,19 @@
 #include <iostream>
 #include <string>
-#include "../../utils/FigletHeader.h"
+
+#include "../utils/FigletHeader.h"
 
 using namespace std;
 
-class JsonHeader : public FigletHeader
+class SerializationHeader : public FigletHeader
 {
 public:
-	JsonHeader() : FigletHeader()
+	SerializationHeader() : FigletHeader()
 	{
 
 	}
 
-	virtual ~JsonHeader()
+	virtual ~SerializationHeader()
 	{
 
 	}
