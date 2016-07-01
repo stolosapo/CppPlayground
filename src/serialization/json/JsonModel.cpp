@@ -35,10 +35,21 @@ public:
 		return getStringProperty("description");
 	}
 
+	double getValue()
+	{
+		return getDoubleProperty("value");
+	}
+
 	bool getEnable()
 	{
 		return getBoolProperty("enable");
 	}
+
+	JsonModel* getChild()
+	{
+		return (JsonModel*) getObjectProperty("child");
+	}
+
 
 
 	void setId(long id)
@@ -56,9 +67,19 @@ public:
 		setStringProperty("description", description);
 	}
 
+	void setValue(double value)
+	{
+		setDoubleProperty("value", value);
+	}
+
 	void setEnable(bool enable)
 	{
 		setBoolProperty("enable", enable);
+	}
+
+	void setChild(JsonModel *child)
+	{
+		setObjectProperty("child", child);
 	}
 
 
@@ -68,7 +89,9 @@ protected:
 		registerPropertyName(1, "id", Property::LONG);
 		registerPropertyName(2, "name", Property::STRING);
 		registerPropertyName(3, "description", Property::STRING);
-		registerPropertyName(4, "enable", Property::BOOL);
+		registerPropertyName(4, "value", Property::DOUBLE);
+		registerPropertyName(5, "enable", Property::BOOL);
+		registerPropertyName(6, "child", Property::OBJECT);
 	}
 
 };

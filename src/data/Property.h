@@ -19,7 +19,9 @@ public:
 
 		STRING = 3,
 
-		BOOL = 4
+		BOOL = 4,
+
+		OBJECT = 5		
 	};
 
 	Property(string name, Type type);

@@ -26,7 +26,7 @@ private:
 				break;
 
 			case Property::DOUBLE: 
-				node->add(name, 0.0);
+				node->add(name, model->getDoubleProperty(name));
 				break;
 
 			case Property::STRING: 
@@ -35,6 +35,18 @@ private:
 
 			case Property::BOOL: 
 				node->add(name, model->getBoolProperty(name));
+				break;
+
+			case Property::OBJECT:
+				Jzon::Node subNode = Jzon::object();
+
+				Model *subObject = model->getObjectProperty(name);
+				if (subObject != NULL)
+				{
+					serializeModelToNode(model->getObjectProperty(name), &subNode);
+				}
+
+				node->add(name, subNode);
 				break;
 		}
 	}
@@ -154,17 +166,27 @@ public:
 
 	void testModels()
 	{
-		JsonModel *model = new JsonModel;
+		JsonModel *child = new JsonModel;
+		child->setId(2);
+		child->setName("Test child");
+		child->setDescription("This is a test child");
+		child->setValue(111.999);
+		child->setEnable(false);
 
+		JsonModel *model = new JsonModel;
 		model->setId(1);
 		model->setName("Test Model");
 		model->setDescription("This is a test model");
+		model->setValue(876.987);
 		model->setEnable(true);
+		model->setChild(child);
 
 		cout << "Id: " << model->getId() << endl;
 		cout << "Name: " << model->getName() << endl;
 		cout << "Description: " << model->getDescription() << endl;
+		cout << "Value: " << model->getValue() << endl;
 		cout << "Enable: " << model->getEnable() << endl;
+		cout << "Child: " << model->getChild() << endl;
 		cout << endl << endl;
 
 		cout << serializeModel(model) << endl << endl;
