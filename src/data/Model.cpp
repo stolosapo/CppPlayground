@@ -177,10 +177,12 @@ bool Model::boolPropertyExists(string name)
 }
 
 
+
 map<int, string> Model::getAllProperties()
 {
 	return allProperties;
 }
+
 
 
 map<string, int> Model::getIntProperties()
@@ -189,16 +191,19 @@ map<string, int> Model::getIntProperties()
 }
 
 
+
 map<string, long> Model::getLongProperties()
 {
 	return longProperties;
 }
 
 
+
 map<string, string> Model::getStringProperties()
 {
 	return stringProperties;
 }
+
 
 
 map<string, bool> Model::getBoolProperties()

@@ -4,7 +4,7 @@
 #include "../log/LogServiceContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/TcpContainer.cpp"
-#include "../json/JsonContainer.cpp"
+#include "../serialization/json/JsonContainer.cpp"
 
 using namespace std;
 

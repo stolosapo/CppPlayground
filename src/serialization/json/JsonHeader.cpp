@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../utils/FigletHeader.h"
+#include "../../utils/FigletHeader.h"
 
 using namespace std;
 

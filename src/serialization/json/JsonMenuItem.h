@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <string>
-#include "../log/ILogService.h"
-#include "../menu/MenuItem.h"
+#include "../../log/ILogService.h"
+#include "../../menu/MenuItem.h"
 
 using namespace std;
 
