@@ -16,15 +16,18 @@ Model::~Model()
 }
 
 
-void Model::registerPropertyName(int index, string name)
+void Model::registerPropertyName(int index, string name, Property::Type type)
 {
 	if (propertyNameExists(index))
 	{
 		allProperties.erase(allProperties.find(index));
 	}
 
-	allProperties[index] = name;
+	Property *prop = new Property(name, type);
+
+	allProperties[index] = prop;
 }
+
 
 
 string Model::getPropertyName(int index)
@@ -34,7 +37,9 @@ string Model::getPropertyName(int index)
 		return "";
 	}
 
-	return allProperties.find(index)->second;
+	Property *prop = allProperties.find(index)->second;
+
+	return prop->getName();
 }
 
 
@@ -130,10 +135,10 @@ void Model::setBoolProperty(string name, bool value)
 
 bool Model::propertyNameExists(int index)
 {
-	map<int, string>::iterator it;
+	map<int, Property*>::iterator it;
 	it = allProperties.find(index);
 
-	return it == allProperties.end();
+	return it != allProperties.end();
 }
 
 
@@ -143,7 +148,7 @@ bool Model::intPropertyExists(string name)
 	map<string, int>::iterator it;
 	it = intProperties.find(name);
 
-	return it == intProperties.end();
+	return it != intProperties.end();
 }
 
 
@@ -153,7 +158,7 @@ bool Model::longPropertyExists(string name)
 	map<string, long>::iterator it;
 	it = longProperties.find(name);
 
-	return it == longProperties.end();
+	return it != longProperties.end();
 }
 
 
@@ -163,7 +168,7 @@ bool Model::stringPropertyExists(string name)
 	map<string, string>::iterator it;
 	it = stringProperties.find(name);
 
-	return it == stringProperties.end();
+	return it != stringProperties.end();
 }
 
 
@@ -173,41 +178,12 @@ bool Model::boolPropertyExists(string name)
 	map<string, bool>::iterator it;
 	it = boolProperties.find(name);
 
-	return it == boolProperties.end();
+	return it != boolProperties.end();
 }
 
 
 
-map<int, string> Model::getAllProperties()
+map<int, Property*> Model::getAllProperties()
 {
 	return allProperties;
 }
-
-
-
-map<string, int> Model::getIntProperties()
-{
-	return intProperties;
-}
-
-
-
-map<string, long> Model::getLongProperties()
-{
-	return longProperties;
-}
-
-
-
-map<string, string> Model::getStringProperties()
-{
-	return stringProperties;
-}
-
-
-
-map<string, bool> Model::getBoolProperties()
-{
-	return boolProperties;
-}
-

@@ -1,12 +1,55 @@
 #include <iostream>
 
 #include "Jzon.h"
+#include "JsonModel.cpp"
+
 #include "../ISerializationService.h"
 
 using namespace std;
 
 class JzonService : public ISerializationService
 {
+private:
+	void addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
+	{
+		string name = prop->getName();
+		Property::Type type = prop->getType();
+
+		switch (type) 
+		{
+			case Property::INT:
+				node->add(name, model->getIntProperty(name));
+				break;
+
+			case Property::LONG: 
+				node->add(name, (long long) model->getLongProperty(name));
+				break;
+
+			case Property::DOUBLE: 
+				node->add(name, 0.0);
+				break;
+
+			case Property::STRING: 
+				node->add(name, model->getStringProperty(name));
+				break;
+
+			case Property::BOOL: 
+				node->add(name, model->getBoolProperty(name));
+				break;
+		}
+	}
+
+	void serializeModelToNode(Model *model, Jzon::Node *node)
+	{
+		map<int, Property*> props = model->getAllProperties();
+
+		for (map<int, Property*>::iterator it = props.begin(); it != props.end(); ++it)
+		{
+			/* Add fields */
+			addFieldToNode(node, model, it->second);
+		}
+	}
+
 public:
 	JzonService() : ISerializationService()
 	{
@@ -20,7 +63,15 @@ public:
 
 	virtual string serializeModel(Model *model)
 	{
-		return "";
+		Jzon::Node node = Jzon::object();
+
+		serializeModelToNode(model, &node);
+
+		string result = "";
+		Jzon::Writer writer;
+		writer.writeString(node, result);
+
+		return result;
 	}
 
 
@@ -31,7 +82,12 @@ public:
 
 	virtual void saveModelToFile(Model *model, const string &fileName)
 	{
+		Jzon::Node node = Jzon::object();
 
+		serializeModelToNode(model, &node);
+
+		Jzon::Writer writer;
+		writer.writeFile(node, fileName);
 	}
 
 	virtual void loadModelFromFile(Model *model, const string &fileName)
@@ -46,6 +102,10 @@ public:
 		cout << endl << endl;
 
 		testRead();
+
+		cout << endl << endl;
+
+		testModels();
 	}
 
 	void testWrite()
@@ -90,5 +150,25 @@ public:
 
 		Jzon::Writer writer;
 		writer.writeStream(node, cout);
+	}
+
+	void testModels()
+	{
+		JsonModel *model = new JsonModel;
+
+		model->setId(1);
+		model->setName("Test Model");
+		model->setDescription("This is a test model");
+		model->setEnable(true);
+
+		cout << "Id: " << model->getId() << endl;
+		cout << "Name: " << model->getName() << endl;
+		cout << "Description: " << model->getDescription() << endl;
+		cout << "Enable: " << model->getEnable() << endl;
+		cout << endl << endl;
+
+		cout << serializeModel(model) << endl << endl;
+
+		saveModelToFile(model, "JsonModel.json");
 	}
 };
