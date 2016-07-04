@@ -51,6 +51,71 @@ private:
 		}
 	}
 
+	void writeNodeToField(Jzon::Node *node, Model *model, Property *prop)
+	{
+		string name = prop->getName();
+
+		/* Check if this node exists */
+		if (node->has(name))
+		{
+			Property::Type type = prop->getType();
+
+			Jzon::Node currentNode;
+
+			switch (type)
+			{
+				case Property::INT:
+					currentNode = node->get(name);
+					if (currentNode.isValid() && currentNode.isNumber())
+					{
+						model->setIntProperty(name, currentNode.toInt());
+					}
+
+					break;
+
+				case Property::LONG:
+					currentNode = node->get(name);
+					if (currentNode.isValid() && currentNode.isNumber())
+					{
+						model->setLongProperty(name, (long) currentNode.toInt());
+					}
+					break;
+
+				case Property::DOUBLE: 
+					currentNode = node->get(name);
+					if (currentNode.isValid() && currentNode.isNumber())
+					{
+						model->setDoubleProperty(name, currentNode.toDouble());
+					}
+					break;
+
+				case Property::STRING:
+					currentNode = node->get(name);
+					if (currentNode.isValid() && currentNode.isString())
+					{
+						model->setStringProperty(name, currentNode.toString());
+					}
+					break;
+
+				case Property::BOOL:
+					currentNode = node->get(name);
+					if (currentNode.isValid() && currentNode.isBool())
+					{
+						model->setBoolProperty(name, currentNode.toBool());
+					}
+					break;
+
+				case Property::OBJECT:
+					currentNode = node->get(name);
+					if (currentNode.isValid() && currentNode.isObject())
+					{
+
+					}
+					break;
+			}
+		}
+	}
+
 	void serializeModelToNode(Model *model, Jzon::Node *node)
 	{
 		map<int, Property*> props = model->getAllProperties();
@@ -87,9 +152,19 @@ public:
 	}
 
 
-	virtual void deserializeModel(Model *model, string raw)
+	virtual void deserializeModel(Model *model, const string &raw)
 	{
-		
+		map<int, Property*> props = model->getAllProperties();
+
+		Jzon::Parser parser;
+
+		Jzon::Node node = parser.parseString(raw);
+
+		for (map<int, Property*>::iterator it = props.begin(); it != props.end(); ++it)
+		{
+			/* Write each fields */
+			writeNodeToField(&node, model, it->second);
+		}
 	}
 
 	virtual void saveModelToFile(Model *model, const string &fileName)
@@ -118,6 +193,10 @@ public:
 		cout << endl << endl;
 
 		testModels();
+
+		cout << endl << endl;
+
+		testReadModels();
 	}
 
 	void testWrite()
@@ -192,5 +271,16 @@ public:
 		cout << serializeModel(model) << endl << endl;
 
 		saveModelToFile(model, "JsonModel.json");
+	}
+
+	void testReadModels()
+	{
+		const string json = "{\"id\":1,\"name\":\"Test Model\",\"description\":\"This is a test model\",\"value\":876.987,\"enable\":true,\"child\":{\"id\":2,\"name\":\"Test child\",\"description\":\"This is a test child\",\"value\":111.999,\"enable\":false,\"child\":{}}}";
+
+		JsonModel *model = new JsonModel;
+
+		deserializeModel(model, json);
+
+		cout << serializeModel(model) << endl << endl;
 	}
 };

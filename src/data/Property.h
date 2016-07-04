@@ -21,7 +21,19 @@ public:
 
 		BOOL = 4,
 
-		OBJECT = 5		
+		OBJECT = 5
+
+		// COLLECTION_INT = 6,
+
+		// COLLECTION_LONG = 7,
+
+		// COLLECTION_DOUBLE = 8,
+
+		// COLLECTION_STRING = 9,
+
+		// COLLECTION_BOOL = 8,
+
+		// COLLECTION_OBJECT = 9
 	};
 
 	Property(string name, Type type);

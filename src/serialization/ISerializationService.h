@@ -15,7 +15,7 @@ public:
 	virtual ~ISerializationService() { };
 
 	virtual string serializeModel(Model *model) = 0;
-	virtual void deserializeModel(Model *model, string raw) = 0;
+	virtual void deserializeModel(Model *model, const string &raw) = 0;
 
 	virtual void saveModelToFile(Model *model, const string &fileName) = 0;
 	virtual void loadModelFromFile(Model *model, const string &fileName) = 0;
