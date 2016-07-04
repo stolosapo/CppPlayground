@@ -109,7 +109,11 @@ private:
 					currentNode = node->get(name);
 					if (currentNode.isValid() && currentNode.isObject())
 					{
-
+						Model *child = model->invokePropertyFactory(name);
+						if (child != NULL)
+						{
+							deserializeNodeToModel(&currentNode, child);
+						}
 					}
 					break;
 			}
@@ -124,6 +128,17 @@ private:
 		{
 			/* Add fields */
 			addFieldToNode(node, model, it->second);
+		}
+	}
+
+	void deserializeNodeToModel(Jzon::Node *node, Model *model)
+	{
+		map<int, Property*> props = model->getAllProperties();
+
+		for (map<int, Property*>::iterator it = props.begin(); it != props.end(); ++it)
+		{
+			/* Write each fields */
+			writeNodeToField(node, model, it->second);
 		}
 	}
 
@@ -154,17 +169,10 @@ public:
 
 	virtual void deserializeModel(Model *model, const string &raw)
 	{
-		map<int, Property*> props = model->getAllProperties();
-
 		Jzon::Parser parser;
-
 		Jzon::Node node = parser.parseString(raw);
 
-		for (map<int, Property*>::iterator it = props.begin(); it != props.end(); ++it)
-		{
-			/* Write each fields */
-			writeNodeToField(&node, model, it->second);
-		}
+		deserializeNodeToModel(&node, model);
 	}
 
 	virtual void saveModelToFile(Model *model, const string &fileName)

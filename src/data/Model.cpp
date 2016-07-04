@@ -43,6 +43,18 @@ void Model::registerPropertyName(int index, string name, Property::Type type)
 }
 
 
+void Model::registerPropertyName(int index, string name, Property::Type type, staticFactoryMethod factoryMethod)
+{
+	registerPropertyName(index, name, type);
+
+	if (factoryMethodExists(name))
+	{
+		propertyFactories.erase(propertyFactories.find(name));
+	}
+
+	propertyFactories[name] = factoryMethod;
+}
+
 
 string Model::getPropertyName(int index)
 {
@@ -199,6 +211,15 @@ bool Model::propertyNameExists(int index)
 }
 
 
+bool Model::factoryMethodExists(string name)
+{
+	map<string, staticFactoryMethod>::iterator it;
+	it = propertyFactories.find(name);
+
+	return it != propertyFactories.end();
+}
+
+
 bool Model::intPropertyExists(string name)
 {
 	map<string, int>::iterator it;
@@ -256,4 +277,18 @@ bool Model::objectPropertyExists(string name)
 map<int, Property*> Model::getAllProperties()
 {
 	return allProperties;
+}
+
+
+Model* Model::invokePropertyFactory(string name)
+{
+	if (!factoryMethodExists(name))
+	{
+		return NULL;
+	}
+
+	map<string, staticFactoryMethod>::iterator it;
+	it = propertyFactories.find(name);
+
+	return (*it->second)();
 }

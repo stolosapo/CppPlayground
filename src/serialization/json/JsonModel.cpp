@@ -82,6 +82,11 @@ public:
 		setObjectProperty("child", child);
 	}
 
+	static Model* factory()
+	{
+		return (Model*) new JsonModel;
+	}
+
 
 protected:
 	virtual void registerProperties()
@@ -91,7 +96,7 @@ protected:
 		registerPropertyName(3, "description", Property::STRING);
 		registerPropertyName(4, "value", Property::DOUBLE);
 		registerPropertyName(5, "enable", Property::BOOL);
-		registerPropertyName(6, "child", Property::OBJECT);
+		registerPropertyName(6, "child", Property::OBJECT, &factory);
 	}
 
 };

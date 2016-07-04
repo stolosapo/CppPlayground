@@ -4,16 +4,19 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <vector>
 
 #include "Property.h"
+#include "Event.h"
 
 using namespace std;
 
 class Model
 {
 private:
+	typedef Model* (*staticFactoryMethod)();
+
 	map<int, Property*> allProperties;
+	map<string, staticFactoryMethod> propertyFactories;
 
 	map<string, int> intProperties;
 	map<string, long> longProperties;
@@ -26,10 +29,13 @@ private:
 protected:
 	virtual void registerProperties() = 0;	
 	void registerPropertyName(int index, string name, Property::Type type);
+	void registerPropertyName(int index, string name, Property::Type type, staticFactoryMethod factoryMethod);
 
 	string getPropertyName(int index);
 
 	bool propertyNameExists(int index);
+	bool factoryMethodExists(string name);
+
 	bool intPropertyExists(string name);
 	bool longPropertyExists(string name);
 	bool doublePropertyExists(string name);
@@ -43,6 +49,7 @@ public:
 	virtual ~Model();
 
 	map<int, Property*> getAllProperties();
+	Model* invokePropertyFactory(string name);
 
 	int getIntProperty(string name);
 	long getLongProperty(string name);
