@@ -38,15 +38,19 @@ private:
 				break;
 
 			case Property::OBJECT:
-				Jzon::Node subNode = Jzon::object();
 
 				Model *subObject = model->getObjectProperty(name);
 				if (subObject != NULL)
 				{
+					Jzon::Node subNode = Jzon::object();
 					serializeModelToNode(model->getObjectProperty(name), &subNode);
+					node->add(name, subNode);
 				}
-
-				node->add(name, subNode);
+				else
+				{
+					node->add(name, Jzon::null());
+				}
+				
 				break;
 		}
 	}
@@ -56,67 +60,71 @@ private:
 		string name = prop->getName();
 
 		/* Check if this node exists */
-		if (node->has(name))
+		if (!node->has(name))
 		{
-			Property::Type type = prop->getType();
+			return;
+		}
 
-			Jzon::Node currentNode;
+		Property::Type type = prop->getType();
 
-			switch (type)
-			{
-				case Property::INT:
-					currentNode = node->get(name);
-					if (currentNode.isValid() && currentNode.isNumber())
+		Jzon::Node currentNode;
+		currentNode = node->get(name);
+
+		/* Check if current node is valid */
+		if (!currentNode.isValid())
+		{
+			return;
+		}
+
+		switch (type)
+		{
+			case Property::INT:
+				if (currentNode.isNumber())
+				{
+					model->setIntProperty(name, currentNode.toInt());
+				}
+				break;
+
+			case Property::LONG:
+				if (currentNode.isNumber())
+				{
+					model->setLongProperty(name, (long) currentNode.toInt());
+				}
+				break;
+
+			case Property::DOUBLE: 
+				if (currentNode.isNumber())
+				{
+					model->setDoubleProperty(name, currentNode.toDouble());
+				}
+				break;
+
+			case Property::STRING:
+				if (currentNode.isString())
+				{
+					model->setStringProperty(name, currentNode.toString());
+				}
+				break;
+
+			case Property::BOOL:
+				if (currentNode.isBool())
+				{
+					model->setBoolProperty(name, currentNode.toBool());
+				}
+				break;
+
+			case Property::OBJECT:
+				if (currentNode.isObject())
+				{
+					Model *child = model->invokePropertyFactory(name);
+					if (child != NULL)
 					{
-						model->setIntProperty(name, currentNode.toInt());
+						deserializeNodeToModel(&currentNode, child);
 					}
 
-					break;
-
-				case Property::LONG:
-					currentNode = node->get(name);
-					if (currentNode.isValid() && currentNode.isNumber())
-					{
-						model->setLongProperty(name, (long) currentNode.toInt());
-					}
-					break;
-
-				case Property::DOUBLE: 
-					currentNode = node->get(name);
-					if (currentNode.isValid() && currentNode.isNumber())
-					{
-						model->setDoubleProperty(name, currentNode.toDouble());
-					}
-					break;
-
-				case Property::STRING:
-					currentNode = node->get(name);
-					if (currentNode.isValid() && currentNode.isString())
-					{
-						model->setStringProperty(name, currentNode.toString());
-					}
-					break;
-
-				case Property::BOOL:
-					currentNode = node->get(name);
-					if (currentNode.isValid() && currentNode.isBool())
-					{
-						model->setBoolProperty(name, currentNode.toBool());
-					}
-					break;
-
-				case Property::OBJECT:
-					currentNode = node->get(name);
-					if (currentNode.isValid() && currentNode.isObject())
-					{
-						Model *child = model->invokePropertyFactory(name);
-						if (child != NULL)
-						{
-							deserializeNodeToModel(&currentNode, child);
-						}
-					}
-					break;
-			}
+					model->setObjectProperty(name, child);
+				}
+				break;
 		}
 	}
 
@@ -172,7 +180,16 @@ public:
 		Jzon::Parser parser;
 		Jzon::Node node = parser.parseString(raw);
 
-		deserializeNodeToModel(&node, model);
+		string error = parser.getError();
+
+		if (error == "")
+		{
+			deserializeNodeToModel(&node, model);
+		}
+		else
+		{
+			cout << error << endl;
+		}		
 	}
 
 	virtual void saveModelToFile(Model *model, const string &fileName)
@@ -187,7 +204,10 @@ public:
 
 	virtual void loadModelFromFile(Model *model, const string &fileName)
 	{
-		
+		Jzon::Parser parser;
+		Jzon::Node node = parser.parseFile(fileName);
+
+		deserializeNodeToModel(&node, model);
 	}
 
 	void test()
@@ -283,12 +303,15 @@ public:
 
 	void testReadModels()
 	{
-		const string json = "{\"id\":1,\"name\":\"Test Model\",\"description\":\"This is a test model\",\"value\":876.987,\"enable\":true,\"child\":{\"id\":2,\"name\":\"Test child\",\"description\":\"This is a test child\",\"value\":111.999,\"enable\":false,\"child\":{}}}";
+		const string json = "{\"id\":1,\"name\":\"Test Model\",\"description\":\"This is a test model\",\"value\":876.987,\"enable\":true,\"child\":{\"id\":2,\"name\":\"Test child\",\"description\":\"This is a test child\",\"value\":111.999,\"enable\":false,\"child\":null}}";
 
 		JsonModel *model = new JsonModel;
-
 		deserializeModel(model, json);
+		cout << serializeModel(model) << endl << endl;
 
+
+		model = new JsonModel;
+		loadModelFromFile(model, "JsonModel.json");
 		cout << serializeModel(model) << endl << endl;
 	}
 };
