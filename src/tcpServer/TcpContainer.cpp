@@ -10,7 +10,7 @@ class TcpContainer : public Container
 {
 public:
 	TcpContainer() : Container(
-		3, 
+		4, 
 		"Tcp Client/Server",
 		"Tcp Client/Server",
 		2)
