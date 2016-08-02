@@ -1,9 +1,10 @@
 #include "Model.h"
 
-Model::Model()
+Model::Model(staticFactoryMethod staticFactory)
 {
-
+	this->staticFactory = staticFactory;
 }
+
 
 Model::~Model()
 {
@@ -27,6 +28,8 @@ Model::~Model()
 	}
 
 	objectProperties.clear();
+
+	staticFactory = NULL;
 }
 
 
@@ -291,4 +294,15 @@ Model* Model::invokePropertyFactory(string name)
 	it = propertyFactories.find(name);
 
 	return (*it->second)();
+}
+
+
+Model* Model::createNew()
+{
+	if (this->staticFactory == NULL)
+	{
+		return NULL;
+	}
+
+	return (staticFactory)();
 }

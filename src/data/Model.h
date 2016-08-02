@@ -13,10 +13,7 @@ using namespace std;
 class Model
 {
 private:
-	typedef Model* (*staticFactoryMethod)();
-
 	map<int, Property*> allProperties;
-	map<string, staticFactoryMethod> propertyFactories;
 
 	map<string, int> intProperties;
 	map<string, long> longProperties;
@@ -27,6 +24,12 @@ private:
 	
 
 protected:
+	typedef Model* (*staticFactoryMethod)();
+
+	staticFactoryMethod staticFactory;
+	map<string, staticFactoryMethod> propertyFactories;
+	
+
 	virtual void registerProperties() = 0;	
 	void registerPropertyName(int index, string name, Property::Type type);
 	void registerPropertyName(int index, string name, Property::Type type, staticFactoryMethod factoryMethod);
@@ -45,8 +48,10 @@ protected:
 
 
 public:
-	Model();
+	Model(staticFactoryMethod staticFactory);
 	virtual ~Model();
+
+	Model* createNew();
 
 	map<int, Property*> getAllProperties();
 	Model* invokePropertyFactory(string name);

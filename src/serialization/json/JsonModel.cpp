@@ -9,7 +9,7 @@ using namespace std;
 class JsonModel : public Model
 {
 public:
-	JsonModel() : Model()
+	JsonModel() : Model(&factory)
 	{
 		registerProperties();
 	}

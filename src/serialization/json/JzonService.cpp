@@ -139,6 +139,38 @@ private:
 		}
 	}
 
+	Jzon::Node serializeModelToNode(Model *model)
+	{
+		Jzon::Node node = Jzon::object();
+
+		serializeModelToNode(model, &node);
+
+		return node;
+	}
+
+	Jzon::Node serializeModelsToArrayNode(Model **models, int size)
+	{
+		if (size <= 0)
+		{
+			return Jzon::null();
+		}
+
+		Jzon::Node array_node = Jzon::array();
+
+		for (int i = 0; i < size; ++i)
+		{
+			Model *current = models[i];
+
+			Jzon::Node currentNode = Jzon::object();
+
+			serializeModelToNode(current, &currentNode);
+
+			array_node.add(currentNode);
+		}
+
+		return array_node;
+	}
+
 	void deserializeNodeToModel(Jzon::Node *node, Model *model)
 	{
 		map<int, Property*> props = model->getAllProperties();
@@ -148,6 +180,26 @@ private:
 			/* Write each fields */
 			writeNodeToField(node, model, it->second);
 		}
+	}
+
+	Model** deserializeArrayNodeToModels(Jzon::Node *array_node, int &size, Model *model)
+	{
+		size = array_node->getCount();
+
+		Model **array = new Model* [size];
+
+		for (int i = 0; i < size; ++i)
+		{
+			Jzon::Node node = array_node->get(i);
+
+			Model *newModel = model->createNew();
+
+			deserializeNodeToModel(&node, newModel);
+
+			array[i] = newModel;
+		}
+
+		return array;
 	}
 
 public:
@@ -163,13 +215,23 @@ public:
 
 	virtual string serializeModel(Model *model)
 	{
-		Jzon::Node node = Jzon::object();
-
-		serializeModelToNode(model, &node);
+		Jzon::Node node = serializeModelToNode(model);
 
 		string result = "";
 		Jzon::Writer writer;
 		writer.writeString(node, result);
+
+		return result;
+	}
+
+
+	virtual string serializeModels(Model **models, int size)
+	{
+		Jzon::Node array_node = serializeModelsToArrayNode(models, size);
+
+		string result = "";
+		Jzon::Writer writer;
+		writer.writeString(array_node, result);
 
 		return result;
 	}
@@ -182,24 +244,48 @@ public:
 
 		string error = parser.getError();
 
-		if (error == "")
-		{
-			deserializeNodeToModel(&node, model);
-		}
-		else
+		if (error != "")
 		{
 			cout << error << endl;
-		}		
+			return;
+		}
+		
+		deserializeNodeToModel(&node, model);
+	}
+
+	virtual Model** deserializeModels(Model *model, int &size, const string &raw)
+	{
+		Jzon::Parser parser;
+		Jzon::Node array_node = parser.parseString(raw);
+
+		string error = parser.getError();
+
+		if (error != "")
+		{
+			cout << error << endl;
+			return NULL;
+		}
+		
+		Model **array = NULL;
+		array = deserializeArrayNodeToModels(&array_node, size, model);
+
+		return array;	
 	}
 
 	virtual void saveModelToFile(Model *model, const string &fileName)
 	{
-		Jzon::Node node = Jzon::object();
-
-		serializeModelToNode(model, &node);
+		Jzon::Node node = serializeModelToNode(model);
 
 		Jzon::Writer writer;
 		writer.writeFile(node, fileName);
+	}
+
+	virtual void saveModelsToFile(Model **models, int size, const string &fileName)
+	{
+		Jzon::Node array_node = serializeModelsToArrayNode(models, size);
+
+		Jzon::Writer writer;
+		writer.writeFile(array_node, fileName);
 	}
 
 	virtual void loadModelFromFile(Model *model, const string &fileName)
@@ -208,6 +294,25 @@ public:
 		Jzon::Node node = parser.parseFile(fileName);
 
 		deserializeNodeToModel(&node, model);
+	}
+
+	virtual Model** loadModelsFromFile(Model *model, int &size, const string &fileName)
+	{
+		Jzon::Parser parser;
+		Jzon::Node array_node = parser.parseFile(fileName);
+
+		string error = parser.getError();
+
+		if (error != "")
+		{
+			cout << error << endl;
+			return NULL;
+		}
+		
+		Model **array = NULL;
+		array = deserializeArrayNodeToModels(&array_node, size, model);
+
+		return array;	
 	}
 
 	void test()
@@ -225,6 +330,14 @@ public:
 		cout << endl << endl;
 
 		testReadModels();
+
+		cout << endl << endl;
+
+		testWriteArrayToFile();
+
+		cout << endl << endl;
+
+		testReadArrayModels();
 	}
 
 	void testWrite()
@@ -259,6 +372,50 @@ public:
 
 		Jzon::Writer writer;
 		writer.writeStream(node, cout);
+	}
+
+	void testWriteArrayToFile()
+	{
+		Model **array = new Model* [2];
+
+		JsonModel *child1 = new JsonModel;
+		child1->setId(2);
+		child1->setName("Test child1");
+		child1->setDescription("This is a test child1");
+		child1->setValue(111.999);
+		child1->setEnable(false);
+
+		JsonModel *model1 = new JsonModel;
+		model1->setId(1);
+		model1->setName("Test Model1");
+		model1->setDescription("This is a test model1");
+		model1->setValue(876.987);
+		model1->setEnable(true);
+		model1->setChild(child1);
+
+
+
+		JsonModel *child2 = new JsonModel;
+		child2->setId(2);
+		child2->setName("Test child2");
+		child2->setDescription("This is a test child2");
+		child2->setValue(111.999);
+		child2->setEnable(false);
+
+		JsonModel *model2 = new JsonModel;
+		model2->setId(2);
+		model2->setName("Test Model2");
+		model2->setDescription("This is a test model2");
+		model2->setValue(876.987);
+		model2->setEnable(true);
+		model2->setChild(child2);
+
+		array[0] = model1;
+		array[1] = model2;
+
+		cout << serializeModels(array, 2) << endl << endl;
+
+		saveModelsToFile(array, 2, "JsonArrayModel.json");
 	}
 
 	void testRead()
@@ -313,5 +470,23 @@ public:
 		model = new JsonModel;
 		loadModelFromFile(model, "JsonModel.json");
 		cout << serializeModel(model) << endl << endl;
+	}
+
+	void testReadArrayModels()
+	{
+		const string json = "[{\"id\":1,\"name\":\"Test Model1\",\"description\":\"This is a test model1\",\"value\":876.987,\"enable\":true,\"child\":{\"id\":2,\"name\":\"Test child1\",\"description\":\"This is a test child1\",\"value\":111.999,\"enable\":false,\"child\":null}},{\"id\":2,\"name\":\"Test Model2\",\"description\":\"This is a test model2\",\"value\":876.987,\"enable\":true,\"child\":{\"id\":2,\"name\":\"Test child2\",\"description\":\"This is a test child2\",\"value\":111.999,\"enable\":false,\"child\":null}}]";
+
+		JsonModel *model = new JsonModel;
+
+		Model **array;
+		int size = 0;
+
+		array = deserializeModels(model, size, json);
+		cout << serializeModels(array, size) << endl << endl;
+
+
+		model = new JsonModel;
+		loadModelsFromFile(model, size, "JsonArrayModel.json");
+		cout << serializeModels(array, size) << endl << endl;
 	}
 };
