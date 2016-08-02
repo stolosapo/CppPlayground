@@ -17,7 +17,7 @@ protected:
 
 
 public:
-	EntityModel();
+	EntityModel(staticFactoryMethod staticFactory);
 	virtual ~EntityModel();
 
 	string getTableName();

@@ -1,6 +1,6 @@
 #include "EntityModel.h"
 
-EntityModel::EntityModel() : Model()
+EntityModel::EntityModel(staticFactoryMethod staticFactory) : Model(staticFactory)
 {
 
 }

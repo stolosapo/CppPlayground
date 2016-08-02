@@ -1,29 +1,61 @@
 #include "Model.h"
 
-Model::Model()
+Model::Model(staticFactoryMethod staticFactory)
 {
-
+	this->staticFactory = staticFactory;
 }
+
 
 Model::~Model()
 {
+	for (map<int, Property*>::iterator it = allProperties.begin(); it != allProperties.end(); ++it)
+	{
+		delete it->second;
+	}
+
 	allProperties.clear();
 
 	intProperties.clear();
 	longProperties.clear();
+	doubleProperties.clear();
 	stringProperties.clear();
 	boolProperties.clear();
+
+
+	for (map<string, Model*>::iterator it = objectProperties.begin(); it != objectProperties.end(); ++it)
+	{
+		delete it->second;
+	}
+
+	objectProperties.clear();
+
+	staticFactory = NULL;
 }
 
 
-void Model::registerPropertyName(int index, string name)
+void Model::registerPropertyName(int index, string name, Property::Type type)
 {
 	if (propertyNameExists(index))
 	{
 		allProperties.erase(allProperties.find(index));
 	}
 
-	allProperties[index] = name;
+	Property *prop = new Property(name, type);
+
+	allProperties[index] = prop;
+}
+
+
+void Model::registerPropertyName(int index, string name, Property::Type type, staticFactoryMethod factoryMethod)
+{
+	registerPropertyName(index, name, type);
+
+	if (factoryMethodExists(name))
+	{
+		propertyFactories.erase(propertyFactories.find(name));
+	}
+
+	propertyFactories[name] = factoryMethod;
 }
 
 
@@ -34,7 +66,9 @@ string Model::getPropertyName(int index)
 		return "";
 	}
 
-	return allProperties.find(index)->second;
+	Property *prop = allProperties.find(index)->second;
+
+	return prop->getName();
 }
 
 
@@ -61,6 +95,17 @@ long Model::getLongProperty(string name)
 }
 
 
+double Model::getDoubleProperty(string name)
+{
+	if (!doublePropertyExists(name))
+	{
+		return 0.0;
+	}
+
+	return doubleProperties.find(name)->second;
+}
+
+
 string Model::getStringProperty(string name)
 {
 	if (!stringPropertyExists(name))
@@ -80,6 +125,17 @@ bool Model::getBoolProperty(string name)
 	}
 
 	return boolProperties.find(name)->second;
+}
+
+
+Model* Model::getObjectProperty(string name)
+{
+	if (!objectPropertyExists(name))
+	{
+		return NULL;
+	}
+
+	return objectProperties.find(name)->second;
 }
 
 
@@ -105,6 +161,17 @@ void Model::setLongProperty(string name, long value)
 }
 
 
+void Model::setDoubleProperty(string name, double value)
+{
+	if (doublePropertyExists(name))
+	{
+		doubleProperties.erase(doubleProperties.find(name));
+	}
+
+	doubleProperties[name] = value;
+}
+
+
 void Model::setStringProperty(string name, string value)
 {
 	if (stringPropertyExists(name))
@@ -127,15 +194,33 @@ void Model::setBoolProperty(string name, bool value)
 }
 
 
+void Model::setObjectProperty(string name, Model *value)
+{
+	if (objectPropertyExists(name))
+	{
+		objectProperties.erase(objectProperties.find(name));
+	}
+
+	objectProperties[name] = value;
+}
+
 
 bool Model::propertyNameExists(int index)
 {
-	map<int, string>::iterator it;
+	map<int, Property*>::iterator it;
 	it = allProperties.find(index);
 
-	return it == allProperties.end();
+	return it != allProperties.end();
 }
 
+
+bool Model::factoryMethodExists(string name)
+{
+	map<string, staticFactoryMethod>::iterator it;
+	it = propertyFactories.find(name);
+
+	return it != propertyFactories.end();
+}
 
 
 bool Model::intPropertyExists(string name)
@@ -143,9 +228,8 @@ bool Model::intPropertyExists(string name)
 	map<string, int>::iterator it;
 	it = intProperties.find(name);
 
-	return it == intProperties.end();
+	return it != intProperties.end();
 }
-
 
 
 bool Model::longPropertyExists(string name)
@@ -153,9 +237,17 @@ bool Model::longPropertyExists(string name)
 	map<string, long>::iterator it;
 	it = longProperties.find(name);
 
-	return it == longProperties.end();
+	return it != longProperties.end();
 }
 
+
+bool Model::doublePropertyExists(string name)
+{
+	map<string, double>::iterator it;
+	it = doubleProperties.find(name);
+
+	return it != doubleProperties.end();
+}
 
 
 bool Model::stringPropertyExists(string name)
@@ -163,9 +255,8 @@ bool Model::stringPropertyExists(string name)
 	map<string, string>::iterator it;
 	it = stringProperties.find(name);
 
-	return it == stringProperties.end();
+	return it != stringProperties.end();
 }
-
 
 
 bool Model::boolPropertyExists(string name)
@@ -173,7 +264,45 @@ bool Model::boolPropertyExists(string name)
 	map<string, bool>::iterator it;
 	it = boolProperties.find(name);
 
-	return it == boolProperties.end();
+	return it != boolProperties.end();
 }
 
 
+bool Model::objectPropertyExists(string name)
+{
+	map<string, Model*>::iterator it;
+	it = objectProperties.find(name);
+
+	return it != objectProperties.end();
+}
+
+
+map<int, Property*> Model::getAllProperties()
+{
+	return allProperties;
+}
+
+
+Model* Model::invokePropertyFactory(string name)
+{
+	if (!factoryMethodExists(name))
+	{
+		return NULL;
+	}
+
+	map<string, staticFactoryMethod>::iterator it;
+	it = propertyFactories.find(name);
+
+	return (*it->second)();
+}
+
+
+Model* Model::createNew()
+{
+	if (this->staticFactory == NULL)
+	{
+		return NULL;
+	}
+
+	return (staticFactory)();
+}
