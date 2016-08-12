@@ -11,7 +11,7 @@ class KubeContainer : public Container
 {
 public:
     KubeContainer() : Container(
-        4, 
+        6, 
         "The Kube Solver",
         "The Kube Solver",
         2)
