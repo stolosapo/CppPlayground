@@ -20,6 +20,10 @@ private:
 	char** values;
 	string executableName;
 
+	bool is_help;
+	bool is_idPath;
+	char** id_path;
+
 public:
 	ArgParser(int argc, char* argv[]);
 	virtual ~ArgParser();
