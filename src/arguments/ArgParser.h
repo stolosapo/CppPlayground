@@ -9,6 +9,13 @@ using namespace std;
 class ArgParser
 {
 private:
+	static const char* COMMAND_PREFIX;
+	
+	static const char* HELP;
+	static const char* ID_PATH;
+
+	static const char* const COMMANDS[];
+
 	int count;
 	char** values;
 	string executableName;
@@ -22,6 +29,10 @@ public:
 	void parse();
 	void printArgs();
 	void printParsed();
+
+	bool isHelp();
+	bool isIdPath();
+	char** getIdPath();
 	
 };
 

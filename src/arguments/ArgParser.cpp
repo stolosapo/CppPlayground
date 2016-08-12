@@ -3,6 +3,17 @@
 using namespace std;
 
 
+const char* ArgParser::COMMAND_PREFIX = "--";
+
+const char* ArgParser::HELP = "help";
+const char* ArgParser::ID_PATH = "id-path";
+
+const char* const ArgParser::COMMANDS[] = {
+	ArgParser::HELP,
+	ArgParser::ID_PATH
+};
+
+
 ArgParser::ArgParser(int argc, char* argv[])
 {
 	this->count = argc;
@@ -12,7 +23,12 @@ ArgParser::ArgParser(int argc, char* argv[])
 
 ArgParser::~ArgParser()
 {
+	for (int i = 0; i < count; ++i)
+	{
+		delete values[i];
+	}
 
+	delete[] values;
 }
 
 
@@ -24,9 +40,21 @@ string ArgParser::getExecutableName()
 
 void ArgParser::parse()
 {
-	if (count > 0)
+	if (count == 0)
 	{
-		executableName = values[0];
+		return;
+	}
+
+	executableName = values[0];
+
+	if (count <= 1)
+	{
+		return;	
+	}
+
+	for (int i = 1; i < count; ++i)
+	{
+		
 	}
 }
 
