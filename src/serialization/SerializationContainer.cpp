@@ -12,7 +12,7 @@ class SerializationContainer : public Container
 {
 public:
 	SerializationContainer() : Container(
-		5, 
+		4, 
 		"Serialization Parser",
 		"Serialization Parser",
 		1)

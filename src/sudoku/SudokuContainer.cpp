@@ -8,7 +8,7 @@ class SudokuContainer : public Container
 {
 public:
 	SudokuContainer() : Container(
-		3, 
+		6, 
 		"Sudoku Problems",
 		"Sudoku Problems",
 		1)
