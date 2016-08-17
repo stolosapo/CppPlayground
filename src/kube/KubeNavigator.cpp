@@ -1,4 +1,7 @@
+#include <iostream>
 #include "KubeNavigator.h"
+
+using namespace std;
 
 KubeNavigator::KubeNavigator(Kube *kube)
 {
@@ -286,7 +289,54 @@ void KubeNavigator::aFront()
 	bool clockwise = false;
 	bool straight = true;
 
-	moveVerticalZ(clockwise, straight, 2, 2);
+	
+
+
+
+
+
+	KubeSide *nextSide;	
+	KubeSide *prevSide;
+
+	nextSide = kube->getRight();
+	prevSide = kube->getLeft();
+
+	cout << nextSide->getTiles()[0][0] << endl;
+	cout << nextSide->getTiles()[1][0] << endl;
+	cout << nextSide->getTiles()[2][0] << endl << endl;
+
+
+	/* First Side column Buffer */
+	KubeSide::Color *buffer = new KubeSide::Color[3];
+
+	buffer[0] = kube->getUpper()->getTiles()[2][0];
+	buffer[1] = kube->getUpper()->getTiles()[2][1];
+	buffer[2] = kube->getUpper()->getTiles()[2][2];
+
+
+	/* Front Side */
+	kube->getUpper()->getTiles()[2][0] = nextSide->getTiles()[0][0];
+	kube->getUpper()->getTiles()[2][1] = nextSide->getTiles()[1][0];
+	kube->getUpper()->getTiles()[2][2] = nextSide->getTiles()[2][0];
+
+	/* Next Side (Right if clockwise else Left) */
+	nextSide->getTiles()[0][2] = kube->getBottom()->getTiles()[reverseIndex(2)][reverseIndex(0)];
+	nextSide->getTiles()[1][2] = kube->getBottom()->getTiles()[reverseIndex(2)][reverseIndex(1)];
+	nextSide->getTiles()[2][2] = kube->getBottom()->getTiles()[reverseIndex(2)][reverseIndex(2)];
+
+	/* Back Side */
+	kube->getBottom()->getTiles()[reverseIndex(2)][reverseIndex(0)] = prevSide->getTiles()[0][2];
+	kube->getBottom()->getTiles()[reverseIndex(2)][reverseIndex(1)] = prevSide->getTiles()[1][2];
+	kube->getBottom()->getTiles()[reverseIndex(2)][reverseIndex(2)] = prevSide->getTiles()[2][2];
+
+	/* Previous Side (Left if clockwise else Right) */
+	prevSide->getTiles()[0][reverseIndex(2)] = buffer[0];
+	prevSide->getTiles()[1][reverseIndex(2)] = buffer[1];
+	prevSide->getTiles()[2][reverseIndex(2)] = buffer[2];
+
+
+
+
 
 	moveFace(clockwise, straight, kube->getFront());
 }
