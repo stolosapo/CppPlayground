@@ -705,12 +705,150 @@ void KubeNavigator::moveX2()
 
 void KubeNavigator::moveY()
 {
+	bool clockwise = true;
+	bool straight = true;
 
+
+
+	/* First Side column Buffer */
+	KubeSide::Color *buffer = new KubeSide::Color[9];
+
+	buffer[0] = kube->getRight()->getTiles()[0][0];
+	buffer[1] = kube->getRight()->getTiles()[0][1];
+	buffer[2] = kube->getRight()->getTiles()[0][2];
+	buffer[3] = kube->getRight()->getTiles()[1][0];
+	buffer[4] = kube->getRight()->getTiles()[1][1];
+	buffer[5] = kube->getRight()->getTiles()[1][2];
+	buffer[6] = kube->getRight()->getTiles()[2][0];
+	buffer[7] = kube->getRight()->getTiles()[2][1];
+	buffer[8] = kube->getRight()->getTiles()[2][2];
+
+
+
+	/* Upper Side */
+	kube->getRight()->getTiles()[0][0] = kube->getFront()->getTiles()[0][0];
+	kube->getRight()->getTiles()[0][1] = kube->getFront()->getTiles()[0][1];
+	kube->getRight()->getTiles()[0][2] = kube->getFront()->getTiles()[0][2];
+	kube->getRight()->getTiles()[1][0] = kube->getFront()->getTiles()[1][0];
+	kube->getRight()->getTiles()[1][1] = kube->getFront()->getTiles()[1][1];
+	kube->getRight()->getTiles()[1][2] = kube->getFront()->getTiles()[1][2];
+	kube->getRight()->getTiles()[2][0] = kube->getFront()->getTiles()[2][0];
+	kube->getRight()->getTiles()[2][1] = kube->getFront()->getTiles()[2][1];
+	kube->getRight()->getTiles()[2][2] = kube->getFront()->getTiles()[2][2];
+
+	/* Front Side */
+	kube->getFront()->getTiles()[0][0] = kube->getLeft()->getTiles()[0][0];
+	kube->getFront()->getTiles()[0][1] = kube->getLeft()->getTiles()[0][1];
+	kube->getFront()->getTiles()[0][2] = kube->getLeft()->getTiles()[0][2];
+	kube->getFront()->getTiles()[1][0] = kube->getLeft()->getTiles()[1][0];
+	kube->getFront()->getTiles()[1][1] = kube->getLeft()->getTiles()[1][1];
+	kube->getFront()->getTiles()[1][2] = kube->getLeft()->getTiles()[1][2];
+	kube->getFront()->getTiles()[2][0] = kube->getLeft()->getTiles()[2][0];
+	kube->getFront()->getTiles()[2][1] = kube->getLeft()->getTiles()[2][1];
+	kube->getFront()->getTiles()[2][2] = kube->getLeft()->getTiles()[2][2];
+
+
+	/* Bottom Side */
+	kube->getLeft()->getTiles()[0][0] = kube->getBack()->getTiles()[0][0];
+	kube->getLeft()->getTiles()[0][1] = kube->getBack()->getTiles()[0][1];
+	kube->getLeft()->getTiles()[0][2] = kube->getBack()->getTiles()[0][2];
+	kube->getLeft()->getTiles()[1][0] = kube->getBack()->getTiles()[1][0];
+	kube->getLeft()->getTiles()[1][1] = kube->getBack()->getTiles()[1][1];
+	kube->getLeft()->getTiles()[1][2] = kube->getBack()->getTiles()[1][2];
+	kube->getLeft()->getTiles()[2][0] = kube->getBack()->getTiles()[2][0];
+	kube->getLeft()->getTiles()[2][1] = kube->getBack()->getTiles()[2][1];
+	kube->getLeft()->getTiles()[2][2] = kube->getBack()->getTiles()[2][2];
+
+
+	/* Back Side */
+	kube->getBack()->getTiles()[0][0] = buffer[0];
+	kube->getBack()->getTiles()[0][1] = buffer[1];
+	kube->getBack()->getTiles()[0][2] = buffer[2];
+	kube->getBack()->getTiles()[1][0] = buffer[3];
+	kube->getBack()->getTiles()[1][1] = buffer[4];
+	kube->getBack()->getTiles()[1][2] = buffer[5];
+	kube->getBack()->getTiles()[2][0] = buffer[6];
+	kube->getBack()->getTiles()[2][1] = buffer[7];
+	kube->getBack()->getTiles()[2][2] = buffer[8];
+
+
+
+	moveFace(clockwise, straight, kube->getUpper());
+	moveFace(!clockwise, straight, kube->getBottom());
 }
 
 void KubeNavigator::moveAy()
 {
+	bool clockwise = false;
+	bool straight = true;
 
+
+
+	/* First Side column Buffer */
+	KubeSide::Color *buffer = new KubeSide::Color[9];
+
+	buffer[0] = kube->getLeft()->getTiles()[0][0];
+	buffer[1] = kube->getLeft()->getTiles()[0][1];
+	buffer[2] = kube->getLeft()->getTiles()[0][2];
+	buffer[3] = kube->getLeft()->getTiles()[1][0];
+	buffer[4] = kube->getLeft()->getTiles()[1][1];
+	buffer[5] = kube->getLeft()->getTiles()[1][2];
+	buffer[6] = kube->getLeft()->getTiles()[2][0];
+	buffer[7] = kube->getLeft()->getTiles()[2][1];
+	buffer[8] = kube->getLeft()->getTiles()[2][2];
+
+
+
+	/* Upper Side */
+	kube->getLeft()->getTiles()[0][0] = kube->getFront()->getTiles()[0][0];
+	kube->getLeft()->getTiles()[0][1] = kube->getFront()->getTiles()[0][1];
+	kube->getLeft()->getTiles()[0][2] = kube->getFront()->getTiles()[0][2];
+	kube->getLeft()->getTiles()[1][0] = kube->getFront()->getTiles()[1][0];
+	kube->getLeft()->getTiles()[1][1] = kube->getFront()->getTiles()[1][1];
+	kube->getLeft()->getTiles()[1][2] = kube->getFront()->getTiles()[1][2];
+	kube->getLeft()->getTiles()[2][0] = kube->getFront()->getTiles()[2][0];
+	kube->getLeft()->getTiles()[2][1] = kube->getFront()->getTiles()[2][1];
+	kube->getLeft()->getTiles()[2][2] = kube->getFront()->getTiles()[2][2];
+
+	/* Front Side */
+	kube->getFront()->getTiles()[0][0] = kube->getRight()->getTiles()[0][0];
+	kube->getFront()->getTiles()[0][1] = kube->getRight()->getTiles()[0][1];
+	kube->getFront()->getTiles()[0][2] = kube->getRight()->getTiles()[0][2];
+	kube->getFront()->getTiles()[1][0] = kube->getRight()->getTiles()[1][0];
+	kube->getFront()->getTiles()[1][1] = kube->getRight()->getTiles()[1][1];
+	kube->getFront()->getTiles()[1][2] = kube->getRight()->getTiles()[1][2];
+	kube->getFront()->getTiles()[2][0] = kube->getRight()->getTiles()[2][0];
+	kube->getFront()->getTiles()[2][1] = kube->getRight()->getTiles()[2][1];
+	kube->getFront()->getTiles()[2][2] = kube->getRight()->getTiles()[2][2];
+
+
+	/* Bottom Side */
+	kube->getRight()->getTiles()[0][0] = kube->getBack()->getTiles()[0][0];
+	kube->getRight()->getTiles()[0][1] = kube->getBack()->getTiles()[0][1];
+	kube->getRight()->getTiles()[0][2] = kube->getBack()->getTiles()[0][2];
+	kube->getRight()->getTiles()[1][0] = kube->getBack()->getTiles()[1][0];
+	kube->getRight()->getTiles()[1][1] = kube->getBack()->getTiles()[1][1];
+	kube->getRight()->getTiles()[1][2] = kube->getBack()->getTiles()[1][2];
+	kube->getRight()->getTiles()[2][0] = kube->getBack()->getTiles()[2][0];
+	kube->getRight()->getTiles()[2][1] = kube->getBack()->getTiles()[2][1];
+	kube->getRight()->getTiles()[2][2] = kube->getBack()->getTiles()[2][2];
+
+
+	/* Back Side */
+	kube->getBack()->getTiles()[0][0] = buffer[0];
+	kube->getBack()->getTiles()[0][1] = buffer[1];
+	kube->getBack()->getTiles()[0][2] = buffer[2];
+	kube->getBack()->getTiles()[1][0] = buffer[3];
+	kube->getBack()->getTiles()[1][1] = buffer[4];
+	kube->getBack()->getTiles()[1][2] = buffer[5];
+	kube->getBack()->getTiles()[2][0] = buffer[6];
+	kube->getBack()->getTiles()[2][1] = buffer[7];
+	kube->getBack()->getTiles()[2][2] = buffer[8];
+
+
+
+	moveFace(clockwise, straight, kube->getUpper());
+	moveFace(!clockwise, straight, kube->getBottom());
 }
 
 void KubeNavigator::moveY2()

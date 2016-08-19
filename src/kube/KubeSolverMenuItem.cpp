@@ -121,4 +121,12 @@ void testNotation(KubeNavigator *nav, KubePrinter *printer)
 	nav->moveAx();
 	cout << endl << "Move X'" << endl << endl;;
 	printer->printKube();
+
+	nav->moveY();
+	cout << endl << "Move Y" << endl << endl;;
+	printer->printKube();
+
+	nav->moveAy();
+	cout << endl << "Move Y'" << endl << endl;;
+	printer->printKube();
 }
