@@ -48,23 +48,12 @@ void KubeSolverMenuItem::action()
 
 void makeCross(KubeNavigator *nav, KubePrinter *printer)
 {
-	nav->left();
-	nav->left();
-
-	nav->right();
-	nav->right();
-
-	nav->front();
-	nav->front();
-
-	nav->back();
-	nav->back();
-
-	nav->up();
-	nav->up();
-
-	nav->down();
-	nav->down();
+	nav->left2();
+	nav->right2();
+	nav->front2();
+	nav->back2();
+	nav->up2();
+	nav->down2();
 
 	printer->printKube();
 }
