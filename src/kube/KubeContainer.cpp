@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
-#include "KubeConfigMenuItem.h"
-#include "KubeSolverMenuItem.h"
+#include "TestKubeNotationMenuItem.h"
 #include "../shared/Container.h"
 #include "KubeHeader.cpp"
 
@@ -14,7 +13,7 @@ public:
         6, 
         "The Kube Solver",
         "The Kube Solver",
-        2)
+        1)
     {
         this->setContinueQuestion(true);
     }
@@ -27,8 +26,7 @@ public:
 protected:
     virtual void fillOptions()
     {
-        this->addMenuItem(0, new KubeConfigMenuItem(logSrv));
-        this->addMenuItem(1, new KubeSolverMenuItem(logSrv));
+        this->addMenuItem(0, new TestKubeNotationMenuItem(logSrv));
     }
 
     virtual string getHeader()
