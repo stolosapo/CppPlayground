@@ -2,6 +2,7 @@
 #define KubeNavigator_h__
 
 #include "Kube.h"
+#include "KubeTracer.h"
 
 /**
  *  Based on this https://solvethecube.com/notation
@@ -10,6 +11,9 @@ class KubeNavigator
 {
 private:
 	Kube *kube;
+	KubeTracer *tracer;
+
+	bool useTracer;
 
 	int reverseIndex(int index);
 
@@ -20,8 +24,11 @@ private:
 
 	void moveFace(bool clockwise, bool straight, KubeSide *faceSide);
 
+	void traceMove(KubeTracer::Move move);
+
 public:
 	KubeNavigator(Kube *kube);
+	KubeNavigator(Kube *kube, KubeTracer *tracer);
 	virtual ~KubeNavigator();
 
 	

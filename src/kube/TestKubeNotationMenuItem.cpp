@@ -3,6 +3,7 @@
 #include "KubePrinter.h"
 #include "KubeColorMapper.h"
 #include "KubeNavigator.h"
+#include "KubeTracer.h"
 #include "../shared/InOut.h"
 
 
@@ -37,7 +38,8 @@ void TestKubeNotationMenuItem::action()
 	Kube *kube;
 	kube = loader->load();
 
-	KubeNavigator *nav = new KubeNavigator(kube);
+	KubeTracer *tracer = new KubeTracer;
+	KubeNavigator *nav = new KubeNavigator(kube, tracer);
 	KubePrinter *printer = new KubePrinter(logSrv, kube);
 	printer->printKube();
 
@@ -74,6 +76,8 @@ void TestKubeNotationMenuItem::action()
 		printer->printKube();
 	}
 
+	logSrv->printl("Trace: " + tracer->convertToString());
+	logSrv->printl("");
 }
 
 
@@ -98,37 +102,37 @@ bool makeTheMove(string moveToMake, KubeNavigator *nav)
 {
 	bool makeMove = true;
 
-	if (moveToMake == "U") nav->up();
-	else if (moveToMake == "U'") nav->aUp();
-	else if (moveToMake == "U2") nav->up2();
+	if (moveToMake == KubeTracer::UP_STR) nav->up();
+	else if (moveToMake == KubeTracer::ANTI_UP_STR) nav->aUp();
+	else if (moveToMake == KubeTracer::DOUBLE_UP_STR) nav->up2();
 
-	else if (moveToMake == "D") nav->down();
-	else if (moveToMake == "D'") nav->aDown();
-	else if (moveToMake == "D2") nav->down2();
+	else if (moveToMake == KubeTracer::DOWN_STR) nav->down();
+	else if (moveToMake == KubeTracer::ANTI_DOWN_STR) nav->aDown();
+	else if (moveToMake == KubeTracer::DOUBLE_DOWN_STR) nav->down2();
 
-	else if (moveToMake == "L") nav->left();
-	else if (moveToMake == "L'") nav->aLeft();
-	else if (moveToMake == "L2") nav->left2();
+	else if (moveToMake == KubeTracer::LEFT_STR) nav->left();
+	else if (moveToMake == KubeTracer::ANTI_LEFT_STR) nav->aLeft();
+	else if (moveToMake == KubeTracer::DOUBLE_LEFT_STR) nav->left2();
 
-	else if (moveToMake == "R") nav->right();
-	else if (moveToMake == "R'") nav->aRight();
-	else if (moveToMake == "R2") nav->right2();
+	else if (moveToMake == KubeTracer::RIGHT_STR) nav->right();
+	else if (moveToMake == KubeTracer::ANTI_RIGHT_STR) nav->aRight();
+	else if (moveToMake == KubeTracer::DOUBLE_RIGHT_STR) nav->right2();
 
-	else if (moveToMake == "F") nav->front();
-	else if (moveToMake == "F'") nav->aFront();
-	else if (moveToMake == "F2") nav->front2();
+	else if (moveToMake == KubeTracer::FRONT_STR) nav->front();
+	else if (moveToMake == KubeTracer::ANTI_FRONT_STR) nav->aFront();
+	else if (moveToMake == KubeTracer::DOUBLE_FRONT_STR) nav->front2();
 
-	else if (moveToMake == "B") nav->back();
-	else if (moveToMake == "B'") nav->aBack();
-	else if (moveToMake == "B2") nav->back2();
+	else if (moveToMake == KubeTracer::BACK_STR) nav->back();
+	else if (moveToMake == KubeTracer::ANTI_BACK_STR) nav->aBack();
+	else if (moveToMake == KubeTracer::DOUBLE_BACK_STR) nav->back2();
 
-	else if (moveToMake == "x") nav->moveX();
-	else if (moveToMake == "x'") nav->moveAx();
-	else if (moveToMake == "x2") nav->moveX2();
+	else if (moveToMake == KubeTracer::X_STR) nav->moveX();
+	else if (moveToMake == KubeTracer::ANTI_X_STR) nav->moveAx();
+	else if (moveToMake == KubeTracer::DOUBLE_X_STR) nav->moveX2();
 
-	else if (moveToMake == "y") nav->moveY();
-	else if (moveToMake == "y'") nav->moveAy();
-	else if (moveToMake == "y2") nav->moveY2();
+	else if (moveToMake == KubeTracer::Y_STR) nav->moveY();
+	else if (moveToMake == KubeTracer::ANTI_Y_STR) nav->moveAy();
+	else if (moveToMake == KubeTracer::DOUBLE_Y_STR) nav->moveY2();
 
 	else makeMove = false;
 

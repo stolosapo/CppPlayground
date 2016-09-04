@@ -6,6 +6,15 @@ using namespace std;
 KubeNavigator::KubeNavigator(Kube *kube)
 {
 	this->kube = kube;
+	this->tracer = NULL;
+	this->useTracer = false;
+}
+
+KubeNavigator::KubeNavigator(Kube *kube, KubeTracer *tracer)
+{
+	this->kube = kube;
+	this->tracer = tracer;
+	this->useTracer = true;
 }
 
 KubeNavigator::~KubeNavigator()
@@ -207,6 +216,13 @@ void KubeNavigator::moveFace(bool clockwise, bool straight, KubeSide *faceSide)
 
 }
 
+void KubeNavigator::traceMove(KubeTracer::Move move)
+{
+	if (useTracer)
+	{
+		tracer->traceMove(move);
+	}
+}
 
 
 
@@ -218,6 +234,9 @@ void KubeNavigator::up()
 	moveHorizontial(clockwise, straight, 0);
 
 	moveFace(clockwise, straight, kube->getUpper());
+
+
+	traceMove(KubeTracer::UP);
 }
 
 void KubeNavigator::aUp()
@@ -228,6 +247,9 @@ void KubeNavigator::aUp()
 	moveHorizontial(clockwise, straight, 0);
 
 	moveFace(clockwise, straight, kube->getUpper());
+
+
+	traceMove(KubeTracer::ANTI_UP);
 }
 
 void KubeNavigator::up2()
@@ -246,6 +268,9 @@ void KubeNavigator::down()
 	moveHorizontial(clockwise, straight, 2);
 
 	moveFace(clockwise, !straight, kube->getBottom());
+
+
+	traceMove(KubeTracer::DOWN);
 }
 
 void KubeNavigator::aDown()
@@ -256,6 +281,9 @@ void KubeNavigator::aDown()
 	moveHorizontial(clockwise, straight, 2);
 
 	moveFace(clockwise, !straight, kube->getBottom());
+
+
+	traceMove(KubeTracer::ANTI_DOWN);
 }
 
 void KubeNavigator::down2()
@@ -274,6 +302,9 @@ void KubeNavigator::left()
 	moveVerticalX(clockwise, straight, 0);
 
 	moveFace(clockwise, !straight, kube->getLeft());
+
+
+	traceMove(KubeTracer::LEFT);
 }
 
 void KubeNavigator::aLeft()
@@ -284,6 +315,9 @@ void KubeNavigator::aLeft()
 	moveVerticalX(clockwise, straight, 0);
 
 	moveFace(clockwise, !straight, kube->getLeft());
+
+
+	traceMove(KubeTracer::ANTI_LEFT);
 }
 
 void KubeNavigator::left2()
@@ -302,6 +336,9 @@ void KubeNavigator::right()
 	moveVerticalX(clockwise, straight, 2);
 
 	moveFace(clockwise, straight, kube->getRight());
+
+
+	traceMove(KubeTracer::RIGHT);
 }
 
 void KubeNavigator::aRight()
@@ -312,6 +349,9 @@ void KubeNavigator::aRight()
 	moveVerticalX(clockwise, straight, 2);
 
 	moveFace(clockwise, straight, kube->getRight());
+
+
+	traceMove(KubeTracer::ANTI_RIGHT);
 }
 
 void KubeNavigator::right2()
@@ -370,6 +410,9 @@ void KubeNavigator::front()
 
 
 	moveFace(clockwise, straight, kube->getFront());
+
+
+	traceMove(KubeTracer::FRONT);
 }
 
 void KubeNavigator::aFront()
@@ -423,6 +466,9 @@ void KubeNavigator::aFront()
 
 
 	moveFace(clockwise, straight, kube->getFront());
+
+
+	traceMove(KubeTracer::ANTI_FRONT);
 }
 
 void KubeNavigator::front2()
@@ -484,6 +530,9 @@ void KubeNavigator::back()
 
 
 	moveFace(clockwise, !straight, kube->getBack());
+
+
+	traceMove(KubeTracer::BACK);
 }
 
 void KubeNavigator::aBack()
@@ -537,6 +586,9 @@ void KubeNavigator::aBack()
 
 
 	moveFace(clockwise, straight, kube->getBack());
+
+
+	traceMove(KubeTracer::ANTI_BACK);
 }
 
 void KubeNavigator::back2()
@@ -619,6 +671,9 @@ void KubeNavigator::moveX()
 
 	moveFace(clockwise, straight, kube->getRight());
 	moveFace(!clockwise, straight, kube->getLeft());
+
+
+	traceMove(KubeTracer::X);
 }
 
 void KubeNavigator::moveAx()
@@ -693,6 +748,9 @@ void KubeNavigator::moveAx()
 
 	moveFace(clockwise, straight, kube->getRight());
 	moveFace(!clockwise, straight, kube->getLeft());
+
+
+	traceMove(KubeTracer::ANTI_X);
 }
 
 void KubeNavigator::moveX2()
@@ -775,6 +833,9 @@ void KubeNavigator::moveY()
 
 	moveFace(clockwise, straight, kube->getUpper());
 	moveFace(!clockwise, straight, kube->getBottom());
+
+
+	traceMove(KubeTracer::Y);
 }
 
 void KubeNavigator::moveAy()
@@ -849,6 +910,9 @@ void KubeNavigator::moveAy()
 
 	moveFace(clockwise, straight, kube->getUpper());
 	moveFace(!clockwise, straight, kube->getBottom());
+
+
+	traceMove(KubeTracer::ANTI_Y);
 }
 
 void KubeNavigator::moveY2()
@@ -861,12 +925,12 @@ void KubeNavigator::moveY2()
 
 void KubeNavigator::moveZ()
 {
-
+	traceMove(KubeTracer::Z);
 }
 
 void KubeNavigator::moveAz()
 {
-
+	traceMove(KubeTracer::ANTI_Z);
 }
 
 void KubeNavigator::moveZ2()
