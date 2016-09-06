@@ -104,17 +104,10 @@ KubeSide* KubeLoader::setKubeSideTiles(Kube *kube, KubeSide *side, int sideIndex
 	return side;
 }
 
-Kube* KubeLoader::load()
+
+Kube* KubeLoader::load(vector<string> lines)
 {
 	Kube *kube = new Kube;
-
-	string filePath = "kube.txt";
-	int index = 0;
-
-	FileReader* reader = new FileReader(filePath.c_str());
-	
-	reader->read();
-	vector<string> lines = reader->getLines();
 
 	/* Map all kube colors */
 	mapSideColors(kube, lines);
@@ -138,6 +131,63 @@ Kube* KubeLoader::load()
 
 		sideRowIndex++;
 	}
+
+	return kube;
+}
+
+
+Kube* KubeLoader::load()
+{
+	string filePath = "kube.txt";
+	int index = 0;
+
+	FileReader* reader = new FileReader(filePath.c_str());
+	
+	reader->read();
+	vector<string> lines = reader->getLines();
+
+	Kube *kube = load(lines);
+
+	return kube;
+}
+
+
+Kube* KubeLoader::createNewKube()
+{
+	vector<string> lines;
+
+	lines.push_back("WWW");
+	lines.push_back("WWW");
+	lines.push_back("WWW");
+	lines.push_back("---");
+	lines.push_back("GGG");
+	lines.push_back("GGG");
+	lines.push_back("GGG");
+	lines.push_back("---");
+	lines.push_back("BBB");
+	lines.push_back("BBB");
+	lines.push_back("BBB");
+	lines.push_back("---");
+	lines.push_back("OOO");
+	lines.push_back("OOO");
+	lines.push_back("OOO");
+	lines.push_back("---");
+	lines.push_back("YYY");
+	lines.push_back("YYY");
+	lines.push_back("YYY");
+	lines.push_back("---");
+	lines.push_back("RRR");
+	lines.push_back("RRR");
+	lines.push_back("RRR");
+
+	Kube *kube = load(lines);
+
+	return kube;
+}
+
+Kube* KubeLoader::createShuffledKube()
+{
+	Kube *kube = new Kube;
 
 	return kube;
 }

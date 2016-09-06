@@ -106,6 +106,8 @@ public:
 private:
 	vector<Move> traces;
 
+	void optimize();
+
 };
 
 #endif // KubeTracer_h__

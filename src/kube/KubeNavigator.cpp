@@ -226,6 +226,122 @@ void KubeNavigator::traceMove(KubeTracer::Move move)
 
 
 
+void KubeNavigator::makeTheMove(KubeTracer::Move move)
+{
+	switch(move)
+	{
+		case KubeTracer::UP:
+			up();
+			return;
+
+		case KubeTracer::ANTI_UP:
+			aUp();
+			return;
+
+		case KubeTracer::DOUBLE_UP:
+			up2();
+			return;
+
+		case KubeTracer::DOWN:
+			down();
+			return;
+
+		case KubeTracer::ANTI_DOWN:
+			aDown();
+			return;
+
+		case KubeTracer::DOUBLE_DOWN:
+			down2();
+			return;
+
+		case KubeTracer::LEFT:
+			left();
+			return;
+
+		case KubeTracer::ANTI_LEFT:
+			aLeft();
+			return;
+
+		case KubeTracer::DOUBLE_LEFT:
+			left2();
+			return;
+
+		case KubeTracer::RIGHT:
+			right();
+			return;
+
+		case KubeTracer::ANTI_RIGHT:
+			aRight();
+			return;
+
+		case KubeTracer::DOUBLE_RIGHT:
+			right2();
+			return;
+
+		case KubeTracer::FRONT :
+			front();
+			return;
+
+		case KubeTracer::ANTI_FRONT:
+			aFront();
+			return;
+
+		case KubeTracer::DOUBLE_FRONT :
+			front2();
+			return;
+
+		case KubeTracer::BACK :
+			back();
+			return;
+
+		case KubeTracer::ANTI_BACK :
+			aBack();
+			return;
+
+		case KubeTracer::DOUBLE_BACK :
+			back2();
+			return;
+
+		case KubeTracer::X:
+			moveX();
+			return;
+
+		case KubeTracer::ANTI_X :
+			moveAx();
+			return;
+
+		case KubeTracer::DOUBLE_X :
+			moveX2();
+			return;
+
+		case KubeTracer::Y :
+			moveY();
+			return;
+
+		case KubeTracer::ANTI_Y :
+			moveAy();
+			return;
+
+		case KubeTracer::DOUBLE_Y :
+			moveY2();
+			return;
+
+		case KubeTracer::Z :
+			moveZ();
+			return;
+
+		case KubeTracer::ANTI_Z :
+			moveAz();
+			return;
+
+		case KubeTracer::DOUBLE_Z :
+			moveZ2();
+			return;
+	}
+}
+
+
+
 void KubeNavigator::up()
 {
 	bool clockwise = true;

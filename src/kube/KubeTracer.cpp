@@ -142,6 +142,8 @@ string KubeTracer::convertToString(KubeTracer::Move move)
 
 string KubeTracer::convertToString()
 {
+	optimize();
+
 	int size = traces.size();
 	string trace = "";
 
@@ -297,4 +299,9 @@ KubeTracer::Move KubeTracer::convertToMove(string move)
 	{
 		return KubeTracer::DOUBLE_Z;
 	}
+}
+
+void KubeTracer::optimize()
+{
+
 }

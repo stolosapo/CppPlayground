@@ -31,6 +31,7 @@ public:
 	KubeNavigator(Kube *kube, KubeTracer *tracer);
 	virtual ~KubeNavigator();
 
+	void makeTheMove(KubeTracer::Move move);
 	
 	void up();
 	void aUp();

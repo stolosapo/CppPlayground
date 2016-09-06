@@ -17,9 +17,14 @@ private:
 	void setKubeSide(Kube *kube, int sideIndex, int lineIndex, string line);
 	KubeSide* setKubeSideTiles(Kube *kube, KubeSide *side, int sideIndex, int lineIndex, string line);
 
+	Kube* load(vector<string> lines);
+
 public:
 	KubeLoader();
 	virtual ~KubeLoader();
+
+	Kube* createNewKube();
+	Kube* createShuffledKube();
 
 	Kube* load();
 };
