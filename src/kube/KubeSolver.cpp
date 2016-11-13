@@ -63,14 +63,15 @@ void KubeSolver::shuffle()
 	/* initialize random seed: */
   	srand(time(NULL));
 
-
   	for (int i = 0; i < shuffleLevel; ++i)
   	{
   		/* generate random index between 0 and moves size: */
-  		randomIndex = rand() % (size - 1);  		
+  		randomIndex = rand() % (size - 1);
 
   		/* get move */
   		KubeTracer::Move move = registeredMoves[randomIndex];
+
+  		cout << i << ") " << move << endl;
 
   		/* make the move */
   		navigator->makeTheMove(move);

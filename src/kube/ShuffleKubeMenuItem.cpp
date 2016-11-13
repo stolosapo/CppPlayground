@@ -40,6 +40,10 @@ public:
 		KubeNavigator *nav = new KubeNavigator(kube, tracer);
 		KubeSolver *solver = new KubeSolver(nav);
 		KubePrinter *printer = new KubePrinter(logSrv, kube);
+
+		nav->setPrinter(printer);
+		nav->setPrintMove(true);
+		
 		printer->printKube();
 
 		solver->shuffle();
