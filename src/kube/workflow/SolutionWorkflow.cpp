@@ -1,11 +1,12 @@
 #include "../lib/IKubeSolverWorkflow.h"
+#include "../action/KubeNavigator.h"
 
 using namespace std;
 
 class SolutionWorkflow : public IKubeSolverWorkflow
 {
 public:
-	SolutionWorkflow()
+	SolutionWorkflow(KubeNavigator* nav) : IKubeSolverWorkflow(nav)
 	{
 
 	}
@@ -13,6 +14,11 @@ public:
 	virtual ~SolutionWorkflow()
 	{
 
+	}
+
+	virtual void start()
+	{
+		cout << "starteeeeeddddd" << endl;
 	}
 
 };

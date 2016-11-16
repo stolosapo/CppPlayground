@@ -85,5 +85,6 @@ void KubeSolver::shuffle()
 
 void KubeSolver::solve()
 {
-	IKubeSolverWorkflow *workflow = KubeSolverWorkflowFactory::create();
+	IKubeSolverWorkflow *workflow = KubeSolverWorkflowFactory::create(this->navigator);
+	workflow->start();
 }

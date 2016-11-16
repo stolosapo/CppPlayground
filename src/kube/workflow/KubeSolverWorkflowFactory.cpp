@@ -1,4 +1,5 @@
 #include "../lib/IKubeSolverWorkflow.h"
+#include "../action/KubeNavigator.h"
 #include "SolutionWorkflow.cpp"
 
 class KubeSolverWorkflowFactory
@@ -14,9 +15,9 @@ public:
 
 	}
 	
-	static IKubeSolverWorkflow *create()
+	static IKubeSolverWorkflow *create(KubeNavigator* nav)
 	{
-		SolutionWorkflow *workflow = new SolutionWorkflow;
+		SolutionWorkflow *workflow = new SolutionWorkflow(nav);
 
 		return (IKubeSolverWorkflow*) workflow;
 	}
