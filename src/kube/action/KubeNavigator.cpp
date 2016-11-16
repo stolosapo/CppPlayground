@@ -21,6 +21,16 @@ KubeNavigator::KubeNavigator(Kube *kube, KubeTracer *tracer)
 	this->doubleMove = false;
 }
 
+KubeNavigator::KubeNavigator(Kube *kube, KubeTracer *tracer, KubePrinter *printer)
+{
+	this->kube = kube;
+	this->tracer = tracer;
+	this->printer = printer;
+	this->useTracer = true;
+	this->printMove = false;
+	this->doubleMove = false;
+}
+
 KubeNavigator::~KubeNavigator()
 {
 
