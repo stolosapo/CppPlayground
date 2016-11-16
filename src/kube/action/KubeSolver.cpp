@@ -6,6 +6,9 @@
 #include "KubeTracer.h"
 #include "KubeNavigator.h"
 
+#include "../lib/IKubeSolverWorkflow.h"
+#include "../workflow/KubeSolverWorkflowFactory.cpp"
+
 using namespace std;
 
 KubeSolver::KubeSolver(KubeNavigator *navigator)
@@ -82,5 +85,5 @@ void KubeSolver::shuffle()
 
 void KubeSolver::solve()
 {
-
+	IKubeSolverWorkflow *workflow = KubeSolverWorkflowFactory::create();
 }

@@ -4,8 +4,8 @@
 class IKubeSolverWorkflow
 {
 public:
-	IKubeSolverWorkflow();
-	virtual ~IKubeSolverWorkflow();
+	IKubeSolverWorkflow() {};
+	virtual ~IKubeSolverWorkflow() {};
 };
 
 #endif // IKubeSolverWorkflow_h__
