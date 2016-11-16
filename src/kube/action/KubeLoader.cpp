@@ -4,7 +4,7 @@
 #include <vector>
 #include "KubeLoader.h"
 #include "KubeColorMapper.h"
-#include "../shared/FileReader.h"
+#include "../../shared/FileReader.h"
 
 using namespace std;
 

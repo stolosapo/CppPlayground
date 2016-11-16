@@ -2,7 +2,7 @@
 #define KubeColorMapper_h__
 
 #include <string>
-#include "KubeSide.h"
+#include "../model/KubeSide.h"
 
 using namespace std;
 

@@ -2,7 +2,7 @@
 #define Kube_h__
 
 #include "KubeSide.h"
-#include "KubeColorMapper.h"
+#include "../action/KubeColorMapper.h"
 
 class Kube
 {

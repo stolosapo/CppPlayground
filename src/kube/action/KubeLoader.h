@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "Kube.h"
+#include "../model/Kube.h"
 #include "KubeColorMapper.h"
 
 using namespace std;

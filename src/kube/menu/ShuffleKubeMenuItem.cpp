@@ -4,10 +4,10 @@
 #include <string>
 #include "../../log/ILogService.h"
 #include "../../menu/MenuItem.h"
-#include "../KubeLoader.h"
-#include "../KubeNavigator.h"
-#include "../KubePrinter.h"
-#include "../KubeSolver.h"
+#include "../action/KubeLoader.h"
+#include "../action/KubeNavigator.h"
+#include "../action/KubePrinter.h"
+#include "../action/KubeSolver.h"
 
 using namespace std;
 

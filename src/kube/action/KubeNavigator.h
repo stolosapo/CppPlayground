@@ -1,7 +1,7 @@
 #ifndef KubeNavigator_h__
 #define KubeNavigator_h__
 
-#include "Kube.h"
+#include "../model/Kube.h"
 #include "KubeTracer.h"
 #include "KubePrinter.h"
 

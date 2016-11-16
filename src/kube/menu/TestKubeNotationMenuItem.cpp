@@ -1,9 +1,9 @@
 #include "TestKubeNotationMenuItem.h"
-#include "../KubeLoader.h"
-#include "../KubePrinter.h"
-#include "../KubeColorMapper.h"
-#include "../KubeNavigator.h"
-#include "../KubeTracer.h"
+#include "../action/KubeLoader.h"
+#include "../action/KubePrinter.h"
+#include "../action/KubeColorMapper.h"
+#include "../action/KubeNavigator.h"
+#include "../action/KubeTracer.h"
 #include "../../shared/InOut.h"
 
 
