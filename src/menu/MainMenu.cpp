@@ -5,7 +5,7 @@
 #include "../log/LogServiceContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/TcpContainer.cpp"
-#include "../kube/KubeContainer.cpp"
+#include "../kube/menu/KubeContainer.cpp"
 #include "../serialization/SerializationContainer.cpp"
 #include "../gpio/GpioMenuContainer.cpp"
 

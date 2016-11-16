@@ -2,12 +2,12 @@
 #define ShuffleKubeMenuItem_h__
 
 #include <string>
-#include "../log/ILogService.h"
-#include "../menu/MenuItem.h"
-#include "KubeLoader.h"
-#include "KubeNavigator.h"
-#include "KubePrinter.h"
-#include "KubeSolver.h"
+#include "../../log/ILogService.h"
+#include "../../menu/MenuItem.h"
+#include "../KubeLoader.h"
+#include "../KubeNavigator.h"
+#include "../KubePrinter.h"
+#include "../KubeSolver.h"
 
 using namespace std;
 

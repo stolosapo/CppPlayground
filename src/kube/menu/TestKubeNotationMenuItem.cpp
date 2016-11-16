@@ -1,10 +1,10 @@
 #include "TestKubeNotationMenuItem.h"
-#include "KubeLoader.h"
-#include "KubePrinter.h"
-#include "KubeColorMapper.h"
-#include "KubeNavigator.h"
-#include "KubeTracer.h"
-#include "../shared/InOut.h"
+#include "../KubeLoader.h"
+#include "../KubePrinter.h"
+#include "../KubeColorMapper.h"
+#include "../KubeNavigator.h"
+#include "../KubeTracer.h"
+#include "../../shared/InOut.h"
 
 
 void makeCross(KubeNavigator *nav, KubePrinter *printer);

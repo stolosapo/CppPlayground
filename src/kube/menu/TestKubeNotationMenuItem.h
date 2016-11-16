@@ -2,8 +2,8 @@
 #define TestKubeNotationMenuItem_h__
 
 #include <string>
-#include "../log/ILogService.h"
-#include "../menu/MenuItem.h"
+#include "../../log/ILogService.h"
+#include "../../menu/MenuItem.h"
 
 using namespace std;
 
