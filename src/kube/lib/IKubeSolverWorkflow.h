@@ -2,14 +2,15 @@
 #define IKubeSolverWorkflow_h__
 
 #include "../action/KubeNavigator.h"
+#include "../../lib/workflow/IWorkflow.h"
 
-class IKubeSolverWorkflow
+class IKubeSolverWorkflow : public IWorkflow<IKubeSolverWorkflow>
 {
 protected:
 	KubeNavigator *nav;
 
 public:
-	IKubeSolverWorkflow(KubeNavigator* nav) 
+	IKubeSolverWorkflow(KubeNavigator* nav) : IWorkflow()
 	{
 		this->nav = nav;
 	};
@@ -19,7 +20,11 @@ public:
 		nav = NULL;
 	};
 
-	virtual void start() = 0;
+	KubeNavigator* getNavigator()
+	{
+		return this->nav;
+	}
+	
 };
 
 #endif // IKubeSolverWorkflow_h__

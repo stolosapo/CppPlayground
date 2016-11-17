@@ -19,7 +19,7 @@ KubeSolver::KubeSolver(KubeNavigator *navigator)
 
 KubeSolver::~KubeSolver()
 {
-
+	this->navigator = NULL;
 }
 
 
@@ -57,8 +57,7 @@ vector<KubeTracer::Move> getValidMoves()
 
 void KubeSolver::shuffle()
 {
-	vector<KubeTracer::Move> registeredMoves;
-	registeredMoves = getValidMoves();
+	vector<KubeTracer::Move> registeredMoves = getValidMoves();
 
 	int size = registeredMoves.size();
 	int randomIndex;
@@ -86,5 +85,6 @@ void KubeSolver::shuffle()
 void KubeSolver::solve()
 {
 	IKubeSolverWorkflow *workflow = KubeSolverWorkflowFactory::create(this->navigator);
+	workflow->registerStages();
 	workflow->start();
 }

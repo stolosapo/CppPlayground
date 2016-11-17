@@ -18,6 +18,7 @@ public:
 
 	void shuffle();
 	void solve();
+	
 };
 
 #endif // KubeSolver_h__

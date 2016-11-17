@@ -1,6 +1,10 @@
 #ifndef IWorkflowStage_h__
 #define IWorkflowStage_h__
 
+#include <iostream>
+#include <string>
+#include "IWorkflow.h"
+
 using namespace std;
 
 template<typename T>
@@ -8,12 +12,14 @@ class IWorkflowStage
 {
 private:
 	int retryCounter;
+	string name;
 
 protected:
 	T* workflow;
 
 public:
 	IWorkflowStage(T* workflow);
+	IWorkflowStage(T* workflow, string name);
 	virtual ~IWorkflowStage();
 
 	virtual void action() = 0;
@@ -21,7 +27,9 @@ public:
 	virtual int retryCount() = 0;
 
 	int getRetryCounter();
+	string getName();
 	virtual bool start();
+
 };
 
 
@@ -52,6 +60,14 @@ IWorkflowStage<T>::IWorkflowStage(T* workflow)
 }
 
 template <typename T>
+IWorkflowStage<T>::IWorkflowStage(T* workflow, string name)
+{
+	this->workflow = workflow;
+	this->name = name;
+	this->retryCounter = 0;
+}
+
+template <typename T>
 IWorkflowStage<T>::~IWorkflowStage()
 {
 	this->workflow = NULL;
@@ -69,35 +85,52 @@ IWorkflowStage<T>::~IWorkflowStage()
 **********************************/
 
 template <typename T>
-void IWorkflowStage<T>::getRetryCounter()
+int IWorkflowStage<T>::getRetryCounter()
 {
 	return this->retryCounter;
 }
 
 template <typename T>
-virtual bool start()
+string IWorkflowStage<T>::getName()
 {
-	bool success = false;
+	return this->name;
+}
 
-	bool cond = false;
+template <typename T>
+bool IWorkflowStage<T>::start()
+{
+	bool condition = false;
 	retryCounter++;
 
-	while (!success)
+	while (!condition)
 	{
+
+		// cout << "Stage :: " << getName() << " :: action :: " << retryCounter << endl;
 
 		// Run Action
 		this->action();
 
 		// Check if Action has true exit condition
-		cond = this->exitCondition();
+		condition = this->exitCondition();
+
+		// cout << "Stage :: " << getName() << " :: condition :: " << retryCounter << " :: " << condition << endl;
+
+		if (condition)
+		{
+			return true;
+		}
 
 		// Increase counter
 		retryCounter++;
 
-		success = !cond && retryCounter < this->retryCount();
+		// Run stage on not success if exists
+		if (retryCounter >= getRetryCounter())
+		{
+			return false;
+		}
 	}
 
-	return success;
+	return false;
 }
 
 #endif // IWorkflowStage_h__
