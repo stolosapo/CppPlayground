@@ -7,7 +7,9 @@ CC := g++ # This is the main compiler
 SRCDIR := src
 BUILDDIR := build
 CLEANDIR := build/*.o
-CLEANSUBDIR := build/**/*.o
+CLEANSUBDIR := build/**/
+INITIALIZE := initialize.sh
+BASH := /bin/bash
 
 TARGET := bin/runner
 TESTTARGET := bin/tester
@@ -33,6 +35,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 clean:
 	@echo " Cleaning..."; 
 	@echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) "; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET)
+	$(BASH) $(INITIALIZE)
 
 # Tests
 tester:
