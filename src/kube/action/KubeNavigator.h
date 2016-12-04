@@ -39,6 +39,10 @@ public:
 	KubeNavigator(Kube *kube, KubeTracer *tracer, KubePrinter *printer);
 	virtual ~KubeNavigator();
 
+	Kube* getKube();
+	KubeTracer* getTracer();
+	KubePrinter* getPrinter();
+
 	void setPrinter(KubePrinter *printer);
 	void setPrintMove(bool printMove);
 

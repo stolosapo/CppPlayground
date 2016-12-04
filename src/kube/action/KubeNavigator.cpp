@@ -36,6 +36,21 @@ KubeNavigator::~KubeNavigator()
 
 }
 
+Kube* KubeNavigator::getKube()
+{
+	return this->kube;
+}
+
+KubeTracer* KubeNavigator::getTracer()
+{
+	return this->tracer;
+}
+
+KubePrinter* KubeNavigator::getPrinter()
+{
+	return this->printer;
+}
+
 void KubeNavigator::setPrinter(KubePrinter *printer)
 {
 	this->printer = printer;

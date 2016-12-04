@@ -11,10 +11,10 @@ template<typename T>
 class IWorkflowStage
 {
 private:
-	int retryCounter;
 	string name;
 
 protected:
+	int retryCounter;
 	T* workflow;
 
 public:
@@ -22,7 +22,10 @@ public:
 	IWorkflowStage(T* workflow, string name);
 	virtual ~IWorkflowStage();
 
+	virtual void beforeAction();
 	virtual void action() = 0;
+	virtual void afterAction();
+
 	virtual bool exitCondition() = 0;
 	virtual int retryCount() = 0;
 
@@ -97,15 +100,28 @@ string IWorkflowStage<T>::getName()
 }
 
 template <typename T>
+void IWorkflowStage<T>::beforeAction()
+{
+
+}
+
+template <typename T>
+void IWorkflowStage<T>::afterAction()
+{
+	
+}
+
+template <typename T>
 bool IWorkflowStage<T>::start()
 {
 	bool condition = false;
 	retryCounter++;
 
+	// First run the before action
+	this->beforeAction();
+
 	while (!condition)
 	{
-
-		// cout << "Stage :: " << getName() << " :: action :: " << retryCounter << endl;
 
 		// Run Action
 		this->action();
@@ -113,24 +129,25 @@ bool IWorkflowStage<T>::start()
 		// Check if Action has true exit condition
 		condition = this->exitCondition();
 
-		// cout << "Stage :: " << getName() << " :: condition :: " << retryCounter << " :: " << condition << endl;
-
 		if (condition)
 		{
-			return true;
+			break;
 		}
 
 		// Increase counter
 		retryCounter++;
 
 		// Run stage on not success if exists
-		if (retryCounter >= getRetryCounter())
+		if (retryCounter > retryCount())
 		{
 			return false;
 		}
 	}
 
-	return false;
+	// Finally run after action
+	this->afterAction();
+
+	return true;
 }
 
 #endif // IWorkflowStage_h__

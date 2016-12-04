@@ -73,8 +73,6 @@ void KubeSolver::shuffle()
   		/* get move */
   		KubeTracer::Move move = registeredMoves[randomIndex];
 
-  		cout << i << ") " << move << endl;
-
   		/* make the move */
   		navigator->makeTheMove(move);
   	}	

@@ -39,9 +39,13 @@ public:
 		
 		// nav->setPrintMove(true);
 
+		printer->printKube();
+
 		KubeSolver *solver = new KubeSolver(nav);
 
 		solver->solve();
+
+		printer->printKube();
 				
 
 		logSrv->printl("Trace: " + tracer->convertToString());
