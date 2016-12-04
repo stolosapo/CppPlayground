@@ -10,11 +10,14 @@ private:
 	Kube* kube;
 	KubeNavigator* nav;
 
+	bool isTileCorrectColor(KubeSide::Color tile)
+	{
+		return kube->getUpper()->getMainColor() == tile;
+	}
+
 	bool isTileCorrect(KubeSide::Color tile, KubeSide* side)
 	{
-		KubeSide::Color mainColor = kube->getUpper()->getMainColor();
-
-		if (tile != mainColor)
+		if (!isTileCorrectColor(tile))
 		{
 			return false;
 		}
@@ -31,8 +34,7 @@ public:
 
 	virtual ~Step1()
 	{
-		this->kube = NULL;
-		this->nav = NULL;
+
 	}
 
 	virtual int retryCount()
@@ -45,21 +47,25 @@ public:
 		KubeSide* side = kube->getUpper();
 		KubeSide::Color** tiles = side->getTiles();
 
+		/* 1st row, 2nd tile */
 		if (!isTileCorrect(tiles[0][1], kube->getBack()))
 		{
 			return false;
 		}
 
+		/* 2nd row, 1st tile */
 		if (!isTileCorrect(tiles[1][0], kube->getLeft()))
 		{
 			return false;
 		}
 		
+		/* 3nd row, 2nd tile */
 		if (!isTileCorrect(tiles[2][1], kube->getFront()))
 		{
 			return false;
 		}
 
+		/* 2nd row, 3rd tile */
 		if (!isTileCorrect(tiles[1][2], kube->getFront()))
 		{
 			return false;
