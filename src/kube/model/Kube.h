@@ -1,8 +1,12 @@
 #ifndef Kube_h__
 #define Kube_h__
 
+#include <vector>
+
 #include "KubeSide.h"
 #include "../action/KubeColorMapper.h"
+
+using namespace std;
 
 class Kube
 {
