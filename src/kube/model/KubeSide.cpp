@@ -29,12 +29,7 @@ KubeSide::Color** KubeSide::getTiles()
 
 KubeSide::Color KubeSide::getMainColor()
 {
-	return mainColor;
-}
-
-void KubeSide::setMainColor(Color mainColor)
-{
-	this->mainColor = mainColor;
+	return tiles[1][1];
 }
 
 void KubeSide::setTile(int row, int col, KubeSide::Color color)

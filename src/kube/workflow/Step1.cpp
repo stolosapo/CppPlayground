@@ -117,28 +117,28 @@ private:
 		/* if is the upper cross tile */
 		if (isTileCorrectColor(upperTile(side)))
 		{
-			cout << "in upper cross tile " << endl;
+			cout << " --- in upper cross tile " << endl;
 			// nav->back2();
 		}
 
 		/* if is the left cross tile */
 		if (isTileCorrectColor(leftTile(side)))
 		{
-			cout << "in left cross tile " << endl;
+			cout << " --- in left cross tile " << endl;
 			// nav->left2();
 		}
 
 		/* if is the bottom cross tile */
 		if (isTileCorrectColor(bottomTile(side)))
 		{
-			cout << "in bottom cross tile " << endl;
+			cout << " --- in bottom cross tile " << endl;
 			// nav->front2();
 		}
 
 		/* if is the right cross tile */
 		if (isTileCorrectColor(rightTile(side)))
 		{
-			cout << "in right cross tile " << endl;
+			cout << " --- in right cross tile " << endl;
 			// nav->right2();
 		}
 
@@ -226,9 +226,7 @@ public:
 
 	virtual void beforeAction()
 	{
-		cout << "Main Color before move " << mainColor() << endl;
 		nav->moveX();
-		cout << "Main Color after move " << mainColor() << endl;
 	}
 
 	virtual void action()
@@ -240,6 +238,8 @@ public:
 		{
 			for (int i = 0; i < sides.size(); ++i)
 			{
+				cout << "side " << sides[i]->getMainColor() << endl;
+
 				if (mainColorInSideExists(sides[i]))
 				{
 					/* procced side */

@@ -92,11 +92,6 @@ KubeSide* KubeLoader::setKubeSideTiles(Kube *kube, KubeSide *side, int sideIndex
 		char colorChar = line[col];
 
 		KubeSide::Color color = kube->getColor(colorChar);
-
-		if (lineIndex == 1)
-		{
-			side->setMainColor(color);
-		}
 		
 		side->setTile(lineIndex, col, color);
 	}
