@@ -170,7 +170,7 @@ void MultiThreadServer::start()
             /* Accept new client */
             TcpStream* stream = acceptor->accept();
 
-            ClientInfo* newClient = new ClientInfo(this, stream);
+            ClientInfo* newClient = new ClientInfo(this, stream, noThread);
 
             acceptNewClient(clientThreadPool[noThread], newClient);
 
@@ -180,7 +180,7 @@ void MultiThreadServer::start()
 
         // for(int i = 0; i < DEFAULT_THREAD_POOL_SIZE; i++)
         // {
-        //     pthread_join(threadA[i], NULL);
+        //     pthread_join(clientThreadPool[i], NULL);
         // }
 
     }

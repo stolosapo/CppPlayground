@@ -1,10 +1,13 @@
-#include "ClientInfo.h"
 #include <string>
+#include <iostream>
+#include "ClientInfo.h"
 
 using namespace std;
 
-ClientInfo::ClientInfo(void *server, TcpStream *stream)
+ClientInfo::ClientInfo(void *server, TcpStream *stream, int index)
 {
+	this->index = index;
+
 	this->stream = stream;
 	this->server = server;
 }
@@ -17,6 +20,11 @@ ClientInfo::~ClientInfo()
 	}
 }
 
+
+int ClientInfo::getIndex()
+{
+	return index;
+}
 
 string ClientInfo::getName()
 {

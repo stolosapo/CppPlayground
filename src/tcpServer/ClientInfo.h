@@ -9,6 +9,7 @@ using namespace std;
 class ClientInfo
 {
 private:
+	int index;
 	string name;
 	string ip;
 	string hostname;
@@ -17,9 +18,10 @@ private:
 	void* server;
 	
 public:
-	ClientInfo(void *server, TcpStream *stream);
+	ClientInfo(void *server, TcpStream *stream, int index);
 	virtual ~ClientInfo();
 
+	int getIndex();
 	string getName();
 	string getIp();
 	string getHostname();
