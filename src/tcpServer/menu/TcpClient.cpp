@@ -22,7 +22,7 @@ TcpClient::TcpClient(ILogService *logSrv) : ITcpClient()
     this->port = TcpClient::DEFAULT_PORT;
     this->hostname = TcpClient::DEFAULT_HOSTNAME;
 
-	this->setId(2);
+	this->setId(3);
 	this->setName("Tcp Client");
 	this->setTitle("Tcp Client");
 	this->setDescription("The First Kube Tcp Client");

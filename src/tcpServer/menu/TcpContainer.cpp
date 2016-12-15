@@ -13,7 +13,7 @@ public:
 		3, 
 		"Tcp Client/Server",
 		"Tcp Client/Server",
-		2)
+		3)
 	{
 		
 	}
@@ -26,8 +26,9 @@ public:
 protected:
 	virtual void fillOptions()
 	{
-		this->addMenuItem(0, TcpServerFactory::create(logSrv));
-		this->addMenuItem(1, TcpClientFactory::create(logSrv));
+		this->addMenuItem(0, TcpServerFactory::create(logSrv, false));
+		this->addMenuItem(1, TcpServerFactory::create(logSrv, true));
+		this->addMenuItem(2, TcpClientFactory::create(logSrv));
 	}
 
 	virtual string getHeader()
