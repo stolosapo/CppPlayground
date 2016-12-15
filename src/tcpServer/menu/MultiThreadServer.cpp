@@ -6,6 +6,7 @@
 #include "MultiThreadServer.h"
 #include "../TcpAcceptor.h"
 #include "../TcpProtocol.h"
+#include "../ClientInfo.h"
 
 using namespace std;
 
@@ -44,9 +45,10 @@ MultiThreadServer::~MultiThreadServer()
 *       PRIVATE METHODS
 *
 **********************************/
-bool MultiThreadServer::allowClient(TcpStream* stream)
+bool MultiThreadServer::allowClient(ClientInfo* client)
 {
     bool accept = false;
+    TcpStream* stream = client->getStream();
 
     string input = "";
     stream->receive(input);
@@ -64,33 +66,28 @@ bool MultiThreadServer::allowClient(TcpStream* stream)
     return accept;
 }
 
-void MultiThreadServer::acceptNewClient(pthread_t clientThread, TcpStream* stream)
+void MultiThreadServer::acceptNewClient(pthread_t clientThread, ClientInfo* client)
 {
-    if (stream  != NULL)
+    if (client->getStream()  != NULL)
     {
         logSrv->printl("");
         logSrv->info("Server start to accept new client");
 
         // Check new client for acceptance
-        if (allowClient(stream))
+        if (allowClient(client))
         {
             logSrv->info("Server accepted new client");
 
             /* Start new thread for this client */
-            pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, stream);
+            pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, client);
 
         }
         else
         {
             logSrv->info("Server denied access to the client");
 
-            delete stream;
+            delete client;
         }
-        
-
-        logSrv->info("Server accepted client terminated");
-
-        // pthread_create(&threadA[noThread], NULL, MultiThreadServer::taskHelper, stream);
     }
 }
 
@@ -106,39 +103,41 @@ void MultiThreadServer::processCommand(TcpStream *stream, string command)
 
 void* MultiThreadServer::task(void *context)
 {
-    TcpStream* stream = (TcpStream *) (context);
+    ClientInfo* client = (ClientInfo *) context;
+
+    TcpStream* stream = client->getStream();
+    MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
 
     string input = "";
     string message = "";
 
     cout << "Thread No: " << pthread_self() << endl;
 
-    // receive messages
+    /* receive messages */
     while (stream->receive(message) > 0)
     {
         input = message;
-        // logSrv->printl("received - " + input);
-        cout << "received - " + input << endl;
+        server->logSrv->printl("received - " + input);
 
         if (TcpProtocol::validCommand(input))
         {
 
             /* Process Message */
-            // processCommand(stream, input);
-
+            server->processCommand(stream, input);
 
             stream->send(input);
+
         }
         else
         {
-            // send error message back
+            /* send error message back */
             stream->send((string) TcpProtocol::INVALID_COMMAND);
         }
     }
     
-    cout << "Closing thread and conn" << endl;
+    server->logSrv->info("Server accepted client terminated");
 
-    delete stream;
+    delete client;
 }
 
 void* MultiThreadServer::taskHelper(void *context)
@@ -156,8 +155,8 @@ void MultiThreadServer::start()
 {
     string input = "";
 
-    /* Thread pool */
-    pthread_t clientThreadPool[3];
+    /* Thread pool */    
+    pthread_t clientThreadPool[DEFAULT_THREAD_POOL_SIZE];
     int noThread = 0;
 
     logSrv->info("Server is starting...");
@@ -168,16 +167,18 @@ void MultiThreadServer::start()
 
         while (!TcpProtocol::shutdown(input))
         {
-            // Accept new client
+            /* Accept new client */
             TcpStream* stream = acceptor->accept();
 
-            acceptNewClient(clientThreadPool[noThread], stream);
+            ClientInfo* newClient = new ClientInfo(this, stream);
+
+            acceptNewClient(clientThreadPool[noThread], newClient);
 
             /* Increase thead counter */
             noThread++;
         }
 
-        // for(int i = 0; i < 3; i++)
+        // for(int i = 0; i < DEFAULT_THREAD_POOL_SIZE; i++)
         // {
         //     pthread_join(threadA[i], NULL);
         // }

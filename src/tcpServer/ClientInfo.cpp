@@ -3,9 +3,10 @@
 
 using namespace std;
 
-ClientInfo::ClientInfo(TcpStream *stream)
+ClientInfo::ClientInfo(void *server, TcpStream *stream)
 {
 	this->stream = stream;
+	this->server = server;
 }
 
 ClientInfo::~ClientInfo()
@@ -35,6 +36,11 @@ string ClientInfo::getHostname()
 TcpStream* ClientInfo::getStream()
 {
 	return stream;
+}
+
+void* ClientInfo::getServer()
+{
+	return server;
 }
 
 

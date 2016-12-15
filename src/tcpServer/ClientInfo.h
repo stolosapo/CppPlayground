@@ -14,9 +14,10 @@ private:
 	string hostname;
 
 	TcpStream *stream;
+	void* server;
 	
 public:
-	ClientInfo(TcpStream *stream);
+	ClientInfo(void *server, TcpStream *stream);
 	virtual ~ClientInfo();
 
 	string getName();
@@ -24,6 +25,7 @@ public:
 	string getHostname();
 
 	TcpStream* getStream();
+	void* getServer();
 
 	void setName(string name);
 	void setIp(string ip);

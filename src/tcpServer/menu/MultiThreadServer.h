@@ -4,6 +4,7 @@
 #include <string>
 #include "ITcpServer.h"
 #include "../TcpAcceptor.h"
+#include "../ClientInfo.h"
 #include "../../log/ILogService.h"
 
 using namespace std;
@@ -12,6 +13,7 @@ class MultiThreadServer : public ITcpServer
 {
 private:
 	static const int DEFAULT_PORT = 51717;
+	static const int DEFAULT_THREAD_POOL_SIZE = 5;
 	static const char* DEFAULT_HOSTNAME;
 
 	ILogService *logSrv;
@@ -21,8 +23,8 @@ private:
 
 	TcpAcceptor *acceptor;
 
-	bool allowClient(TcpStream* stream);
-	void acceptNewClient(pthread_t clientThread, TcpStream* stream);
+	bool allowClient(ClientInfo* client);
+	void acceptNewClient(pthread_t clientThread, ClientInfo* client);
 
 	bool handshake();
 	
