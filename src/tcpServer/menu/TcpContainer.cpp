@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "TcpServerFactory.h"
-#include "TcpClientFactory.h"
+#include "TcpServerFactory.cpp"
+#include "TcpClientFactory.cpp"
 #include "../../shared/Container.h"
 
 using namespace std;

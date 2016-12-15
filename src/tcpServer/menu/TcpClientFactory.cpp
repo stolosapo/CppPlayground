@@ -1,18 +1,23 @@
-#include "TcpClientFactory.h"
+#include "ITcpClient.h"
 #include "TcpClient.h"
+#include "../../log/ILogService.h"
 
-TcpClientFactory::TcpClientFactory()
+class TcpClientFactory
 {
+public:
+	TcpClientFactory()
+	{
 
-}
+	}
 
-TcpClientFactory::~TcpClientFactory()
-{
+	~TcpClientFactory()
+	{
 
-}
-
-ITcpClient *TcpClientFactory::create(ILogService *logSrv)
-{
-	TcpClient* srv = new TcpClient(logSrv);
-	return (ITcpClient*) srv;
-}
+	}
+	
+	static ITcpClient *create(ILogService *logSrv)
+	{
+		TcpClient* srv = new TcpClient(logSrv);
+		return (ITcpClient*) srv;
+	}
+};
