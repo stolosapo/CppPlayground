@@ -2,7 +2,7 @@
 #define TcpClientFactory_h__
 
 #include "ITcpClient.h"
-#include "../log/ILogService.h"
+#include "../../log/ILogService.h"
 
 class TcpClientFactory
 {

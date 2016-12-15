@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string>
 #include "TcpClient.h"
-#include "TcpConnector.h"
-#include "TcpProtocol.h"
+#include "../TcpConnector.h"
+#include "../TcpProtocol.h"
 
 using namespace std;
 
