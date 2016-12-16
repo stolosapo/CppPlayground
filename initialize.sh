@@ -7,7 +7,7 @@ CDIRS=$(find -type d -printf '%d\t%P\n' | cut -f2-);
 cd ..
 
 cd "${RES}"
-EXAMPLEFILES=$(find -type f -name "*.example" -printf '%d\t%P\n' | cut -f2-);
+EXAMPLEFILES=$(find -type f -printf '%d\t%P\n' | cut -f2-);
 cd ..
 
 # Create build folder if is not exists
