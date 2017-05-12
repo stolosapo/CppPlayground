@@ -26,6 +26,11 @@ int ClientInfo::getIndex()
 	return index;
 }
 
+long ClientInfo::getThreadNumber()
+{
+	return threadNumber;
+}
+
 string ClientInfo::getName()
 {
 	return name;
@@ -51,6 +56,10 @@ void* ClientInfo::getServer()
 	return server;
 }
 
+void ClientInfo::setThreadNumber(long threadNumber)
+{
+	this->threadNumber = threadNumber;
+}
 
 void ClientInfo::setName(string name)
 {

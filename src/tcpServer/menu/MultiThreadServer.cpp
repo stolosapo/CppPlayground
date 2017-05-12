@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+#include "../../shared/convert.h"
+
 #include "MultiThreadServer.h"
 #include "../TcpAcceptor.h"
 #include "../TcpProtocol.h"
@@ -91,16 +93,6 @@ void MultiThreadServer::acceptNewClient(pthread_t clientThread, ClientInfo* clie
     }
 }
 
-bool MultiThreadServer::handshake()
-{
-    return true;
-}
-
-void MultiThreadServer::processCommand(TcpStream *stream, string command)
-{
-
-}
-
 void* MultiThreadServer::task(void *context)
 {
     ClientInfo* client = (ClientInfo *) context;
@@ -108,18 +100,26 @@ void* MultiThreadServer::task(void *context)
     TcpStream* stream = client->getStream();
     MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
 
+    ILogService* logger = server->logSrv;
+
     string input = "";
     string message = "";
 
-    cout << "Thread No: " << pthread_self() << endl;
+    long threadNumber = pthread_self();
+    string strThreadNumber = Convert<long>::NumberToString(threadNumber);
+    string index = Convert<int>::NumberToString(client->getIndex());
+
+    client->setThreadNumber(threadNumber);
+
+    logger->info("[ " + index + " ] - Thread No: " + strThreadNumber);
 
     /* receive messages */
     while (stream->receive(message) > 0)
     {
         input = message;
-        server->logSrv->printl("received - " + input);
+        logger->info("received [" + index + " - " + strThreadNumber + "] - " + input);
 
-        if (TcpProtocol::validCommand(input))
+        if (server->validateCommand(input))
         {
 
             /* Process Message */
@@ -134,8 +134,8 @@ void* MultiThreadServer::task(void *context)
             stream->send((string) TcpProtocol::INVALID_COMMAND);
         }
     }
-    
-    server->logSrv->info("Server accepted client terminated");
+
+    logger->info("Client with threadNumber: " + strThreadNumber + " terminated");
 
     delete client;
 }
@@ -155,7 +155,7 @@ void MultiThreadServer::start()
 {
     string input = "";
 
-    /* Thread pool */    
+    /* Thread pool */
     pthread_t clientThreadPool[DEFAULT_THREAD_POOL_SIZE];
     int noThread = 0;
 
@@ -197,4 +197,25 @@ void MultiThreadServer::action()
 	this->logSrv->outString("\n\n");
 
 	this->start();
+}
+
+
+/*********************************
+*
+*		PROTECTED METHODS
+*
+**********************************/
+bool MultiThreadServer::handshake()
+{
+    	return true;
+}
+
+bool MultiThreadServer::validateCommand(string command)
+{
+	return TcpProtocol::validCommand(command);
+}
+
+void MultiThreadServer::processCommand(TcpStream *stream, string command)
+{
+
 }

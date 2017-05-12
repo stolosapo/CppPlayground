@@ -26,12 +26,8 @@ private:
 	bool allowClient(ClientInfo* client);
 	void acceptNewClient(pthread_t clientThread, ClientInfo* client);
 
-	bool handshake();
-	
 	void *task(void *);
 	static void *taskHelper(void *context);
-
-	void processCommand(TcpStream *stream, string command);
 
 public:
 	MultiThreadServer(ILogService *logSrv);
@@ -39,6 +35,11 @@ public:
 
 	virtual void start();
 	virtual void action();
+
+protected:
+	virtual bool handshake();
+	virtual bool validateCommand(string command);
+	virtual void processCommand(TcpStream *stream, string command);
 };
 
 #endif // MultiThreadServer_h__
