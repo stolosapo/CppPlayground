@@ -1,33 +1,26 @@
 #ifndef TcpServerConfig_h__
 #define TcpServerConfig_h__
 
-#include "ITcpClient.h"
-#include "../TcpConnector.h"
-#include "../../log/ILogService.h"
+#include <string>
 
-class TcpServerConfig : public ITcpClient
+#include "../../lib/configuration/IConfig.h"
+
+using namespace std;
+
+class TcpServerConfig : public IConfig
 {
-private:
-	static const int DEFAULT_PORT = 51717;
-	static const char* DEFAULT_HOSTNAME;
-
-	ILogService *logSrv;
-
-	int port;
-	const char* hostname;
-
-	TcpConnector *connector;
-	TcpStream *stream;
-
-	void test();
-	bool askServerPermission();
-	
 public:
-	TcpServerConfig(ILogService *logSrv);
+	TcpServerConfig();
 	virtual ~TcpServerConfig();
 
-	void start();
-	virtual void action();
+	static Model* factory();
+
+	int getServerPort();
+	string getServerHostname();
+
+protected:
+	virtual void registerProperties();
+
 };
 
 #endif // TcpServerConfig_h__

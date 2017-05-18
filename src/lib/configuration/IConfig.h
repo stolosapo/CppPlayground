@@ -10,11 +10,8 @@ using namespace std;
 
 class IConfig : public Model
 {
-private:
-	string fileName;
-	
 public:
-	IConfig(string fileName, staticFactoryMethod staticFactory);
+	IConfig(staticFactoryMethod staticFactory);
 	virtual ~IConfig();
 
 };
