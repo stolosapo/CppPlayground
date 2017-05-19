@@ -6,7 +6,7 @@ using namespace std;
 
 TcpServerConfig::TcpServerConfig() : IConfig(&factory)
 {
-
+	this->registerProperties();
 }
 
 TcpServerConfig::~TcpServerConfig()

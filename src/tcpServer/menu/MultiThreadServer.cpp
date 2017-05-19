@@ -148,9 +148,6 @@ void* MultiThreadServer::taskHelper(void *context)
 **********************************/
 void MultiThreadServer::start()
 {
-	// initialize server
-	initialize();
-
     string input = "";
 
     /* Thread pool */
@@ -194,6 +191,10 @@ void MultiThreadServer::action()
 	this->identify();
 	this->logSrv->outString("\n\n");
 
+	this->loadConfig();
+
+	this->initialize();
+
 	this->start();
 }
 
@@ -210,30 +211,37 @@ void MultiThreadServer::loadConfig()
 
 	this->config = loader->load();
 
-	cout << this->config->getServerPort() << " " << this->config->getServerHostname();
-
 	delete loader;
 }
 
 void MultiThreadServer::initialize()
 {
-	// loadConfig();
+	if (this->config == NULL)
+	{
+		this->port = DEFAULT_PORT;
+		this->hostname = DEFAULT_HOSTNAME;
+	}
+	else
+	{
+		int curPort = this->config->getServerPort();
+		const char* curHostname = this->config->getServerHostname().c_str();
 
-	this->port = DEFAULT_PORT;
-	this->hostname = DEFAULT_HOSTNAME;
+		if (curPort == 0 || curHostname == "")
+		{
+			curPort = DEFAULT_PORT;
+			curHostname = DEFAULT_HOSTNAME;
+		}
 
-	// if (this->config == NULL)
-	// {
-	// 	this->port = DEFAULT_PORT;
-	// 	this->hostname = DEFAULT_HOSTNAME;
-	// }
-	// else
-	// {
-	// 	this->port = this->config->getServerPort();
-	// 	this->hostname = this->config->getServerHostname().c_str();
-	// }
+		this->port = curPort;
+		this->hostname = curHostname;
+	}
 
 	acceptor = new TcpAcceptor(port, hostname);
+
+	string strHostname = hostname;
+	string strPort = Convert<int>::NumberToString(port);
+
+	this->logSrv->info("Server binded in Hostname: " + strHostname + " , Port: " + strPort);
 }
 
 bool MultiThreadServer::handshake()
