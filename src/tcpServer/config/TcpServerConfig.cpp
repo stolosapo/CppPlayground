@@ -20,8 +20,8 @@ void TcpServerConfig::registerProperties()
 	registerPropertyName(2, "name", Property::STRING);
 	registerPropertyName(3, "description", Property::STRING);
 	registerPropertyName(4, "hostname", Property::STRING);
-	registerPropertyName(5, "port", Property::STRING);
-	registerPropertyName(6, "poolsize", Property::STRING);
+	registerPropertyName(5, "port", Property::INT);
+	registerPropertyName(6, "poolsize", Property::INT);
 }
 
 int TcpServerConfig::getId()

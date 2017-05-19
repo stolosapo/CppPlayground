@@ -240,10 +240,13 @@ void MultiThreadServer::initialize()
 
 	string strHostname = hostname;
 	string strPort = Convert<int>::NumberToString(port);
+	string strPoolsize = Convert<int>::NumberToString(this->config->getPoolsize());
 
-	this->logSrv->info(this->config->getName());
-	this->logSrv->info(this->config->getDescription());
-	this->logSrv->info("Server binded in Hostname: " + strHostname + ", Port: " + strPort);
+	this->logSrv->info("Server Name: " + this->config->getName());
+	this->logSrv->info("Server Description: " + this->config->getDescription());
+	this->logSrv->info("Server Hostname: " + strHostname);
+	this->logSrv->info("Server Port: " + strPort);
+	this->logSrv->info("Server Poolsize: " + strPoolsize);
 }
 
 bool MultiThreadServer::handshake()
