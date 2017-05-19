@@ -4,22 +4,62 @@
 #include <iostream>
 #include <string>
 
-#include "../../data/Model.h"
+#include "../../serialization/ISerializationService.h"
+#include "../../serialization/SerializationServiceFactory.h"
 
 using namespace std;
 
-template<typename T>
+template<class T>
 class IConfigLoader
 {
 private:
-	ISerializationService serializer;
+	ISerializationService* serializer;
 	string filename;
 
 public:
-	IConfigLoader(ISerializationService serializer, string filename);
+	IConfigLoader(string filename);
 	virtual ~IConfigLoader();
 
-	virtual T* load();
+	virtual T* load() = 0;
+
+protected:
+	ISerializationService* getSerializer();
+	string getFilename();
+
 };
 
 #endif // IConfigLoader_h__
+
+
+
+
+
+
+template<class T>
+IConfigLoader<T>::IConfigLoader(string filename)
+{
+        this->filename = filename;
+
+        this->serializer = SerializationServiceFactory::create();
+}
+
+template<class T>
+IConfigLoader<T>::~IConfigLoader()
+{
+        if (this->serializer != NULL)
+        {
+                delete this->serializer;
+        }
+}
+
+template<class T>
+ISerializationService* IConfigLoader<T>::getSerializer()
+{
+        return this->serializer;
+}
+
+template<class T>
+string IConfigLoader<T>::getFilename()
+{
+        return this->filename;
+}
