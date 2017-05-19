@@ -18,7 +18,7 @@ public:
 	int getId();
 	string getName();
 	string getDescription();
-	string getServerHostname();
+	string getServerName();
 	int getServerPort();
 
 protected:

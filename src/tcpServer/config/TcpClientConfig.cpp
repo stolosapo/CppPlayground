@@ -19,8 +19,8 @@ void TcpClientConfig::registerProperties()
 	registerPropertyName(1, "id", Property::INT);
 	registerPropertyName(2, "name", Property::STRING);
 	registerPropertyName(3, "description", Property::STRING);
-	registerPropertyName(4, "serverHostname", Property::STRING);
-	registerPropertyName(5, "serverPort", Property::INT);
+	registerPropertyName(4, "servername", Property::STRING);
+	registerPropertyName(5, "serverport", Property::INT);
 }
 
 int TcpClientConfig::getId()
@@ -38,14 +38,14 @@ string TcpClientConfig::getDescription()
 	return getStringProperty("description");
 }
 
-string TcpClientConfig::getServerHostname()
+string TcpClientConfig::getServerName()
 {
-	return getStringProperty("serverHostname");
+	return getStringProperty("servername");
 }
 
 int TcpClientConfig::getServerPort()
 {
-	return getIntProperty("serverHostname");
+	return getIntProperty("serverport");
 }
 
 

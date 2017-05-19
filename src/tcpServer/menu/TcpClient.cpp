@@ -188,7 +188,7 @@ void TcpClient::initialize()
 	else
 	{
 		int curPort = this->config->getServerPort();
-		const char* curHostname = this->config->getServerHostname().c_str();
+		const char* curHostname = this->config->getServerName().c_str();
 
 		if (curPort == 0 || curHostname == "")
 		{
@@ -202,11 +202,11 @@ void TcpClient::initialize()
 
 	connector = new TcpConnector();
 
-	string strServerHostname = hostname;
+	string strServerName = hostname;
 	string strServerPort = Convert<int>::NumberToString(port);
 
 	this->logSrv->info("Client Name: " + this->config->getName());
 	this->logSrv->info("Client Description: " + this->config->getDescription());
-	this->logSrv->info("Server Hostname: " + strServerHostname);
+	this->logSrv->info("Server Hostname: " + strServerName);
 	this->logSrv->info("Server Port: " + strServerPort);
 }
