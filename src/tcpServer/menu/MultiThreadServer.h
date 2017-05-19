@@ -3,6 +3,7 @@
 
 #include <string>
 #include "ITcpServer.h"
+#include "../config/TcpServerConfig.h"
 #include "../TcpAcceptor.h"
 #include "../ClientInfo.h"
 #include "../../log/ILogService.h"
@@ -22,6 +23,7 @@ private:
 	const char* hostname;
 
 	TcpAcceptor *acceptor;
+	TcpServerConfig* config;
 
 	bool allowClient(ClientInfo* client);
 	void acceptNewClient(pthread_t clientThread, ClientInfo* client);
@@ -37,6 +39,9 @@ public:
 	virtual void action();
 
 protected:
+	virtual void loadConfig();
+	virtual void initialize();
+
 	virtual bool handshake();
 	virtual bool validateCommand(string command);
 	virtual void processCommand(TcpStream *stream, string command);

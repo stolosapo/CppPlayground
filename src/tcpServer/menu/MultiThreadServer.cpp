@@ -6,6 +6,7 @@
 #include "../../shared/convert.h"
 
 #include "MultiThreadServer.h"
+#include "../config/TcpServerConfigLoader.h"
 #include "../TcpAcceptor.h"
 #include "../TcpProtocol.h"
 #include "../ClientInfo.h"
@@ -23,21 +24,15 @@ MultiThreadServer::MultiThreadServer(ILogService *logSrv) : ITcpServer()
 {
 	this->logSrv = logSrv;
 
-    this->port = DEFAULT_PORT;
-    this->hostname = DEFAULT_HOSTNAME;
-
 	this->setId(2);
 	this->setName("Multi Thread Server");
 	this->setTitle("Multi Thread Server");
 	this->setDescription("The First Kube Multi Thread Server");
-
-    // initialize server
-    acceptor = new TcpAcceptor(port, hostname);
 }
 
 MultiThreadServer::~MultiThreadServer()
 {
-    delete acceptor;
+	delete acceptor;
 }
 
 
@@ -153,6 +148,9 @@ void* MultiThreadServer::taskHelper(void *context)
 **********************************/
 void MultiThreadServer::start()
 {
+	// initialize server
+	initialize();
+
     string input = "";
 
     /* Thread pool */
@@ -205,6 +203,39 @@ void MultiThreadServer::action()
 *		PROTECTED METHODS
 *
 **********************************/
+
+void MultiThreadServer::loadConfig()
+{
+	TcpServerConfigLoader* loader = new TcpServerConfigLoader("tcpServer.config");
+
+	this->config = loader->load();
+
+	cout << this->config->getServerPort() << " " << this->config->getServerHostname();
+
+	delete loader;
+}
+
+void MultiThreadServer::initialize()
+{
+	// loadConfig();
+
+	this->port = DEFAULT_PORT;
+	this->hostname = DEFAULT_HOSTNAME;
+
+	// if (this->config == NULL)
+	// {
+	// 	this->port = DEFAULT_PORT;
+	// 	this->hostname = DEFAULT_HOSTNAME;
+	// }
+	// else
+	// {
+	// 	this->port = this->config->getServerPort();
+	// 	this->hostname = this->config->getServerHostname().c_str();
+	// }
+
+	acceptor = new TcpAcceptor(port, hostname);
+}
+
 bool MultiThreadServer::handshake()
 {
     	return true;
