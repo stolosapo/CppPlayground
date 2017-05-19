@@ -15,8 +15,12 @@ public:
 
 	static Model* factory();
 
-	int getServerPort();
-	string getServerHostname();
+	int getId();
+	string getName();
+	string getDescription();
+	string getHostname();
+	int getPort();
+	int getPoolsize();
 
 protected:
 	virtual void registerProperties();

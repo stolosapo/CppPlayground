@@ -223,8 +223,8 @@ void MultiThreadServer::initialize()
 	}
 	else
 	{
-		int curPort = this->config->getServerPort();
-		const char* curHostname = this->config->getServerHostname().c_str();
+		int curPort = this->config->getPort();
+		const char* curHostname = this->config->getHostname().c_str();
 
 		if (curPort == 0 || curHostname == "")
 		{
@@ -241,7 +241,9 @@ void MultiThreadServer::initialize()
 	string strHostname = hostname;
 	string strPort = Convert<int>::NumberToString(port);
 
-	this->logSrv->info("Server binded in Hostname: " + strHostname + " , Port: " + strPort);
+	this->logSrv->info(this->config->getName());
+	this->logSrv->info(this->config->getDescription());
+	this->logSrv->info("Server binded in Hostname: " + strHostname + ", Port: " + strPort);
 }
 
 bool MultiThreadServer::handshake()

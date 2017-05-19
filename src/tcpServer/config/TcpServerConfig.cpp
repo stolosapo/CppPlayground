@@ -16,19 +16,44 @@ TcpServerConfig::~TcpServerConfig()
 
 void TcpServerConfig::registerProperties()
 {
-	registerPropertyName(1, "serverPort", Property::INT);
-	registerPropertyName(2, "serverHostname", Property::STRING);
+	registerPropertyName(1, "id", Property::INT);
+	registerPropertyName(2, "name", Property::STRING);
+	registerPropertyName(3, "description", Property::STRING);
+	registerPropertyName(4, "hostname", Property::STRING);
+	registerPropertyName(5, "port", Property::STRING);
+	registerPropertyName(6, "poolsize", Property::STRING);
 }
 
-int TcpServerConfig::getServerPort()
+int TcpServerConfig::getId()
 {
-	return getIntProperty("serverPort");
+	return getIntProperty("id");
 }
 
-string TcpServerConfig::getServerHostname()
+string TcpServerConfig::getName()
 {
-	return getStringProperty("serverHostname");
+	return getStringProperty("name");
 }
+
+string TcpServerConfig::getDescription()
+{
+	return getStringProperty("description");
+}
+
+string TcpServerConfig::getHostname()
+{
+	return getStringProperty("hostname");
+}
+
+int TcpServerConfig::getPort()
+{
+	return getIntProperty("port");
+}
+
+int TcpServerConfig::getPoolsize()
+{
+	return getIntProperty("poolsize");
+}
+
 
 Model* TcpServerConfig::factory()
 {
