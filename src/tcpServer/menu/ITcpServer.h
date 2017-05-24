@@ -1,7 +1,7 @@
 #ifndef ITcpServer_h__
 #define ITcpServer_h__
 
-#include "../menu/MenuItem.h"
+#include "../../menu/MenuItem.h"
 
 class ITcpServer : public MenuItem
 {
