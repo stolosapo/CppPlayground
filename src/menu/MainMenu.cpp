@@ -4,7 +4,7 @@
 #include "../shared/Container.h"
 #include "../log/LogServiceContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
-#include "../tcpServer/TcpContainer.cpp"
+#include "../tcpServer/menu/TcpContainer.cpp"
 #include "../serialization/SerializationContainer.cpp"
 #include "../gpio/GpioMenuContainer.cpp"
 

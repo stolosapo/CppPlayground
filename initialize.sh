@@ -1,8 +1,13 @@
 BUILDDIR="build";
 BINDIR="bin";
+RES="resources";
 
 cd src/
 CDIRS=$(find -type d -printf '%d\t%P\n' | cut -f2-);
+cd ..
+
+cd "${RES}"
+EXAMPLEFILES=$(find -type f -printf '%d\t%P\n' | cut -f2-);
 cd ..
 
 # Create build folder if is not exists
@@ -23,5 +28,14 @@ for i in $CDIRS; do
 	if [[ ! -d $DIR ]]; then
 		mkdir $DIR;
 	fi
+
+done
+
+# Copy all files from resources to bin
+for i in $EXAMPLEFILES; do
+	
+	FROM="${RES}/${i}";
+
+	cp $FROM $BINDIR;
 
 done

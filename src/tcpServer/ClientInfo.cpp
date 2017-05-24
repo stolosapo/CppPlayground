@@ -1,11 +1,15 @@
-#include "ClientInfo.h"
 #include <string>
+#include <iostream>
+#include "ClientInfo.h"
 
 using namespace std;
 
-ClientInfo::ClientInfo(TcpStream *stream)
+ClientInfo::ClientInfo(void *server, TcpStream *stream, int index)
 {
+	this->index = index;
+
 	this->stream = stream;
+	this->server = server;
 }
 
 ClientInfo::~ClientInfo()
@@ -16,6 +20,16 @@ ClientInfo::~ClientInfo()
 	}
 }
 
+
+int ClientInfo::getIndex()
+{
+	return index;
+}
+
+long ClientInfo::getThreadNumber()
+{
+	return threadNumber;
+}
 
 string ClientInfo::getName()
 {
@@ -37,6 +51,15 @@ TcpStream* ClientInfo::getStream()
 	return stream;
 }
 
+void* ClientInfo::getServer()
+{
+	return server;
+}
+
+void ClientInfo::setThreadNumber(long threadNumber)
+{
+	this->threadNumber = threadNumber;
+}
 
 void ClientInfo::setName(string name)
 {

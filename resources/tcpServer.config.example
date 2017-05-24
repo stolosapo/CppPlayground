@@ -1,0 +1,8 @@
+{
+	"id":1,
+	"name":"TheFirstKube Server",
+	"description":"A multithreaded tcp server",
+	"hostname":"localhost",
+	"port":51717,
+	"poolsize":10
+}

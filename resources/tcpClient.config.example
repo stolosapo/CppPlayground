@@ -1,0 +1,7 @@
+{
+	"id":1,
+	"name":"TheFirstKube Client",
+	"description":"A client",
+	"servername":"localhost",
+	"serverport":51717
+}
