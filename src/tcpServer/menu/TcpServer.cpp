@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 #include "TcpServer.h"
-#include "TcpAcceptor.h"
-#include "TcpProtocol.h"
+#include "../TcpAcceptor.h"
+#include "../TcpProtocol.h"
 
 using namespace std;
 
