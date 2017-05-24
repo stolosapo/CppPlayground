@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <string>
 #include "TcpClient.h"
-#include "TcpConnector.h"
-#include "TcpProtocol.h"
+#include "../config/TcpClientConfigLoader.h"
+#include "../TcpConnector.h"
+#include "../TcpProtocol.h"
+#include "../../shared/convert.h"
 
 using namespace std;
 
@@ -19,17 +21,13 @@ TcpClient::TcpClient(ILogService *logSrv) : ITcpClient()
 {
 	this->logSrv = logSrv;
 
-    this->port = TcpClient::DEFAULT_PORT;
-    this->hostname = TcpClient::DEFAULT_HOSTNAME;
+	this->port = TcpClient::DEFAULT_PORT;
+	this->hostname = TcpClient::DEFAULT_HOSTNAME;
 
-	this->setId(2);
+	this->setId(3);
 	this->setName("Tcp Client");
 	this->setTitle("Tcp Client");
 	this->setDescription("The First Kube Tcp Client");
-
-
-    // Initialize connection
-    connector = new TcpConnector();
 }
 
 TcpClient::~TcpClient()
@@ -52,7 +50,7 @@ void TcpClient::test()
 
     // stream = connector->connect(port, hostname);
 
-    // if (stream) 
+    // if (stream)
     // {
     //     message = "Is there life on Mars?";
     //     stream->send(message.c_str(), message.size());
@@ -71,7 +69,7 @@ void TcpClient::test()
 
 
     // stream = connector->connect(port, hostname);
-    // if (stream) 
+    // if (stream)
     // {
     //     message = "Why is there air?";
     //     stream->send(message.c_str(), message.size());
@@ -114,11 +112,11 @@ void TcpClient::start()
     string message;
     string input = "";
 
-    
+
     logSrv->info("Client is connecting to server...");
     stream = connector->connect(port, hostname);
 
-    if (stream) 
+    if (stream)
     {
         InOut *in = new InOut;
 
@@ -162,5 +160,53 @@ void TcpClient::action()
 	this->identify();
 	this->logSrv->outString("\n\n");
 
+	this->loadConfig();
+
+	this->initialize();
+
 	this->start();
+}
+
+
+void TcpClient::loadConfig()
+{
+	TcpClientConfigLoader* loader = new TcpClientConfigLoader("tcpClient.config");
+
+	this->config = loader->load();
+
+	delete loader;
+}
+
+
+void TcpClient::initialize()
+{
+	if (this->config == NULL)
+	{
+		this->port = DEFAULT_PORT;
+		this->hostname = DEFAULT_HOSTNAME;
+	}
+	else
+	{
+		int curPort = this->config->getServerPort();
+		const char* curHostname = this->config->getServerName().c_str();
+
+		if (curPort == 0 || curHostname == "")
+		{
+			curPort = DEFAULT_PORT;
+			curHostname = DEFAULT_HOSTNAME;
+		}
+
+		this->port = curPort;
+		this->hostname = curHostname;
+	}
+
+	connector = new TcpConnector();
+
+	string strServerName = hostname;
+	string strServerPort = Convert<int>::NumberToString(port);
+
+	this->logSrv->info("Client Name: " + this->config->getName());
+	this->logSrv->info("Client Description: " + this->config->getDescription());
+	this->logSrv->info("Server Hostname: " + strServerName);
+	this->logSrv->info("Server Port: " + strServerPort);
 }

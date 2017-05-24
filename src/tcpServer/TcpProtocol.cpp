@@ -3,7 +3,7 @@
 #include <locale>
 
 
-const char* TcpProtocol::PROMPT = "tfk > ";
+const char* TcpProtocol::PROMPT = "tfk> ";
 
 const char* TcpProtocol::CLIENT_CONNECT = "client_connect";
 const char* TcpProtocol::OK = "ok";

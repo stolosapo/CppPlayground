@@ -2,8 +2,9 @@
 #define TcpClient_h__
 
 #include "ITcpClient.h"
-#include "TcpConnector.h"
-#include "../log/ILogService.h"
+#include "../config/TcpClientConfig.h"
+#include "../TcpConnector.h"
+#include "../../log/ILogService.h"
 
 class TcpClient : public ITcpClient
 {
@@ -18,16 +19,22 @@ private:
 
 	TcpConnector *connector;
 	TcpStream *stream;
+	TcpClientConfig* config;
 
 	void test();
 	bool askServerPermission();
-	
+
 public:
 	TcpClient(ILogService *logSrv);
 	virtual ~TcpClient();
 
 	void start();
 	virtual void action();
+
+protected:
+	virtual void loadConfig();
+	virtual void initialize();
+
 };
 
 #endif // TcpClient_h__
