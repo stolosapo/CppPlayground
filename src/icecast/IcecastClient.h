@@ -2,6 +2,7 @@
 #define IcecastClient_h__
 
 #include "config/IcecastClientConfig.h"
+#include "IcecastProtocol.h"
 #include "../tcpServer/menu/ITcpClient.h"
 #include "../tcpServer/TcpConnector.h"
 #include "../log/ILogService.h"
@@ -9,18 +10,14 @@
 class IcecastClient : public ITcpClient
 {
 private:
-	string newLine;
-
 	ILogService *logSrv;
 
 	TcpConnector *connector;
 	TcpStream *stream;
 	IcecastClientConfig* config;
-
-	void test();
+	IcecastProtocol* protocol;
 
 	void loadConfig();
-	void initialize();
 
 public:
 	IcecastClient(ILogService *logSrv);
