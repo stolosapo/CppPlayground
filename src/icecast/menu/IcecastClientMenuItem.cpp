@@ -1,5 +1,7 @@
 #include "IcecastClientMenuItem.h"
 
+#include "../IcecastClient.h"
+
 
 IcecastClientMenuItem::IcecastClientMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -18,5 +20,9 @@ IcecastClientMenuItem::~IcecastClientMenuItem()
 
 void IcecastClientMenuItem::action()
 {
-    cout << "Alive!!" << endl;
+    IcecastClient* client = new IcecastClient(this->logSrv);
+
+    client->action();
+
+    delete client;
 }

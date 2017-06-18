@@ -7,7 +7,7 @@ IcecastMenuContainer::IcecastMenuContainer() : Container(
 	"Icecast",
 	1)
 {
-	
+	this->setContinueQuestion(true);
 }
 
 IcecastMenuContainer::~IcecastMenuContainer()
