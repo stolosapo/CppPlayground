@@ -41,19 +41,31 @@ IcecastProtocol::~IcecastProtocol()
 
 }
 
+string IcecastProtocol::getHttpBasicAuthorization(string user, string password)
+{
+	string auth = user + ":" + password;
+	int authLen = auth.length() + 1;
+
+	unsigned char* buff = new unsigned char[authLen];
+	memcpy(buff, auth.c_str(), authLen);
+	
+	string encodedAuth = Base64::encode(buff, auth.length());
+
+	return encodedAuth;
+}
+
 string IcecastProtocol::connectionRequest()
 {
 	string request;
 
 	string hostname = config->getHostname();
 	string port = config->getPort();
-
-	string password = config->getPassword();
-	unsigned char* passArray = new unsigned char[password.length()];
-	strcpy((char *)passArray, password.c_str());
-	string encodedPassword = Base64::encode(passArray, password.length());
-
+	
 	string mountpoint = config->getMountpoint();
+	string password = config->getPassword();
+
+	string auth = getHttpBasicAuthorization(mountpoint, password);
+
 	string name = config->getName();
 	string description = config->getDescription();
 	string genre = config->getGenre();
@@ -65,10 +77,8 @@ string IcecastProtocol::connectionRequest()
 	string samplerate = config->getSamplerate();
 	string channels = config->getChannels();
 
-	// "Authorization: Basic c291cmNlOmowdnlz" + NEW_LINE +
-
 	request = "PUT " + mountpoint + " HTTP/1.1" + NEW_LINE +
-		"Authorization: Basic c291cmNlOmowdnlz" + NEW_LINE +
+		"Authorization: Basic " + auth + NEW_LINE +
 		"User-Agent: " + USER_AGENT + NEW_LINE +
 		"Content-Type: " + CONTENT_TYPE + NEW_LINE +
 		"ice-name: " + name + NEW_LINE +

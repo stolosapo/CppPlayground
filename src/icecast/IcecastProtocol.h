@@ -17,6 +17,8 @@ private:
 
 	IcecastClientConfig* config;
 
+	string getHttpBasicAuthorization(string user, string password);
+
 public:
 	IcecastProtocol(IcecastClientConfig *config);
 	virtual ~IcecastProtocol();

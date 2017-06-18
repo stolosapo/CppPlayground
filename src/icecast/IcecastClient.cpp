@@ -53,6 +53,11 @@ void IcecastClient::action()
 
 		logSrv->info("Received: " + inMessage);
 
+		while(1)
+		{
+			// stream->send("songs");
+		}
+
 
 		delete stream;
     }

@@ -1,18 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "Base64.h"
+
+using namespace std;
+
 
 const string Base64::BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 									"abcdefghijklmnopqrstuvwxyz"
 									"0123456789+/";
 
+
 bool Base64::isBase64(unsigned char c) 
 {
-  return (isalnum(c) || (c == '+') || (c == '/'));
+    return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
 string Base64::encode(unsigned char const* bytes_to_encode, unsigned int in_len) 
 {
-  string ret;
-  int i = 0;
+    string ret;
+
+    int i = 0;
   int j = 0;
   unsigned char char_array_3[3];
   unsigned char char_array_4[4];
