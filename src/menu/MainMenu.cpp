@@ -7,6 +7,7 @@
 #include "../tcpServer/menu/TcpContainer.cpp"
 #include "../serialization/SerializationContainer.cpp"
 #include "../gpio/GpioMenuContainer.cpp"
+#include "../icecast/menu/IcecastMenuContainer.h"
 
 using namespace std;
 
@@ -17,7 +18,7 @@ public:
 		1,
 		"Main Menu",
 		"Main Menu",
-		5)
+		6)
 	{
 
 	}
@@ -35,6 +36,7 @@ protected:
 		this->addMenuItem(2, new TcpContainer);
 		this->addMenuItem(3, new SerializationContainer);
 		this->addMenuItem(4, new GpioMenuContainer);
+		this->addMenuItem(5, new IcecastMenuContainer);
 	}
 
 	virtual string getHeader()
