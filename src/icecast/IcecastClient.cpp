@@ -32,6 +32,7 @@ void IcecastClient::action()
 {
 	loadConfig();
 
+	const int BUFF_SIZE = 2048;
 	string inMessage;
 
 	string hostname = config->getHostname();
@@ -39,19 +40,22 @@ void IcecastClient::action()
 	int intPort = Convert<int>::StringToNumber(port);
 
 	logSrv->info("Client is connecting to server-> " + hostname + ":" + port);
-    stream = connector->connect(intPort, hostname.c_str());
+	stream = connector->connect(intPort, hostname.c_str());
 
  	if (stream)
-    {
+	{
 		string outMessage = protocol->connectionRequest();
 
 		stream->send(outMessage);
 
-		logSrv->info("Sent: " + outMessage);
+		logSrv->info("Sent:\n" + outMessage);
 
-		stream->receive(inMessage);
+		char* inBuffer = new char[BUFF_SIZE];
+		// stream->receive(inMessage);
+		stream->receive(inBuffer, BUFF_SIZE);
+		inMessage.assign(inBuffer, BUFF_SIZE);
 
-		logSrv->info("Received: " + inMessage);
+		logSrv->info("Received:\n" + inMessage);
 
 		while(1)
 		{
@@ -63,6 +67,6 @@ void IcecastClient::action()
     }
     else
     {
-    	logSrv->error("Fail to connect");	
+    	logSrv->error("Fail to connect");
     }
 }

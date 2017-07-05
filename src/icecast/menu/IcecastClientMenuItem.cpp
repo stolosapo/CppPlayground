@@ -17,14 +17,11 @@ IcecastClientMenuItem::IcecastClientMenuItem(ILogService *logSrv) : MenuItem()
 
 IcecastClientMenuItem::~IcecastClientMenuItem()
 {
-	
+
 }
 
 void IcecastClientMenuItem::action()
 {
-	// Excecutor* e = new Excecutor;
-	// e->forkAndExit();
-
     IcecastClient* client = new IcecastClient(this->logSrv);
 
     client->action();
