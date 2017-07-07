@@ -34,5 +34,10 @@ lib/*
 # Ignore any executables
 bin/*
 
+# Ignore all test links
+test/*
+!test/tester.cpp
+!test/unit.sh
+
 # Ignore Mac specific files
 .DS_Store
