@@ -8,3 +8,5 @@ compiler: g++
 script: 
  - ./initialize.sh
  - make tester
+ - cd bin
+ - ./tester
