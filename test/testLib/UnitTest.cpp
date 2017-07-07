@@ -59,4 +59,6 @@ bool UnitTest::report()
 	cout << "( " << status << " ) - " 
 		<< description
 		<< extraCause << endl;
+
+	return passed;
 }
