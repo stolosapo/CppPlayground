@@ -8,10 +8,10 @@ void assertTrue(bool value)
 	{
 		return;
 	}
-	
+
 	string mess = value ? "true" : "false";
 
-	throw new AssertException("Exprected " + mess + " to be true");
+	throw AssertException("Exprected " + mess + " to be true");
 }
 
 void assertFalse(bool value)
@@ -20,10 +20,10 @@ void assertFalse(bool value)
 	{
 		return;
 	}
-	
+
 	string mess = value ? "true" : "false";
 
-	throw new AssertException("Exprected " + mess + " to be false");
+	throw AssertException("Exprected " + mess + " to be false");
 }
 
 bool assertMethod(string description, UnitTestFunction testFunction)

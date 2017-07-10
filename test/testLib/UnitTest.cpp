@@ -30,9 +30,9 @@ void UnitTest::test()
 	{
 		this->passed = false;
 	}
-	catch (AssertException* e)
+	catch (AssertException& e)
 	{
-		this->cause = e->what();
+		this->cause = e.what();
 		this->passed = false;
 	}
 	catch (exception& e)
@@ -60,10 +60,6 @@ bool UnitTest::report()
 	string reportMessage = "(" + status + ") - " + description + extraCause + "\n";
 
 	logTestResults(passed, reportMessage);
-
-	// cout << "( " << status << " ) - "
-	// 	<< description
-	// 	<< extraCause << endl;
 
 	return passed;
 }
