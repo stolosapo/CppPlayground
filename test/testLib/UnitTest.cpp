@@ -1,5 +1,6 @@
 #include "UnitTest.h"
 #include "AssertException.h"
+#include "Logger.h"
 
 UnitTest::UnitTest(string description, UnitTestFunction testFunction)
 {
@@ -25,7 +26,7 @@ void UnitTest::test()
 
 		(testFunction)();
 	}
-	catch (int e) 
+	catch (int e)
 	{
 		this->passed = false;
 	}
@@ -56,9 +57,13 @@ bool UnitTest::report()
 		extraCause = " - Cause: " + cause;
 	}
 
-	cout << "( " << status << " ) - " 
-		<< description
-		<< extraCause << endl;
+	string reportMessage = "(" + status + ") - " + description + extraCause + "\n";
+
+	logTestResults(passed, reportMessage);
+
+	// cout << "( " << status << " ) - "
+	// 	<< description
+	// 	<< extraCause << endl;
 
 	return passed;
 }
