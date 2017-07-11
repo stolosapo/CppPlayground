@@ -13,6 +13,7 @@ void ena_aplo_true_true_test();
 void ena_aplo_true_false_test();
 void ena_aplo_false_true_test();
 void ena_aplo_false_false_test();
+void test_arg_parser_executable_name();
 
 
 int main(int argc, char* argv[])
@@ -25,6 +26,7 @@ int main(int argc, char* argv[])
 
 	passed &= assertMethod("Ena aplo TRUE - TRUE test", &ena_aplo_true_true_test);
 	passed &= assertMethod("Ena aplo TRUE - FALSE test", &ena_aplo_true_false_test);
+	passed &= assertMethod("Argument Parser: Test Executable Name", &test_arg_parser_executable_name);
 	// passed &= assertMethod("Ena aplo FALSE - TRUE test", &ena_aplo_false_true_test);
 	// passed &= assertMethod("Ena aplo FALSE - FALSE test", &ena_aplo_false_false_test);
 
@@ -32,6 +34,23 @@ int main(int argc, char* argv[])
 	{
 		exit(EXIT_FAILURE);
 	}
+}
+
+void test_arg_parser_executable_name()
+{
+	const int SIZE = 4;
+	int argc = SIZE;
+	char* argv[SIZE];
+
+	argv[0] = "./executable";
+	argv[1] = "first";
+	argv[2] = "second";
+	argv[3] = "third";
+
+	ArgParser* parser = new ArgParser(argc, argv);
+	parser->parse();
+
+	assertEqual(parser->getExecutableName(), argv[0]);
 }
 
 void ena_aplo_true_true_test()
