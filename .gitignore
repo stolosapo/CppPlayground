@@ -39,6 +39,7 @@ test/**/*
 !test/tester.cpp
 !test/unit.sh
 !test/testLib/*
+!test/unitTests/**/*
 
 # Ignore Mac specific files
 .DS_Store
