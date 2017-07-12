@@ -46,11 +46,11 @@ void test_convert_long_to_string()
 
 void test_convert_long_long_to_string()
 {
-	long long num = 256;
+	long long num = 600851475143;
 
 	string conv = Convert<long long>::NumberToString(num);
 
-	assertEqual("256", conv);
+	assertEqual("600851475143", conv);
 }
 
 void test_convert_double_to_string()
@@ -84,8 +84,8 @@ void test_convert_string_to_long()
 
 void test_convert_string_to_long_long()
 {
-	long long num = 256;
-	string strNum = "256";
+	long long num = 600851475143;
+	string strNum = "600851475143";
 
 	long long conv = Convert<long long>::StringToNumber(strNum);
 
@@ -94,8 +94,8 @@ void test_convert_string_to_long_long()
 
 void test_convert_string_to_double()
 {
-	double num = 256;
-	string strNum = "256";
+	double num = 256.99;
+	string strNum = "256.99";
 
 	double conv = Convert<double>::StringToNumber(strNum);
 
