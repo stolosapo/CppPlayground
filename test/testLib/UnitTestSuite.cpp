@@ -15,6 +15,8 @@ void UnitTestSuite::test()
 	/* Register all unit tests */
 	registerTests();
 
+	cout << "test size:" << unitTests.size() << endl;
+
 	/* Run all tests */
 	for(vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); it++)
 	{
@@ -30,13 +32,13 @@ bool UnitTestSuite::report()
 {
 	report();
 
-	/* Report all tests */
-	for(vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
-	{
-		UnitTest* ut = *it;
+	// /* Report all tests */
+	// for(vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
+	// {
+	// 	UnitTest* ut = *it;
 
-		ut->report();
-	}
+	// 	ut->report();
+	// }
 
 	return passed;
 }

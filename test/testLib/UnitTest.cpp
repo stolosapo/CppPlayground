@@ -72,6 +72,11 @@ bool UnitTest::report()
 	return passed;
 }
 
+string UnitTest::getDescription()
+{
+	return description;
+}
+
 bool UnitTest::isPassed()
 {
 	return passed;

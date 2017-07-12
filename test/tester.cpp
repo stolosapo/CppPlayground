@@ -32,6 +32,14 @@ int main(int argc, char* argv[])
 	// passed &= assertMethod("Ena aplo FALSE - FALSE test", &ena_aplo_false_false_test);
 
 
+	ArgParserTest* ttt = new ArgParserTest;
+	ttt->test();
+
+	// PROBLEM
+	// passed &= ttt->report();
+
+	cout << ttt->getDescription() << " status: " << ttt->isPassed() << endl;
+
 	if (!passed)
 	{
 		exit(EXIT_FAILURE);

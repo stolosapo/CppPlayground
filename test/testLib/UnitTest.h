@@ -26,6 +26,7 @@ public:
 	virtual void test();
 	virtual bool report();
 
+	string getDescription();
 	bool isPassed();
 	
 };
