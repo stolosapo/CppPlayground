@@ -2,10 +2,18 @@
 #include "AssertException.h"
 #include "Logger.h"
 
+UnitTest::UnitTest(string description)
+{
+	this->description = description;
+	this->cause = "";
+	this->testFunction = NULL;
+	this->passed = true;
+}
+
 UnitTest::UnitTest(string description, UnitTestFunction testFunction)
 {
 	this->description = description;
-	this->cause = cause;
+	this->cause = "";
 	this->testFunction = testFunction;
 	this->passed = true;
 }
@@ -61,5 +69,10 @@ bool UnitTest::report()
 
 	logTestResults(passed, reportMessage);
 
+	return passed;
+}
+
+bool UnitTest::isPassed()
+{
 	return passed;
 }

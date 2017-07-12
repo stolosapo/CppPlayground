@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
 	// passed &= assertMethod("Ena aplo FALSE - TRUE test", &ena_aplo_false_true_test);
 	// passed &= assertMethod("Ena aplo FALSE - FALSE test", &ena_aplo_false_false_test);
 
+
 	if (!passed)
 	{
 		exit(EXIT_FAILURE);

@@ -13,15 +13,20 @@ class UnitTest
 private:
 	string description;
 	string cause;
-	bool passed;
 	UnitTestFunction testFunction;
 
+protected:
+	bool passed;
+
 public:
+	UnitTest(string description);
 	UnitTest(string description, UnitTestFunction testFunction);
 	virtual ~UnitTest();
 
-	void test();
-	bool report();
+	virtual void test();
+	virtual bool report();
+
+	bool isPassed();
 	
 };
 
