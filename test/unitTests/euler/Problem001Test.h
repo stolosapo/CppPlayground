@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void problem_is_solved();
+void problem001_is_solved();
 
 class Problem001Test: public UnitTestSuite
 {

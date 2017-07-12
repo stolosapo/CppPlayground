@@ -4,6 +4,21 @@
 
 #include "../../../src/arguments/ArgParser.h"
 
+ArgParserTest::ArgParserTest(): UnitTestSuite("Argument Parser Test Suite")
+{
+
+}
+
+ArgParserTest::~ArgParserTest()
+{
+
+}
+
+void ArgParserTest::registerTests()
+{
+	registerTest("Test Executable Name", &test_arg_parser_executable_name);
+}
+
 void test_arg_parser_executable_name()
 {
 	const int SIZE = 4;
@@ -24,19 +39,4 @@ void test_arg_parser_executable_name()
 	parser->parse();
 
 	assertEqual(parser->getExecutableName(), argv[0]);
-}
-
-ArgParserTest::ArgParserTest(): UnitTestSuite("Argument Parser Test Suite")
-{
-
-}
-
-ArgParserTest::~ArgParserTest()
-{
-
-}
-
-void ArgParserTest::registerTests()
-{
-	registerTest("Test Executable Name", &test_arg_parser_executable_name);
 }

@@ -1,8 +1,9 @@
 #include "UnitTestSuite.h"
+#include "Logger.h"
 
 UnitTestSuite::UnitTestSuite(string description) : UnitTest(description)
 {
-
+	this->level = 0;
 }
 
 UnitTestSuite::~UnitTestSuite()
@@ -14,8 +15,6 @@ void UnitTestSuite::test()
 {
 	/* Register all unit tests */
 	registerTests();
-
-	cout << "test size:" << unitTests.size() << endl;
 
 	/* Run all tests */
 	for(vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); it++)
@@ -30,15 +29,27 @@ void UnitTestSuite::test()
 
 bool UnitTestSuite::report()
 {
-	report();
+	string reportMessage = getDescription() + ": " + "\n";
 
-	// /* Report all tests */
-	// for(vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
-	// {
-	// 	UnitTest* ut = *it;
+	logTestResults(passed, reportMessage);
 
-	// 	ut->report();
-	// }
+	/* Report all tests */
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
+	{
+		UnitTest* ut = *it;
+
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut)) 
+		{
+			uts->setLevel(level + 1);
+		}
+
+		for (int i = 0; i < level; ++i)
+		{
+			cout << "\t";
+		}
+
+		ut->report();
+	}
 
 	return passed;
 }
@@ -50,7 +61,58 @@ void UnitTestSuite::registerTest(string description, UnitTestFunction unitTestFu
 	unitTests.push_back(test);
 }
 
+void UnitTestSuite::registerTest(UnitTest* test)
+{
+	unitTests.push_back(test);
+}
+
+void UnitTestSuite::setLevel(int level)
+{
+	this->level = level;
+}
+
 int UnitTestSuite::getCount()
 {
-	return unitTests.size();
+	int cnt = 0;
+
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
+	{
+		int curCnt = 1;
+
+		UnitTest* ut = *it;
+
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut)) 
+		{
+			curCnt = uts->getCount();
+		}
+
+		cnt += curCnt;
+	}
+
+	return cnt;
+}
+
+int UnitTestSuite::getPassedCount()
+{
+	int cnt = 0;
+
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
+	{
+		int curCnt = 0;
+
+		UnitTest* ut = *it;
+
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut)) 
+		{
+			curCnt = uts->getPassedCount();
+		}
+		else if (ut->isPassed())
+		{
+			curCnt = 1;
+		}
+
+		cnt += curCnt;
+	}
+
+	return cnt;
 }

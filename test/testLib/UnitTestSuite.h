@@ -13,13 +13,14 @@ using namespace std;
 class UnitTestSuite: public UnitTest
 {
 private:
+	int level;
 	vector<UnitTest*> unitTests;
 
 protected:
 	virtual void registerTests() = 0;
 	
+	void registerTest(UnitTest* test);
 	void registerTest(string description, UnitTestFunction unitTestFunction);
-	int getCount();
 
 public:
 	UnitTestSuite(string description);
@@ -27,6 +28,10 @@ public:
 
 	virtual void test();
 	virtual bool report();
+
+	void setLevel(int level);
+	int getCount();
+	int getPassedCount();
 
 };
 
