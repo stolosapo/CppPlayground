@@ -8,8 +8,6 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	bool passed = true;
-
 	cout << endl ;
 	cout << "Starting Unit Tests.." << endl ;
 	cout << endl ;
@@ -18,9 +16,11 @@ int main(int argc, char* argv[])
 
 	ttt->test();
 
-	passed &= ttt->report();
+	bool passed = ttt->report();
 
-	cout << "Total test: (" << ttt->getPassedCount() << "/" << ttt->getCount() << ")" << endl;
+	cout << endl ;
+	cout << "Total test results: (" << ttt->getPassedCount() << "/" << ttt->getCount() << ")" << endl;
+	cout << endl ;
 
 	if (!passed)
 	{
