@@ -60,6 +60,10 @@ bool TcpServer::acceptClient()
             accept = handshake();
         }
     }
+    else
+    {
+	    logSrv->debug("Client sent: " + input);
+    }
 
     return accept;
 }
@@ -138,7 +142,7 @@ void TcpServer::start()
                 logSrv->info("Server accepted client terminated");
 
             } // if (stream  != NULL)
- 
+
         } // while (!TcpProtocol::shutdown(input))
 
     } // if (acceptor->start() == 0)
