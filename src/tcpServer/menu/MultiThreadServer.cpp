@@ -59,6 +59,10 @@ bool MultiThreadServer::allowClient(ClientInfo* client)
             accept = handshake();
         }
     }
+    else
+    {
+	    logSrv->error("Client sent: " + input);
+    }
 
     return accept;
 }
@@ -81,7 +85,7 @@ void MultiThreadServer::acceptNewClient(pthread_t clientThread, ClientInfo* clie
         }
         else
         {
-            logSrv->info("Server denied access to the client");
+            logSrv->error("Server denied access to the client");
 
             delete client;
         }

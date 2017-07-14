@@ -62,7 +62,7 @@ bool TcpServer::acceptClient()
     }
     else
     {
-	    logSrv->debug("Client sent: " + input);
+	    logSrv->error("Client sent: " + input);
     }
 
     return accept;
