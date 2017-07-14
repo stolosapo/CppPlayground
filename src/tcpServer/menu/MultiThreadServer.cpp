@@ -74,21 +74,8 @@ void MultiThreadServer::acceptNewClient(pthread_t clientThread, ClientInfo* clie
         logSrv->printl("");
         logSrv->info("Server start to accept new client");
 
-        // Check new client for acceptance
-        if (allowClient(client))
-        {
-            logSrv->info("Server accepted new client");
-
-            /* Start new thread for this client */
-            pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, client);
-
-        }
-        else
-        {
-            logSrv->error("Server denied access to the client");
-
-            delete client;
-        }
+        /* Start new thread for this client */
+        pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, client);
     }
 }
 
@@ -110,31 +97,41 @@ void* MultiThreadServer::task(void *context)
 
     client->setThreadNumber(threadNumber);
 
-    logger->info("[ " + index + " ] - Thread No: " + strThreadNumber);
-
-    /* receive messages */
-    while (stream->receive(message) > 0)
+    // Check new client for acceptance
+    if (server->allowClient(client))
     {
-        input = message;
-        logger->info("received [" + index + " - " + strThreadNumber + "] - " + input);
+    	logger->info("Server accepted new client");
+	    logger->info("[ " + index + " ] - Thread No: " + strThreadNumber);
 
-        if (server->validateCommand(input))
-        {
+	    /* receive messages */
+	    while (stream->receive(message) > 0)
+	    {
+	        input = message;
+	        logger->info("received [" + index + " - " + strThreadNumber + "] - " + input);
 
-            /* Process Message */
-            server->processCommand(stream, input);
+	        if (server->validateCommand(input))
+	        {
 
-            stream->send(input);
+	            /* Process Message */
+	            server->processCommand(stream, input);
 
-        }
-        else
-        {
-            /* send error message back */
-            stream->send((string) TcpProtocol::INVALID_COMMAND);
-        }
+	            stream->send(input);
+
+	        }
+	        else
+	        {
+	            /* send error message back */
+	            stream->send((string) TcpProtocol::INVALID_COMMAND);
+	        }
+	    }
+
+	    logger->info("Client with threadNumber: " + strThreadNumber + " terminated");
+
+	}
+	else
+    {
+        logger->error("Server denied access to the client [ " + index + " ] with threadNumber: " + strThreadNumber);
     }
-
-    logger->info("Client with threadNumber: " + strThreadNumber + " terminated");
 
     delete client;
 }
