@@ -16,6 +16,7 @@ private:
 	UnitTestFunction testFunction;
 
 protected:
+	bool ignored;
 	bool passed;
 
 public:
@@ -28,7 +29,10 @@ public:
 
 	string getDescription();
 	bool isPassed();
-	
+
+	bool isIgnored();
+	void setIgnored(bool ignored);
+
 };
 
 #endif // UnitTest_h__

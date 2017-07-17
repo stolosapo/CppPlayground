@@ -18,9 +18,10 @@ private:
 
 protected:
 	virtual void registerTests() = 0;
-	
+
 	void registerTest(UnitTest* test);
 	void registerTest(string description, UnitTestFunction unitTestFunction);
+	void ignoreTest(string description, UnitTestFunction unitTestFunction);
 
 public:
 	UnitTestSuite(string description);
@@ -32,6 +33,7 @@ public:
 	void setLevel(int level);
 	int getCount();
 	int getPassedCount();
+	int getIgnoredCount();
 
 };
 

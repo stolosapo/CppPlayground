@@ -21,7 +21,10 @@ void UnitTestSuite::test()
 	{
 		UnitTest* ut = *it;
 
-		ut->test();
+		if (!ut->isIgnored())
+		{
+			ut->test();
+		}
 
 		passed &= ut->isPassed();
 	}
@@ -31,14 +34,14 @@ bool UnitTestSuite::report()
 {
 	string reportMessage = getDescription() + ": " + "\n";
 
-	logTestResults(passed, reportMessage);
+	logTestResults(ignored, passed, reportMessage);
 
 	/* Report all tests */
-	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it)
 	{
 		UnitTest* ut = *it;
 
-		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut)) 
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut))
 		{
 			uts->setLevel(level + 1);
 		}
@@ -61,6 +64,15 @@ void UnitTestSuite::registerTest(string description, UnitTestFunction unitTestFu
 	unitTests.push_back(test);
 }
 
+void UnitTestSuite::ignoreTest(string description, UnitTestFunction unitTestFunction)
+{
+	UnitTest* test = new UnitTest(description, unitTestFunction);
+
+	test->setIgnored(true);
+
+	unitTests.push_back(test);
+}
+
 void UnitTestSuite::registerTest(UnitTest* test)
 {
 	unitTests.push_back(test);
@@ -75,13 +87,13 @@ int UnitTestSuite::getCount()
 {
 	int cnt = 0;
 
-	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it)
 	{
 		int curCnt = 1;
 
 		UnitTest* ut = *it;
 
-		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut)) 
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut))
 		{
 			curCnt = uts->getCount();
 		}
@@ -96,17 +108,42 @@ int UnitTestSuite::getPassedCount()
 {
 	int cnt = 0;
 
-	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it) 
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it)
 	{
 		int curCnt = 0;
 
 		UnitTest* ut = *it;
 
-		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut)) 
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut))
 		{
 			curCnt = uts->getPassedCount();
 		}
-		else if (ut->isPassed())
+		else if (!ut->isIgnored() && ut->isPassed())
+		{
+			curCnt = 1;
+		}
+
+		cnt += curCnt;
+	}
+
+	return cnt;
+}
+
+int UnitTestSuite::getIgnoredCount()
+{
+	int cnt = 0;
+
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it)
+	{
+		int curCnt = 0;
+
+		UnitTest* ut = *it;
+
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut))
+		{
+			curCnt = uts->getIgnoredCount();
+		}
+		else if (ut->isIgnored())
 		{
 			curCnt = 1;
 		}

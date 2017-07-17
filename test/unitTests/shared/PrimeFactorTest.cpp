@@ -23,8 +23,8 @@ void PrimeFactorTest::registerTests()
         registerTest("Test Prime Factor up to correct size", &test_prime_factor_up_to_correct_size);
         registerTest("Test Prime Factor up to correct index", &test_prime_factor_up_to_correct_index);
         registerTest("Test Prime Factor get by index", &test_prime_factor_get_by_index);
-        registerTest("Test Prime Factor get next prime", &test_prime_factor_get_next_prime);
-        registerTest("Test Prime Factor is prime", &test_prime_factor_is_prime);
+        ignoreTest("Test Prime Factor get next prime", &test_prime_factor_get_next_prime);
+        ignoreTest("Test Prime Factor is prime", &test_prime_factor_is_prime);
 }
 
 void test_prime_factor_up_to_correct_size()

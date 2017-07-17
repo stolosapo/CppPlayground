@@ -11,8 +11,19 @@ void logFailed(string message)
         cout << ERROR_COLOR << message << RESET;
 }
 
-void logTestResults(bool passed, string message)
+void logIgnored(string message)
 {
+        cout << IGNORED_COLOR << message << RESET;
+}
+
+void logTestResults(bool ignored, bool passed, string message)
+{
+        if (ignored)
+        {
+                logIgnored(message);
+                return;
+        }
+
         if (passed)
         {
                 logPassed(message);

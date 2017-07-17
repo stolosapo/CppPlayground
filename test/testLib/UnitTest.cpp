@@ -8,6 +8,7 @@ UnitTest::UnitTest(string description)
 	this->cause = "";
 	this->testFunction = NULL;
 	this->passed = true;
+	this->ignored = false;
 }
 
 UnitTest::UnitTest(string description, UnitTestFunction testFunction)
@@ -16,6 +17,7 @@ UnitTest::UnitTest(string description, UnitTestFunction testFunction)
 	this->cause = "";
 	this->testFunction = testFunction;
 	this->passed = true;
+	this->ignored = false;
 }
 
 UnitTest::~UnitTest()
@@ -55,19 +57,26 @@ bool UnitTest::report()
 	string status;
 	string extraCause = "";
 
-	if (passed)
+	if (ignored)
 	{
-		status = "PASSED";
+		status = "IGNORED";
 	}
 	else
 	{
-		status = "FAILED";
-		extraCause = " - Cause: " + cause;
+		if (passed)
+		{
+			status = "PASSED";
+		}
+		else
+		{
+			status = "FAILED";
+			extraCause = " - Cause: " + cause;
+		}
 	}
 
 	string reportMessage = "(" + status + ") - " + description + extraCause + "\n";
 
-	logTestResults(passed, reportMessage);
+	logTestResults(ignored, passed, reportMessage);
 
 	return passed;
 }
@@ -80,4 +89,14 @@ string UnitTest::getDescription()
 bool UnitTest::isPassed()
 {
 	return passed;
+}
+
+bool UnitTest::isIgnored()
+{
+	return ignored;
+}
+
+void UnitTest::setIgnored(bool ignored)
+{
+	this->ignored = ignored;
 }
