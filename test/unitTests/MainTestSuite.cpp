@@ -2,6 +2,7 @@
 
 #include "shared/ConvertTest.h"
 #include "shared/PrimeFactorTest.h"
+#include "lib/LibTest.h"
 #include "arguments/ArgParserTest.h"
 #include "euler/Problem001Test.h"
 
@@ -19,6 +20,7 @@ void MainTestSuite::registerTests()
 {
 	registerTest(new ConvertTest);
 	registerTest(new PrimeFactorTest);
+	registerTest(new LibTest);
 	registerTest(new ArgParserTest);
 	registerTest(new Problem001Test);
 }
