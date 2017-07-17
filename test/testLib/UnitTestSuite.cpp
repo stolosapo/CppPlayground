@@ -1,9 +1,10 @@
 #include "UnitTestSuite.h"
 #include "Logger.h"
 
-UnitTestSuite::UnitTestSuite(string description) : UnitTest(description)
+UnitTestSuite::UnitTestSuite(string description, int methodsToCoverCount) : UnitTest(description)
 {
 	this->level = 0;
+	this->methodsToCoverCount = methodsToCoverCount;
 }
 
 UnitTestSuite::~UnitTestSuite()
@@ -55,6 +56,11 @@ bool UnitTestSuite::report()
 	}
 
 	return passed;
+}
+
+void UnitTestSuite::registerCoveredMethod(string methodName)
+{
+	methodsCovered.push_back(methodName);
 }
 
 void UnitTestSuite::registerTest(string description, UnitTestFunction unitTestFunction)
@@ -152,4 +158,67 @@ int UnitTestSuite::getIgnoredCount()
 	}
 
 	return cnt;
+}
+
+int UnitTestSuite::getMethodsToCoverCount()
+{
+	int cnt = 0;
+
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it)
+	{
+		int curCnt = 0;
+
+		UnitTest* ut = *it;
+
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut))
+		{
+			curCnt = uts->getMethodsToCoverCount();
+		}
+		else
+		{
+			curCnt = this->methodsToCoverCount;
+		}
+
+		cnt += curCnt;
+	}
+
+	return cnt;
+}
+
+int UnitTestSuite::getMethodsCoveredCount()
+{
+	int cnt = 0;
+
+	for (vector<UnitTest*>::iterator it = unitTests.begin(); it != unitTests.end(); ++it)
+	{
+		int curCnt = 0;
+
+		UnitTest* ut = *it;
+
+		if (UnitTestSuite* uts = dynamic_cast<UnitTestSuite*>(ut))
+		{
+			curCnt = uts->getMethodsCoveredCount();
+		}
+		else
+		{
+			curCnt = methodsCovered.size();
+		}
+
+		cnt += curCnt;
+	}
+
+	return cnt;
+}
+
+double UnitTestSuite::getCoverage()
+{
+	int total = getMethodsToCoverCount();
+	int cur = getMethodsCoveredCount();
+
+	if (total == 0)
+	{
+		return 0;
+	}
+
+	return (100 * cur) / total;
 }

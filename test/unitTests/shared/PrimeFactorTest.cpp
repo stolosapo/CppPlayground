@@ -8,7 +8,7 @@
 
 using namespace std;
 
-PrimeFactorTest::PrimeFactorTest(): UnitTestSuite("PrimeFactor Test Suite")
+PrimeFactorTest::PrimeFactorTest(): UnitTestSuite("PrimeFactor Test Suite", 4)
 {
 
 }
@@ -20,6 +20,12 @@ PrimeFactorTest::~PrimeFactorTest()
 
 void PrimeFactorTest::registerTests()
 {
+        registerCoveredMethod("upTo");
+        registerCoveredMethod("getByIndex");
+        registerCoveredMethod("getNextPrime");
+        registerCoveredMethod("isPrime");
+        
+
         registerTest("Test Prime Factor up to correct size", &test_prime_factor_up_to_correct_size);
         registerTest("Test Prime Factor up to correct index", &test_prime_factor_up_to_correct_index);
 

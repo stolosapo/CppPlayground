@@ -4,7 +4,7 @@
 
 #include "../../../src/arguments/ArgParser.h"
 
-ArgParserTest::ArgParserTest(): UnitTestSuite("Argument Parser Test Suite")
+ArgParserTest::ArgParserTest(): UnitTestSuite("Argument Parser Test Suite", 13)
 {
 
 }
@@ -16,6 +16,9 @@ ArgParserTest::~ArgParserTest()
 
 void ArgParserTest::registerTests()
 {
+	registerCoveredMethod("parse");
+	registerCoveredMethod("getExecutableName");
+
 	registerTest("Test Executable Name", &test_arg_parser_executable_name);
 }
 

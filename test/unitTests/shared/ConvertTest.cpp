@@ -4,7 +4,7 @@
 
 #include "../../../src/shared/convert.h"
 
-ConvertTest::ConvertTest(): UnitTestSuite("Convert Test Suite")
+ConvertTest::ConvertTest(): UnitTestSuite("Convert Test Suite", 2)
 {
 
 }
@@ -16,6 +16,9 @@ ConvertTest::~ConvertTest()
 
 void ConvertTest::registerTests()
 {
+	registerCoveredMethod("NumberToString");
+	registerCoveredMethod("StringToNumber");
+	
 	registerTest("Test Convert int to string", &test_convert_int_to_string);
 	registerTest("Test Convert long to string", &test_convert_long_to_string);
 	registerTest("Test Convert long long to string", &test_convert_long_long_to_string);

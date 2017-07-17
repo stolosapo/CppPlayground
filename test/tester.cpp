@@ -26,7 +26,9 @@ int main(int argc, char* argv[])
 	cout << endl ;
 	cout << "Results:" << endl << endl;
 	cout << "Test run: " << count << ", Failures: " << failures << ", Skipped: " << ignored << endl;
-	cout << endl ;
+	cout << endl;
+
+	cout << "Coverage: " << ttt->getCoverage() << "%" << endl << endl;
 
 	if (!passed)
 	{
