@@ -22,9 +22,19 @@ void PrimeFactorTest::registerTests()
 {
         registerTest("Test Prime Factor up to correct size", &test_prime_factor_up_to_correct_size);
         registerTest("Test Prime Factor up to correct index", &test_prime_factor_up_to_correct_index);
+
         registerTest("Test Prime Factor get by index", &test_prime_factor_get_by_index);
-        ignoreTest("Test Prime Factor get next prime", &test_prime_factor_get_next_prime);
-        ignoreTest("Test Prime Factor is prime", &test_prime_factor_is_prime);
+
+        registerTest("Test 1 is not a prime number", &test_prime_factor_1_is_not_prime);
+        registerTest("Test 2 is a prime number", &test_prime_factor_2_is_prime);
+        registerTest("Test other prime numbers", &test_prime_factor_is_prime);
+        registerTest("Test other not prime numbers", &test_prime_factor_is_not_prime);
+        
+        registerTest("Test next prime number of 0 is 2", &test_prime_factor_next_prime_of_0_is_2);
+        registerTest("Test next prime number of 1 is 2", &test_prime_factor_next_prime_of_1_is_2);
+        registerTest("Test next prime number of 2 is 3", &test_prime_factor_next_prime_of_2_is_3);
+        registerTest("Test next prime number of 3 is 5", &test_prime_factor_next_prime_of_3_is_5);
+        registerTest("Test next prime number of other numbers", &test_prime_factor_next_prime_of_other_number);
 }
 
 void test_prime_factor_up_to_correct_size()
@@ -81,12 +91,53 @@ void test_prime_factor_get_by_index()
         assertEqual(PrimeFactor::getByIndex(11), 31);
 }
 
-void test_prime_factor_get_next_prime()
+void test_prime_factor_1_is_not_prime()
 {
+	assertFalse(PrimeFactor::isPrime(1));
+}
 
+void test_prime_factor_2_is_prime()
+{
+	assertTrue(PrimeFactor::isPrime(2));
 }
 
 void test_prime_factor_is_prime()
 {
+	assertTrue(PrimeFactor::isPrime(3));
+	assertTrue(PrimeFactor::isPrime(5));
+	assertTrue(PrimeFactor::isPrime(7));
+}
 
+void test_prime_factor_is_not_prime()
+{
+	assertFalse(PrimeFactor::isPrime(4));
+	assertFalse(PrimeFactor::isPrime(6));
+	assertFalse(PrimeFactor::isPrime(8));
+}
+
+void test_prime_factor_next_prime_of_0_is_2()
+{
+	assertEqual(PrimeFactor::getNextPrime(0), 2);
+}
+
+void test_prime_factor_next_prime_of_1_is_2()
+{
+	assertEqual(PrimeFactor::getNextPrime(1), 2);
+}
+
+void test_prime_factor_next_prime_of_2_is_3()
+{
+	assertEqual(PrimeFactor::getNextPrime(2), 3);
+}
+
+void test_prime_factor_next_prime_of_3_is_5()
+{
+	assertEqual(PrimeFactor::getNextPrime(3), 5);
+}
+
+void test_prime_factor_next_prime_of_other_number()
+{
+	assertEqual(PrimeFactor::getNextPrime(4), 5);
+	assertEqual(PrimeFactor::getNextPrime(5), 7);
+	assertEqual(PrimeFactor::getNextPrime(6), 7);
 }

@@ -67,6 +67,11 @@ int PrimeFactor::getNextPrime(int prime)
 
 bool PrimeFactor::isPrime(int number)
 {
+	if (number == 1)
+	{
+		return false;
+	}
+
 	bool isPrime = true;
 
 	for (int j = 2; j <= number; j++)
