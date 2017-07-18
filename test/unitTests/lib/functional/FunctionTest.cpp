@@ -34,7 +34,7 @@ int all_ints(int a)
 
 double double_int(int a)
 {
-	return (a / 33.33);
+	return (a * 33.33);
 }
 
 
@@ -49,9 +49,9 @@ void test_function_with_int_apply()
 
 void test_function_with_double_int_apply()
 {
-	Function<int, int>::func func = all_ints;
+	Function<int, double>::func func = double_int;
 
-	assertEqual(func(0), 1);
-	assertEqual(func(1), 2);
-	assertNotEqual(func(2), 2);
+	assertEqual(func(0), 0.0);
+	assertEqual(func(1), 33.33);
+	assertNotEqual(func(2), 33.33);
 }
