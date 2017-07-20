@@ -20,7 +20,7 @@ private:
 	ILogService *logSrv;
 
 	int port;
-	const char* hostname;
+	string hostname;
 
 	TcpAcceptor *acceptor;
 	TcpServerConfig* config;

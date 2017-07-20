@@ -220,24 +220,24 @@ void MultiThreadServer::initialize()
 	if (this->config == NULL)
 	{
 		this->port = DEFAULT_PORT;
-		this->hostname = DEFAULT_HOSTNAME;
+		this->hostname = string(DEFAULT_HOSTNAME);
 	}
 	else
 	{
 		int curPort = this->config->getPort();
-		const char* curHostname = this->config->getHostname().c_str();
+		string curHostname = this->config->getHostname();
 
 		if (curPort == 0 || curHostname == "")
 		{
 			curPort = DEFAULT_PORT;
-			curHostname = DEFAULT_HOSTNAME;
+			curHostname = string(DEFAULT_HOSTNAME);
 		}
 
 		this->port = curPort;
 		this->hostname = curHostname;
 	}
 
-	acceptor = new TcpAcceptor(port, hostname);
+	acceptor = new TcpAcceptor(port, hostname.c_str());
 
 	string strHostname = hostname;
 	string strPort = Convert<int>::NumberToString(port);
