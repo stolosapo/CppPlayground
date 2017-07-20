@@ -9,7 +9,7 @@
 
 using namespace std;
 
-const char* TcpClient::DEFAULT_HOSTNAME = "localhost";
+const char* TcpClient::DEFAULT_SERVERNAME = "localhost";
 
 
 /*********************************
@@ -22,7 +22,7 @@ TcpClient::TcpClient(ILogService *logSrv) : ITcpClient()
 	this->logSrv = logSrv;
 
 	this->port = TcpClient::DEFAULT_PORT;
-	this->hostname = TcpClient::DEFAULT_HOSTNAME;
+	this->serverName = string(TcpClient::DEFAULT_SERVERNAME);
 
 	this->setId(3);
 	this->setName("Tcp Client");
@@ -48,7 +48,7 @@ void TcpClient::test()
     // string message;
     // char line[256];
 
-    // stream = connector->connect(port, hostname);
+    // stream = connector->connect(port, serverName);
 
     // if (stream)
     // {
@@ -68,7 +68,7 @@ void TcpClient::test()
     // }
 
 
-    // stream = connector->connect(port, hostname);
+    // stream = connector->connect(port, serverName);
     // if (stream)
     // {
     //     message = "Why is there air?";
@@ -114,7 +114,7 @@ void TcpClient::start()
 
 
     logSrv->info("Client is connecting to server...");
-    stream = connector->connect(port, hostname);
+    stream = connector->connect(port, serverName.c_str());
 
     if (stream)
     {
@@ -183,30 +183,30 @@ void TcpClient::initialize()
 	if (this->config == NULL)
 	{
 		this->port = DEFAULT_PORT;
-		this->hostname = DEFAULT_HOSTNAME;
+		this->serverName = string(DEFAULT_SERVERNAME);
 	}
 	else
 	{
 		int curPort = this->config->getServerPort();
-		const char* curHostname = this->config->getServerName().c_str();
+		string curServerName = this->config->getServerName();
 
-		if (curPort == 0 || curHostname == "")
+		if (curPort == 0 || curServerName == "")
 		{
 			curPort = DEFAULT_PORT;
-			curHostname = DEFAULT_HOSTNAME;
+			curServerName = string(DEFAULT_SERVERNAME);
 		}
 
 		this->port = curPort;
-		this->hostname = curHostname;
+		this->serverName = curServerName;
 	}
 
 	connector = new TcpConnector();
 
-	string strServerName = hostname;
+	string strServerName = serverName;
 	string strServerPort = Convert<int>::NumberToString(port);
 
 	this->logSrv->info("Client Name: " + this->config->getName());
 	this->logSrv->info("Client Description: " + this->config->getDescription());
-	this->logSrv->info("Server Hostname: " + strServerName);
+	this->logSrv->info("Server Server Name: " + strServerName);
 	this->logSrv->info("Server Port: " + strServerPort);
 }
