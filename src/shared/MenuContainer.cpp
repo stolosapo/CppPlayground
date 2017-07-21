@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "Container.h"
+#include "MenuContainer.h"
 #include "../log/LogServiceFactory.h"
 
 using namespace std;
@@ -11,7 +11,7 @@ using namespace std;
 *
 ********************************/
 
-Container::Container(int id, string name, string title, const int size) : MenuItem()
+MenuContainer::MenuContainer(int id, string name, string title, const int size) : MenuItem()
 {
 	this->setId(id);
 	this->setName(name);
@@ -29,7 +29,7 @@ Container::Container(int id, string name, string title, const int size) : MenuIt
 	logSrv = LogServiceFactory::create();
 }
 
-Container::~Container()
+MenuContainer::~MenuContainer()
 {
 	this->logSrv = NULL;
 	delete[] this->menuItems;
@@ -43,48 +43,48 @@ Container::~Container()
 *
 ********************************/
 
-int Container::getSize()
+int MenuContainer::getSize()
 {
 	return this->size;
 }
 
-string Container::getQuestion()
+string MenuContainer::getQuestion()
 {
 	return this->question;
 }
 
-int Container::getSelection()
+int MenuContainer::getSelection()
 {
 	return this->selection;
 }
 
-int Container::getExitCode()
+int MenuContainer::getExitCode()
 {
 	return this->exitCode;
 }
 
-bool Container::getUseOptions()
+bool MenuContainer::getUseOptions()
 {
 	return this->useOptions;
 }
 
-bool Container::getContinueQuestion()
+bool MenuContainer::getContinueQuestion()
 {
 	return this->continueQuestion;
 }
 
 
-void Container::setUseOptions(bool useOptions)
+void MenuContainer::setUseOptions(bool useOptions)
 {
 	this->useOptions = useOptions;
 }
 
-void Container::setQuestion(string question)
+void MenuContainer::setQuestion(string question)
 {
 	this->question = question;
 }
 
-void Container::setContinueQuestion(bool continueQuestion)
+void MenuContainer::setContinueQuestion(bool continueQuestion)
 {
 	this->continueQuestion = continueQuestion;
 }
@@ -106,12 +106,12 @@ void Container::setContinueQuestion(bool continueQuestion)
 *
 ********************************/
 
-void Container::addMenuItem(int index, MenuItem *menuItem)
+void MenuContainer::addMenuItem(int index, MenuItem *menuItem)
 {
 	this->menuItems[index] = menuItem;
 }
 
-int Container::getMaxDisplaySize()
+int MenuContainer::getMaxDisplaySize()
 {
 	int max = 0;
 	int curSize = 0;
@@ -135,7 +135,7 @@ int Container::getMaxDisplaySize()
 	return max;
 }
 
-MenuItem *Container::findMenuItem()
+MenuItem *MenuContainer::findMenuItem()
 {
 	if (this->selection == this->exitCode)
 		return NULL;
@@ -157,11 +157,11 @@ MenuItem *Container::findMenuItem()
 	logSrv->outString("No such item exists!!!\n\n");
 	logSrv->outString("Choose again: ");
 	this->selection = logSrv->inInt();
-	
+
 	return this->findMenuItem();
 }
 
-int Container::promptQuestion()
+int MenuContainer::promptQuestion()
 {
 	logSrv->print(question);
 	this->selection = logSrv->inInt();
@@ -169,11 +169,11 @@ int Container::promptQuestion()
 	return this->selection;
 }
 
-bool Container::promptContinueQuestion()
+bool MenuContainer::promptContinueQuestion()
 {
 	logSrv->print("Choose other option? (y/n): ");
 	string cont = logSrv->inString();
-	
+
 	if (cont == "y" || cont == "Y")
 	{
 		return true;
@@ -182,10 +182,10 @@ bool Container::promptContinueQuestion()
 	return false;
 }
 
-void Container::showOptions() 
+void MenuContainer::showOptions()
 {
 	this->fillOptions();
-	
+
 	if (this->useOptions && menuItems != NULL)
 	{
 
@@ -218,7 +218,7 @@ void Container::showOptions()
 *
 ********************************/
 
-void Container::action()
+void MenuContainer::action()
 {
 	while(1)
 	{
@@ -255,7 +255,7 @@ void Container::action()
 }
 
 
-string Container::identify()
+string MenuContainer::identify()
 {
 	string header = this->getHeader();
 

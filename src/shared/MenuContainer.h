@@ -1,5 +1,5 @@
-#ifndef Container_h__
-#define Container_h__
+#ifndef MenuContainer_h__
+#define MenuContainer_h__
 
 #include <iostream>
 #include <string>
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Container : public MenuItem
+class MenuContainer : public MenuItem
 {
 private:
 	static const int DEFAULT_EXIT_CODE = 0;
@@ -24,9 +24,9 @@ private:
 	MenuItem **menuItems;
 
 public:
-	Container(int id, string name, string title, const int size);
-	virtual ~Container();
-	
+	MenuContainer(int id, string name, string title, const int size);
+	virtual ~MenuContainer();
+
 	int getSize();
 	string getQuestion();
 	bool getContinueQuestion();
@@ -47,7 +47,7 @@ protected:
 	void addMenuItem(int index, MenuItem *menuItem);
 
 	int getMaxDisplaySize();
-	
+
 	virtual MenuItem *findMenuItem();
 	virtual int promptQuestion();
 	virtual bool promptContinueQuestion();
@@ -57,4 +57,4 @@ protected:
 	virtual void fillOptions() = 0;
 };
 
-#endif // Container_h__
+#endif // MenuContainer_h__

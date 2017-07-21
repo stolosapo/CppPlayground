@@ -4,14 +4,14 @@
 #include "SerializationHeader.cpp"
 #include "SerializationMenuItem.h"
 
-#include "../shared/Container.h"
+#include "../shared/MenuContainer.h"
 
 using namespace std;
 
-class SerializationContainer : public Container
+class SerializationContainer : public MenuContainer
 {
 public:
-	SerializationContainer() : Container(
+	SerializationContainer() : MenuContainer(
 		4, 
 		"Serialization Parser",
 		"Serialization Parser",

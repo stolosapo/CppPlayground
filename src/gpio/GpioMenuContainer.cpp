@@ -1,15 +1,15 @@
 #include <iostream>
 #include <string>
-#include "../shared/Container.h"
+#include "../shared/MenuContainer.h"
 #include "GpioMenuItem.h"
 #include "GpioMenuItemHeader.cpp"
 
 using namespace std;
 
-class GpioMenuContainer : public Container
+class GpioMenuContainer : public MenuContainer
 {
 public:
-	GpioMenuContainer() : Container(
+	GpioMenuContainer() : MenuContainer(
 		5, 
 		"Gpio",
 		"Gpio",

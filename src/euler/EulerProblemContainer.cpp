@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../shared/Container.h"
+#include "../shared/MenuContainer.h"
 #include "Problem001.cpp"
 #include "Problem002.cpp"
 #include "Problem003.cpp"
@@ -15,10 +15,10 @@
 
 using namespace std;
 
-class EulerProblemContainer : public Container
+class EulerProblemContainer : public MenuContainer
 {
 public:
-	EulerProblemContainer() : Container(
+	EulerProblemContainer() : MenuContainer(
 		2, 
 		"Euler Problems",
 		"Euler Problems",

@@ -2,14 +2,14 @@
 #include <string>
 #include "TcpServerFactory.cpp"
 #include "TcpClientFactory.cpp"
-#include "../../shared/Container.h"
+#include "../../shared/MenuContainer.h"
 
 using namespace std;
 
-class TcpContainer : public Container
+class TcpContainer : public MenuContainer
 {
 public:
-	TcpContainer() : Container(
+	TcpContainer() : MenuContainer(
 		3, 
 		"Tcp Client/Server",
 		"Tcp Client/Server",

@@ -1,14 +1,14 @@
 #include <iostream>
 #include <string>
 #include "LogActionItem.h"
-#include "../shared/Container.h"
+#include "../shared/MenuContainer.h"
 
 using namespace std;
 
-class LogServiceContainer : public Container
+class LogServiceContainer : public MenuContainer
 {
 public:
-	LogServiceContainer() : Container(
+	LogServiceContainer() : MenuContainer(
 		1, 
 		"Log Service Test",
 		"Log Service Test",

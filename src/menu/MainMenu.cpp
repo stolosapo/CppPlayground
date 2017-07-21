@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "MainMenuHeader.cpp"
-#include "../shared/Container.h"
+#include "../shared/MenuContainer.h"
 #include "../log/LogServiceContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/menu/TcpContainer.cpp"
@@ -10,10 +10,10 @@
 
 using namespace std;
 
-class MainMenu : public Container
+class MainMenu : public MenuContainer
 {
 public:
-	MainMenu() : Container(
+	MainMenu() : MenuContainer(
 		1,
 		"Main Menu",
 		"Main Menu",
