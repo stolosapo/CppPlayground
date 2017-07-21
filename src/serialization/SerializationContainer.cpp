@@ -4,7 +4,7 @@
 #include "SerializationHeader.cpp"
 #include "SerializationMenuItem.h"
 
-#include "../shared/MenuContainer.h"
+#include "../menu/MenuContainer.h"
 
 using namespace std;
 

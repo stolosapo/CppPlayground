@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "MainMenuHeader.cpp"
-#include "../shared/MenuContainer.h"
+#include "../menu/MenuContainer.h"
 #include "../log/LogServiceContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/menu/TcpContainer.cpp"

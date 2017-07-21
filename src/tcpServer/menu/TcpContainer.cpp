@@ -2,7 +2,7 @@
 #include <string>
 #include "TcpServerFactory.cpp"
 #include "TcpClientFactory.cpp"
-#include "../../shared/MenuContainer.h"
+#include "../../menu/MenuContainer.h"
 
 using namespace std;
 
