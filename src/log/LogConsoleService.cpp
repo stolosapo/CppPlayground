@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "ILogService.h"
-#include "../shared/Colors.h"
+#include "../lib/definitions/Colors.h"
 
 using namespace std;
 
@@ -12,7 +12,7 @@ public:
 	{
 		this->useColor = true;
 	}
-	
+
 	~LogConsoleService()
 	{
 
@@ -62,7 +62,7 @@ public:
 		printColor(WHITE);
 		outString(message);
 		outString("\n");
-		
+
 		printColor(RESET);
 	}
 
@@ -70,11 +70,11 @@ public:
 	{
 		printColor(BOLDRED);
 		outString(" *** [ ERROR ]: ");
-		
+
 		printColor(WHITE);
 		outString(message);
 		outString("\n");
-		
+
 		printColor(RESET);
 	}
 
@@ -82,17 +82,17 @@ public:
 	{
 		printColor(BOLDRED);
 		outString(" *** [ FATAL ]: ");
-		
+
 		printColor(WHITE);
 		outString(message);
 		outString("\n");
-		
+
 		// exit(1);
-		
+
 		printColor(RESET);
 	}
 
-	void test() 
+	void test()
 	{
 		outString("Hello World!!");
 	}
