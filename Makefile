@@ -1,7 +1,7 @@
 #
 # TODO: Move `libmongoclient.a` to /usr/local/lib so this can work on production servers
 #
- 
+
 CC := g++ # This is the main compiler
 # CC := clang --analyze # and comment out the linker last line for sanity
 SRCDIR := src
@@ -13,7 +13,7 @@ CLEANSUBDIR := build/**/*.o
 TARGET := bin/runner
 TESTTARGET := bin/tester
 TICKETTARGET := bin/ticket
- 
+
 SRCEXT := cpp
 
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
@@ -38,8 +38,9 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 # @echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) "; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET)
 clean:
-	@echo " Cleaning..."; 
+	@echo " Cleaning...";
 	$(shell find $(BUILDDIR) -name *.o | xargs $(RM) -r $TARGET $TESTTARGET $TICKETTARGET)
+	$(shell find $(TESTDIR) -type l | xargs $(RM) -r $TARGET $TESTTARGET $TICKETTARGET)
 
 # Tests
 $(BUILDDIR)/%.o: $(TESTDIR)/%.$(SRCEXT)
