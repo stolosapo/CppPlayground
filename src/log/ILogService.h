@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include "../shared/InOut.h"
+#include "../lib/io/InOut.h"
 
 using namespace std;
 
