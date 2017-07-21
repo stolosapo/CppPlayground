@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#include "../../shared/convert.h"
+#include "../../lib/converter/convert.h"
 
 #include "MultiThreadServer.h"
 #include "../config/TcpServerConfigLoader.h"
