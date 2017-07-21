@@ -5,7 +5,7 @@
 #include "../config/TcpClientConfigLoader.h"
 #include "../TcpConnector.h"
 #include "../TcpProtocol.h"
-#include "../../lib/converter/convert.h"
+#include "../../lib/converter/Convert.h"
 
 using namespace std;
 

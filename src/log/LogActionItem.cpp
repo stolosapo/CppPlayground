@@ -2,7 +2,7 @@
 #include <string>
 #include "ILogService.h"
 #include "LogActionItem.h"
-#include "../lib/converter/convert.h"
+#include "../lib/converter/Convert.h"
 #include "../menu/MenuItem.h"
 
 using namespace std;
