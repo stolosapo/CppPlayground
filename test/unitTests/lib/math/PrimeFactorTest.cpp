@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "../../testLib/Assertion.h"
+#include "../../../testLib/Assertion.h"
 
-#include "../../../src/shared/PrimeFactor.h"
+#include "../../../../src/lib/math/PrimeFactor.h"
 
 using namespace std;
 
@@ -24,7 +24,7 @@ void PrimeFactorTest::registerTests()
         registerCoveredMethod("getByIndex");
         registerCoveredMethod("getNextPrime");
         registerCoveredMethod("isPrime");
-        
+
 
         registerTest("Test Prime Factor up to correct size", &test_prime_factor_up_to_correct_size);
         registerTest("Test Prime Factor up to correct index", &test_prime_factor_up_to_correct_index);
@@ -35,7 +35,7 @@ void PrimeFactorTest::registerTests()
         registerTest("Test 2 is a prime number", &test_prime_factor_2_is_prime);
         registerTest("Test other prime numbers", &test_prime_factor_is_prime);
         registerTest("Test other not prime numbers", &test_prime_factor_is_not_prime);
-        
+
         registerTest("Test next prime number of 0 is 2", &test_prime_factor_next_prime_of_0_is_2);
         registerTest("Test next prime number of 1 is 2", &test_prime_factor_next_prime_of_1_is_2);
         registerTest("Test next prime number of 2 is 3", &test_prime_factor_next_prime_of_2_is_3);

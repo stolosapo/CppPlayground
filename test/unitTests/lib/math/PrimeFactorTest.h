@@ -2,7 +2,7 @@
 #define PrimeFactorTest_h__
 
 #include <iostream>
-#include "../../testLib/UnitTestSuite.h"
+#include "../../../testLib/UnitTestSuite.h"
 
 using namespace std;
 
