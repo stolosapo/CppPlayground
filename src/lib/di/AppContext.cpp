@@ -36,6 +36,12 @@ AppContext::~AppContext()
 }
 
 
+map<string, InjectionScope> AppContext::getScopes()
+{
+	return scopes;
+}
+
+
 void AppContext::registerService(InjectionScope scope, string serviceName, IServiceFactory* serviceFactory)
 {
 	/* First register service scope */

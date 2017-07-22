@@ -38,6 +38,8 @@ public:
 	AppContext();
 	virtual ~AppContext();
 
+	map<string, InjectionScope> getScopes();
+
 	void registerService(InjectionScope scope, string serviceName, IServiceFactory* serviceFactory);
 
 	IService* getService(string serviceName);

@@ -1,7 +1,8 @@
 #include <iostream>
 
+#include "lib/di/GlobalAppContext.h"
+
 #include "menu/MainMenu.cpp"
-#include "lib/di/AppContextScope.h"
 #include "arguments/ArgParser.h"
 
 using namespace std;
@@ -10,9 +11,6 @@ int main(int argc, char* argv[])
 {
 	/* Initialize AppContext */
 	initializeAppContext();
-
-	/* Register Services */
-	registerServices();
 
 
 	ArgParser *args = new ArgParser(argc, argv);

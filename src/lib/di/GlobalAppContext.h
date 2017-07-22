@@ -1,5 +1,5 @@
-#ifndef AppContextScope_h__
-#define AppContextScope_h__
+#ifndef GlobalAppContext_h__
+#define GlobalAppContext_h__
 
 #include <iostream>
 #include <string>
@@ -21,9 +21,8 @@ void deleteAppContext();
 
 
 /* Context methods */
-void registerServices();
-
+void loadStartupServices();
 IService* inject(string serviceName);
 
 
-#endif // AppContextScope_h__
+#endif // GlobalAppContext_h__
