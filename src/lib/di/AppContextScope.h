@@ -12,7 +12,7 @@ using namespace std;
 
 
 /* Global AppContext */
-volatile static AppContext* appContext;
+static AppContext* appContext;
 
 
 /* Context initialization */

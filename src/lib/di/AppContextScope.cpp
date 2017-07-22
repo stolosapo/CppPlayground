@@ -12,7 +12,7 @@ void deleteAppContext()
 
 IService* inject(string serviceName)
 {
-	return NULL;
+	return appContext->getService(serviceName);
 }
 
 void registerServices()
