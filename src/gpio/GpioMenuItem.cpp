@@ -59,7 +59,7 @@ void GpioMenuItem::action()
 	logSrv->info("GPIO pins exported");
 
 	gpio4->setdir_gpio("out");	// GPIO4 set to output
-	gpio17->setdir_gpio("out");	// GPIO17 set to input
+	gpio17->setdir_gpio("in");	// GPIO17 set to input
 
 	logSrv->info("Set GPIO pin directions");
 
