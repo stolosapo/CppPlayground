@@ -50,16 +50,16 @@ void GpioMenuItem::action()
 	// create new GPIO object to be attached to  GPIO4
 	GpioObject *gpio4 = new GpioObject("4");
 
-	// create new GPIO object to be attached to  GPIO5
-	GpioObject *gpio5 = new GpioObject("5");
+	// create new GPIO object to be attached to  GPIO17
+	GpioObject *gpio17 = new GpioObject("17");
 
 	gpio4->export_gpio();	// export GPIO4
-	gpio5->export_gpio();	// export GPIO5
+	gpio17->export_gpio();	// export GPIO17
 
 	logSrv->info("GPIO pins exported");
 
 	gpio4->setdir_gpio("out");	// GPIO4 set to output
-	gpio5->setdir_gpio("in");	// GPIO5 set to input
+	gpio17->setdir_gpio("out");	// GPIO17 set to input
 
 	logSrv->info("Set GPIO pin directions");
 
@@ -70,8 +70,8 @@ void GpioMenuItem::action()
 		// wait for 0.5 seconds
 		usleep(500000);
 
-		// read state of GPIO5 input pin
-		gpio5->getval_gpio(inputstate);
+		// read state of GPIO17 input pin
+		gpio17->getval_gpio(inputstate);
 		logSrv->info("Current input pin state is " + inputstate);
 
 		// if input pin is at state "0" i.e. button pressed
@@ -84,7 +84,7 @@ void GpioMenuItem::action()
 			logSrv->info("Checking again .....");
 
 			// checking again to ensure that state "0" is due to button press and not noise
-			gpio5->getval_gpio(inputstate);
+			gpio17->getval_gpio(inputstate);
 
 			if(inputstate == "0")
 			{
@@ -97,7 +97,7 @@ void GpioMenuItem::action()
 
 				while (inputstate == "0")
 				{
-					gpio5->getval_gpio(inputstate);
+					gpio17->getval_gpio(inputstate);
 				}
 
 				logSrv->info("pin is unpressed");
@@ -117,14 +117,14 @@ void GpioMenuItem::action()
 			logSrv->info("GPIO pins unexported");
 
 			gpio4->unexport_gpio();
-			gpio5->unexport_gpio();
+			gpio17->unexport_gpio();
 
 			logSrv->info("Deallocationg GPIO Objects");
 
 			delete gpio4;
 			gpio4 = 0;
-			delete gpio5;
-			gpio5 = 0;
+			delete gpio17;
+			gpio17 = 0;
 			break;
 		}
 
