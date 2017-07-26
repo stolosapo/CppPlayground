@@ -34,15 +34,15 @@ void GpioMenuItem::action()
 {
 	ctrl_c_pressed = false;
 
-	// struct sigaction sig_struct;
-	// sig_struct.sa_handler = sig_handler;
-	// sig_struct.sa_flags = 0;
-	// sigemptyset(&sig_struct.sa_mask);
+	struct sigaction sig_struct;
+	sig_struct.sa_handler = sig_handler;
+	sig_struct.sa_flags = 0;
+	sigemptyset(&sig_struct.sa_mask);
 
-	// if (sigaction(SIGINT, &sig_struct, NULL) == -1) {
-	//     logSrv->error("Problem with sigaction");
-	//     exit(1);
-	// }
+	if (sigaction(SIGINT, &sig_struct, NULL) == -1) {
+	    logSrv->error("Problem with sigaction");
+	    exit(1);
+	}
 
 
 	string inputstate;
@@ -135,6 +135,6 @@ void GpioMenuItem::action()
 
 void sig_handler(int sig)
 {
-	write(0, "nCtrl^C pressed in sig handlern", 32);
+	write(0, "\nCtrl^C pressed in sig handler\n", 32);
 	ctrl_c_pressed = true;
 }
