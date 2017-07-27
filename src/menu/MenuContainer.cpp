@@ -156,7 +156,15 @@ MenuItem *MenuContainer::findMenuItem()
 
 	logSrv->outString("No such item exists!!!\n\n");
 	logSrv->outString("Choose again: ");
+
 	this->selection = logSrv->inInt();
+
+	if (this->selection < 0)
+	{
+		logSrv->fatal("Fatal selection");
+
+		this->selection = this->exitCode;
+	}
 
 	return this->findMenuItem();
 }
