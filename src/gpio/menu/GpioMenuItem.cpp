@@ -5,7 +5,7 @@
 #include <signal.h>
 
 #include "GpioMenuItem.h"
-#include "GpioObject.h"
+#include "../GpioObject.h"
 
 using namespace std;
 
