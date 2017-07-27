@@ -159,6 +159,7 @@ MenuItem *MenuContainer::findMenuItem()
 
 	this->selection = logSrv->inInt();
 
+	/* Guard for unexpected input */
 	if (this->selection < 0)
 	{
 		logSrv->fatal("Fatal selection");
