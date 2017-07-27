@@ -1,15 +1,15 @@
 #include <iostream>
 #include <string>
-#include "LogActionItem.h"
-#include "../menu/MenuContainer.h"
+#include "LogMenuItem.h"
+#include "../../menu/MenuContainer.h"
 
 using namespace std;
 
-class LogServiceContainer : public MenuContainer
+class LogServiceMenuContainer : public MenuContainer
 {
 public:
-	LogServiceContainer() : MenuContainer(
-		1, 
+	LogServiceMenuContainer() : MenuContainer(
+		1,
 		"Log Service Test",
 		"Log Service Test",
 		1)
@@ -17,7 +17,7 @@ public:
 		this->setContinueQuestion(true);
 	}
 
-	virtual ~LogServiceContainer()
+	virtual ~LogServiceMenuContainer()
 	{
 
 	}
@@ -25,7 +25,7 @@ public:
 protected:
 	virtual void fillOptions()
 	{
-		this->addMenuItem(0, new LogActionItem(logSrv));
+		this->addMenuItem(0, new LogMenuItem(logSrv));
 	}
 
 	virtual string getHeader()

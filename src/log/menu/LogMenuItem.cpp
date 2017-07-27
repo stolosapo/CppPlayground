@@ -1,13 +1,6 @@
-#include <iostream>
-#include <string>
-#include "ILogService.h"
-#include "LogActionItem.h"
-#include "../lib/converter/Convert.h"
-#include "../menu/MenuItem.h"
+#include "LogMenuItem.h"
 
-using namespace std;
-
-LogActionItem::LogActionItem(ILogService *logSrv) : MenuItem()
+LogMenuItem::LogMenuItem(ILogService *logSrv) : MenuItem()
 {
 	this->logSrv = logSrv;
 
@@ -17,12 +10,12 @@ LogActionItem::LogActionItem(ILogService *logSrv) : MenuItem()
 	this->setTitle("Test Logging Service");
 }
 
-LogActionItem::~LogActionItem()
+LogMenuItem::~LogMenuItem()
 {
-	
+
 }
 
-void LogActionItem::action()
+void LogMenuItem::action()
 {
 	logSrv->outString("Type a messege to test: ");
 	string message = logSrv->inString();

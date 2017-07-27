@@ -2,7 +2,7 @@
 
 #include "MainMenuHeader.cpp"
 #include "../menu/MenuContainer.h"
-#include "../log/LogServiceContainer.cpp"
+#include "../log/menu/LogServiceMenuContainer.cpp"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/menu/TcpContainer.cpp"
 #include "../serialization/SerializationContainer.cpp"
@@ -30,7 +30,7 @@ public:
 protected:
 	virtual void fillOptions()
 	{
-		this->addMenuItem(0, new LogServiceContainer);
+		this->addMenuItem(0, new LogServiceMenuContainer);
 		this->addMenuItem(1, new EulerProblemContainer);
 		this->addMenuItem(2, new TcpContainer);
 		this->addMenuItem(3, new SerializationContainer);
