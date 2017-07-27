@@ -34,6 +34,8 @@ void GpioMenuItem::action()
 {
 	ctrl_c_pressed = false;
 
+	/* COMMENTED BECAUSE CREATES STACKOVERFLOW ERROR !!!!
+	 *
 	struct sigaction sig_struct;
 	sig_struct.sa_handler = sig_handler;
 	sig_struct.sa_flags = 0;
@@ -43,6 +45,7 @@ void GpioMenuItem::action()
 	    logSrv->error("Problem with sigaction");
 	    exit(1);
 	}
+	*/
 
 
 	string inputstate;
