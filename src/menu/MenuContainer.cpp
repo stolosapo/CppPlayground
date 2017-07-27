@@ -3,6 +3,8 @@
 #include "MenuContainer.h"
 #include "../log/LogServiceFactory.h"
 
+#include "../lib/di/GlobalAppContext.h"
+
 using namespace std;
 
 /*******************************
@@ -26,7 +28,7 @@ MenuContainer::MenuContainer(int id, string name, string title, const int size) 
 	this->size = size;
 	this->menuItems = new MenuItem *[size];
 
-	logSrv = LogServiceFactory::create();
+	logSrv = inject<ILogService>("logService");
 }
 
 MenuContainer::~MenuContainer()

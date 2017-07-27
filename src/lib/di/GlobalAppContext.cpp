@@ -5,13 +5,22 @@
 
 #include "InjectionScope.h"
 
+
+AppContext appContext;
+
+
 void initializeAppContext()
 {
 	/* Create context */
-	appContext = new AppContext;
+	appContext = AppContext();
+
+	cout << "* Created appContext: " << &appContext << endl;
+
 
 	/* register all services */
 	registerServices();
+
+	cout << "* Registered Services" << endl;
 
 	/* load START_UP services */
 	loadStartupServices();
@@ -19,12 +28,12 @@ void initializeAppContext()
 
 void deleteAppContext()
 {
-	delete appContext;
+
 }
 
 void loadStartupServices()
 {
-	map<string, InjectionScope> scopes = appContext->getScopes();
+	map<string, InjectionScope> scopes = appContext.getScopes();
 
 	for (map<string, InjectionScope>::iterator it = scopes.begin(); 
 		it != scopes.end(); 
@@ -35,12 +44,7 @@ void loadStartupServices()
 
 		if (curScope == START_UP)
 		{
-			appContext->getService(curServiceName);
+			appContext.getService(curServiceName);
 		}
 	}
-}
-
-IService* inject(string serviceName)
-{
-	return appContext->getService(serviceName);
 }

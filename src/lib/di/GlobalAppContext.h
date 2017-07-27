@@ -5,14 +5,13 @@
 #include <string>
 
 #include "AppContext.h"
-
 #include "../service/IService.h"
 
 using namespace std;
 
 
 /* Global AppContext */
-static AppContext* appContext;
+extern AppContext appContext;
 
 
 /* Context initialization */
@@ -22,7 +21,35 @@ void deleteAppContext();
 
 /* Context methods */
 void loadStartupServices();
-IService* inject(string serviceName);
 
+template<class T>
+void registerGlobalService(InjectionScope scope, string serviceName, T* serviceFactory);
+
+template<class T>
+T* inject(string serviceName);
+
+
+
+
+
+/**
+	IMPLEMENTATIONS
+*/
+
+template<class T>
+void registerGlobalService(InjectionScope scope, string serviceName, T* serviceFactory)
+{
+	appContext.registerService(scope, serviceName, (IServiceFactory*) serviceFactory);
+
+	cout << "* Factory for service: '" << serviceName << "' registed in appContext." << endl;
+}
+
+
+template<class T>
+T* inject(string serviceName)
+{
+	IService* srv = appContext.getService(serviceName);
+	return (T*) srv;
+}
 
 #endif // GlobalAppContext_h__
