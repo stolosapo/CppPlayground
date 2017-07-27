@@ -5,7 +5,7 @@
 #include "../log/menu/LogServiceMenuContainer.h"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/menu/TcpContainer.cpp"
-#include "../serialization/SerializationContainer.cpp"
+#include "../serialization/menu/SerializationMenuContainer.h"
 #include "../gpio/menu/GpioMenuContainer.h"
 
 using namespace std;
@@ -33,7 +33,7 @@ protected:
 		this->addMenuItem(0, new LogServiceMenuContainer);
 		this->addMenuItem(1, new EulerProblemContainer);
 		this->addMenuItem(2, new TcpContainer);
-		this->addMenuItem(3, new SerializationContainer);
+		this->addMenuItem(3, new SerializationMenuContainer);
 		this->addMenuItem(4, new GpioMenuContainer);
 	}
 

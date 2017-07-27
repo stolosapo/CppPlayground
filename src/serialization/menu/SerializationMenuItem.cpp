@@ -1,5 +1,5 @@
 #include "SerializationMenuItem.h"
-#include "SerializationServiceFactory.h"
+#include "../SerializationServiceFactory.h"
 
 SerializationMenuItem::SerializationMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -13,7 +13,7 @@ SerializationMenuItem::SerializationMenuItem(ILogService *logSrv) : MenuItem()
 
 SerializationMenuItem::~SerializationMenuItem()
 {
-	
+
 }
 
 void SerializationMenuItem::action()

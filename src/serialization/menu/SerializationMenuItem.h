@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <string>
-#include "../log/ILogService.h"
-#include "../menu/MenuItem.h"
+#include "../../log/ILogService.h"
+#include "../../menu/MenuItem.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ private:
 public:
 	SerializationMenuItem(ILogService *logSrv);
 	virtual ~SerializationMenuItem();
-	
+
 	virtual void action();
 };
 #endif // SerializationMenuItem_h__
