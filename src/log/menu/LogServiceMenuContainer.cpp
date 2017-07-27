@@ -1,36 +1,27 @@
-#include <iostream>
-#include <string>
+#include "LogServiceMenuContainer.h"
+
 #include "LogMenuItem.h"
-#include "../../menu/MenuContainer.h"
 
-using namespace std;
-
-class LogServiceMenuContainer : public MenuContainer
+LogServiceMenuContainer::LogServiceMenuContainer() : MenuContainer(
+	1,
+	"Log Service Test",
+	"Log Service Test",
+	1)
 {
-public:
-	LogServiceMenuContainer() : MenuContainer(
-		1,
-		"Log Service Test",
-		"Log Service Test",
-		1)
-	{
-		this->setContinueQuestion(true);
-	}
+	this->setContinueQuestion(true);
+}
 
-	virtual ~LogServiceMenuContainer()
-	{
+LogServiceMenuContainer::~LogServiceMenuContainer()
+{
 
-	}
+}
 
-protected:
-	virtual void fillOptions()
-	{
-		this->addMenuItem(0, new LogMenuItem(logSrv));
-	}
+void LogServiceMenuContainer::fillOptions()
+{
+	this->addMenuItem(0, new LogMenuItem(logSrv));
+}
 
-	virtual string getHeader()
-	{
-		return "";
-	}
-
-};
+string LogServiceMenuContainer::getHeader()
+{
+	return "";
+}
