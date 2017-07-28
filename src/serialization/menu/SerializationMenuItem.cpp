@@ -1,6 +1,8 @@
 #include "SerializationMenuItem.h"
 #include "../SerializationServiceFactory.h"
 
+#include "../../lib/di/GlobalAppContext.h"
+
 SerializationMenuItem::SerializationMenuItem(ILogService *logSrv) : MenuItem()
 {
 	this->logSrv = logSrv;
@@ -18,7 +20,7 @@ SerializationMenuItem::~SerializationMenuItem()
 
 void SerializationMenuItem::action()
 {
-	ISerializationService *srv = SerializationServiceFactory::create();
+	ISerializationService *srv = inject<ISerializationService>("serializationService");
 
 	srv->test();
 }
