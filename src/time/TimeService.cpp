@@ -1,26 +1,16 @@
-#include <iostream>
-#include <stdio.h>
-#include <time.h>
-#include "ITimeService.h"
+#include "TimeService.h"
 
-using namespace std;
-
-class TimeService : public ITimeService
+TimeService::TimeService(): ITimeService()
 {
-public:
-	TimeService() : ITimeService()
-	{
 
-	}
-	
-	~TimeService()
-	{
+}
 
-	}
+TimeService::~TimeService()
+{
 
-	time_t rawNow()
-	{
-		return time(0);		
-	}
+}
 
-};
+time_t TimeService::rawNow()
+{
+	return time(0);
+}

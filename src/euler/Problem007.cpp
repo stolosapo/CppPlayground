@@ -2,7 +2,7 @@
 #include <string>
 #include "EulerProblem.h"
 #include "../log/ILogService.h"
-#include "../shared/PrimeFactor.h"
+#include "../lib/math/PrimeFactor.h"
 
 using namespace std;
 

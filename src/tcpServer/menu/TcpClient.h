@@ -10,12 +10,12 @@ class TcpClient : public ITcpClient
 {
 private:
 	static const int DEFAULT_PORT = 51717;
-	static const char* DEFAULT_HOSTNAME;
+	static const char* DEFAULT_SERVERNAME;
 
 	ILogService *logSrv;
 
 	int port;
-	const char* hostname;
+	string serverName;
 
 	TcpConnector *connector;
 	TcpStream *stream;

@@ -1,8 +1,8 @@
 #include <iostream>
 #include "TimeServiceFactory.h"
-#include "TimeService.cpp"
+#include "TimeService.h"
 
-TimeServiceFactory::TimeServiceFactory()
+TimeServiceFactory::TimeServiceFactory(): IServiceFactory()
 {
 
 }
@@ -12,8 +12,8 @@ TimeServiceFactory::~TimeServiceFactory()
 
 }
 
-ITimeService *TimeServiceFactory::create()
+IService *TimeServiceFactory::create()
 {
 	TimeService* srv = new TimeService;
-	return (TimeService*) srv;
+	return (IService*) srv;
 }

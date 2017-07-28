@@ -7,6 +7,8 @@
 #include "../../serialization/ISerializationService.h"
 #include "../../serialization/SerializationServiceFactory.h"
 
+#include "../../lib/di/GlobalAppContext.h"
+
 using namespace std;
 
 template<class T>
@@ -40,7 +42,7 @@ IConfigLoader<T>::IConfigLoader(string filename)
 {
         this->filename = filename;
 
-        this->serializer = SerializationServiceFactory::create();
+        this->serializer = inject<ISerializationService>("serializationService");
 }
 
 template<class T>

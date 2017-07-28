@@ -1,13 +1,13 @@
 #include "SerializationServiceFactory.h"
-#include "json/JzonService.cpp"
+#include "json/JzonService.h"
 
-SerializationServiceFactory::SerializationServiceFactory() 
+SerializationServiceFactory::SerializationServiceFactory()
 {
 
 }
 
-ISerializationService *SerializationServiceFactory::create()
+IService *SerializationServiceFactory::create()
 {
 	JzonService* srv = new JzonService;
-	return  (ISerializationService*) srv;
+	return  (IService*) srv;
 }
