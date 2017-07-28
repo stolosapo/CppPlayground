@@ -5,14 +5,16 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "../lib/service/IService.h"
+
 using namespace std;
 
-class ITimeService
+class ITimeService: public IService
 {
 public:
-	ITimeService() { };
-	virtual ~ITimeService() { };
-	
+	ITimeService();
+	virtual ~ITimeService();
+
 	virtual time_t rawNow() = 0;
 };
 

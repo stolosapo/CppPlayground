@@ -1,6 +1,6 @@
 #include <iostream>
 #include "TimeServiceFactory.h"
-#include "TimeService.cpp"
+#include "TimeService.h"
 
 TimeServiceFactory::TimeServiceFactory()
 {
