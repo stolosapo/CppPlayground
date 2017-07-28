@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../../shared/Container.h"
+#include "../../menu/MenuContainer.h"
 #include "TestKubeNotationMenuItem.h"
 #include "ShuffleKubeMenuItem.cpp"
 #include "SolveKubeMenuItem.cpp"
@@ -8,11 +8,11 @@
 
 using namespace std;
 
-class KubeContainer : public Container
+class KubeContainer : public MenuContainer
 {
 public:
-    KubeContainer() : Container(
-        6, 
+    KubeContainer() : MenuContainer(
+        6,
         "The Kube Solver",
         "The Kube Solver",
         3)

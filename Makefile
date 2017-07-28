@@ -40,15 +40,9 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 
 # @echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) "; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET)
 clean:
-<<<<<<< HEAD
-	@echo " Cleaning..."; 
-	@echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) "; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET)
-	$(BASH) $(INITIALIZE)
-=======
 	@echo " Cleaning...";
 	$(shell find $(BUILDDIR) -name *.o | xargs $(RM) -r $TARGET $TESTTARGET $TICKETTARGET)
 	$(shell find $(TESTDIR) -type l | xargs $(RM) -r $TARGET $TESTTARGET $TICKETTARGET)
->>>>>>> master
 
 # Tests
 $(BUILDDIR)/%.o: $(TESTDIR)/%.$(SRCEXT)

@@ -4,7 +4,7 @@
 #include "../action/KubeColorMapper.h"
 #include "../action/KubeNavigator.h"
 #include "../action/KubeTracer.h"
-#include "../../shared/InOut.h"
+#include "../../lib/io/InOut.h"
 
 
 void makeCross(KubeNavigator *nav, KubePrinter *printer);
@@ -26,7 +26,7 @@ TestKubeNotationMenuItem::TestKubeNotationMenuItem(ILogService *logSrv) : MenuIt
 
 TestKubeNotationMenuItem::~TestKubeNotationMenuItem()
 {
-	
+
 }
 
 void TestKubeNotationMenuItem::action()
@@ -95,7 +95,7 @@ void printMovesMenu(ILogService *logSrv)
 	logSrv->printl("Rotate the cube like a U: (y, y', y2)");
 	logSrv->printl("");
 
-	logSrv->print("Choose one from the above or (q) from quit: ");	
+	logSrv->print("Choose one from the above or (q) from quit: ");
 }
 
 bool makeTheMove(string moveToMake, KubeNavigator *nav)
