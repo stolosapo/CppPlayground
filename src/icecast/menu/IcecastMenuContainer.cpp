@@ -1,8 +1,8 @@
 #include "IcecastMenuContainer.h"
 #include "IcecastClientMenuItem.h"
 
-IcecastMenuContainer::IcecastMenuContainer() : Container(
-	6, 
+IcecastMenuContainer::IcecastMenuContainer() : MenuContainer(
+	6,
 	"Icecast",
 	"Icecast",
 	1)

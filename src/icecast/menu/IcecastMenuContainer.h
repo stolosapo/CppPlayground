@@ -3,11 +3,11 @@
 
 #include <iostream>
 #include <string>
-#include "../../shared/Container.h"
+#include "../../menu/MenuContainer.h"
 
 using namespace std;
 
-class IcecastMenuContainer : public Container
+class IcecastMenuContainer : public MenuContainer
 {
 public:
 	IcecastMenuContainer();

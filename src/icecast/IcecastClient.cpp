@@ -3,7 +3,7 @@
 #include "config/IcecastClientConfigLoader.h"
 
 
-#include "../shared/convert.h"
+#include "../lib/converter/Convert.h"
 
 
 IcecastClient::IcecastClient(ILogService *logSrv) : ITcpClient()
