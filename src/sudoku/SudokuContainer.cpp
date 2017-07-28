@@ -1,14 +1,14 @@
 #include <iostream>
-#include "../shared/Container.h"
+#include "../menu/MenuContainer.h"
 #include "Sudoku.h"
 #include "ThreeDimPuzzle.h"
 #include "SudokuHeader.cpp"
 
-class SudokuContainer : public Container
+class SudokuContainer : public MenuContainer
 {
 public:
-	SudokuContainer() : Container(
-		6, 
+	SudokuContainer() : MenuContainer(
+		6,
 		"Sudoku Problems",
 		"Sudoku Problems",
 		1)

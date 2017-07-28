@@ -6,7 +6,7 @@
 #include "Sudoku.h"
 #include "CellFactory.h"
 #include "../shared/FileReader.h"
-#include "../shared/convert.h"
+#include "../lib/converter/Convert.h"
 
 using namespace std;
 
@@ -81,7 +81,7 @@ bool Sudoku::applyHorizondialRule(Cell *cell, int value)
 	{
 		Cell *currentCell = this->cells[i];
 
-		if (currentCell->getColumn() == currentColumn && 
+		if (currentCell->getColumn() == currentColumn &&
 			currentCell->getRow() != currentRow &&
 			currentCell->isFound() &&
 			currentCell->getValue() == value)
@@ -104,7 +104,7 @@ bool Sudoku::applyVerticalRule(Cell *cell, int value)
 	{
 		Cell *currentCell = this->cells[i];
 
-		if (currentCell->getColumn() != currentColumn && 
+		if (currentCell->getColumn() != currentColumn &&
 			currentCell->getRow() == currentRow &&
 			currentCell->isFound() &&
 			currentCell->getValue() == value)
@@ -241,7 +241,7 @@ void Sudoku::print()
 	{
 		Cell *cell = this->cells[i];
 
-		cout << "(" << cell->getRow() << ", " 
+		cout << "(" << cell->getRow() << ", "
 			 << cell->getColumn() << ") -> "
 			 << cell->getValue() << endl;
 	}
