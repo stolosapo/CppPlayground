@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include "../shared/convert.h"
+#include "../lib/converter/Convert.h"
 #include "../menu/MenuItem.h"
 #include "../log/ILogService.h"
 

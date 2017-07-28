@@ -1,19 +1,19 @@
 #include <iostream>
 
 #include "MainMenuHeader.cpp"
-#include "../shared/Container.h"
-#include "../log/LogServiceContainer.cpp"
+#include "../menu/MenuContainer.h"
+#include "../log/menu/LogServiceMenuContainer.h"
 #include "../euler/EulerProblemContainer.cpp"
-#include "../tcpServer/menu/TcpContainer.cpp"
-#include "../serialization/SerializationContainer.cpp"
-#include "../gpio/GpioMenuContainer.cpp"
+#include "../tcpServer/menu/TcpMenuContainer.h"
+#include "../serialization/menu/SerializationMenuContainer.h"
+#include "../gpio/menu/GpioMenuContainer.h"
 
 using namespace std;
 
-class MainMenu : public Container
+class MainMenu : public MenuContainer
 {
 public:
-	MainMenu() : Container(
+	MainMenu() : MenuContainer(
 		1,
 		"Main Menu",
 		"Main Menu",
@@ -30,10 +30,10 @@ public:
 protected:
 	virtual void fillOptions()
 	{
-		this->addMenuItem(0, new LogServiceContainer);
+		this->addMenuItem(0, new LogServiceMenuContainer);
 		this->addMenuItem(1, new EulerProblemContainer);
-		this->addMenuItem(2, new TcpContainer);
-		this->addMenuItem(3, new SerializationContainer);
+		this->addMenuItem(2, new TcpMenuContainer);
+		this->addMenuItem(3, new SerializationMenuContainer);
 		this->addMenuItem(4, new GpioMenuContainer);
 	}
 

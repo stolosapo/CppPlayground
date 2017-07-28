@@ -7,4 +7,6 @@ compiler: g++
 # Build steps
 script: 
  - ./initialize.sh
- - make
+ - make tester
+ - cd bin
+ - ./tester
