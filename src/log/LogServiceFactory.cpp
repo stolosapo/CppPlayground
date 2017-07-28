@@ -1,8 +1,7 @@
-#include <iostream>
 #include "LogServiceFactory.h"
 #include "LogConsoleService.cpp"
 
-LogServiceFactory::LogServiceFactory()
+LogServiceFactory::LogServiceFactory(): IServiceFactory()
 {
 
 }
@@ -12,8 +11,8 @@ LogServiceFactory::~LogServiceFactory()
 
 }
 
-ILogService *LogServiceFactory::create()
+IService *LogServiceFactory::create()
 {
 	LogConsoleService* srv = new LogConsoleService;
-	return (LogConsoleService*) srv;
+	return (IService*) srv;
 }

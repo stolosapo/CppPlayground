@@ -3,13 +3,15 @@
 
 #include <iostream>
 #include "ISerializationService.h"
+#include "../lib/service/IService.h"
+#include "../lib/service/IServiceFactory.h"
 
-class SerializationServiceFactory
+class SerializationServiceFactory: public IServiceFactory
 {
 public:
 	SerializationServiceFactory();
 
-	static ISerializationService *create();
+	IService *create();
 };
 
 

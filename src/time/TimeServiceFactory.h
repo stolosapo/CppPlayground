@@ -3,14 +3,15 @@
 
 #include <iostream>
 #include "ITimeService.h"
+#include "../lib/service/IServiceFactory.h"
 
-class TimeServiceFactory
+class TimeServiceFactory: public IServiceFactory
 {
 public:
 	TimeServiceFactory();
 	~TimeServiceFactory();
-	
-	static ITimeService *create();
+
+	IService *create();
 };
 
 #endif // #ifndef TimeServiceFactory_h__

@@ -3,7 +3,7 @@
 #include <math.h>
 #include "EulerProblem.h"
 #include "../log/ILogService.h"
-#include "../shared/convert.h"
+#include "../lib/converter/Convert.h"
 
 using namespace std;
 

@@ -3,17 +3,19 @@
 
 #include <iostream>
 #include <string>
-#include "../shared/InOut.h"
+
+#include "../lib/service/IService.h"
+#include "../lib/io/InOut.h"
 
 using namespace std;
 
-class ILogService : public InOut
+class ILogService : public IService, public InOut
 {
 protected:
 	bool useColor;
 
 public:
-	ILogService()  : InOut() { };
+	ILogService(): IService(), InOut() { };
 	virtual ~ILogService() { };
 
 	bool getUseColor();
