@@ -3,8 +3,8 @@
 #include <vector>
 #include "EulerProblem.h"
 #include "../log/ILogService.h"
-#include "../shared/convert.h"
-#include "../shared/PrimeFactor.h"
+#include "../lib/converter/Convert.h"
+#include "../lib/math/PrimeFactor.h"
 
 using namespace std;
 

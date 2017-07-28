@@ -2,14 +2,16 @@
 #define LogServiceFactory_h__
 
 #include "ILogService.h"
+#include "../lib/service/IService.h"
+#include "../lib/service/IServiceFactory.h"
 
-class LogServiceFactory
+class LogServiceFactory: public IServiceFactory
 {
 public:
 	LogServiceFactory();
 	virtual ~LogServiceFactory();
 	
-	static ILogService *create();
+	IService *create();
 };
 
 #endif // #ifndef LogServiceFactory_h__
