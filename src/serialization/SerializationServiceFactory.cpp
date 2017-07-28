@@ -1,7 +1,7 @@
 #include "SerializationServiceFactory.h"
-#include "json/JzonService.cpp"
+#include "json/JzonService.h"
 
-SerializationServiceFactory::SerializationServiceFactory() 
+SerializationServiceFactory::SerializationServiceFactory()
 {
 
 }

@@ -4,15 +4,16 @@
 #include <iostream>
 #include <string>
 
+#include "../lib/service/IService.h"
 #include "../data/Model.h"
 
 using namespace std;
 
-class ISerializationService
+class ISerializationService: public IService
 {
 public:
-	ISerializationService() { };
-	virtual ~ISerializationService() { };
+	ISerializationService();
+	virtual ~ISerializationService();
 
 	virtual string serializeModel(Model *model) = 0;
 	virtual string serializeModels(Model **models, int size) = 0;
