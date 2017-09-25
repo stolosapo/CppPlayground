@@ -2,7 +2,7 @@
 #define ClientInfo_h__
 
 #include <string>
-#include "TcpStream.h"
+#include "lib/TcpStream.h"
 
 using namespace std;
 

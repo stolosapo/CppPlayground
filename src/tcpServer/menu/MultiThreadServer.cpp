@@ -7,8 +7,8 @@
 
 #include "MultiThreadServer.h"
 #include "../config/TcpServerConfigLoader.h"
-#include "../TcpAcceptor.h"
-#include "../TcpProtocol.h"
+#include "../lib/TcpAcceptor.h"
+#include "../lib/TcpProtocol.h"
 #include "../ClientInfo.h"
 
 using namespace std;

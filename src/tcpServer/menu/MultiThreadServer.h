@@ -4,7 +4,7 @@
 #include <string>
 #include "ITcpServer.h"
 #include "../config/TcpServerConfig.h"
-#include "../TcpAcceptor.h"
+#include "../lib/TcpAcceptor.h"
 #include "../ClientInfo.h"
 #include "../../log/ILogService.h"
 

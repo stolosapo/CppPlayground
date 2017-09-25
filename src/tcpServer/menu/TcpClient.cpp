@@ -3,8 +3,8 @@
 #include <string>
 #include "TcpClient.h"
 #include "../config/TcpClientConfigLoader.h"
-#include "../TcpConnector.h"
-#include "../TcpProtocol.h"
+#include "../lib/TcpConnector.h"
+#include "../lib/TcpProtocol.h"
 #include "../../lib/converter/Convert.h"
 
 using namespace std;

@@ -3,7 +3,7 @@
 
 #include "ITcpClient.h"
 #include "../config/TcpClientConfig.h"
-#include "../TcpConnector.h"
+#include "../lib/TcpConnector.h"
 #include "../../log/ILogService.h"
 
 class TcpClient : public ITcpClient
