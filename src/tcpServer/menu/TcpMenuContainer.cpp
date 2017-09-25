@@ -1,7 +1,7 @@
 #include "TcpMenuContainer.h"
 
-#include "TcpServerFactory.cpp"
-#include "TcpClientFactory.cpp"
+#include "../server/TcpServerFactory.cpp"
+#include "../client/TcpClientFactory.cpp"
 
 
 TcpMenuContainer::TcpMenuContainer() : MenuContainer(
