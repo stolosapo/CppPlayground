@@ -1,6 +1,6 @@
 #include "TcpMenuContainer.h"
 
-#include "../server/TcpServerFactory.cpp"
+#include "../server/TcpServerFactory.h"
 #include "../client/TcpClientFactory.h"
 
 

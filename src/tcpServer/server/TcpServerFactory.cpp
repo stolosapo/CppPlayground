@@ -1,32 +1,29 @@
-#include "ITcpServer.h"
+#include "TcpServerFactory.h"
+
 #include "TcpServer.h"
 #include "MultiThreadServer.h"
-#include "../../log/ILogService.h"
 
-class TcpServerFactory
+
+TcpServerFactory::TcpServerFactory()
 {
-public:
-	TcpServerFactory()
-	{
 
-	}
+}
 
-	~TcpServerFactory()
-	{
+TcpServerFactory::~TcpServerFactory()
+{
 
-	}
-	
-	static ITcpServer *create(ILogService *logSrv, bool multiThread)
+}
+
+ITcpServer *TcpServerFactory::create(ILogService *logSrv, bool multiThread)
+{
+	if (!multiThread)
 	{
-		if (!multiThread)
-		{
-			TcpServer* srv = new TcpServer(logSrv);
-			return (ITcpServer*) srv;
-		}
-		else
-		{
-			MultiThreadServer* srv = new MultiThreadServer(logSrv);
-			return (ITcpServer*) srv;
-		}
+		TcpServer* srv = new TcpServer(logSrv);
+		return (ITcpServer*) srv;
 	}
-};
+	else
+	{
+		MultiThreadServer* srv = new MultiThreadServer(logSrv);
+		return (ITcpServer*) srv;
+	}
+}
