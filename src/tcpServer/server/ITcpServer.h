@@ -3,11 +3,11 @@
 
 #include "../../menu/MenuItem.h"
 
-class ITcpServer : public MenuItem
+class ITcpServer
 {
 public:
-	ITcpServer() : MenuItem() {};
-	virtual ~ITcpServer() {};
+	ITcpServer() { };
+	virtual ~ITcpServer() { };
 
 	virtual void start() = 0;
 	virtual void action() = 0;
