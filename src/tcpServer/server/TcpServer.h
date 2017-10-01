@@ -3,7 +3,7 @@
 
 #include <string>
 #include "ITcpServer.h"
-#include "../TcpAcceptor.h"
+#include "../lib/TcpAcceptor.h"
 #include "../../log/ILogService.h"
 
 using namespace std;

@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 #include "TcpServer.h"
-#include "../TcpAcceptor.h"
-#include "../TcpProtocol.h"
+#include "../lib/TcpAcceptor.h"
+#include "../lib/TcpProtocol.h"
 
 using namespace std;
 
@@ -19,22 +19,17 @@ TcpServer::TcpServer(ILogService *logSrv) : ITcpServer()
 {
 	this->logSrv = logSrv;
 
-    this->port = DEFAULT_PORT;
-    this->hostname = DEFAULT_HOSTNAME;
+	this->port = DEFAULT_PORT;
+	this->hostname = DEFAULT_HOSTNAME;
 
-	this->setId(1);
-	this->setName("Tcp Server");
-	this->setTitle("Tcp Server");
-	this->setDescription("The First Kube Tcp Server");
-
-    // initialize server
-    stream = NULL;
-    acceptor = new TcpAcceptor(port, hostname);
+	// initialize server
+	stream = NULL;
+	acceptor = new TcpAcceptor(port, hostname);
 }
 
 TcpServer::~TcpServer()
 {
-    delete acceptor;
+	delete acceptor;
 }
 
 
@@ -155,8 +150,5 @@ void TcpServer::start()
 
 void TcpServer::action()
 {
-	this->identify();
-	this->logSrv->outString("\n\n");
-
 	this->start();
 }

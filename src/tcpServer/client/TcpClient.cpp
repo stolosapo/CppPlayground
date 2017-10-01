@@ -3,8 +3,8 @@
 #include <string>
 #include "TcpClient.h"
 #include "../config/TcpClientConfigLoader.h"
-#include "../TcpConnector.h"
-#include "../TcpProtocol.h"
+#include "../lib/TcpConnector.h"
+#include "../lib/TcpProtocol.h"
 #include "../../lib/converter/Convert.h"
 
 using namespace std;
@@ -23,11 +23,6 @@ TcpClient::TcpClient(ILogService *logSrv) : ITcpClient()
 
 	this->port = TcpClient::DEFAULT_PORT;
 	this->serverName = string(TcpClient::DEFAULT_SERVERNAME);
-
-	this->setId(3);
-	this->setName("Tcp Client");
-	this->setTitle("Tcp Client");
-	this->setDescription("The First Kube Tcp Client");
 }
 
 TcpClient::~TcpClient()
@@ -157,9 +152,6 @@ void TcpClient::start()
 
 void TcpClient::action()
 {
-	this->identify();
-	this->logSrv->outString("\n\n");
-
 	this->loadConfig();
 
 	this->initialize();

@@ -7,8 +7,8 @@
 
 #include "MultiThreadServer.h"
 #include "../config/TcpServerConfigLoader.h"
-#include "../TcpAcceptor.h"
-#include "../TcpProtocol.h"
+#include "../lib/TcpAcceptor.h"
+#include "../lib/TcpProtocol.h"
 #include "../ClientInfo.h"
 
 using namespace std;
@@ -23,11 +23,6 @@ const char* MultiThreadServer::DEFAULT_HOSTNAME = "localhost";
 MultiThreadServer::MultiThreadServer(ILogService *logSrv) : ITcpServer()
 {
 	this->logSrv = logSrv;
-
-	this->setId(2);
-	this->setName("Multi Thread Server");
-	this->setTitle("Multi Thread Server");
-	this->setDescription("The First Kube Multi Thread Server");
 }
 
 MultiThreadServer::~MultiThreadServer()
@@ -189,9 +184,6 @@ void MultiThreadServer::start()
 
 void MultiThreadServer::action()
 {
-	this->identify();
-	this->logSrv->outString("\n\n");
-
 	this->loadConfig();
 
 	this->initialize();

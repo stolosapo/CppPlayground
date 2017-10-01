@@ -1,7 +1,9 @@
 #include "TcpMenuContainer.h"
 
-#include "TcpServerFactory.cpp"
-#include "TcpClientFactory.cpp"
+#include "../server/TcpServerFactory.h"
+#include "TcpServerMenuItem.h"
+#include "MultiThreadServerMenuItem.h"
+#include "TcpClientMenuItem.h"
 
 
 TcpMenuContainer::TcpMenuContainer() : MenuContainer(
@@ -20,9 +22,9 @@ TcpMenuContainer::~TcpMenuContainer()
 
 void TcpMenuContainer::fillOptions()
 {
-	this->addMenuItem(0, TcpServerFactory::create(logSrv, false));
-	this->addMenuItem(1, TcpServerFactory::create(logSrv, true));
-	this->addMenuItem(2, TcpClientFactory::create(logSrv));
+	this->addMenuItem(0, new TcpServerMenuItem(logSrv));
+	this->addMenuItem(1, new MultiThreadServerMenuItem(logSrv));
+	this->addMenuItem(2, new TcpClientMenuItem(logSrv));
 }
 
 string TcpMenuContainer::getHeader()
