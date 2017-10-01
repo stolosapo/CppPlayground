@@ -1,4 +1,4 @@
-* MPEG Audio Layer I/II/III frame header
+# MPEG Audio Layer I/II/III frame header
 
 copied from http://www.mp3-tech.org/programmer/frame_header.html
 
@@ -12,7 +12,7 @@ The frame header itself is 32 bits (4 bytes) length. The first twelve bits (or f
 Here are the details of what is within a frame header: 
 
 
-** AAAAAAAA AAABBCCD EEEEFFGH IIJJKLMM
+## AAAAAAAA AAABBCCD EEEEFFGH IIJJKLMM
 
 A 	11 	(31-21) 	Frame sync (all bits must be set)
 
