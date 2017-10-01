@@ -3,8 +3,8 @@
 
 #include "config/IcecastClientConfig.h"
 #include "IcecastProtocol.h"
-#include "../tcpServer/menu/ITcpClient.h"
-#include "../tcpServer/TcpConnector.h"
+#include "../tcpServer/client/ITcpClient.h"
+#include "../tcpServer/lib/TcpConnector.h"
 #include "../log/ILogService.h"
 
 class IcecastClient : public ITcpClient
