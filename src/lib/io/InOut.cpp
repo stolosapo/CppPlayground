@@ -30,6 +30,17 @@ string InOut::inString()
 	return message;
 }
 
+string InOut::inLine()
+{
+	char input[255];
+
+	cin.getline(input, sizeof(input));
+
+	cout << endl << " :: " << input << endl;
+
+	return string(input);
+}
+
 void InOut::outInt(int number)
 {
 	cout << number;
