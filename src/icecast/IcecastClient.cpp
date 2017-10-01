@@ -14,8 +14,15 @@ IcecastClient::IcecastClient(ILogService *logSrv) : ITcpClient()
 
 IcecastClient::~IcecastClient()
 {
-	delete protocol;
-	delete config;
+	if (protocol != NULL)
+	{
+		// delete protocol;
+	}
+
+	if (config != NULL)
+	{
+		// delete config;
+	}
 }
 
 void IcecastClient::loadConfig()
@@ -38,6 +45,10 @@ void IcecastClient::streamAudio()
 
 void IcecastClient::action()
 {
+	streamAudio();
+
+	return;
+
 	loadConfig();
 
 	const int BUFF_SIZE = 2048;

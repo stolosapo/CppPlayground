@@ -120,6 +120,8 @@ void Mp3Parser::parseDetails(ifstream &file)
 		j++;
 		framepositions.push_back(mp3contents.find(searchterm, searchpos));
 		searchpos = framepositions[j] + 12;
+
+		cout << " *** Frame " << j << endl;
 	}
 
 	/* create substring containing sample rate info in binary */
@@ -136,4 +138,5 @@ void Mp3Parser::parseDetails(ifstream &file)
 		cout << " *** Bitrate " << "(" << i << ") :: " << bitratesubstr << endl;
 	}
 
+	cout << " *** Ended " << endl;
 }
