@@ -18,6 +18,7 @@ private:
 	IcecastProtocol* protocol;
 
 	void loadConfig();
+	void streamAudio();
 
 public:
 	IcecastClient(ILogService *logSrv);

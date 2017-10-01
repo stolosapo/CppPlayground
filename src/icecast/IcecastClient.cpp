@@ -1,6 +1,7 @@
 #include "IcecastClient.h"
 
 #include "config/IcecastClientConfigLoader.h"
+#include "../audio/mp3/Mp3Parser.h"
 
 
 #include "../lib/converter/Convert.h"
@@ -26,6 +27,13 @@ void IcecastClient::loadConfig()
 	this->protocol = new IcecastProtocol(this->config);
 
 	delete loader;
+}
+
+void IcecastClient::streamAudio()
+{
+	Mp3Parser mp3Parser;
+
+	mp3Parser.parse();
 }
 
 void IcecastClient::action()
@@ -57,10 +65,8 @@ void IcecastClient::action()
 
 		logSrv->info("Received:\n" + inMessage);
 
-		while(1)
-		{
-			// stream->send("songs");
-		}
+		/* Start streaming the audio */
+		streamAudio();
 
 
 		delete stream;
