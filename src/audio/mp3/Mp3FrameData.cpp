@@ -6,10 +6,10 @@ Mp3FrameData::Mp3FrameData(
 		const unsigned int position, 
 		const string description)
 {
-	this->sign = sign;
-	this->length = length;
-	this->position = position;
-	this->description = description;
+	this->_sign = sign;
+	this->_length = length;
+	this->_position = position;
+	this->_description = description;
 }
 
 Mp3FrameData::~Mp3FrameData()
@@ -17,22 +17,22 @@ Mp3FrameData::~Mp3FrameData()
 
 }
 
-const char Mp3FrameData::getSign() const
+const char Mp3FrameData::sign() const
 {
-	return sign;
+	return _sign;
 }
 
-const unsigned int Mp3FrameData::getLength() const
+const unsigned int Mp3FrameData::length() const
 {
-	return length;
+	return _length;
 }
 
-const unsigned int Mp3FrameData::getPosition() const
+const unsigned int Mp3FrameData::position() const
 {
-	return position;
+	return _position;
 }
 
-const string Mp3FrameData::getDescription() const
+const string Mp3FrameData::description() const
 {
-	return description;
+	return _description;
 }

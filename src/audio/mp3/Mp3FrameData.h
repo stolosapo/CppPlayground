@@ -8,10 +8,10 @@ using namespace std;
 class Mp3FrameData
 {
 private:
-	char sign;
-	unsigned int length;
-	unsigned int position;
-	string description;
+	char _sign;
+	unsigned int _length;
+	unsigned int _position;
+	string _description;
 
 public:
 	Mp3FrameData(
@@ -22,10 +22,10 @@ public:
 
 	virtual ~Mp3FrameData();
 
-	const char getSign() const;
-	const unsigned int getLength() const;
-	const unsigned int getPosition() const;
-	const string getDescription() const;
+	const char sign() const;
+	const unsigned int length() const;
+	const unsigned int position() const;
+	const string description() const;
 
 };
 

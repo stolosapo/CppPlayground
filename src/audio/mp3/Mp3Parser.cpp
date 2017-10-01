@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "Mp3Protocol.h"
+
 
 using namespace std;
 
@@ -86,6 +88,8 @@ void Mp3Parser::parseDetails(ifstream &file)
 	file.read(buffer, filesize);
 	file.close();
 
+	cout << " *** File closed, size: " << filesize << endl;
+
 	
 	int filebitsize = filesize * 8;
 	char* bitstorage;
@@ -114,12 +118,16 @@ void Mp3Parser::parseDetails(ifstream &file)
 	string searchterm = "111111111111";
 	int j = 0;
 
-	/* while loop to find beginning of all frames in string and store their starting positions in vector */
+	/* while loop to find beginning of all frames 
+	in string and store their starting positions in vector */
+	int frameLen = Mp3Protocol::FRAME.length();
+
 	while(mp3contents.find(searchterm, searchpos) != -1)
 	{
 		j++;
 		framepositions.push_back(mp3contents.find(searchterm, searchpos));
-		searchpos = framepositions[j] + 12;
+		// searchpos = framepositions[j] + 12;
+		searchpos = framepositions[j] + frameLen + 1;
 
 		cout << " *** Frame " << j << endl;
 	}
@@ -132,10 +140,71 @@ void Mp3Parser::parseDetails(ifstream &file)
 	/* for loop to find all values of bitrate and add them all together */
 	for(unsigned int i = 0; i < framepositions.size(); i++)
 	{
-		string bitratesubstr = mp3contents.substr(framepositions[i] + 17, 4);
-		// ongoingtotal = ongoingtotal + calcbitrate(bitratesubstr);
+		unsigned int framePos = framepositions[i];
 
-		cout << " *** Bitrate " << "(" << i << ") :: " << bitratesubstr << endl;
+
+		/* MPEG Version */
+		int mpegVersionPos = framePos + frameLen;
+
+		string mpegVersionSubStr = mp3contents.substr(mpegVersionPos + 1, Mp3Protocol::MPEG.length());
+
+		cout << " *** MPEG " << "(" << i << ") :: " << mpegVersionSubStr << endl;
+
+
+		/* Layer */
+		int layerPos = mpegVersionPos + Mp3Protocol::MPEG.length();
+
+		string layerSubStr = mp3contents.substr(layerPos + 1, Mp3Protocol::LAYER.length());
+
+		cout << " *** LAYER " << "(" << i << ") :: " << layerSubStr << endl;
+
+
+		/* Protection */
+		int protectionPos = layerPos + Mp3Protocol::LAYER.length();
+
+		string protectionSubStr = mp3contents.substr(protectionPos + 1, Mp3Protocol::PROTECTION.length());
+
+		cout << " *** PROTECTION " << "(" << i << ") :: " << protectionSubStr << endl;
+
+
+		/* Bitrate */
+		int bitratePos = protectionPos + Mp3Protocol::PROTECTION.length();
+
+		string bitrateSubStr = mp3contents.substr(bitratePos + 1, Mp3Protocol::BITRATE.length());
+
+		cout << " *** BITRATE " << "(" << i << ") :: " << bitrateSubStr << endl;
+
+
+		/* Samplerate */
+		int sampleratePos = bitratePos + Mp3Protocol::BITRATE.length();
+
+		string samplerateSubStr = mp3contents.substr(sampleratePos + 1, Mp3Protocol::SAMPLERATE.length());
+
+		cout << " *** SAMPLERATE " << "(" << i << ") :: " << samplerateSubStr << endl;
+
+
+		/* Padding */
+		int paddingPos = sampleratePos + Mp3Protocol::SAMPLERATE.length();
+
+		string paddingSubStr = mp3contents.substr(paddingPos + 1, Mp3Protocol::PADDING.length());
+
+		cout << " *** PADDING " << "(" << i << ") :: " << paddingSubStr << endl;
+
+
+		/* Private */
+		int privatePos = paddingPos + Mp3Protocol::PADDING.length();
+
+		string privateSubStr = mp3contents.substr(privatePos + 1, Mp3Protocol::PRIVATE.length());
+
+		cout << " *** PRIVATE " << "(" << i << ") :: " << privateSubStr << endl;
+
+
+
+
+		// string bitratesubstr = mp3contents.substr(framepositions[i] + 17, 4);
+		// // ongoingtotal = ongoingtotal + calcbitrate(bitratesubstr);
+
+		// cout << " *** BITRATE " << "(" << i << ") :: " << bitratesubstr << endl;
 	}
 
 	cout << " *** Ended " << endl;
