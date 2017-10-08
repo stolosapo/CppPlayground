@@ -15,29 +15,29 @@ using namespace std;
 */
 
 
-const unsigned int Mp3Parser::bitrate[] = { 
-	0, 
-	32000, 
-	40000, 
-	48000, 
-	56000, 
-	64000, 
-	80000, 
-	96000, 
-	112000, 
-	128000, 
-	60000, 
-	192000, 
-	224000, 
-	256000, 
-	320000, 
+const unsigned int Mp3Parser::bitrate[] = {
+	0,
+	32000,
+	40000,
+	48000,
+	56000,
+	64000,
+	80000,
+	96000,
+	112000,
+	128000,
+	60000,
+	192000,
+	224000,
+	256000,
+	320000,
 	0
 };
 
 const unsigned int Mp3Parser::freq[] = {
-	44100, 
-	48000, 
-	32000, 
+	44100,
+	48000,
+	32000,
 	00000
 };
 
@@ -90,14 +90,14 @@ void Mp3Parser::parseDetails(ifstream &file)
 
 	cout << " *** File closed, size: " << filesize << endl;
 
-	
+
 	int filebitsize = filesize * 8;
 	char* bitstorage;
 	bitstorage = new char [filebitsize];
 
 	for(unsigned int i = 0; i < filesize; i++)
 	{
-		for(int k = 0; k < 8; k++)														
+		for(int k = 0; k < 8; k++)
 		{
 			/* convert from bytes to bits */
 			bitstorage[(i * 8) + k] = '0' + ((buffer[i] >> k) & 1);
@@ -110,8 +110,12 @@ void Mp3Parser::parseDetails(ifstream &file)
 	delete[] buffer;
 	delete[] bitstorage;
 
-
-	// mp3contents = "111111111111110110100000001000100";
+	mp3contents = "00010100001";
+	mp3contents += "111111111111110110100000001000100";
+	mp3contents += "01011010001";
+	mp3contents += "111111111111110110100000001000100";
+	mp3contents += "00010110011";
+	mp3contents += "111111111111110110100000001000100";
 
 
 	/* vector to store location in string of all frames */
@@ -121,7 +125,7 @@ void Mp3Parser::parseDetails(ifstream &file)
 	string searchterm = "111111111111";
 	int j = 0;
 
-	/* while loop to find beginning of all frames 
+	/* while loop to find beginning of all frames
 	in string and store their starting positions in vector */
 	int frameLen = Mp3Protocol::FRAME.length();
 
