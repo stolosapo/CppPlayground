@@ -39,8 +39,7 @@ cd bin
 
 #### Icecast client parameter: `WITH_ICECAST`
 
-If you want to use the icecast client you must compile as following:
-This feature is still on deployment.
+If you want to use the icecast client you must compile as following. This feature is still under development. Alse this feature prerequisites to have `libshout` library installed on your system.
 
 ```
 ./initialize.sh
