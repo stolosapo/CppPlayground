@@ -7,6 +7,10 @@
 #include "../tcpServer/lib/TcpConnector.h"
 #include "../log/ILogService.h"
 
+#ifdef ICECAST
+#include <shout/shout.h>
+#endif
+
 class IcecastClient : public ITcpClient
 {
 private:
@@ -17,8 +21,14 @@ private:
 	IcecastClientConfig* config;
 	IcecastProtocol* protocol;
 
+#ifdef ICECAST
+	shout_t* shout;
+#endif
+
 	void loadConfig();
 	void streamAudio();
+
+	void initializeShout();
 
 public:
 	IcecastClient(ILogService *logSrv);

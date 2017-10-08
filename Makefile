@@ -25,8 +25,13 @@ TESTOBJECTS := $(patsubst $(TESTDIR)/%,$(BUILDDIR)/%,$(TESTSOURCES:.$(SRCEXT)=.o
 CFLAGS := -g # -Wall
 # LIB := -pthread -lmongoclient -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
 # LIB := -pthread -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
-LIB := -pthread -L lib
+LIB := -pthread -lshout -L lib
 INC := -I include
+
+# ICECASTE feature
+ifeq ($(WITH_ICECAST), 1)
+OPTS := -DICECAST
+endif
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
@@ -34,7 +39,7 @@ $(TARGET): $(OBJECTS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
-	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
+	@echo " $(CC) $(OPTS) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(OPTS) $(CFLAGS) $(INC) -c -o $@ $<
 
 # @echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) "; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET)
 clean:
