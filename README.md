@@ -5,6 +5,7 @@ A playground for C++ applications and experiments...
 
 
 ### Installation
+----------------
 
 ```
 ./initialize.sh
@@ -13,10 +14,23 @@ make
 
 
 ### Run
+-------
 
 ```
 cd bin
 ./runner
+```
+
+
+### Run Tests
+-------------
+
+```
+make clean
+./initialize
+make tester
+cd bin
+./tester
 ```
 
 
@@ -31,15 +45,4 @@ This feature is still on deployment.
 ```
 ./initialize.sh
 make WITH_ICECAST=1
-```
-
-
-### Run Tests
-
-```
-make clean
-./initialize
-make tester
-cd bin
-./tester
 ```
