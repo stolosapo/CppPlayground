@@ -20,18 +20,18 @@ cd bin
 ```
 
 
-### Additional Features
+### Additional Features:
+------------------------
 
-Icecast client parameter: `WITH_ICECAST`
---------------
+#### Icecast client parameter: `WITH_ICECAST`
 
-If you want to use the icecast client you must compile as following
+If you want to use the icecast client you must compile as following:
+This feature is still on deployment.
 
 ```
 ./initialize.sh
 make WITH_ICECAST=1
 ```
-With feature is still on deployment.
 
 
 ### Run Tests
