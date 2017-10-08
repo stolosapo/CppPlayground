@@ -25,12 +25,13 @@ TESTOBJECTS := $(patsubst $(TESTDIR)/%,$(BUILDDIR)/%,$(TESTSOURCES:.$(SRCEXT)=.o
 CFLAGS := -g # -Wall
 # LIB := -pthread -lmongoclient -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
 # LIB := -pthread -L lib -lboost_thread-mt -lboost_filesystem-mt -lboost_system-mt
-LIB := -pthread -lshout -L lib
+LIB := -pthread -L lib
 INC := -I include
 
 # ICECASTE feature
 ifeq ($(WITH_ICECAST), 1)
 OPTS := -DICECAST
+LIB := $(LIB) -lshout
 endif
 
 $(TARGET): $(OBJECTS)
