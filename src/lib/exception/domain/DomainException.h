@@ -6,16 +6,17 @@
 
 using namespace std;
 
-class DomainException: public domain_error
+class DomainException: public exception
 {
 private:
 	string _code;
 	string _cause;
 
 public:
-	explicit DomainException(const string& code, const string& cause);
+	DomainException(const string& code, const string& cause);
 	virtual ~DomainException() throw();
 
+	virtual const char* what() const throw();
 	virtual const char* code() const throw();
 	virtual const char* cause() const throw();
 
