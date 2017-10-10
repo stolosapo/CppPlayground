@@ -6,15 +6,16 @@
 
 using namespace std;
 
-class RuntimeException: public runtime_error
+class RuntimeException: public exception
 {
 private:
 	string _cause;
 
 public:
-	explicit RuntimeException(const string& cause);
+	RuntimeException(const string& cause);
 	virtual ~RuntimeException() throw();
 
+	virtual const char* what() const throw();
 	virtual const char* cause() const throw();
 
 };
