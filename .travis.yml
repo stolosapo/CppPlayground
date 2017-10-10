@@ -4,9 +4,6 @@ language: cpp
 # Compiler selection
 compiler: g++
 
-install:
- - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
-
 # Build steps
 script:
  - ./initialize.sh
