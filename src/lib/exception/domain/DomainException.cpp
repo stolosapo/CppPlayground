@@ -1,9 +1,8 @@
 #include "DomainException.h"
 
-DomainException::DomainException(const string& code, const string& cause) : domain_error(code + ": " + cause)
+DomainException::DomainException(const string& code, const string& cause) : domain_error(code + ": " + cause), _code(code), _cause(cause)
 {
-	this->_code = code;
-	this->_cause = cause;
+
 }
 
 DomainException::~DomainException() throw()
