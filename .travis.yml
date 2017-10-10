@@ -5,7 +5,6 @@ language: cpp
 compiler: g++
 
 install:
- - sudo apt-get install -qq g++-5
  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
 
 # Build steps
