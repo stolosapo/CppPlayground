@@ -10,7 +10,7 @@ RuntimeException::~RuntimeException() throw()
 
 }
 
-const char* AssertException::what() const throw()
+const char* RuntimeException::what() const throw()
 {
 	return _cause.c_str();
 }
