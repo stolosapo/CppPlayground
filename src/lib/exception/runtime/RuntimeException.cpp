@@ -1,8 +1,8 @@
 #include "RuntimeException.h"
 
-RuntimeException::RuntimeException(const string& cause) : runtime_error(cause)
+RuntimeException::RuntimeException(const string& cause) : runtime_error(cause), _cause(cause)
 {
-	this->_cause = cause;
+
 }
 
 RuntimeException::~RuntimeException() throw()
