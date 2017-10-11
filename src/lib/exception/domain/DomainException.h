@@ -2,23 +2,22 @@
 #define DomainException_h__
 
 #include <iostream>
-#include <exception>
+#include "../runtime/RuntimeException.h"
+#include "DomainErrorCode.h"
 
 using namespace std;
 
-class DomainException: public exception
+class DomainException: public RuntimeException
 {
 private:
-	string _code;
-	string _cause;
+	const DomainErrorCode& _errorCode;
 
 public:
-	DomainException(const string& code, const string& cause);
+	DomainException(const DomainErrorCode& errorCode);
 	virtual ~DomainException() throw();
 
 	virtual const char* what() const throw();
 	virtual const char* code() const throw();
-	virtual const char* cause() const throw();
 
 };
 
