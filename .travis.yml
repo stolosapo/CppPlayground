@@ -5,7 +5,7 @@ language: cpp
 compiler: g++
 
 # Build steps
-script: 
+script:
  - ./initialize.sh
  - make tester
  - cd bin
