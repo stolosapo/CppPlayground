@@ -4,6 +4,9 @@
 
 #include "../../lib/excecutor/Excecutor.h"
 
+#include "../../lib/exception/domain/DomainException.h"
+#include "../exception/IcecastDomainErrorCode.h"
+
 
 IcecastClientMenuItem::IcecastClientMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -18,6 +21,13 @@ IcecastClientMenuItem::IcecastClientMenuItem(ILogService *logSrv) : MenuItem()
 IcecastClientMenuItem::~IcecastClientMenuItem()
 {
 
+}
+
+void IcecastClientMenuItem::check()
+{
+#ifndef ICECAST
+	throw DomainException(IcecastDomainErrorCode::ICS0001);
+#endif
 }
 
 void IcecastClientMenuItem::action()

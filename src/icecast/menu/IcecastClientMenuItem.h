@@ -17,6 +17,7 @@ public:
 	IcecastClientMenuItem(ILogService *logSrv);
 	virtual ~IcecastClientMenuItem();
 
+	virtual void check();
 	virtual void action();
 };
 
