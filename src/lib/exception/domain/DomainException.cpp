@@ -10,7 +10,7 @@ DomainException::~DomainException() throw()
 
 }
 
-const char* DomainException::what() const throw()
+const char* DomainException::fullError() const throw()
 {
 	string mess = string(_errorCode.code()) + ": " + cause();
 	return mess.c_str();

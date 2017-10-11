@@ -3,8 +3,9 @@
 #include "config/IcecastClientConfigLoader.h"
 #include "../audio/mp3/Mp3Parser.h"
 
-
 #include "../lib/converter/Convert.h"
+#include "../lib/exception/domain/DomainException.h"
+#include "exception/IcecastDomainErrorCode.h"
 
 
 IcecastClient::IcecastClient(ILogService *logSrv) : ITcpClient()
@@ -55,8 +56,9 @@ void IcecastClient::streamAudio()
 void IcecastClient::action()
 {
 #ifndef ICECAST
-	logSrv->printl("Icecast feature is not enabled, try to pass the WITH_ICECAST=1 param when Make.");
-	return;
+	// logSrv->printl("Icecast feature is not enabled, try to pass the WITH_ICECAST=1 param when Make.");
+	// return;
+	throw DomainException(IcecastDomainErrorCode::ICS0001);
 #endif
 
 

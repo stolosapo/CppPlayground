@@ -16,7 +16,7 @@ public:
 	DomainException(const DomainErrorCode& errorCode);
 	virtual ~DomainException() throw();
 
-	virtual const char* what() const throw();
+	virtual const char* fullError() const throw();
 	virtual const char* code() const throw();
 
 };
