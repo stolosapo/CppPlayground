@@ -253,6 +253,8 @@ void MenuContainer::action()
 
 			logSrv->clearScreen();
 			logSrv->outString(selectedItem->identify());
+
+			selectedItem->check();
 			selectedItem->action();
 
 			if (this->continueQuestion)

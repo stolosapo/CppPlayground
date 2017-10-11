@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 		args->printParsed();
 
 		MainMenu *menu = new MainMenu;
+		menu->check();
 		menu->action();
 
 
@@ -33,5 +34,6 @@ int main(int argc, char* argv[])
 		cerr << "Fatal Error: " << e.what() << endl;
 	}
 
+	cout << endl;
 	cout << "Bye Bye.." << endl;
 }
