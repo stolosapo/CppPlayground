@@ -3,6 +3,7 @@
 #include "config/IcecastClientConfigLoader.h"
 #include "exception/IcecastDomainErrorCode.h"
 #include "../audio/mp3/Mp3Parser.h"
+#include "IcecastPlaylist.h"
 
 #include "../lib/converter/Convert.h"
 #include "../lib/exception/domain/DomainException.h"
@@ -52,8 +53,16 @@ void IcecastClient::streamAudio()
 	{
 		libShout->startShout();
 
-		libShout->streamFile("03-TakeFive.mp3");
-		libShout->streamFile("03-TakeFive.mp3");
+		IcecastPlaylist playlist(config);
+		playlist.load();
+
+		while (playlist.hasNext())
+		{
+			string track = playlist.getNext();
+
+			libShout->streamFile(track.c_str());	
+		}
+		
 	}
 	catch (DomainException& e)
 	{

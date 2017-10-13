@@ -26,6 +26,12 @@ void IcecastClientConfig::registerProperties()
 	registerPropertyName(11, "bitrate", Property::STRING);
 	registerPropertyName(12, "samplerate", Property::STRING);
 	registerPropertyName(13, "channels", Property::STRING);
+	registerPropertyName(14, "playlist", Property::STRING);
+}
+
+Model* IcecastClientConfig::factory()
+{
+	return (Model*) new IcecastClientConfig;
 }
 
 string IcecastClientConfig::getHostname()
@@ -93,7 +99,7 @@ string IcecastClientConfig::getChannels()
 	return getStringProperty("channels");
 }
 
-Model* IcecastClientConfig::factory()
+string IcecastClientConfig::getPlaylist()
 {
-	return (Model*) new IcecastClientConfig;
+	return getStringProperty("playlist");
 }

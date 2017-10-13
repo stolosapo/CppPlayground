@@ -11,5 +11,6 @@
 	"public":"1",
 	"bitrate":"128",
 	"samplerate":"44100",
-	"channels":"2"
+	"channels":"2",
+	"playlist":"playlist.pls"
 }

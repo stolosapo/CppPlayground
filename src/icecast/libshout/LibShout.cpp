@@ -37,38 +37,34 @@ void LibShout::initializeShout()
 	shoutNew();
 
 	setAgent(string(IcecastProtocol::USER_AGENT));
-	setUser(string(IcecastProtocol::USER_AGENT));
 
 	setProtocolHttp();
 
 	setHost(config->getHostname());
-
 	setPort(Convert<unsigned short>::StringToNumber(config->getPort()));
-
 	setMount(config->getMountpoint());
-
+	setUser("source");
 	setPassword(config->getPassword());
 
 	setFormatMp3();
 	setPublic(Convert<unsigned int>::StringToNumber(config->getPublic()));
+	setNonblocking(1);
 
 	setName(config->getName());
-	setMetaName(config->getName());
 	setUrl(config->getUrl());
-	setMetaUrl(config->getUrl());
 	setGenre(config->getGenre());
-	setMetaGenre(config->getGenre());
 	setDescription(config->getDescription());
+
+	setMetaName(config->getName());
+	setMetaUrl(config->getUrl());
+	setMetaGenre(config->getGenre());
 	setMetaDescription(config->getDescription());
+	setMeta();
 
 	setAudioInfoBitrate(config->getBitrate());
 	setAudioInfoSamplerate(config->getSamplerate());
 	setAudioInfoChannels(config->getChannels());
 	// setAudioInfoQuality()	
-
-	setMeta();
-
-	setNonblocking(1);
 }
 
 void LibShout::startShout()

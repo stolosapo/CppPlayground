@@ -28,6 +28,8 @@ public:
 	string getBitrate();
 	string getSamplerate();
 	string getChannels();
+	
+	string getPlaylist();
 
 protected:
 	virtual void registerProperties();
