@@ -22,6 +22,8 @@ const DomainErrorCode IcecastDomainErrorCode::ICS0017 = DomainErrorCode("ICS0017
 const DomainErrorCode IcecastDomainErrorCode::ICS0018 = DomainErrorCode("ICS0018", "Error setting protocol: '%s'");
 const DomainErrorCode IcecastDomainErrorCode::ICS0019 = DomainErrorCode("ICS0019", "Error setting non-blocking: '%s'");
 
+const DomainErrorCode IcecastDomainErrorCode::ICS0020 = DomainErrorCode("ICS0020", "Error connecting: '%s'");
+
 
 IcecastDomainErrorCode::IcecastDomainErrorCode()
 {

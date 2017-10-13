@@ -2,12 +2,12 @@
 
 #include "../../lib/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
+#include "../../lib/converter/Convert.h"
 
 void LibShout::shoutInit()
 {
 #ifdef ICECAST
 	shout_init();
-	logSrv->info("Shout Init");
 #endif
 }
 
@@ -15,7 +15,6 @@ void LibShout::shoutShutdown()
 {
 #ifdef ICECAST
 	shout_shutdown();
-	logSrv->info("Shout Shutdown");
 #endif
 }
 
@@ -37,7 +36,7 @@ void LibShout::shoutNew()
 		throw DomainException(IcecastDomainErrorCode::ICS0002);
 	}
 
-	logSrv->info("Shout allocated");
+	metadata = shout_metadata_new();
 #endif
 }
 
@@ -45,6 +44,7 @@ void LibShout::shoutFree()
 {
 #ifdef ICECAST
 	shout_free(shout);
+	shout_metadata_free(metadata);
 #endif
 }
 
@@ -82,10 +82,15 @@ void LibShout::setHost(string host)
 #ifdef ICECAST
 	if (shout_set_host(shout, host.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0003);
+		throw DomainException(IcecastDomainErrorCode::ICS0003, getError());
 	}
+#endif
+}
 
-	logSrv->info("Shout hostname set");
+string LibShout::getHost()
+{
+#ifdef ICECAST
+	return string(shout_get_host(shout));
 #endif
 }
 
@@ -94,10 +99,15 @@ void LibShout::setPort(unsigned short port)
 #ifdef ICECAST
 	if (shout_set_port(shout, port) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0004);
+		throw DomainException(IcecastDomainErrorCode::ICS0004, getError());
 	}
+#endif
+}
 
-	logSrv->info("Shout port set");
+string LibShout::getPort()
+{
+#ifdef ICECAST
+	return Convert<unsigned short>::NumberToString(shout_get_port(shout));
 #endif
 }
 
@@ -106,10 +116,8 @@ void LibShout::setAgent(string agent)
 #ifdef ICECAST
 	if (shout_set_agent(shout, agent.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0005);
+		throw DomainException(IcecastDomainErrorCode::ICS0005, getError());
 	}
-
-	logSrv->info("Shout agent set");
 #endif
 }
 
@@ -118,10 +126,8 @@ void LibShout::setUser(string username)
 #ifdef ICECAST
 	if (shout_set_user(shout, username.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0006);
+		throw DomainException(IcecastDomainErrorCode::ICS0006, getError());
 	}
-
-	logSrv->info("Shout username set");
 #endif
 }
 
@@ -130,10 +136,8 @@ void LibShout::setPassword(string password)
 #ifdef ICECAST
 	if (shout_set_password(shout, password.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0007);
+		throw DomainException(IcecastDomainErrorCode::ICS0007, getError());
 	}
-
-	logSrv->info("Shout password set");
 #endif
 }
 
@@ -142,22 +146,26 @@ void LibShout::setMount(string mount)
 #ifdef ICECAST
 	if (shout_set_mount(shout, mount.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0008);
+		throw DomainException(IcecastDomainErrorCode::ICS0008, getError());
 	}
-
-	logSrv->info("Shout mountpoint set");
 #endif
 }
+
+string LibShout::getMount()
+{
+#ifdef ICECAST
+	return string(shout_get_mount(shout));
+#endif
+}
+
 
 void LibShout::setName(string name)
 {
 #ifdef ICECAST
 	if (shout_set_name(shout, name.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0009);
+		throw DomainException(IcecastDomainErrorCode::ICS0009, getError());
 	}
-
-	logSrv->info("Shout name set");
 #endif
 }
 
@@ -166,10 +174,8 @@ void LibShout::setUrl(string url)
 #ifdef ICECAST
 	if (shout_set_url(shout, url.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0010);
+		throw DomainException(IcecastDomainErrorCode::ICS0010, getError());
 	}
-
-	logSrv->info("Shout url set");
 #endif
 }
 
@@ -178,10 +184,8 @@ void LibShout::setGenre(string genre)
 #ifdef ICECAST
 	if (shout_set_genre(shout, genre.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0011);
+		throw DomainException(IcecastDomainErrorCode::ICS0011, getError());
 	}
-
-	logSrv->info("Shout genre set");
 #endif
 }
 
@@ -190,10 +194,8 @@ void LibShout::setDescription(string description)
 #ifdef ICECAST
 	if (shout_set_description(shout, description.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0012);
+		throw DomainException(IcecastDomainErrorCode::ICS0012, getError());
 	}
-
-	logSrv->info("Shout description set");
 #endif
 }
 
@@ -202,10 +204,8 @@ void LibShout::setDumpfile(string dumpfile)
 #ifdef ICECAST
 	if (shout_set_dumpfile(shout, dumpfile.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0013);
+		throw DomainException(IcecastDomainErrorCode::ICS0013, getError());
 	}
-
-	logSrv->info("Shout dumpfile set");
 #endif
 }
 
@@ -214,10 +214,9 @@ void LibShout::setAudioInfo(string name, string value)
 #ifdef ICECAST
 	if (shout_set_audio_info(shout, name.c_str(), value.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0014);
+		string mess = name + ":" + value;
+		throw DomainException(IcecastDomainErrorCode::ICS0014, getError());
 	}
-
-	logSrv->info("Shout audio data set: '" + name + "' = '" + value + "'");
 #endif
 }
 
@@ -249,15 +248,74 @@ void LibShout::setAudioInfoQuality(string value)
 #endif
 }
 
+void LibShout::setMeta()
+{
+#ifdef ICECAST
+	int m = shout_set_metadata(shout, metadata);
+
+	if (m != SHOUTERR_SUCCESS)
+	{
+		throw DomainException(IcecastDomainErrorCode::ICS0015);
+	}
+#endif
+}
+
 void LibShout::setMeta(string name, string value)
 {
 #ifdef ICECAST
-	// if (shout_set_meta(shout, name.c_str(), value.c_str()) != SHOUTERR_SUCCESS)
-	// {
-	// 	throw DomainException(IcecastDomainErrorCode::ICS0015);
-	// }
-	//
-	// logSrv->info("Shout metadata set");
+	if (shout_metadata_add(metadata, name.c_str(), value.c_str()) != SHOUTERR_SUCCESS)
+	{
+		throw DomainException(IcecastDomainErrorCode::ICS0015, getError());
+	}
+#endif
+}
+
+void LibShout::setMetaName(string value)
+{
+#ifdef ICECAST
+	setMeta(SHOUT_META_NAME, value);
+#endif
+}
+
+void LibShout::setMetaUrl(string value)
+{
+#ifdef ICECAST
+	setMeta(SHOUT_META_URL, value);
+#endif
+}
+
+void LibShout::setMetaGenre(string value)
+{
+#ifdef ICECAST
+	setMeta(SHOUT_META_GENRE, value);
+#endif
+}
+
+void LibShout::setMetaDescription(string value)
+{
+#ifdef ICECAST
+	setMeta(SHOUT_META_DESCRIPTION, value);
+#endif
+}
+
+void LibShout::setMetaIrc(string value)
+{
+#ifdef ICECAST
+	setMeta(SHOUT_META_IRC, value);
+#endif
+}
+
+void LibShout::setMetaAim(string value)
+{
+#ifdef ICECAST
+	setMeta(SHOUT_META_AIM, value);
+#endif
+}
+
+void LibShout::setMetaIcq(string value)
+{
+#ifdef ICECAST
+	setMeta(SHOUT_META_ICQ, value);
 #endif
 }
 
@@ -266,10 +324,8 @@ void LibShout::setPublic(unsigned int make_public)
 #ifdef ICECAST
 	if (shout_set_public(shout, make_public) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0016);
+		throw DomainException(IcecastDomainErrorCode::ICS0016, getError());
 	}
-
-	logSrv->info("Shout public set");
 #endif
 }
 
@@ -278,10 +334,9 @@ void LibShout::setFormat(unsigned int format)
 #ifdef ICECAST
 	if (shout_set_format(shout, format) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0017);
+		cerr << getError() << endl;
+		throw DomainException(IcecastDomainErrorCode::ICS0017, getError());
 	}
-
-	logSrv->info("Shout format set");
 #endif
 }
 
@@ -309,7 +364,7 @@ void LibShout::setFormatWebM()
 void LibShout::setFormatWebMAudio()
 {
 #ifdef ICECAST
-	// setFormat(SHOUT_FORMAT_WEBMAUDIO);
+	setFormat(SHOUT_FORMAT_WEBMAUDIO);
 #endif
 }
 
@@ -318,10 +373,8 @@ void LibShout::setProtocol(unsigned int protocol)
 #ifdef ICECAST
 	if (shout_set_protocol(shout, protocol) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0018);
+		throw DomainException(IcecastDomainErrorCode::ICS0018, getError());
 	}
-
-	logSrv->info("Shout protocol set");
 #endif
 }
 
@@ -358,10 +411,8 @@ void LibShout::setNonblocking(unsigned int nonblocking)
 #ifdef ICECAST
 	if (shout_set_nonblocking(shout, nonblocking) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0019);
+		throw DomainException(IcecastDomainErrorCode::ICS0019, getError());
 	}
-
-	logSrv->info("Shout non-blocking set");
 #endif
 }
 

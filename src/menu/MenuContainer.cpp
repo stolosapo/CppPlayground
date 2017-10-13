@@ -269,7 +269,7 @@ void MenuContainer::action()
 	}
 	catch (DomainException& e)
 	{
-		logSrv->error(e.what());
+		logSrv->error(e.fullError());
 	}
 	catch (exception& e)
 	{

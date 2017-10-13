@@ -1,9 +1,11 @@
 #include "IcecastClient.h"
 
 #include "config/IcecastClientConfigLoader.h"
+#include "exception/IcecastDomainErrorCode.h"
 #include "../audio/mp3/Mp3Parser.h"
 
 #include "../lib/converter/Convert.h"
+#include "../lib/exception/domain/DomainException.h"
 
 
 IcecastClient::IcecastClient(ILogService *logSrv) : ITcpClient()
@@ -42,15 +44,23 @@ void IcecastClient::loadConfig()
 
 void IcecastClient::streamAudio()
 {
-	// Mp3Parser mp3Parser;
-
-	// mp3Parser.parse();
-
 	libShout = new LibShout(logSrv, config);
 
 	libShout->initializeShout();
 
-	libShout->startShout();
+	try
+	{
+		libShout->startShout();
+
+		libShout->streamFile("03-TakeFive.mp3");
+		libShout->streamFile("03-TakeFive.mp3");
+	}
+	catch (DomainException& e)
+	{
+		logSrv->error(e.fullError());
+	}
+
+	libShout->finilizeShout();
 }
 
 void IcecastClient::action()
@@ -60,42 +70,4 @@ void IcecastClient::action()
 	streamAudio();
 
 	return;
-
-
-
-	const int BUFF_SIZE = 2048;
-	string inMessage;
-
-	string hostname = config->getHostname();
-	string port = config->getPort();
-	int intPort = Convert<int>::StringToNumber(port);
-
-	logSrv->info("Client is connecting to server-> " + hostname + ":" + port);
-	stream = connector->connect(intPort, hostname.c_str());
-
- 	if (stream)
-	{
-		string outMessage = protocol->connectionRequest();
-
-		stream->send(outMessage);
-
-		logSrv->info("Sent:\n" + outMessage);
-
-		char* inBuffer = new char[BUFF_SIZE];
-		// stream->receive(inMessage);
-		stream->receive(inBuffer, BUFF_SIZE);
-		inMessage.assign(inBuffer, BUFF_SIZE);
-
-		logSrv->info("Received:\n" + inMessage);
-
-		/* Start streaming the audio */
-		streamAudio();
-
-
-		delete stream;
-    }
-    else
-    {
-    	logSrv->error("Fail to connect");
-    }
 }

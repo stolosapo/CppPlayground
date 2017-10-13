@@ -20,6 +20,7 @@ private:
 
 #ifdef ICECAST
 	shout_t* shout;
+	shout_metadata_t* metadata;
 #endif
 
 	/* initializes the shout library. Must be called before anything else */
@@ -52,7 +53,10 @@ private:
 
 	/* Connection parameters */
 	void setHost(string host);
+	string getHost();
 	void setPort(unsigned short port);
+	string getPort();
+
 	void setAgent(string agent);
 
 	/* Authentication parameters */
@@ -61,6 +65,7 @@ private:
 
 	/* Mount parameters */
 	void setMount(string mount);
+	string getMount();
 
 	/* Other parameters */
 	void setName(string name); // obsolete
@@ -76,7 +81,16 @@ private:
 	void setAudioInfoQuality(string value);
 
 	/* takes a SHOUT_META_xxxx argument */
+	void setMeta();
 	void setMeta(string name, string value);
+	void setMetaName(string value);
+	void setMetaUrl(string value);
+	void setMetaGenre(string value);
+	void setMetaDescription(string value);
+	void setMetaIrc(string value);
+	void setMetaAim(string value);
+	void setMetaIcq(string value);
+
 	void setPublic(unsigned int make_public);
 
 	/* takes a SHOUT_FORMAT_xxxx argument */
@@ -121,8 +135,10 @@ public:
 	virtual ~LibShout();
 
 	void initializeShout();
-	void startShout();
 	void finilizeShout();
+
+	void startShout();
+	void streamFile(const char* filename);
 
 };
 

@@ -7,6 +7,9 @@
 #include "../../audio/mp3/Mp3Parser.h"
 #include "../IcecastProtocol.h"
 
+#include "../../lib/exception/domain/DomainException.h"
+#include "../exception/IcecastDomainErrorCode.h"
+
 LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)
 {
 	this->logSrv = logSrv;
@@ -16,6 +19,15 @@ LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)
 LibShout::~LibShout()
 {
 
+}
+
+void LibShout::finilizeShout()
+{
+	shoutClose();
+
+	shoutShutdown();
+
+	shoutFree();
 }
 
 void LibShout::initializeShout()
@@ -37,19 +49,24 @@ void LibShout::initializeShout()
 
 	setPassword(config->getPassword());
 
+	setFormatMp3();
 	setPublic(Convert<unsigned int>::StringToNumber(config->getPublic()));
 
 	setName(config->getName());
+	setMetaName(config->getName());
 	setUrl(config->getUrl());
+	setMetaUrl(config->getUrl());
 	setGenre(config->getGenre());
+	setMetaGenre(config->getGenre());
 	setDescription(config->getDescription());
+	setMetaDescription(config->getDescription());
 
 	setAudioInfoBitrate(config->getBitrate());
 	setAudioInfoSamplerate(config->getSamplerate());
 	setAudioInfoChannels(config->getChannels());
-	// setAudioInfoQuality()
+	// setAudioInfoQuality()	
 
-	setFormatMp3();
+	setMeta();
 
 	setNonblocking(1);
 }
@@ -57,8 +74,7 @@ void LibShout::initializeShout()
 void LibShout::startShout()
 {
 #ifdef ICECAST
-	unsigned char buff[4096];
-	long read, ret, total;
+	long ret;
 
 	ret = shoutOpen();
 	if (ret == SHOUTERR_SUCCESS)
@@ -79,28 +95,22 @@ void LibShout::startShout()
 
 	if (ret != SHOUTERR_CONNECTED)
 	{
-		logSrv->error("Error connecting: " + getError());
-
-		finilizeShout();
-		return;
+		throw DomainException(IcecastDomainErrorCode::ICS0020, getError());
 	}
 
 	logSrv->info("Connected to server...");
-	total = 0;
+#endif
+}
 
-	Mp3Parser mp3Parser;
-	// char* fileData = mp3Parser.loadFile("03-TakeFive.mp3");
-	//
-	// unsigned char* buffer = (unsigned char*) fileData;
-	// if (sizeof(buffer) <= 0)
-	// {
-	// 	finilizeShout();
-	// 	return;
-	// }
+void LibShout::streamFile(const char* filename)
+{
+	unsigned char buff[4096];
+	long read, ret, total;
 
-	// ifstream mp3file = mp3Parser.asStream("03-TakeFive.mp3");
 	FILE* mp3file;
-	mp3file = fopen("03-TakeFive.mp3" , "rb");
+	mp3file = fopen(filename , "rb");
+
+	logSrv->info("Playing: " + string(filename));
 
 	while (1)
 	{
@@ -130,12 +140,5 @@ void LibShout::startShout()
 		shoutSync();
 	}
 
-#endif
-}
-
-void LibShout::finilizeShout()
-{
-	shoutClose();
-
-	shoutShutdown();
+	fclose(mp3file);
 }
