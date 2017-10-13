@@ -19,6 +19,7 @@ public:
 	virtual ~Mp3Parser();
 
 	void parse();
+	char* loadFile(const char* filename);
 
 };
 

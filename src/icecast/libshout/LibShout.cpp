@@ -1,6 +1,10 @@
+#include <unistd.h>
+
 #include "LibShout.h"
 
 #include "../../lib/converter/Convert.h"
+#include "../../audio/mp3/Mp3Parser.h"
+#include "../IcecastProtocol.h"
 
 LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)
 {
@@ -19,6 +23,9 @@ void LibShout::initializeShout()
 
 	shoutNew();
 
+	setAgent(string(IcecastProtocol::USER_AGENT));
+	setUser(string(IcecastProtocol::USER_AGENT));
+
 	setProtocolHttp();
 
 	setHost(config->getHostname());
@@ -29,115 +36,91 @@ void LibShout::initializeShout()
 
 	setPassword(config->getPassword());
 
-	setUser("source");
+	setPublic(Convert<unsigned int>::StringToNumber(config->getPublic()));
+
+	setName(config->getName());
+	setUrl(config->getUrl());
+	setGenre(config->getGenre());
+	setDescription(config->getDescription());
+
+	setAudioInfoBitrate(config->getBitrate());
+	setAudioInfoSamplerate(config->getSamplerate());
+	setAudioInfoChannels(config->getChannels());
+	// setAudioInfoQuality()
 
 	setFormatMp3();
 
 	setNonblocking(1);
-
-	
-
-
 }
 
-
-/*
-	// LibShout
-
-	shout_t *shout;
+void LibShout::startShout()
+{
+#ifdef ICECAST
 	unsigned char buff[4096];
 	long read, ret, total;
 
-	shout_init();
-
-	if (!(shout = shout_new())) {
-		printf("Could not allocate shout_t\n");
-		return;
-	}
-
-	if (shout_set_host(shout, "giss.tv") != SHOUTERR_SUCCESS) {
-		printf("Error setting hostname: %s\n", shout_get_error(shout));
-		return;
-	}
-
-
-	if (shout_set_protocol(shout, SHOUT_PROTOCOL_HTTP) != SHOUTERR_SUCCESS) {
-		printf("Error setting protocol: %s\n", shout_get_error(shout));
-		return;
-	}
-
-	if (shout_set_port(shout, 8001) != SHOUTERR_SUCCESS) {
-		printf("Error setting port: %s\n", shout_get_error(shout));
-		return;
-	}
-
-	if (shout_set_password(shout, "j0vys") != SHOUTERR_SUCCESS) {
-		printf("Error setting password: %s\n", shout_get_error(shout));
-		return;
-	}
-	if (shout_set_mount(shout, "/thefirstkube.mp3") != SHOUTERR_SUCCESS) {
-		printf("Error setting mount: %s\n", shout_get_error(shout));
-		return;
-	}
-
-	if (shout_set_user(shout, "source") != SHOUTERR_SUCCESS) {
-		printf("Error setting user: %s\n", shout_get_error(shout));
-		return;
-	}
-
-	if (shout_set_format(shout, SHOUT_FORMAT_MP3) != SHOUTERR_SUCCESS) {
-		printf("Error setting format: %s\n", shout_get_error(shout));
-		return;
-	}
-
-	if (shout_set_nonblocking(shout, 1) != SHOUTERR_SUCCESS) {
-	  printf("Error setting non-blocking mode: %s\n", shout_get_error(shout));
-	  return;
-	}
-
-	ret = shout_open(shout);
+	ret = shoutOpen();
 	if (ret == SHOUTERR_SUCCESS)
-	  ret = SHOUTERR_CONNECTED;
+	{
+		ret = SHOUTERR_CONNECTED;
+	}
 
 	if (ret == SHOUTERR_BUSY)
-	  printf("Connection pending...\n");
-
-	while (ret == SHOUTERR_BUSY) {
-	  usleep(10000);
-	  ret = shout_get_connected(shout);
+	{
+		logSrv->info("Connection pending...");
 	}
 
-		if (ret == SHOUTERR_CONNECTED) {
-		printf("Connected to server...\n");
-		total = 0;
-		while (1) {
-			read = fread(buff, 1, sizeof(buff), stdin);
-			total = total + read;
+	while (ret == SHOUTERR_BUSY)
+	{
+		usleep(10000);
+		ret = getConnected();
+	}
 
-			cout << "Read: "<< total << endl;
+	if (ret != SHOUTERR_CONNECTED)
+	{
+		logSrv->error("Error connecting: " + getError());
 
-			if (read > 0) {
-				ret = shout_send(shout, buff, read);
-				cout << "Send: "<< read << endl;
-				if (ret != SHOUTERR_SUCCESS) {
-					printf("DEBUG: Send error: %s\n", shout_get_error(shout));
-					break;
-				}
-			} else {
-				break;
-			}
-			if (shout_queuelen(shout) > 0)
-				printf("DEBUG: queue length: %d\n",
-                                        (int)shout_queuelen(shout));
+		finilizeShout();
+		return;
+	}
 
-			shout_sync(shout);
+	logSrv->info("Connected to server...");
+	total = 0;
+
+	Mp3Parser mp3Parser;
+	char* fileData = mp3Parser.loadFile("03-TakeFive.mp3");
+
+	unsigned char* buffer = (unsigned char*) fileData;
+	if (sizeof(buffer) <= 0)
+	{
+		finilizeShout();
+		return;
+	}
+
+	while (1)
+	{
+		ret = shoutSend(buffer, sizeof(buffer));
+
+		if (ret != SHOUTERR_SUCCESS)
+		{
+			logSrv->error("Send error: " + getError());
+			break;
 		}
-	} else {
-		printf("Error connecting: %s\n", shout_get_error(shout));
+
+		if (shoutQueuelen() > 0)
+		{
+			logSrv->debug("Queue length: " + Convert<int>::NumberToString((int) shoutQueuelen()));
+		}
+
+		shoutSync();
 	}
 
-	shout_close(shout);
+#endif
+}
 
-	shout_shutdown();
+void LibShout::finilizeShout()
+{
+	shoutClose();
 
-	*/
+	shoutShutdown();
+}

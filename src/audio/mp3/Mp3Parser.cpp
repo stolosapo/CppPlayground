@@ -52,6 +52,32 @@ Mp3Parser::~Mp3Parser()
 
 }
 
+char* Mp3Parser::loadFile(const char* filename)
+{
+	ifstream mp3file(filename, ios::binary);
+
+	if(mp3file.fail() == true)
+	{
+		cout << " *** File failed to open" << endl;
+		return NULL;
+	}
+
+	/* obtain filesize in bits */
+	mp3file.seekg(0, ios::end);
+	size_t filesize = mp3file.tellg();
+
+	/* array of characters to transfer binary data prior to copying to string */
+        char* buffer;
+    	buffer = new char [filesize];
+
+	/* transfer binary data from file to buffer array */
+	mp3file.seekg(0, ios::beg);
+	mp3file.read(buffer, filesize);
+	mp3file.close();
+
+	return buffer;
+}
+
 void Mp3Parser::parse()
 {
 	const char* filename = "03-TakeFive.mp3";

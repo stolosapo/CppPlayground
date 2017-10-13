@@ -217,7 +217,35 @@ void LibShout::setAudioInfo(string name, string value)
 		throw DomainException(IcecastDomainErrorCode::ICS0014);
 	}
 
-	logSrv->info("Shout audio data set");
+	logSrv->info("Shout audio data set: '" + name + "' = '" + value + "'");
+#endif
+}
+
+void LibShout::setAudioInfoBitrate(string value)
+{
+#ifdef ICECAST
+	setAudioInfo(SHOUT_AI_BITRATE, value);
+#endif
+}
+
+void LibShout::setAudioInfoSamplerate(string value)
+{
+#ifdef ICECAST
+	setAudioInfo(SHOUT_AI_SAMPLERATE, value);
+#endif
+}
+
+void LibShout::setAudioInfoChannels(string value)
+{
+#ifdef ICECAST
+	setAudioInfo(SHOUT_AI_CHANNELS, value);
+#endif
+}
+
+void LibShout::setAudioInfoQuality(string value)
+{
+#ifdef ICECAST
+	setAudioInfo(SHOUT_AI_QUALITY, value);
 #endif
 }
 
@@ -355,5 +383,30 @@ int LibShout::shoutSend(const unsigned char *data, size_t len)
 {
 #ifdef ICECAST
 	shout_send(shout, data, len);
+#endif
+}
+
+ssize_t LibShout::shoutQueuelen()
+{
+#ifdef ICECAST
+	return shout_queuelen(shout);
+#else
+	return 0;
+#endif
+}
+
+void LibShout::shoutSync()
+{
+#ifdef ICECAST
+	shout_sync(shout);
+#endif
+}
+
+int LibShout::shoutDelay()
+{
+#ifdef ICECAST
+	return shout_delay(shout);
+#else
+	return 0;
 #endif
 }

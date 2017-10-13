@@ -68,7 +68,12 @@ private:
 	void setGenre(string genre); // obsolete
 	void setDescription(string description); // obsolete
 	void setDumpfile(string dumpfile);
+
 	void setAudioInfo(string name, string value);
+	void setAudioInfoBitrate(string value);
+	void setAudioInfoSamplerate(string value);
+	void setAudioInfoChannels(string value);
+	void setAudioInfoQuality(string value);
 
 	/* takes a SHOUT_META_xxxx argument */
 	void setMeta(string name, string value);
@@ -101,11 +106,23 @@ private:
 	/* Send data to the server, parsing it for format specific timing info */
 	int shoutSend(const unsigned char *data, size_t len);
 
+	/* return the number of bytes currently on the write queue (only makes sense in
+	 * nonblocking mode). */
+	ssize_t shoutQueuelen();
+
+	/* Puts caller to sleep until it is time to send more data to the server */
+	void shoutSync();
+
+	/* Amount of time in ms caller should wait before sending again */
+	int shoutDelay();
+
 public:
 	LibShout(ILogService *logSrv, IcecastClientConfig* config);
 	virtual ~LibShout();
 
 	void initializeShout();
+	void startShout();
+	void finilizeShout();
 
 };
 

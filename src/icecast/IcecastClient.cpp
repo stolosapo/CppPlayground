@@ -49,6 +49,8 @@ void IcecastClient::streamAudio()
 	libShout = new LibShout(logSrv, config);
 
 	libShout->initializeShout();
+
+	libShout->startShout();
 }
 
 void IcecastClient::action()

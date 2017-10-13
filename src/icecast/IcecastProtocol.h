@@ -12,7 +12,6 @@ class IcecastProtocol
 private:
 	static const char* NEW_LINE;
 
-	static const char* USER_AGENT;
 	static const char* CONTENT_TYPE;
 
 	IcecastClientConfig* config;
@@ -20,6 +19,8 @@ private:
 	string getHttpBasicAuthorization(string user, string password);
 
 public:
+	static const char* USER_AGENT;
+	
 	IcecastProtocol(IcecastClientConfig *config);
 	virtual ~IcecastProtocol();
 
