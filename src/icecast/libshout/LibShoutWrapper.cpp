@@ -257,6 +257,34 @@ void LibShout::setFormat(unsigned int format)
 #endif
 }
 
+void LibShout::setFormatOgg()
+{
+#ifdef ICECAST
+	setFormat(SHOUT_FORMAT_OGG);
+#endif
+}
+
+void LibShout::setFormatMp3()
+{
+#ifdef ICECAST
+	setFormat(SHOUT_FORMAT_MP3);
+#endif
+}
+
+void LibShout::setFormatWebM()
+{
+#ifdef ICECAST
+	setFormat(SHOUT_FORMAT_WEBM);
+#endif
+}
+
+void LibShout::setFormatWebMAudio()
+{
+#ifdef ICECAST
+	// setFormat(SHOUT_FORMAT_WEBMAUDIO);
+#endif
+}
+
 void LibShout::setProtocol(unsigned int protocol)
 {
 #ifdef ICECAST

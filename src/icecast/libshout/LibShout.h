@@ -76,6 +76,10 @@ private:
 
 	/* takes a SHOUT_FORMAT_xxxx argument */
 	void setFormat(unsigned int format);
+	void setFormatOgg();
+	void setFormatMp3();
+	void setFormatWebM();
+	void setFormatWebMAudio();
 
 	/* takes a SHOUT_PROTOCOL_xxxxx argument */
 	void setProtocol(unsigned int protocol);

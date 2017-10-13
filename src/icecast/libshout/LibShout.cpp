@@ -1,5 +1,7 @@
 #include "LibShout.h"
 
+#include "../../lib/converter/Convert.h"
+
 LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)
 {
 	this->logSrv = logSrv;
@@ -17,9 +19,25 @@ void LibShout::initializeShout()
 
 	shoutNew();
 
+	setProtocolHttp();
+
 	setHost(config->getHostname());
 
-	setProtocolHttp();
+	setPort(Convert<unsigned short>::StringToNumber(config->getPort()));
+
+	setMount(config->getMountpoint());
+
+	setPassword(config->getPassword());
+
+	setUser("source");
+
+	setFormatMp3();
+
+	setNonblocking(1);
+
+	
+
+
 }
 
 
