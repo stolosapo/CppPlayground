@@ -17,10 +17,7 @@ void LibShout::initializeShout()
 
 	shoutNew();
 
-	if (setHost(config->getHostname()) != 0)
-	{
-		return;
-	}
+	setHost(config->getHostname());
 }
 
 
@@ -77,7 +74,7 @@ void LibShout::initializeShout()
 	  printf("Error setting non-blocking mode: %s\n", shout_get_error(shout));
 	  return;
 	}
-	
+
 	ret = shout_open(shout);
 	if (ret == SHOUTERR_SUCCESS)
 	  ret = SHOUTERR_CONNECTED;
@@ -89,7 +86,7 @@ void LibShout::initializeShout()
 	  usleep(10000);
 	  ret = shout_get_connected(shout);
 	}
-	
+
 		if (ret == SHOUTERR_CONNECTED) {
 		printf("Connected to server...\n");
 		total = 0;
@@ -110,7 +107,7 @@ void LibShout::initializeShout()
 				break;
 			}
 			if (shout_queuelen(shout) > 0)
-				printf("DEBUG: queue length: %d\n", 
+				printf("DEBUG: queue length: %d\n",
                                         (int)shout_queuelen(shout));
 
 			shout_sync(shout);

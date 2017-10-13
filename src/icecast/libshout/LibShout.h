@@ -51,38 +51,38 @@ private:
 	int getConnected();
 
 	/* Connection parameters */
-	int setHost(string host);
-	int setPort(unsigned short port);
-	int setAgent(string agent);
+	void setHost(string host);
+	void setPort(unsigned short port);
+	void setAgent(string agent);
 
 	/* Authentication parameters */
-	int setUser(string username);
-	int setPassword(string password);
+	void setUser(string username);
+	void setPassword(string password);
 
 	/* Mount parameters */
-	int setMount(string mount);
+	void setMount(string mount);
 
 	/* Other parameters */
-	int setName(string name); // obsolete
-	int setUrl(string url); // obsolete
-	int setGenre(string genre); // obsolete
-	int setDescription(string description); // obsolete
-	int setDumpfile(string dumpfile);
-	int setAudioInfo(string name, string value);
+	void setName(string name); // obsolete
+	void setUrl(string url); // obsolete
+	void setGenre(string genre); // obsolete
+	void setDescription(string description); // obsolete
+	void setDumpfile(string dumpfile);
+	void setAudioInfo(string name, string value);
 
 	/* takes a SHOUT_META_xxxx argument */
-	int setMeta(string name, string value);
-	int setPublic(unsigned int make_public);
+	void setMeta(string name, string value);
+	void setPublic(unsigned int make_public);
 
 	/* takes a SHOUT_FORMAT_xxxx argument */
-	int setFormat(unsigned int format);
+	void setFormat(unsigned int format);
 
 	/* takes a SHOUT_PROTOCOL_xxxxx argument */
-	int setProtocol(unsigned int protocol);
+	void setProtocol(unsigned int protocol);
 
 	/* Instructs libshout to use nonblocking I/O. Must be called before
 	 * shout_open (no switching back and forth midstream at the moment). */
-	int setNonblocking(unsigned int nonblocking);
+	void setNonblocking(unsigned int nonblocking);
 
 	/* Opens a connection to the server.  All parameters must already be set */
 	int shoutOpen();
