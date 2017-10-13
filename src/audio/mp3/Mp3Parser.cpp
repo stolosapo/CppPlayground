@@ -52,13 +52,24 @@ Mp3Parser::~Mp3Parser()
 
 }
 
+// ifstream Mp3Parser::asStream(const char* filename)
+// {
+// 	ifstream mp3file(filename, ios::binary);
+//
+// 	if(mp3file.fail() == true)
+// 	{
+// 		cout << " *** File failed to open" << endl;
+// 	}
+//
+// 	return mp3file;
+// }
+
 char* Mp3Parser::loadFile(const char* filename)
 {
 	ifstream mp3file(filename, ios::binary);
 
 	if(mp3file.fail() == true)
 	{
-		cout << " *** File failed to open" << endl;
 		return NULL;
 	}
 

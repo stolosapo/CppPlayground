@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <fstream>
 
 #include "LibShout.h"
 
@@ -88,28 +89,42 @@ void LibShout::startShout()
 	total = 0;
 
 	Mp3Parser mp3Parser;
-	char* fileData = mp3Parser.loadFile("03-TakeFive.mp3");
+	// char* fileData = mp3Parser.loadFile("03-TakeFive.mp3");
+	//
+	// unsigned char* buffer = (unsigned char*) fileData;
+	// if (sizeof(buffer) <= 0)
+	// {
+	// 	finilizeShout();
+	// 	return;
+	// }
 
-	unsigned char* buffer = (unsigned char*) fileData;
-	if (sizeof(buffer) <= 0)
-	{
-		finilizeShout();
-		return;
-	}
+	// ifstream mp3file = mp3Parser.asStream("03-TakeFive.mp3");
+	FILE* mp3file;
+	mp3file = fopen("03-TakeFive.mp3" , "rb");
 
 	while (1)
 	{
-		ret = shoutSend(buffer, sizeof(buffer));
+		read = fread(buff, 1, sizeof(buff), mp3file);
+		total = total + read;
 
-		if (ret != SHOUTERR_SUCCESS)
+		if (read > 0)
 		{
-			logSrv->error("Send error: " + getError());
-			break;
+			ret = shoutSend(buff, read);
+
+			if (ret != SHOUTERR_SUCCESS)
+			{
+				logSrv->error("Send error: " + getError());
+				break;
+			}
+
+			if (shoutQueuelen() > 0)
+			{
+				logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
+			}
 		}
-
-		if (shoutQueuelen() > 0)
+		else
 		{
-			logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
+			break;
 		}
 
 		shoutSync();

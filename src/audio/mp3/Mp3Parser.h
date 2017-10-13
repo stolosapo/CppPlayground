@@ -20,6 +20,8 @@ public:
 
 	void parse();
 	char* loadFile(const char* filename);
+	// ifstream asStream(const char* filename);
+
 
 };
 
