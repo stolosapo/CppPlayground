@@ -18,6 +18,8 @@ void LibShout::initializeShout()
 	shoutNew();
 
 	setHost(config->getHostname());
+
+	setProtocolHttp();
 }
 
 

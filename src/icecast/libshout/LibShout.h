@@ -79,6 +79,10 @@ private:
 
 	/* takes a SHOUT_PROTOCOL_xxxxx argument */
 	void setProtocol(unsigned int protocol);
+	void setProtocolHttp();
+	void setProtocolXAudioCast();
+	void setProtocolIcy();
+	void setProtocolRoarAudio();
 
 	/* Instructs libshout to use nonblocking I/O. Must be called before
 	 * shout_open (no switching back and forth midstream at the moment). */

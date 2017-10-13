@@ -269,6 +269,34 @@ void LibShout::setProtocol(unsigned int protocol)
 #endif
 }
 
+void LibShout::setProtocolHttp()
+{
+#ifdef ICECAST
+	setProtocol(SHOUT_PROTOCOL_HTTP);
+#endif
+}
+
+void LibShout::setProtocolXAudioCast()
+{
+#ifdef ICECAST
+	setProtocol(SHOUT_PROTOCOL_XAUDIOCAST);
+#endif
+}
+
+void LibShout::setProtocolIcy()
+{
+#ifdef ICECAST
+	setProtocol(SHOUT_PROTOCOL_ICY);
+#endif
+}
+
+void LibShout::setProtocolRoarAudio()
+{
+#ifdef ICECAST
+	// setProtocol(SHOUT_PROTOCOL_ROARAUDIO);
+#endif
+}
+
 void LibShout::setNonblocking(unsigned int nonblocking)
 {
 #ifdef ICECAST
