@@ -12,5 +12,7 @@
 	"bitrate":"128",
 	"samplerate":"44100",
 	"channels":"2",
-	"playlist":"playlist.pls"
+	"playlist":"playlist.pls",
+	"random":true,
+	"repeat":true
 }

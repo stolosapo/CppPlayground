@@ -27,6 +27,8 @@ void IcecastClientConfig::registerProperties()
 	registerPropertyName(12, "samplerate", Property::STRING);
 	registerPropertyName(13, "channels", Property::STRING);
 	registerPropertyName(14, "playlist", Property::STRING);
+	registerPropertyName(15, "random", Property::BOOL);
+	registerPropertyName(16, "repeat", Property::BOOL);
 }
 
 Model* IcecastClientConfig::factory()
@@ -102,4 +104,14 @@ string IcecastClientConfig::getChannels()
 string IcecastClientConfig::getPlaylist()
 {
 	return getStringProperty("playlist");
+}
+
+bool IcecastClientConfig::getRandom()
+{
+	return getBoolProperty("random");
+}
+
+bool IcecastClientConfig::getRepeat()
+{
+	return getBoolProperty("repeat");
 }

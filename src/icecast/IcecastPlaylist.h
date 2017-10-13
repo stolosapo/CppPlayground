@@ -15,13 +15,15 @@ private:
 
 	vector<string> playlist;
 
+	int randomLine();
+
 public:	
 	IcecastPlaylist(IcecastClientConfig *config);
 	virtual ~IcecastPlaylist();
 
 	void load();
-	bool hasNext();
-	string getNext();
+	bool hasNext(int current);
+	string getNext(int& current);
 
 };
 

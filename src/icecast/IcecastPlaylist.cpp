@@ -3,6 +3,11 @@
 #include <fstream>
 #include <iterator>
 #include <algorithm>
+#include <stdlib.h>
+#include <time.h>
+
+#include "../lib/exception/domain/DomainException.h"
+#include "../lib/exception/domain/GeneralDomainErrorCode.h"
 
 IcecastPlaylist::IcecastPlaylist(IcecastClientConfig *config) : config(config)
 {
@@ -18,6 +23,11 @@ void IcecastPlaylist::load()
 {
 	ifstream file(config->getPlaylist().c_str());
 
+	if(file.fail() == true)
+	{
+		throw DomainException(GeneralDomainErrorCode::GNR0001, config->getPlaylist());
+	}
+
 	copy(istream_iterator<string>(file),
 		istream_iterator<string>(),
 		back_inserter(playlist));
@@ -25,12 +35,45 @@ void IcecastPlaylist::load()
 	file.close();
 }
 
-bool IcecastPlaylist::hasNext()
+int IcecastPlaylist::randomLine()
 {
-	return true;
+	srand(time(NULL));
+
+	int size = playlist.size();
+
+	return rand() % size;
 }
 
-string IcecastPlaylist::getNext()
+bool IcecastPlaylist::hasNext(int current)
 {
-	return playlist.at(0);
+	if (config->getRepeat())
+	{
+		return true;
+	}
+
+	if (config->getRandom())
+	{
+		return true;
+	}
+
+	return current < playlist.size();
+}
+
+string IcecastPlaylist::getNext(int& current)
+{
+	if (config->getRandom())
+	{
+		current = randomLine();
+	}
+
+	if (current < playlist.size())
+	{
+		current++;
+	}
+	else if (config->getRepeat())
+	{
+		current = 0;
+	}
+
+	return playlist.at(current);
 }

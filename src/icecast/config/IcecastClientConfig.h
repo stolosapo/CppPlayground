@@ -30,6 +30,8 @@ public:
 	string getChannels();
 	
 	string getPlaylist();
+	bool getRandom();
+	bool getRepeat();
 
 protected:
 	virtual void registerProperties();

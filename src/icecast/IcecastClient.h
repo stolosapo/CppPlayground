@@ -3,18 +3,14 @@
 
 #include "config/IcecastClientConfig.h"
 #include "IcecastProtocol.h"
-#include "../tcpServer/client/ITcpClient.h"
-#include "../tcpServer/lib/TcpConnector.h"
 #include "../log/ILogService.h"
 #include "libshout/LibShout.h"
 
-class IcecastClient : public ITcpClient
+class IcecastClient
 {
 private:
 	ILogService *logSrv;
 
-	TcpConnector *connector;
-	TcpStream *stream;
 	IcecastClientConfig* config;
 	IcecastProtocol* protocol;
 	LibShout* libShout;
@@ -26,7 +22,7 @@ public:
 	IcecastClient(ILogService *logSrv);
 	virtual ~IcecastClient();
 
-	virtual void action();	
+	void action();	
 
 };
 

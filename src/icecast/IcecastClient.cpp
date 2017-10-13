@@ -9,7 +9,7 @@
 #include "../lib/exception/domain/DomainException.h"
 
 
-IcecastClient::IcecastClient(ILogService *logSrv) : ITcpClient()
+IcecastClient::IcecastClient(ILogService *logSrv)
 {
 	this->logSrv = logSrv;
 }
@@ -45,6 +45,8 @@ void IcecastClient::loadConfig()
 
 void IcecastClient::streamAudio()
 {
+	int currentTrackNum = 0;
+
 	libShout = new LibShout(logSrv, config);
 
 	libShout->initializeShout();
@@ -56,13 +58,13 @@ void IcecastClient::streamAudio()
 		IcecastPlaylist playlist(config);
 		playlist.load();
 
-		while (playlist.hasNext())
+		while (playlist.hasNext(currentTrackNum))
 		{
-			string track = playlist.getNext();
+			string track = playlist.getNext(currentTrackNum);
 
 			libShout->streamFile(track.c_str());	
 		}
-		
+
 	}
 	catch (DomainException& e)
 	{
