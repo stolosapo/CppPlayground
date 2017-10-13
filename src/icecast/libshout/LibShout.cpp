@@ -109,7 +109,7 @@ void LibShout::startShout()
 
 		if (shoutQueuelen() > 0)
 		{
-			logSrv->debug("Queue length: " + Convert<int>::NumberToString((int) shoutQueuelen()));
+			logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
 		}
 
 		shoutSync();

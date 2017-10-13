@@ -386,10 +386,10 @@ int LibShout::shoutSend(const unsigned char *data, size_t len)
 #endif
 }
 
-ssize_t LibShout::shoutQueuelen()
+int LibShout::shoutQueuelen()
 {
 #ifdef ICECAST
-	return shout_queuelen(shout);
+	return (int) shout_queuelen(shout);
 #else
 	return 0;
 #endif

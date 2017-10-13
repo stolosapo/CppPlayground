@@ -108,7 +108,7 @@ private:
 
 	/* return the number of bytes currently on the write queue (only makes sense in
 	 * nonblocking mode). */
-	ssize_t shoutQueuelen();
+	int shoutQueuelen();
 
 	/* Puts caller to sleep until it is time to send more data to the server */
 	void shoutSync();
