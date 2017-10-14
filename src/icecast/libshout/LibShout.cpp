@@ -100,6 +100,7 @@ void LibShout::startShout()
 
 void LibShout::streamFile(const char* filename)
 {
+#ifdef ICECAST
 	unsigned char buff[4096];
 	long read, ret, total;
 
@@ -137,4 +138,5 @@ void LibShout::streamFile(const char* filename)
 	}
 
 	fclose(mp3file);
+#endif
 }
