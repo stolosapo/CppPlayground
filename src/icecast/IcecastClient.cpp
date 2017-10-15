@@ -90,7 +90,7 @@ void IcecastClient::action()
 	loadConfig();
 
 	/* Load playlist */
-	playlist = new IcecastPlaylist(config);
+	playlist = new IcecastPlaylist(logSrv, config);
 	playlist->load();
 
 	streamAudio();

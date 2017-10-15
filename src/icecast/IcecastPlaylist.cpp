@@ -6,10 +6,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "../lib/converter/Convert.h"
 #include "../lib/exception/domain/DomainException.h"
 #include "../lib/exception/domain/GeneralDomainErrorCode.h"
 
-IcecastPlaylist::IcecastPlaylist(IcecastClientConfig *config) : config(config)
+IcecastPlaylist::IcecastPlaylist(ILogService *logSrv, IcecastClientConfig *config) : logSrv(logSrv), config(config)
 {
 
 }
@@ -28,10 +29,6 @@ void IcecastPlaylist::load()
 		throw DomainException(GeneralDomainErrorCode::GNR0001, config->getPlaylist());
 	}
 
-	// copy(istream_iterator<string>(file),
-	// 	istream_iterator<string>(),
-	// 	back_inserter(playlist));
-
 	string line;
 
 	while (getline(file, line))
@@ -40,6 +37,8 @@ void IcecastPlaylist::load()
 	}
 
 	file.close();
+
+	logSrv->info("Playlist: '" + config->getPlaylist() + "' loaded, with '" + Convert<int>::NumberToString(playlist.size()) + "' tracks");
 }
 
 int IcecastPlaylist::randomLine()
