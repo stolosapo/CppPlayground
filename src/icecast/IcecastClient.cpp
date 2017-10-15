@@ -65,13 +65,9 @@ void IcecastClient::streamAudio()
 	{
 		libShout->startShout();
 
-		// libShout->streamFile("03-TakeFive.mp3");
-
 		while (playlist->hasNext(currentTrackNum))
 		{
 			string track = playlist->getNext(currentTrackNum);
-
-			// cout << currentTrackNum << ") " << track << endl;
 
 			libShout->streamFile(track.c_str());	
 		}
