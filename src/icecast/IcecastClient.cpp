@@ -12,23 +12,33 @@
 IcecastClient::IcecastClient(ILogService *logSrv)
 {
 	this->logSrv = logSrv;
+
+	this->protocol = NULL;
+	this->config = NULL;
+	this->libShout = NULL;
+	this->playlist = NULL;
 }
 
 IcecastClient::~IcecastClient()
 {
 	if (protocol != NULL)
 	{
-		// delete protocol;
+		delete protocol;
 	}
 
 	if (config != NULL)
 	{
-		// delete config;
+		delete config;
 	}
 
 	if (libShout != NULL)
 	{
-		// delete libShout;
+		delete libShout;
+	}
+
+	if (playlist != NULL)
+	{
+		delete playlist;
 	}
 }
 
@@ -55,12 +65,13 @@ void IcecastClient::streamAudio()
 	{
 		libShout->startShout();
 
-		IcecastPlaylist playlist(config);
-		playlist.load();
+		// libShout->streamFile("03-TakeFive.mp3");
 
-		while (playlist.hasNext(currentTrackNum))
+		while (playlist->hasNext(currentTrackNum))
 		{
-			string track = playlist.getNext(currentTrackNum);
+			string track = playlist->getNext(currentTrackNum);
+
+			// cout << currentTrackNum << ") " << track << endl;
 
 			libShout->streamFile(track.c_str());	
 		}
@@ -77,6 +88,10 @@ void IcecastClient::streamAudio()
 void IcecastClient::action()
 {
 	loadConfig();
+
+	/* Load playlist */
+	playlist = new IcecastPlaylist(config);
+	playlist->load();
 
 	streamAudio();
 

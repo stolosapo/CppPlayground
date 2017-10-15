@@ -28,9 +28,16 @@ void IcecastPlaylist::load()
 		throw DomainException(GeneralDomainErrorCode::GNR0001, config->getPlaylist());
 	}
 
-	copy(istream_iterator<string>(file),
-		istream_iterator<string>(),
-		back_inserter(playlist));
+	// copy(istream_iterator<string>(file),
+	// 	istream_iterator<string>(),
+	// 	back_inserter(playlist));
+
+	string line;
+
+	while (getline(file, line))
+	{
+		playlist.push_back(line);
+	}
 
 	file.close();
 }
@@ -46,34 +53,31 @@ int IcecastPlaylist::randomLine()
 
 bool IcecastPlaylist::hasNext(int current)
 {
-	if (config->getRepeat())
-	{
-		return true;
-	}
+	// if (config->getRepeat())
+	// {
+	// 	return true;
+	// }
 
-	if (config->getRandom())
-	{
-		return true;
-	}
+	// if (config->getRandom())
+	// {
+	// 	return true;
+	// }
 
 	return current < playlist.size();
 }
 
 string IcecastPlaylist::getNext(int& current)
 {
-	if (config->getRandom())
-	{
-		current = randomLine();
-	}
+	string track;
 
-	if (current < playlist.size())
-	{
-		current++;
-	}
-	else if (config->getRepeat())
-	{
-		current = 0;
-	}
+	// if (config->getRandom())
+	// {
+	// 	current = randomLine();
+	// }
 
-	return playlist.at(current);
+	track = playlist.at(current);
+
+	current++;
+
+	return track;
 }

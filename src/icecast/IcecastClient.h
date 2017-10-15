@@ -3,6 +3,7 @@
 
 #include "config/IcecastClientConfig.h"
 #include "IcecastProtocol.h"
+#include "IcecastPlaylist.h"
 #include "../log/ILogService.h"
 #include "libshout/LibShout.h"
 
@@ -14,6 +15,7 @@ private:
 	IcecastClientConfig* config;
 	IcecastProtocol* protocol;
 	LibShout* libShout;
+	IcecastPlaylist* playlist;
 
 	void loadConfig();
 	void streamAudio();

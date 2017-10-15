@@ -109,6 +109,8 @@ void LibShout::streamFile(const char* filename)
 
 	logSrv->info("Playing: " + string(filename));
 
+	setMeta("title", string(filename));
+
 	while (1)
 	{
 		read = fread(buff, 1, sizeof(buff), mp3file);
