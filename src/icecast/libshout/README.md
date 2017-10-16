@@ -1,7 +1,7 @@
 # Install `libshout`
 
-We will need `libshout` install in our system to use the `icecast` client.
+We will need `libshout` install in our system to use the `icecast` client. Install the latest version of `libshout` 2.4.1
 
 ```
-sudo apt-get install libshout3-dev
+https://icecast.org/download/
 ```
