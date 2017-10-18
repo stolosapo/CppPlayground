@@ -17,7 +17,5 @@ TestTask::~TestTask()
 
 void TestTask::task()
 {
-	cout << "in the task sleepping" << endl;
-
 	counter++;
 }
