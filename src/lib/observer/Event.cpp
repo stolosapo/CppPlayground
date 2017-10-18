@@ -43,3 +43,15 @@ void Event::raise(void* sender, EventArgs* e)
                 eventHandlers[i]->onEvent(sender, e);
         }
 }
+
+Event& Event::operator+=(EventHandler* eventHandler)
+{
+        addEventHandler(eventHandler);
+        return *this;
+}
+
+Event& Event::operator-=(EventHandler* eventHandler)
+{
+        removeEventHandler(eventHandler);
+        return *this;
+}

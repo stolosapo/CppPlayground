@@ -22,6 +22,9 @@ public:
         virtual void removeEventHandler(EventHandler* eventHandler);
 
         virtual void raise(void* sender, EventArgs* e);
+
+        Event& operator+=(EventHandler* eventHandler);
+        Event& operator-=(EventHandler* eventHandler);
 };
 
 #endif // Event_h__
