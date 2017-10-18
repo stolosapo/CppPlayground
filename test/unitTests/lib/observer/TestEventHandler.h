@@ -1,7 +1,7 @@
 #ifndef TestEventHandler_h__
 #define TestEventHandler_h__
 
-#include "EventHandler.h"
+#include "../../../../src/lib/observer/EventHandler.h"
 
 class TestEventHandler : public EventHandler
 {

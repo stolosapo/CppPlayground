@@ -15,6 +15,11 @@ void Event::addEventHandler(EventHandler* eventHandler)
         eventHandlers.push_back(eventHandler);
 }
 
+void Event::addEventHandler(Delegate delegate)
+{
+        delegates.push_back(delegate);
+}
+
 void Event::removeEventHandler(EventHandler* eventHandler)
 {
         int count = eventHandlers.size();
@@ -34,13 +39,37 @@ void Event::removeEventHandler(EventHandler* eventHandler)
         }
 }
 
+void Event::removeEventHandler(Delegate delegate)
+{
+        int count = delegates.size();
+        int i;
+
+        for (i = 0; i < count; i++)
+        {
+                if(delegates[i] == delegate)
+                {
+                        break;
+                }
+        }
+
+        if(i < count)
+        {
+                delegates.erase(delegates.begin() + i);
+        }
+}
+
 void Event::raise(void* sender, EventArgs* e)
 {
-        int count = eventHandlers.size();
-
-        for (int i = 0; i < count; i++)
+        /* Iterate Event Handlers */
+        for (int i = 0; i < eventHandlers.size(); i++)
         {
                 eventHandlers[i]->onEvent(sender, e);
+        }
+
+        /* Iterate delegates */
+        for (int i = 0; i < delegates.size(); i++)
+        {
+                (delegates[i])(sender, e);
         }
 }
 
@@ -50,8 +79,20 @@ Event& Event::operator+=(EventHandler* eventHandler)
         return *this;
 }
 
+Event& Event::operator+=(Delegate delegate)
+{
+        addEventHandler(delegate);
+        return *this;
+}
+
 Event& Event::operator-=(EventHandler* eventHandler)
 {
         removeEventHandler(eventHandler);
+        return *this;
+}
+
+Event& Event::operator-=(Delegate delegate)
+{
+        removeEventHandler(delegate);
         return *this;
 }
