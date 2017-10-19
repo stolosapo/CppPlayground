@@ -12,9 +12,7 @@ AsyncTask::~AsyncTask()
 
 void* AsyncTask::internalThreadFunc(void* self)
 {
-	((AsyncTask *)self)->task(); 
-
-	return NULL;
+	return ((AsyncTask *)self)->task(); 
 }
 
 bool AsyncTask::startAsync()

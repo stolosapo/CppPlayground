@@ -11,7 +11,7 @@ private:
         static void* internalThreadFunc(void* self);
 
 protected:
-        virtual void task() = 0;
+        virtual void* task() = 0;
 
 public:
         AsyncTask();
