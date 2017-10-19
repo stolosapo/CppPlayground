@@ -15,7 +15,7 @@ void assertTrue(bool value)
 
 	char* mess = new char[1024];
 
-	sprintf(mess, "Exprected '%s' to be true", strValue);
+	sprintf(mess, "Exprected '%s' to be true", strValue.c_str());
 
 	throw AssertException(mess);
 }
@@ -31,7 +31,7 @@ void assertFalse(bool value)
 
 	char* mess = new char[1024];
 
-	sprintf(mess, "Exprected '%s' to be false", strValue);
+	sprintf(mess, "Exprected '%s' to be false", strValue.c_str());
 
 	throw AssertException(mess);
 }
@@ -46,7 +46,7 @@ void assertEqual(string val1, string val2)
 
 	char* mess = new char[1024];
 
-	sprintf(mess, "Exprected '%s' to be equal with '%s'", val1, val2);
+	sprintf(mess, "Exprected '%s' to be equal with '%s'", val1.c_str(), val2.c_str());
 
 	throw AssertException(mess);
 }
@@ -119,7 +119,7 @@ void assertEqual(bool val1, bool val2)
 
 	char* mess = new char[1024];
 
-	sprintf(mess, "Exprected '%s' to be equal with '%s'", strVal1, strVal2);
+	sprintf(mess, "Exprected '%s' to be equal with '%s'", strVal1.c_str(), strVal2.c_str());
 
 	throw AssertException(mess);
 }
@@ -134,7 +134,7 @@ void assertNotEqual(string val1, string val2)
 
 	char* mess = new char[1024];
 
-	sprintf(mess, "Exprected '%s' to be equal with '%s'", val1, val2);
+	sprintf(mess, "Exprected '%s' to be equal with '%s'", val1.c_str(), val2.c_str());
 
 	throw AssertException(mess);
 }
@@ -207,7 +207,7 @@ void assertNotEqual(bool val1, bool val2)
 
 	char* mess = new char[1024];
 
-	sprintf(mess, "Exprected '%s' to be equal with '%s'", strVal1, strVal2);
+	sprintf(mess, "Exprected '%s' to be equal with '%s'", strVal1.c_str(), strVal2.c_str());
 
 	throw AssertException(mess);
 }
