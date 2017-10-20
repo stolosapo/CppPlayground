@@ -15,7 +15,7 @@ TestTask::~TestTask()
 
 }
 
-void TestTask::task()
+void* TestTask::task()
 {
 	counter++;
 }

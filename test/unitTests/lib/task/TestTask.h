@@ -8,7 +8,7 @@
 class TestTask: public AsyncTask
 {
 protected:
-	void task();
+	void* task();
 
 public:
 	int counter;

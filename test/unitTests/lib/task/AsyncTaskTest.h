@@ -7,6 +7,8 @@
 void test_async_task__start_async_with_wait();
 void test_async_task__start_async_multiple_times();
 
+void test_async_task__with_shared_data();
+
 
 class AsyncTaskTest: public UnitTestSuite
 {
