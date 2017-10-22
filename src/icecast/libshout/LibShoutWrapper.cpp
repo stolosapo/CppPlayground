@@ -248,6 +248,50 @@ void LibShout::setAudioInfoQuality(string value)
 #endif
 }
 
+
+#ifdef ICECAST
+shout_metadata_t*  LibShout::createNewMetadata()
+{
+	shout_metadata_t* newMetadata;
+
+	if (!(newMetadata = shout_metadata_new()))
+	{
+		throw DomainException(IcecastDomainErrorCode::ICS0015, getError());
+	}
+
+	return newMetadata;
+}
+
+void LibShout::setMeta(shout_metadata_t* newMetadata)
+{
+	int m = shout_set_metadata(shout, newMetadata);
+
+	if (m != SHOUTERR_SUCCESS)
+	{
+		logSrv->debug("Updating metadata failed. " + getError());
+	}
+}
+
+void LibShout::setMeta(shout_metadata_t* metadata, string name, string value)
+{	
+	if (shout_metadata_add(metadata, name.c_str(), value.c_str()) != SHOUTERR_SUCCESS) 
+	{
+		throw DomainException(IcecastDomainErrorCode::ICS0015, getError());
+	}
+}
+
+void LibShout::setMetaSong(shout_metadata_t* metadata, string song)
+{
+	setMeta(metadata, "song", song);
+}
+
+void LibShout::freeMetadate(shout_metadata_t* metadata)
+{
+	shout_metadata_free(metadata);
+}
+#endif
+
+
 void LibShout::setMeta()
 {
 #ifdef ICECAST
@@ -334,7 +378,6 @@ void LibShout::setFormat(unsigned int format)
 #ifdef ICECAST
 	if (shout_set_format(shout, format) != SHOUTERR_SUCCESS)
 	{
-		cerr << getError() << endl;
 		throw DomainException(IcecastDomainErrorCode::ICS0017, getError());
 	}
 #endif

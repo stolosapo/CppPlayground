@@ -36,7 +36,7 @@ private:
 
 	/* Allocates and sets up a new shout_t.  Returns NULL if it can't get enough
 	 * memory.  The returns shout_t must be disposed of with shout_free. */
-	void shoutNew();
+	void shoutNew();	
 
 	/* Free all memory allocated by a shout_t */
 	void shoutFree();
@@ -81,6 +81,15 @@ private:
 	void setAudioInfoQuality(string value);
 
 	/* takes a SHOUT_META_xxxx argument */
+
+#ifdef ICECAST
+	shout_metadata_t* createNewMetadata();
+	void setMeta(shout_metadata_t* metadata);
+	void setMeta(shout_metadata_t* metadata, string name, string value);
+	void setMetaSong(shout_metadata_t* metadata, string song);
+	void freeMetadate(shout_metadata_t* metadata);
+#endif
+
 	void setMeta();
 	void setMeta(string name, string value);
 	void setMetaName(string value);

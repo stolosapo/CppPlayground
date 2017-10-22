@@ -109,7 +109,11 @@ void LibShout::streamFile(const char* filename)
 
 	logSrv->info("Playing: " + string(filename));
 
-	setMeta("title", string(filename));
+	
+	/* Update metadata */
+	shout_metadata_t* newMetadata;
+	newMetadata = createNewMetadata();
+	setMetaSong(newMetadata, string(filename));
 
 	while (1)
 	{
@@ -118,6 +122,10 @@ void LibShout::streamFile(const char* filename)
 
 		if (read > 0)
 		{
+
+			setMeta(newMetadata);
+			// shout_set_metadata(shout, newMetadata);
+
 			ret = shoutSend(buff, read);
 
 			if (ret != SHOUTERR_SUCCESS)
@@ -138,6 +146,8 @@ void LibShout::streamFile(const char* filename)
 
 		shoutSync();
 	}
+
+	freeMetadate(newMetadata);
 
 	fclose(mp3file);
 #endif
