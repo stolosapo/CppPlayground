@@ -124,7 +124,6 @@ void LibShout::streamFile(const char* filename)
 		{
 
 			setMeta(newMetadata);
-			// shout_set_metadata(shout, newMetadata);
 
 			ret = shoutSend(buff, read);
 
