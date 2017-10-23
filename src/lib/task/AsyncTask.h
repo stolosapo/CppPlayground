@@ -7,15 +7,11 @@ class AsyncTask
 {
 private:
         pthread_t _thread;
-        pthread_mutex_t _mutex;
 
         static void* internalThreadFunc(void* self);
 
 protected:
         virtual void* task() = 0;
-
-        void selfLock();
-        void selfUnlock();
 
 public:
         AsyncTask();

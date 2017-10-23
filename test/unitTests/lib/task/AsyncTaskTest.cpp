@@ -4,7 +4,7 @@
 
 #include "../../../testLib/Assertion.h"
 
-AsyncTaskTest::AsyncTaskTest() : UnitTestSuite("AsyncTask - Test", 4)
+AsyncTaskTest::AsyncTaskTest() : UnitTestSuite("AsyncTask - Test", 2)
 {
 
 }
