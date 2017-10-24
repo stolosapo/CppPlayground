@@ -3,6 +3,8 @@
 #include "converter/ConvertTest.h"
 #include "math/PrimeFactorTest.h"
 #include "functional/FunctionalTestSuite.h"
+#include "observer/EventTest.h"
+#include "task/AsyncTaskTest.h"
 
 LibTestSuite::LibTestSuite(): UnitTestSuite("Lib Test Suite", 0)
 {
@@ -19,4 +21,6 @@ void LibTestSuite::registerTests()
 	registerTest(new ConvertTest);
 	registerTest(new PrimeFactorTest);
 	registerTest(new FunctionalTestSuite);
+	registerTest(new EventTest);
+	registerTest(new AsyncTaskTest);
 }
