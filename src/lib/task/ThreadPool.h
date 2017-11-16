@@ -17,6 +17,10 @@ private:
 
 	stack<Thread*> pool;
 
+protected:
+	void init();
+	void clear();
+
 public:
         ThreadPool(int poolSize);
         virtual ~ThreadPool();
