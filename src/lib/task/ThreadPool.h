@@ -1,18 +1,30 @@
 #ifndef ThreadPool_h__
 #define ThreadPool_h__
 
-#include <pthread.h>
+#include <stack>
+
+#include "Thread.h"
+#include "Locker.h"
+
+using namespace std;
 
 class ThreadPool
 {
 private:
-	// const int poolSize;
+	int poolSize;
 
-	// pthread_t pool[];
+	Locker locker;
+
+	stack<Thread*> pool;
 
 public:
-        ThreadPool();
+        ThreadPool(int poolSize);
         virtual ~ThreadPool();
+
+        bool hasNext();
+        bool reachSize();
+        Thread* getNext();
+        void putBack(Thread* thread);
 
 };
 
