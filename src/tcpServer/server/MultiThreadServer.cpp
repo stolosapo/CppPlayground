@@ -11,6 +11,8 @@
 #include "../lib/TcpProtocol.h"
 #include "../ClientInfo.h"
 
+#include "../../lib/task/Thread.h"
+
 using namespace std;
 
 const char* MultiThreadServer::DEFAULT_HOSTNAME = "localhost";
@@ -64,13 +66,16 @@ bool MultiThreadServer::allowClient(ClientInfo* client)
 
 void MultiThreadServer::acceptNewClient(pthread_t clientThread, ClientInfo* client)
 {
-    if (client->getStream()  != NULL)
+    if (client->getStream() != NULL)
     {
-        logSrv->printl("");
         logSrv->info("Server start to accept new client");
 
         /* Start new thread for this client */
-        pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, client);
+        // pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, client);
+
+        Thread th;
+        th += &MultiThreadServer::taskHelper;
+        th.start(client);
     }
 }
 

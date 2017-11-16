@@ -5,6 +5,7 @@
 #include "functional/FunctionalTestSuite.h"
 #include "observer/EventTest.h"
 #include "task/AsyncTaskTest.h"
+#include "task/ThreadTest.h"
 
 LibTestSuite::LibTestSuite(): UnitTestSuite("Lib Test Suite", 0)
 {
@@ -23,4 +24,5 @@ void LibTestSuite::registerTests()
 	registerTest(new FunctionalTestSuite);
 	registerTest(new EventTest);
 	registerTest(new AsyncTaskTest);
+	registerTest(new ThreadTest);
 }
