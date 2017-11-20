@@ -1,7 +1,7 @@
 #ifndef ThreadPool_h__
 #define ThreadPool_h__
 
-#include <stack>
+#include <queue>
 
 #include "Thread.h"
 #include "Locker.h"
@@ -15,7 +15,7 @@ private:
 
 	Locker locker;
 
-	stack<Thread*> pool;
+	queue<Thread*> pool;
 
 protected:
 	void init();

@@ -1,6 +1,6 @@
 #include "ThreadPool.h"
 
-ThreadPool::ThreadPool(int poolSize)
+ThreadPool::ThreadPool(int poolSize) : poolSize(poolSize)
 {
 	locker.init();
 	init();
@@ -46,7 +46,7 @@ Thread* ThreadPool::getNext()
 
 	if (hasNext())
 	{
-		th = pool.top();
+		th = pool.front();
 		pool.pop();
 	}
 	else
