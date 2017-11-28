@@ -30,6 +30,10 @@ MultiThreadServer::MultiThreadServer(ILogService *logSrv) : ITcpServer()
 MultiThreadServer::~MultiThreadServer()
 {
 	delete acceptor;
+
+	if (this->pool != NULL) {
+		delete this->pool;
+	}
 }
 
 
@@ -64,19 +68,24 @@ bool MultiThreadServer::allowClient(ClientInfo* client)
     return accept;
 }
 
-void MultiThreadServer::acceptNewClient(pthread_t clientThread, ClientInfo* client)
+void MultiThreadServer::acceptNewClient(ClientInfo* client)
 {
-    if (client->getStream() != NULL)
+    if (client->getStream() == NULL)
     {
-        logSrv->info("Server start to accept new client");
-
-        /* Start new thread for this client */
-        // pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, client);
-
-        Thread th;
-        th += &MultiThreadServer::taskHelper;
-        th.start(client);
+	    return;
     }
+
+    logSrv->info("Server start to accept new client");
+
+    /* Start new thread for this client */
+    // pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, client);
+
+    // Thread th;
+    // th += &MultiThreadServer::taskHelper;
+    // th.start(client);
+
+    Thread* th = client->getThread();
+	th->start(client);
 }
 
 void* MultiThreadServer::task(void *context)
@@ -133,7 +142,7 @@ void* MultiThreadServer::task(void *context)
         logger->error("Server denied access to the client [ " + index + " ] with threadNumber: " + strThreadNumber);
     }
 
-    delete client;
+	finalizeClient(client);
 }
 
 void* MultiThreadServer::taskHelper(void *context)
@@ -141,6 +150,14 @@ void* MultiThreadServer::taskHelper(void *context)
     return ((MultiThreadServer *)context)->task(context);
 }
 
+void MultiThreadServer::finalizeClient(ClientInfo* client)
+{
+	MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
+
+	server->pool->putBack(client->getThread());
+
+	delete client;
+}
 
 /*********************************
 *
@@ -163,12 +180,21 @@ void MultiThreadServer::start()
 
         while (!TcpProtocol::shutdown(input))
         {
+		if (!pool->hasNext())
+		{
+			continue;
+		}
+
             /* Accept new client */
             TcpStream* stream = acceptor->accept();
 
-            ClientInfo* newClient = new ClientInfo(this, stream, noThread);
+	    /* Take next thread */
+	    Thread* thread = pool->getNext();
+	    thread->attachDelegate(&MultiThreadServer::taskHelper);
 
-            acceptNewClient(clientThreadPool[noThread], newClient);
+            ClientInfo* newClient = new ClientInfo(this, stream, thread, noThread);
+
+            acceptNewClient(newClient);
 
             /* Increase thead counter */
             noThread++;
@@ -234,7 +260,11 @@ void MultiThreadServer::initialize()
 		this->hostname = curHostname;
 	}
 
+	/* Initialize acceptor */
 	acceptor = new TcpAcceptor(port, hostname.c_str());
+
+	/* Initialize thread pool */
+	pool = new ThreadPool(config->getPoolsize());
 
 	string strHostname = hostname;
 	string strPort = Convert<int>::NumberToString(port);

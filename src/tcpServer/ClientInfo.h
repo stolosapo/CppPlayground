@@ -3,6 +3,7 @@
 
 #include <string>
 #include "lib/TcpStream.h"
+#include "../lib/task/Thread.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ private:
 	int index;
 
 	long threadNumber;
+	Thread* thread;
 
 	string name;
 	string ip;
@@ -21,12 +23,13 @@ private:
 	void* server;
 
 public:
-	ClientInfo(void *server, TcpStream *stream, int index);
+	ClientInfo(void *server, TcpStream *stream, Thread *thread, int index);
 	virtual ~ClientInfo();
 
 	int getIndex();
 
 	long getThreadNumber();
+	Thread* getThread();
 
 	string getName();
 	string getIp();

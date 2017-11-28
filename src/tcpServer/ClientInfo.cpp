@@ -4,12 +4,13 @@
 
 using namespace std;
 
-ClientInfo::ClientInfo(void *server, TcpStream *stream, int index)
+ClientInfo::ClientInfo(void *server, TcpStream *stream, Thread *thread, int index)
 {
 	this->index = index;
 
 	this->stream = stream;
 	this->server = server;
+	this->thread = thread;
 }
 
 ClientInfo::~ClientInfo()
@@ -29,6 +30,11 @@ int ClientInfo::getIndex()
 long ClientInfo::getThreadNumber()
 {
 	return threadNumber;
+}
+
+Thread* ClientInfo::getThread()
+{
+	return thread;
 }
 
 string ClientInfo::getName()

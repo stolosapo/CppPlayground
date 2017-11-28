@@ -7,6 +7,7 @@
 #include "../lib/TcpAcceptor.h"
 #include "../ClientInfo.h"
 #include "../../log/ILogService.h"
+#include "../../lib/task/ThreadPool.h"
 
 using namespace std;
 
@@ -25,11 +26,15 @@ private:
 	TcpAcceptor *acceptor;
 	TcpServerConfig* config;
 
+	ThreadPool* pool;
+
 	bool allowClient(ClientInfo* client);
-	void acceptNewClient(pthread_t clientThread, ClientInfo* client);
+	void acceptNewClient(ClientInfo* client);
 
 	void *task(void *);
 	static void *taskHelper(void *context);
+
+	void finalizeClient(ClientInfo* client);
 
 public:
 	MultiThreadServer(ILogService *logSrv);
