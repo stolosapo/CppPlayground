@@ -4,7 +4,6 @@
 #include <queue>
 
 #include "Thread.h"
-#include "Locker.h"
 
 #include "../data_structure/SynchronizedQueue.h"
 
@@ -15,10 +14,7 @@ class ThreadPool
 private:
 	int poolSize;
 
-	Locker locker;
-
-	queue<Thread*> pool;
-
+	SynchronizedQueue<Thread> pool;
 	SynchronizedQueue<Thread> disposePool;
 
 protected:
