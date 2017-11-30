@@ -6,6 +6,8 @@
 #include "Thread.h"
 #include "Locker.h"
 
+#include "../data_structure/SynchronizedQueue.h"
+
 using namespace std;
 
 class ThreadPool
@@ -16,6 +18,8 @@ private:
 	Locker locker;
 
 	queue<Thread*> pool;
+
+	SynchronizedQueue<Thread> disposePool;
 
 protected:
 	void init();

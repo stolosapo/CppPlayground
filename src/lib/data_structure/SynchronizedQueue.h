@@ -8,7 +8,7 @@
 using namespace std;
 
 template <typename T>
-class SynchronizedQueue<T>
+class SynchronizedQueue
 {
 private:
         Locker locker;
@@ -23,6 +23,7 @@ public:
         int size();
         T* getNext();
         void putBack(T* item);
+        void clear();
 
 };
 
@@ -30,31 +31,31 @@ public:
 
 
 template <typename T>
-SynchronizedQueue::SynchronizedQueue()
+SynchronizedQueue<T>::SynchronizedQueue()
 {
         locker.init();
 }
 
 template <typename T>
-SynchronizedQueue::~SynchronizedQueue()
+SynchronizedQueue<T>::~SynchronizedQueue()
 {
         locker.destroy();
 }
 
 template <typename T>
-bool SynchronizedQueue::hasNext()
+bool SynchronizedQueue<T>::hasNext()
 {
 	return !pool.empty();
 }
 
 template <typename T>
-int SynchronizedQueue::size()
+int SynchronizedQueue<T>::size()
 {
 	return pool.size();
 }
 
 template <typename T>
-T* SynchronizedQueue::getNext()
+T* SynchronizedQueue<T>::getNext()
 {
 	locker.lock();
 
@@ -77,13 +78,22 @@ T* SynchronizedQueue::getNext()
 }
 
 template <typename T>
-void SynchronizedQueue::putBack(T* item)
+void SynchronizedQueue<T>::putBack(T* item)
 {
 	locker.lock();
 
 	pool.push(item);
 
 	locker.unlock();
+}
+
+template <typename T>
+void SynchronizedQueue<T>::clear()
+{
+        while (!pool.empty())
+	{
+		delete getNext();
+	}
 }
 
 #endif // SynchronizedQueue_h__
