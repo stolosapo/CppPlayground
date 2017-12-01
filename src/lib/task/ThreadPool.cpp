@@ -2,12 +2,14 @@
 
 ThreadPool::ThreadPool(int poolSize) : poolSize(poolSize)
 {
+	locker.init();
 	init();
 }
 
 ThreadPool::~ThreadPool()
 {
 	clear();
+	locker.destroy();
 }
 
 void ThreadPool::init()
@@ -21,7 +23,6 @@ void ThreadPool::init()
 void ThreadPool::clear()
 {
 	pool.clear();
-	disposePool.clear();
 }
 
 bool ThreadPool::hasNext()
@@ -36,13 +37,23 @@ bool ThreadPool::reachSize()
 
 Thread* ThreadPool::getNext()
 {
-	return pool.getNext();
+	locker.lock();
+
+	Thread* th = pool.getNext();
+
+	locker.unlock();
+
+	return th;
 }
 
 void ThreadPool::putBack(Thread* thread)
 {
+	locker.lock();
+
 	if (!reachSize())
 	{
 		pool.putBack(thread);
 	}
+
+	locker.unlock();
 }

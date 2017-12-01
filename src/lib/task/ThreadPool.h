@@ -4,8 +4,9 @@
 #include <queue>
 
 #include "Thread.h"
+#include "Locker.h"
 
-#include "../data_structure/SynchronizedQueue.h"
+#include "../data_structure/Queue.h"
 
 using namespace std;
 
@@ -14,8 +15,9 @@ class ThreadPool
 private:
 	int poolSize;
 
-	SynchronizedQueue<Thread> pool;
-	SynchronizedQueue<Thread> disposePool;
+	Locker locker;
+
+	Queue<Thread> pool;
 
 protected:
 	void init();
