@@ -34,6 +34,7 @@ private:
 	void *task(void *);
 	static void *taskHelper(void *context);
 
+	Thread* getNextThread();
 	void finalizeClient(ClientInfo* client);
 
 public:

@@ -1,4 +1,7 @@
+#include <iostream>
 #include "ThreadPool.h"
+
+using namespace std;
 
 ThreadPool::ThreadPool(int poolSize) : poolSize(poolSize)
 {
@@ -22,7 +25,10 @@ void ThreadPool::init()
 
 void ThreadPool::clear()
 {
-	pool.clear();
+	while (pool.hasNext())
+	{
+		delete getNext();
+	}
 }
 
 bool ThreadPool::hasNext()
@@ -40,6 +46,12 @@ Thread* ThreadPool::getNext()
 	locker.lock();
 
 	Thread* th = pool.getNext();
+
+	if (th->mustDispose())
+	{
+		th->wait();
+		th->setMustDispose(false);
+	}
 
 	locker.unlock();
 

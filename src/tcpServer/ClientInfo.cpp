@@ -27,11 +27,6 @@ int ClientInfo::getIndex()
 	return index;
 }
 
-long ClientInfo::getThreadNumber()
-{
-	return threadNumber;
-}
-
 Thread* ClientInfo::getThread()
 {
 	return thread;
@@ -60,11 +55,6 @@ TcpStream* ClientInfo::getStream()
 void* ClientInfo::getServer()
 {
 	return server;
-}
-
-void ClientInfo::setThreadNumber(long threadNumber)
-{
-	this->threadNumber = threadNumber;
 }
 
 void ClientInfo::setName(string name)

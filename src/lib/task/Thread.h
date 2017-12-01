@@ -11,6 +11,9 @@ private:
 
 	ThreadDelegate delegate;
 
+	long long id;
+	bool dispose;
+
 public:
 	Thread();
 	virtual ~Thread();
@@ -18,11 +21,19 @@ public:
 	virtual void attachDelegate(ThreadDelegate delegate);
 	virtual void detachDelegate(ThreadDelegate delegate);
 
-        virtual bool start(void* data);
-        virtual void wait();
+	virtual bool start(void* data);
+	virtual void wait();
+	virtual long long self();
 
-        Thread& operator+=(ThreadDelegate delegate);
-        Thread& operator-=(ThreadDelegate delegate);
+	long long getId();
+	void setId(long long id);
+	void setSelfId();
+
+	bool mustDispose();
+	void setMustDispose(bool dispose);
+
+	Thread& operator+=(ThreadDelegate delegate);
+	Thread& operator-=(ThreadDelegate delegate);
 
 };
 

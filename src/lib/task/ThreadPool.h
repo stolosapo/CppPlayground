@@ -24,13 +24,13 @@ protected:
 	void clear();
 
 public:
-        ThreadPool(int poolSize);
-        virtual ~ThreadPool();
+	ThreadPool(int poolSize);
+	virtual ~ThreadPool();
 
-        bool hasNext();
-        bool reachSize();
-        Thread* getNext();
-        void putBack(Thread* thread);
+	bool hasNext();
+	bool reachSize();
+	Thread* getNext();
+	void putBack(Thread* thread);
 
 };
 

@@ -3,11 +3,15 @@
 Thread::Thread()
 {
 	delegate = NULL;
+
+	id = 0;
 }
 
 Thread::~Thread()
 {
 	delegate = NULL;
+
+	id = 0;
 }
 
 void Thread::attachDelegate(ThreadDelegate delegate)
@@ -34,7 +38,37 @@ bool Thread::start(void* data)
 
 void Thread::wait()
 {
-        pthread_join(_thread, NULL);
+	pthread_join(_thread, NULL);
+}
+
+long long Thread::self()
+{
+	return pthread_self();
+}
+
+long long Thread::getId()
+{
+	return id;
+}
+
+void Thread::setId(long long id)
+{
+	this->id = id;
+}
+
+void Thread::setSelfId()
+{
+	setId(self());
+}
+
+bool Thread::mustDispose()
+{
+	return dispose;
+}
+
+void Thread::setMustDispose(bool dispose)
+{
+	this->dispose = dispose;
 }
 
 Thread& Thread::operator+=(ThreadDelegate delegate)

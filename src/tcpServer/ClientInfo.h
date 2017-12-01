@@ -12,7 +12,6 @@ class ClientInfo
 private:
 	int index;
 
-	long threadNumber;
 	Thread* thread;
 
 	string name;
@@ -28,7 +27,6 @@ public:
 
 	int getIndex();
 
-	long getThreadNumber();
 	Thread* getThread();
 
 	string getName();
@@ -37,8 +35,6 @@ public:
 
 	TcpStream* getStream();
 	void* getServer();
-
-	void setThreadNumber(long threadNumber);
 
 	void setName(string name);
 	void setIp(string ip);

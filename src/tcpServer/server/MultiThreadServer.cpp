@@ -1,7 +1,6 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
 
 #include "../../lib/converter/Convert.h"
 
@@ -70,21 +69,15 @@ bool MultiThreadServer::allowClient(ClientInfo* client)
 
 void MultiThreadServer::acceptNewClient(ClientInfo* client)
 {
-    if (client->getStream() == NULL)
-    {
-	    return;
-    }
+	if (client->getStream() == NULL)
+	{
+		return;
+	}
 
-    logSrv->info("Server start to accept new client");
+	logSrv->info("Server start to accept new client");
 
-    /* Start new thread for this client */
-    // pthread_create(&clientThread, NULL, MultiThreadServer::taskHelper, client);
-
-    // Thread th;
-    // th += &MultiThreadServer::taskHelper;
-    // th.start(client);
-
-    Thread* th = client->getThread();
+	/* Start new thread for this client */
+	Thread* th = client->getThread();
 	th->start(client);
 }
 
@@ -93,6 +86,7 @@ void* MultiThreadServer::task(void *context)
     ClientInfo* client = (ClientInfo *) context;
 
     TcpStream* stream = client->getStream();
+    Thread* thread = client->getThread();
     MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
 
     ILogService* logger = server->logSrv;
@@ -100,11 +94,11 @@ void* MultiThreadServer::task(void *context)
     string input = "";
     string message = "";
 
-    long threadNumber = pthread_self();
-    string strThreadNumber = Convert<long>::NumberToString(threadNumber);
-    string index = Convert<int>::NumberToString(client->getIndex());
+    thread->setSelfId();
 
-    client->setThreadNumber(threadNumber);
+    long long threadNumber = thread->getId();
+    string strThreadNumber = Convert<long long>::NumberToString(threadNumber);
+    string index = Convert<int>::NumberToString(client->getIndex());
 
     // Check new client for acceptance
     if (server->allowClient(client))
@@ -150,6 +144,16 @@ void* MultiThreadServer::taskHelper(void *context)
     return ((MultiThreadServer *)context)->task(context);
 }
 
+Thread* MultiThreadServer::getNextThread()
+{
+	Thread* thread = pool->getNext();
+
+	thread->attachDelegate(&MultiThreadServer::taskHelper);
+	thread->setMustDispose(true);
+
+	return thread;
+}
+
 void MultiThreadServer::finalizeClient(ClientInfo* client)
 {
 	MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
@@ -166,50 +170,47 @@ void MultiThreadServer::finalizeClient(ClientInfo* client)
 **********************************/
 void MultiThreadServer::start()
 {
-    string input = "";
+	string input = "";
 
-    /* Thread pool */
-    pthread_t clientThreadPool[DEFAULT_THREAD_POOL_SIZE];
-    int noThread = 0;
+	int clientCount = 0;
 
-    logSrv->info("Server is starting...");
+	logSrv->info("Server is starting...");
 
-    if (acceptor->start() == 0)
-    {
-        logSrv->info("Server is started");
+	if (acceptor->start() == 0)
+	{
+		logSrv->info("Server is started");
 
-        while (!TcpProtocol::shutdown(input))
-        {
-		if (!pool->hasNext())
+		while (!TcpProtocol::shutdown(input))
 		{
-			continue;
+			if (!pool->hasNext())
+			{
+				continue;
+			}
+
+			/* Accept new client */
+			TcpStream* stream = acceptor->accept();
+
+			/* Take next thread */
+			Thread* thread = getNextThread();
+
+			ClientInfo* newClient = new ClientInfo(this, stream, thread, clientCount);
+
+			acceptNewClient(newClient);
+
+			/* Increase thead counter */
+			clientCount++;
 		}
 
-            /* Accept new client */
-            TcpStream* stream = acceptor->accept();
+		// for(int i = 0; i < DEFAULT_THREAD_POOL_SIZE; i++)
+		// {
+		//     pthread_join(clientThreadPool[i], NULL);
+		// }
 
-	    /* Take next thread */
-	    Thread* thread = pool->getNext();
-	    thread->attachDelegate(&MultiThreadServer::taskHelper);
-
-            ClientInfo* newClient = new ClientInfo(this, stream, thread, noThread);
-
-            acceptNewClient(newClient);
-
-            /* Increase thead counter */
-            noThread++;
-        }
-
-        // for(int i = 0; i < DEFAULT_THREAD_POOL_SIZE; i++)
-        // {
-        //     pthread_join(clientThreadPool[i], NULL);
-        // }
-
-    }
-    else
-    {
-        logSrv->error("Could not start the Server");
-    }
+	}
+	else
+	{
+		logSrv->error("Could not start the Server");
+	}
 
 }
 
