@@ -45,27 +45,27 @@ MultiThreadServer::~MultiThreadServer()
 **********************************/
 bool MultiThreadServer::allowClient(ClientInfo* client)
 {
-    bool accept = false;
-    TcpStream* stream = client->getStream();
+	bool accept = false;
+	TcpStream* stream = client->getStream();
 
-    string input = "";
-    stream->receive(input);
+	string input = "";
+	stream->receive(input);
 
-    if (TcpProtocol::validAckCommand(input))
-    {
-        if (input == (string) TcpProtocol::CLIENT_CONNECT)
-        {
-            stream->send((string) TcpProtocol::OK);
+	if (TcpProtocol::validAckCommand(input))
+	{
+		if (input == (string) TcpProtocol::CLIENT_CONNECT)
+		{
+			stream->send((string) TcpProtocol::OK);
 
-            accept = handshake();
-        }
-    }
-    else
-    {
-	    logSrv->error("Client sent: " + input);
-    }
+			accept = handshake();
+		}
+	}
+	else
+	{
+		logSrv->error("Client sent: " + input);
+	}
 
-    return accept;
+	return accept;
 }
 
 void MultiThreadServer::acceptNewClient(ClientInfo* client)
@@ -84,65 +84,64 @@ void MultiThreadServer::acceptNewClient(ClientInfo* client)
 
 void* MultiThreadServer::task(void *context)
 {
-    ClientInfo* client = (ClientInfo *) context;
+	ClientInfo* client = (ClientInfo *) context;
 
-    TcpStream* stream = client->getStream();
-    Thread* thread = client->getThread();
-    MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
+	TcpStream* stream = client->getStream();
+	Thread* thread = client->getThread();
+	MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
 
-    ILogService* logger = server->logSrv;
+	ILogService* logger = server->logSrv;
 
-    string input = "";
-    string message = "";
+	string input = "";
+	string message = "";
 
-    thread->setSelfId();
+	thread->setSelfId();
 
-    long long threadNumber = thread->getId();
-    string strThreadNumber = Convert<long long>::NumberToString(threadNumber);
-    string index = Convert<int>::NumberToString(client->getIndex());
+	long long threadNumber = thread->getId();
+	string strThreadNumber = Convert<long long>::NumberToString(threadNumber);
+	string index = Convert<int>::NumberToString(client->getIndex());
 
-    // Check new client for acceptance
-    if (server->allowClient(client))
-    {
-    	logger->info("Server accepted new client");
-	    logger->info("[ " + index + " ] - Thread No: " + strThreadNumber);
+	/* Check new client for acceptance */
+	if (server->allowClient(client))
+	{
+		logger->info("Server accepted new client");
+		logger->info("[ " + index + " ] - Thread No: " + strThreadNumber);
 
-	    /* receive messages */
-	    while (stream->receive(message) > 0)
-	    {
-	        input = message;
-	        logger->info("received [" + index + " - " + strThreadNumber + "] - " + input);
+		/* receive messages */
+		while (stream->receive(message) > 0)
+		{
+			input = message;
+			logger->info("received [" + index + " - " + strThreadNumber + "] - " + input);
 
-	        if (server->validateCommand(input))
-	        {
+			if (server->validateCommand(input))
+			{
+				/* Process Message */
+				server->processCommand(stream, input);
 
-	            /* Process Message */
-	            server->processCommand(stream, input);
+				stream->send(input);
 
-	            stream->send(input);
+			}
+			else
+			{
+				/* send error message back */
+				stream->send((string) TcpProtocol::INVALID_COMMAND);
+			}
+		}
 
-	        }
-	        else
-	        {
-	            /* send error message back */
-	            stream->send((string) TcpProtocol::INVALID_COMMAND);
-	        }
-	    }
-
-	    logger->info("Client with threadNumber: " + strThreadNumber + " terminated");
+		logger->info("Client with threadNumber: " + strThreadNumber + " terminated");
 
 	}
 	else
-    {
-        logger->error("Server denied access to the client [ " + index + " ] with threadNumber: " + strThreadNumber);
-    }
+	{
+		logger->error("Server denied access to the client [ " + index + " ] with threadNumber: " + strThreadNumber);
+	}
 
 	finalizeClient(client);
 }
 
 void* MultiThreadServer::taskHelper(void *context)
 {
-    return ((MultiThreadServer *)context)->task(context);
+	return ((MultiThreadServer *)context)->task(context);
 }
 
 Thread* MultiThreadServer::getNextThread()
