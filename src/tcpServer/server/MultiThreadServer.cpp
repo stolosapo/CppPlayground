@@ -30,7 +30,8 @@ MultiThreadServer::~MultiThreadServer()
 {
 	delete acceptor;
 
-	if (this->pool != NULL) {
+	if (this->pool != NULL) 
+	{
 		delete this->pool;
 	}
 }
@@ -174,44 +175,37 @@ void MultiThreadServer::start()
 
 	int clientCount = 0;
 
+	
 	logSrv->info("Server is starting...");
 
-	if (acceptor->start() == 0)
-	{
-		logSrv->info("Server is started");
-
-		while (!TcpProtocol::shutdown(input))
-		{
-			if (!pool->hasNext())
-			{
-				continue;
-			}
-
-			/* Accept new client */
-			TcpStream* stream = acceptor->accept();
-
-			/* Take next thread */
-			Thread* thread = getNextThread();
-
-			ClientInfo* newClient = new ClientInfo(this, stream, thread, clientCount);
-
-			acceptNewClient(newClient);
-
-			/* Increase thead counter */
-			clientCount++;
-		}
-
-		// for(int i = 0; i < DEFAULT_THREAD_POOL_SIZE; i++)
-		// {
-		//     pthread_join(clientThreadPool[i], NULL);
-		// }
-
-	}
-	else
+	if (acceptor->start() != 0)
 	{
 		logSrv->error("Could not start the Server");
 	}
+	
 
+	logSrv->info("Server is started");
+
+	while (!TcpProtocol::shutdown(input))
+	{
+		if (!pool->hasNext())
+		{
+			continue;
+		}
+
+		/* Accept new client */
+		TcpStream* stream = acceptor->accept();
+
+		/* Take next thread */
+		Thread* thread = getNextThread();
+
+		ClientInfo* newClient = new ClientInfo(this, stream, thread, clientCount);
+
+		acceptNewClient(newClient);
+
+		/* Increase thead counter */
+		clientCount++;
+	}
 }
 
 void MultiThreadServer::action()
