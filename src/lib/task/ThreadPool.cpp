@@ -47,7 +47,7 @@ Thread* ThreadPool::getNext()
 
 	Thread* th = pool.getNext();
 
-	if (th->mustDispose())
+	if (th != NULL && th->mustDispose())
 	{
 		th->wait();
 		th->setMustDispose(false);
