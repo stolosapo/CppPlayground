@@ -7,8 +7,7 @@ TcpClientMenuItem::TcpClientMenuItem(ILogService *logSrv) : MenuItem()
 {
         this->logSrv = logSrv;
 
-        this->setId(3);
-
+        this->setId(2);
         this->setName("Tcp Client");
         this->setTitle("Tcp Client");
         this->setDescription("The First Kube Tcp Client");
