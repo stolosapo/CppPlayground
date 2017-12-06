@@ -2,6 +2,8 @@
 #include <iostream>
 #include "ClientInfo.h"
 
+#include "../lib/converter/Convert.h"
+
 using namespace std;
 
 ClientInfo::ClientInfo(void *server, TcpStream *stream, Thread *thread, int index)
@@ -45,6 +47,18 @@ string ClientInfo::getIp()
 string ClientInfo::getHostname()
 {
 	return hostname;
+}
+
+string ClientInfo::getIdentity()
+{
+	string strIndex = Convert<int>::NumberToString(index);
+
+	if (thread == NULL)
+	{
+		return strIndex;
+	}
+
+	return strIndex + " - " + thread->getStringId();
 }
 
 TcpStream* ClientInfo::getStream()

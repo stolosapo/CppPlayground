@@ -32,6 +32,7 @@ public:
 	string getName();
 	string getIp();
 	string getHostname();
+	string getIdentity();
 
 	TcpStream* getStream();
 	void* getServer();

@@ -28,14 +28,13 @@ private:
 
 	ThreadPool* pool;
 
-	bool allowClient(ClientInfo* client);
-	void acceptNewClient(ClientInfo* client);
+	bool allowClient(ClientInfo *client);
 
-	void *task(void *);
-	static void *taskHelper(void *context);
+	void* task(void*);
+	static void* taskHelper(void *context);
 
 	Thread* getNextThread();
-	void finalizeClient(ClientInfo* client);
+	void finalizeClient(ClientInfo *client);
 
 public:
 	MultiThreadServer(ILogService *logSrv);

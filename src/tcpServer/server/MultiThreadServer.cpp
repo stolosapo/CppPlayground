@@ -12,6 +12,9 @@
 
 #include "../../lib/task/Thread.h"
 
+#include "../../lib/exception/domain/DomainException.h"
+#include "../exception/TcpServerErrorCode.h"
+
 using namespace std;
 
 const char* MultiThreadServer::DEFAULT_HOSTNAME = "localhost";
@@ -46,6 +49,9 @@ MultiThreadServer::~MultiThreadServer()
 bool MultiThreadServer::allowClient(ClientInfo* client)
 {
 	bool accept = false;
+
+	MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
+	ILogService* logger = server->logSrv;
 	TcpStream* stream = client->getStream();
 
 	string input = "";
@@ -65,55 +71,45 @@ bool MultiThreadServer::allowClient(ClientInfo* client)
 		logSrv->error("Client sent: " + input);
 	}
 
-	return accept;
-}
-
-void MultiThreadServer::acceptNewClient(ClientInfo* client)
-{
-	if (client->getStream() == NULL)
+	if (!accept)
 	{
-		return;
+		string identity = client->getIdentity();
+		logger->error("Server denied access to the client [ " + identity + " ]");
+
+		throw DomainException(TcpServerErrorCode::TCS0002);
 	}
 
-	logSrv->info("Server start to accept new client");
-
-	/* Start new thread for this client */
-	Thread* th = client->getThread();
-	th->start(client);
+	return accept;
 }
 
 void* MultiThreadServer::task(void *context)
 {
 	ClientInfo* client = (ClientInfo *) context;
+	client->getThread()->setSelfId();
 
 	MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
-	
 	ILogService* logger = server->logSrv;
-	
 	TcpStream* stream = client->getStream();
 	
-	Thread* th = client->getThread();
-	th->setSelfId();
-
 
 	string input = "";
 	string message = "";
 
+	string identity = client->getIdentity();
 
-	string threadNumber = th->getStringId();
-	string index = Convert<int>::NumberToString(client->getIndex());
-
-	/* Check new client for acceptance */
-	if (server->allowClient(client))
+	try
 	{
-		logger->info("Server accepted new client");
-		logger->info("[ " + index + " ] - Thread No: " + threadNumber);
+		/* Check new client for acceptance */
+		server->allowClient(client);
+
+		logger->trace("Server accepted new client: [" + identity + "]");
+
 
 		/* receive messages */
 		while (stream->receive(message) > 0)
 		{
 			input = message;
-			logger->info("received [" + index + " - " + threadNumber + "] - " + input);
+			logger->trace("received [" + identity + "] - " + input);
 
 			if (server->validateCommand(input))
 			{
@@ -130,13 +126,13 @@ void* MultiThreadServer::task(void *context)
 			}
 		}
 
-		logger->info("Client with threadNumber: " + threadNumber + " terminated");
-
+		logger->trace("Client [" + identity + "] terminated");
 	}
-	else
+	catch (DomainException& e)
 	{
-		logger->error("Server denied access to the client [ " + index + " ] with threadNumber: " + threadNumber);
+		logger->error(e.what());
 	}
+
 
 	finalizeClient(client);
 }
@@ -186,7 +182,7 @@ void MultiThreadServer::start()
 
 	if (acceptor->start() != 0)
 	{
-		logSrv->error("Could not start the Server");
+		throw DomainException(TcpServerErrorCode::TCS0001);
 	}
 	
 
@@ -199,21 +195,28 @@ void MultiThreadServer::start()
 			continue;
 		}
 
+
 		/* Accept new client */
 		TcpStream* stream = acceptor->accept();
+
 
 		/* Take next thread */
 		Thread* th = getNextThread();
 
-		if (th == NULL)
+
+		/* Return if something is wrong */
+		if (th == NULL || stream == NULL)
 		{
 			delete stream;
 			continue;
 		}
 
-		ClientInfo* newClient = new ClientInfo(this, stream, th, clientCount);
 
-		acceptNewClient(newClient);
+		/* Create new client and start in new thread */
+		ClientInfo* client = new ClientInfo(this, stream, th, clientCount);
+
+		th->start(client);
+
 
 		/* Increase thead counter */
 		clientCount++;
