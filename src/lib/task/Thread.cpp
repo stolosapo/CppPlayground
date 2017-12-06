@@ -1,5 +1,7 @@
 #include "Thread.h"
 
+#include "../converter/Convert.h"
+
 Thread::Thread()
 {
 	delegate = NULL;
@@ -49,6 +51,11 @@ long long Thread::self()
 long long Thread::getId()
 {
 	return id;
+}
+
+string Thread::getStringId()
+{
+	return Convert<long long>::NumberToString(getId());
 }
 
 void Thread::setId(long long id)

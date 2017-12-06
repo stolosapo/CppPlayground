@@ -1,8 +1,11 @@
 #ifndef Thread_h__
 #define Thread_h__
 
+#include <string>
 #include <pthread.h>
 #include "ThreadDelegate.h"
+
+using namespace std;
 
 class Thread
 {
@@ -26,6 +29,7 @@ public:
 	virtual long long self();
 
 	long long getId();
+	string getStringId();
 	void setId(long long id);
 	void setSelfId();
 

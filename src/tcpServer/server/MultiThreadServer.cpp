@@ -86,32 +86,34 @@ void* MultiThreadServer::task(void *context)
 {
 	ClientInfo* client = (ClientInfo *) context;
 
-	TcpStream* stream = client->getStream();
-	Thread* thread = client->getThread();
 	MultiThreadServer* server = (MultiThreadServer *) (client->getServer());
-
+	
 	ILogService* logger = server->logSrv;
+	
+	TcpStream* stream = client->getStream();
+	
+	Thread* th = client->getThread();
+	th->setSelfId();
+
 
 	string input = "";
 	string message = "";
 
-	thread->setSelfId();
 
-	long long threadNumber = thread->getId();
-	string strThreadNumber = Convert<long long>::NumberToString(threadNumber);
+	string threadNumber = th->getStringId();
 	string index = Convert<int>::NumberToString(client->getIndex());
 
 	/* Check new client for acceptance */
 	if (server->allowClient(client))
 	{
 		logger->info("Server accepted new client");
-		logger->info("[ " + index + " ] - Thread No: " + strThreadNumber);
+		logger->info("[ " + index + " ] - Thread No: " + threadNumber);
 
 		/* receive messages */
 		while (stream->receive(message) > 0)
 		{
 			input = message;
-			logger->info("received [" + index + " - " + strThreadNumber + "] - " + input);
+			logger->info("received [" + index + " - " + threadNumber + "] - " + input);
 
 			if (server->validateCommand(input))
 			{
@@ -128,12 +130,12 @@ void* MultiThreadServer::task(void *context)
 			}
 		}
 
-		logger->info("Client with threadNumber: " + strThreadNumber + " terminated");
+		logger->info("Client with threadNumber: " + threadNumber + " terminated");
 
 	}
 	else
 	{
-		logger->error("Server denied access to the client [ " + index + " ] with threadNumber: " + strThreadNumber);
+		logger->error("Server denied access to the client [ " + index + " ] with threadNumber: " + threadNumber);
 	}
 
 	finalizeClient(client);
@@ -146,12 +148,17 @@ void* MultiThreadServer::taskHelper(void *context)
 
 Thread* MultiThreadServer::getNextThread()
 {
-	Thread* thread = pool->getNext();
+	Thread* th = pool->getNext();
 
-	thread->attachDelegate(&MultiThreadServer::taskHelper);
-	thread->setMustDispose(true);
+	if (th == NULL)
+	{
+		return NULL;
+	}
 
-	return thread;
+	th->attachDelegate(&MultiThreadServer::taskHelper);
+	th->setMustDispose(true);
+
+	return th;
 }
 
 void MultiThreadServer::finalizeClient(ClientInfo* client)
@@ -196,9 +203,15 @@ void MultiThreadServer::start()
 		TcpStream* stream = acceptor->accept();
 
 		/* Take next thread */
-		Thread* thread = getNextThread();
+		Thread* th = getNextThread();
 
-		ClientInfo* newClient = new ClientInfo(this, stream, thread, clientCount);
+		if (th == NULL)
+		{
+			delete stream;
+			continue;
+		}
+
+		ClientInfo* newClient = new ClientInfo(this, stream, th, clientCount);
 
 		acceptNewClient(newClient);
 
