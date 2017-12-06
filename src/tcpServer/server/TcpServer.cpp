@@ -17,7 +17,6 @@
 
 using namespace std;
 
-const char* TcpServer::DEFAULT_HOSTNAME = "localhost";
 
 /*********************************
 *
@@ -36,6 +35,11 @@ TcpServer::~TcpServer()
 	if (this->pool != NULL) 
 	{
 		delete this->pool;
+	}
+
+	if (this->config != NULL)
+	{
+		delete this->config;
 	}
 }
 
@@ -114,7 +118,7 @@ void* TcpServer::task(void *context)
 			if (server->validateCommand(input))
 			{
 				/* Process Message */
-				server->processCommand(stream, input);
+				server->processCommand(client, input);
 
 				stream->send(input);
 
@@ -178,7 +182,7 @@ void TcpServer::start()
 	int clientCount = 0;
 
 	
-	logSrv->info("Server is starting...");
+	logSrv->trace("Server is starting...");
 
 	if (acceptor->start() != 0)
 	{
@@ -199,13 +203,16 @@ void TcpServer::start()
 		/* Accept new client */
 		TcpStream* stream = acceptor->accept();
 
+		if (stream == NULL)
+		{
+			continue;
+		}
+
 
 		/* Take next thread */
 		Thread* th = getNextThread();
 
-
-		/* Return if something is wrong */
-		if (th == NULL || stream == NULL)
+		if (th == NULL)
 		{
 			delete stream;
 			continue;
@@ -250,41 +257,21 @@ void TcpServer::loadConfig()
 
 void TcpServer::initialize()
 {
-	if (this->config == NULL)
-	{
-		this->port = DEFAULT_PORT;
-		this->hostname = string(DEFAULT_HOSTNAME);
-	}
-	else
-	{
-		int curPort = this->config->getPort();
-		string curHostname = this->config->getHostname();
-
-		if (curPort == 0 || curHostname == "")
-		{
-			curPort = DEFAULT_PORT;
-			curHostname = string(DEFAULT_HOSTNAME);
-		}
-
-		this->port = curPort;
-		this->hostname = curHostname;
-	}
+	string hostname = config->getHostname();
+	int port = config->getPort();
+	int poolSize = config->getPoolsize();
 
 	/* Initialize acceptor */
 	acceptor = new TcpAcceptor(port, hostname.c_str());
 
 	/* Initialize thread pool */
-	pool = new ThreadPool(config->getPoolsize());
+	pool = new ThreadPool(poolSize);
 
-	string strHostname = hostname;
-	string strPort = Convert<int>::NumberToString(port);
-	string strPoolsize = Convert<int>::NumberToString(this->config->getPoolsize());
-
-	this->logSrv->info("Server Name: " + this->config->getName());
-	this->logSrv->info("Server Description: " + this->config->getDescription());
-	this->logSrv->info("Server Hostname: " + strHostname);
-	this->logSrv->info("Server Port: " + strPort);
-	this->logSrv->info("Server Poolsize: " + strPoolsize);
+	logSrv->info("Server Name: " + config->getName());
+	logSrv->info("Server Description: " + config->getDescription());
+	logSrv->info("Server Hostname: " + hostname);
+	logSrv->info("Server Port: " + Convert<int>::NumberToString(port));
+	logSrv->info("Server Poolsize: " + Convert<int>::NumberToString(poolSize));
 }
 
 bool TcpServer::handshake()
@@ -297,7 +284,7 @@ bool TcpServer::validateCommand(string command)
 	return TcpProtocol::validCommand(command);
 }
 
-void TcpServer::processCommand(TcpStream *stream, string command)
+void TcpServer::processCommand(ClientInfo *client, string command)
 {
 
 }

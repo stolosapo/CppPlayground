@@ -14,18 +14,10 @@ using namespace std;
 class TcpServer : public ITcpServer
 {
 private:
-	static const int DEFAULT_PORT = 51717;
-	static const int DEFAULT_THREAD_POOL_SIZE = 5;
-	static const char* DEFAULT_HOSTNAME;
-
 	ILogService *logSrv;
-
-	int port;
-	string hostname;
 
 	TcpAcceptor *acceptor;
 	TcpServerConfig* config;
-
 	ThreadPool* pool;
 
 	bool allowClient(ClientInfo *client);
@@ -49,7 +41,7 @@ protected:
 
 	virtual bool handshake();
 	virtual bool validateCommand(string command);
-	virtual void processCommand(TcpStream *stream, string command);
+	virtual void processCommand(ClientInfo *client, string command);
 };
 
 #endif // TcpServer_h__

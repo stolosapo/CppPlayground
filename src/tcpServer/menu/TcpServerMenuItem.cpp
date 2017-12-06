@@ -26,4 +26,6 @@ void TcpServerMenuItem::action()
         ITcpServer* server = TcpServerFactory::create(this->logSrv);
 
         server->action();
+
+        delete server;
 }
