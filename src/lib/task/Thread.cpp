@@ -7,6 +7,7 @@ Thread::Thread()
 	delegate = NULL;
 
 	id = 0;
+	dispose = false;
 }
 
 Thread::~Thread()
@@ -14,6 +15,7 @@ Thread::~Thread()
 	delegate = NULL;
 
 	id = 0;
+	dispose = false;
 }
 
 void Thread::attachDelegate(ThreadDelegate delegate)

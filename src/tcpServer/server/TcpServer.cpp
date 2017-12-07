@@ -32,7 +32,7 @@ TcpServer::~TcpServer()
 {
 	delete acceptor;
 
-	if (this->pool != NULL) 
+	if (this->pool != NULL)
 	{
 		delete this->pool;
 	}
@@ -94,7 +94,7 @@ void* TcpServer::task(void *context)
 	TcpServer* server = (TcpServer *) (client->getServer());
 	ILogService* logger = server->logSrv;
 	TcpStream* stream = client->getStream();
-	
+
 
 	string input = "";
 	string message = "";
@@ -181,14 +181,14 @@ void TcpServer::start()
 
 	int clientCount = 0;
 
-	
+
 	logSrv->trace("Server is starting...");
 
 	if (acceptor->start() != 0)
 	{
 		throw DomainException(TcpServerErrorCode::TCS0001);
 	}
-	
+
 
 	logSrv->info("Server is started");
 

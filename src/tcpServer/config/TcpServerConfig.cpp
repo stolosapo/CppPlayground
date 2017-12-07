@@ -45,38 +45,17 @@ string TcpServerConfig::getDescription()
 
 string TcpServerConfig::getHostname()
 {
-	string h = getStringProperty("hostname");
-
-	if (h == "")
-	{
-		return string(DEFAULT_HOSTNAME);
-	}
-
-	return h;
+	return getStringProperty("hostname", string(DEFAULT_HOSTNAME));
 }
 
 int TcpServerConfig::getPort()
 {
-	int p = getIntProperty("port");
-
-	if (p == 0)
-	{
-		return DEFAULT_PORT;
-	}
-
-	return p;
+	return getIntProperty("port", DEFAULT_PORT);
 }
 
 int TcpServerConfig::getPoolsize()
 {
-	int p = getIntProperty("poolsize");
-
-	if (p == 0)
-	{
-		return DEFAULT_THREAD_POOL_SIZE;
-	}
-
-	return p;
+	return getIntProperty("poolsize", DEFAULT_THREAD_POOL_SIZE);
 }
 
 
