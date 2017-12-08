@@ -2,6 +2,8 @@
 #define ITcpProtocol_h__
 
 #include <string>
+
+#include "../../lib/exception/domain/DomainErrorCode.h"
 #include "../ClientInfo.h"
 
 using namespace std;
@@ -33,13 +35,13 @@ protected:
 	bool getIsServer();
 
 	void send(bool escape, ClientInfo *client, string command);
-	void receive(bool escape, ClientInfo *client, string expected);
+	void receive(bool escape, ClientInfo *client, string expected, DomainErrorCode errorCode);
 
 	void serverSend(ClientInfo *client, string command);
-	void serverReceive(ClientInfo *client, string expected);
+	void serverReceive(ClientInfo *client, string expected, DomainErrorCode errorCode);
 
 	void clientSend(ClientInfo *client, string command);
-	void clientReceive(ClientInfo *client, string expected);
+	void clientReceive(ClientInfo *client, string expected, DomainErrorCode errorCode);
 
 };
 

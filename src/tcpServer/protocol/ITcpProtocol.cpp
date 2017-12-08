@@ -1,5 +1,8 @@
 #include "ITcpProtocol.h"
 
+#include "../../lib/exception/domain/DomainException.h"
+#include "../exception/TcpProtocolErrorCode.h"
+
 const char* ITcpProtocol::PROMPT = "tfk> ";
 
 const char* ITcpProtocol::CLIENT_CONNECT = "client_connect";
@@ -52,7 +55,7 @@ void ITcpProtocol::send(bool escape, ClientInfo *client, string command)
 	client->getStream()->send(command);
 }
 
-void ITcpProtocol::receive(bool escape, ClientInfo *client, string expected)
+void ITcpProtocol::receive(bool escape, ClientInfo *client, string expected, DomainErrorCode errorCode)
 {
 	if (escape)
 	{
@@ -67,7 +70,7 @@ void ITcpProtocol::receive(bool escape, ClientInfo *client, string expected)
 		return;
 	}
 
-	// throw exception
+	throw DomainException(errorCode);
 }
 
 void ITcpProtocol::serverSend(ClientInfo *client, string command)
@@ -75,9 +78,9 @@ void ITcpProtocol::serverSend(ClientInfo *client, string command)
 	send(!isServer, client, command);
 }
 
-void ITcpProtocol::serverReceive(ClientInfo *client, string expected)
+void ITcpProtocol::serverReceive(ClientInfo *client, string expected, DomainErrorCode errorCode)
 {
-	receive(!isServer, client, expected);
+	receive(!isServer, client, expected, errorCode);
 }
 
 void ITcpProtocol::clientSend(ClientInfo *client, string command)
@@ -85,7 +88,7 @@ void ITcpProtocol::clientSend(ClientInfo *client, string command)
 	send(isServer, client, command);
 }
 
-void ITcpProtocol::clientReceive(ClientInfo *client, string expected)
+void ITcpProtocol::clientReceive(ClientInfo *client, string expected, DomainErrorCode errorCode)
 {
-	receive(isServer, client, expected);
+	receive(isServer, client, expected, errorCode);
 }
