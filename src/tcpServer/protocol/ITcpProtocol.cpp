@@ -36,7 +36,11 @@ bool ITcpProtocol::getIsServer()
 
 void ITcpProtocol::handshake(ClientInfo *client)
 {
+	clientSend(client, CLIENT_CONNECT);
+	serverReceive(client, CLIENT_CONNECT, TcpProtocolErrorCode::TCP0001);
 
+	serverSend(client, OK);
+	clientReceive(client, OK, TcpProtocolErrorCode::TCP0001);
 }
 
 void ITcpProtocol::authenticate(ClientInfo *client)
@@ -45,17 +49,18 @@ void ITcpProtocol::authenticate(ClientInfo *client)
 }
 
 
-void ITcpProtocol::send(bool escape, ClientInfo *client, string command)
+void ITcpProtocol::send(bool escape, ClientInfo *client, const char* command)
 {
 	if (escape)
 	{
 		return;
 	}
 
+	cout << "Send: " << command << endl;
 	client->getStream()->send(command);
 }
 
-void ITcpProtocol::receive(bool escape, ClientInfo *client, string expected, DomainErrorCode errorCode)
+void ITcpProtocol::receive(bool escape, ClientInfo *client, const char* expected, const DomainErrorCode& errorCode)
 {
 	if (escape)
 	{
@@ -65,7 +70,8 @@ void ITcpProtocol::receive(bool escape, ClientInfo *client, string expected, Dom
 	string input = "";
 	client->getStream()->receive(input);
 
-	if (input == expected)
+	cout << "Receive: " << input << endl;
+	if (input == string(expected))
 	{
 		return;
 	}
@@ -73,22 +79,22 @@ void ITcpProtocol::receive(bool escape, ClientInfo *client, string expected, Dom
 	throw DomainException(errorCode);
 }
 
-void ITcpProtocol::serverSend(ClientInfo *client, string command)
+void ITcpProtocol::serverSend(ClientInfo *client, const char* command)
 {
 	send(!isServer, client, command);
 }
 
-void ITcpProtocol::serverReceive(ClientInfo *client, string expected, DomainErrorCode errorCode)
+void ITcpProtocol::serverReceive(ClientInfo *client, const char* expected, const DomainErrorCode& errorCode)
 {
 	receive(!isServer, client, expected, errorCode);
 }
 
-void ITcpProtocol::clientSend(ClientInfo *client, string command)
+void ITcpProtocol::clientSend(ClientInfo *client, const char* command)
 {
 	send(isServer, client, command);
 }
 
-void ITcpProtocol::clientReceive(ClientInfo *client, string expected, DomainErrorCode errorCode)
+void ITcpProtocol::clientReceive(ClientInfo *client, const char* expected, const DomainErrorCode& errorCode)
 {
 	receive(isServer, client, expected, errorCode);
 }

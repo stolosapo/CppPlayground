@@ -26,6 +26,8 @@ using namespace std;
 TcpServer::TcpServer(ILogService *logSrv) : ITcpServer()
 {
 	this->logSrv = logSrv;
+
+	this->protocol = new ITcpProtocol(true);
 }
 
 TcpServer::~TcpServer()
@@ -41,6 +43,11 @@ TcpServer::~TcpServer()
 	{
 		delete this->config;
 	}
+
+	if (this->protocol != NULL)
+	{
+		delete this->protocol;
+	}
 }
 
 
@@ -50,42 +57,6 @@ TcpServer::~TcpServer()
 *       PRIVATE METHODS
 *
 **********************************/
-bool TcpServer::allowClient(ClientInfo* client)
-{
-	bool accept = false;
-
-	TcpServer* server = (TcpServer *) (client->getServer());
-	ILogService* logger = server->logSrv;
-	TcpStream* stream = client->getStream();
-
-	string input = "";
-	stream->receive(input);
-
-	if (TcpProtocol::validAckCommand(input))
-	{
-		if (input == (string) TcpProtocol::CLIENT_CONNECT)
-		{
-			stream->send((string) TcpProtocol::OK);
-
-			accept = handshake();
-		}
-	}
-	else
-	{
-		logSrv->error("Client sent: " + input);
-	}
-
-	if (!accept)
-	{
-		string identity = client->getIdentity();
-		logger->error("Server denied access to the client [ " + identity + " ]");
-
-		throw DomainException(TcpServerErrorCode::TCS0002);
-	}
-
-	return accept;
-}
-
 void* TcpServer::task(void *context)
 {
 	ClientInfo* client = (ClientInfo *) context;
@@ -104,7 +75,7 @@ void* TcpServer::task(void *context)
 	try
 	{
 		/* Check new client for acceptance */
-		server->allowClient(client);
+		server->protocol->handshake(client);
 
 		logger->trace("Server accepted new client: [" + identity + "]");
 
@@ -272,11 +243,6 @@ void TcpServer::initialize()
 	logSrv->info("Server Hostname: " + hostname);
 	logSrv->info("Server Port: " + Convert<int>::NumberToString(port));
 	logSrv->info("Server Poolsize: " + Convert<int>::NumberToString(poolSize));
-}
-
-bool TcpServer::handshake()
-{
-    	return true;
 }
 
 bool TcpServer::validateCommand(string command)

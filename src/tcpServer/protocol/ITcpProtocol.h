@@ -34,14 +34,14 @@ protected:
 
 	bool getIsServer();
 
-	void send(bool escape, ClientInfo *client, string command);
-	void receive(bool escape, ClientInfo *client, string expected, DomainErrorCode errorCode);
+	void send(bool escape, ClientInfo *client, const char* command);
+	void receive(bool escape, ClientInfo *client, const char* expected, const DomainErrorCode& errorCode);
 
-	void serverSend(ClientInfo *client, string command);
-	void serverReceive(ClientInfo *client, string expected, DomainErrorCode errorCode);
+	void serverSend(ClientInfo *client, const char* command);
+	void serverReceive(ClientInfo *client, const char* expected, const DomainErrorCode& errorCode);
 
-	void clientSend(ClientInfo *client, string command);
-	void clientReceive(ClientInfo *client, string expected, DomainErrorCode errorCode);
+	void clientSend(ClientInfo *client, const char* command);
+	void clientReceive(ClientInfo *client, const char* expected, const DomainErrorCode& errorCode);
 
 };
 

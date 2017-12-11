@@ -4,6 +4,7 @@
 #include <string>
 #include "ITcpServer.h"
 #include "../config/TcpServerConfig.h"
+#include "../protocol/ITcpProtocol.h"
 #include "../lib/TcpAcceptor.h"
 #include "../ClientInfo.h"
 #include "../../log/ILogService.h"
@@ -16,11 +17,10 @@ class TcpServer : public ITcpServer
 private:
 	ILogService *logSrv;
 
+	ITcpProtocol *protocol;
 	TcpAcceptor *acceptor;
 	TcpServerConfig* config;
 	ThreadPool* pool;
-
-	bool allowClient(ClientInfo *client);
 
 	void* task(void*);
 	static void* taskHelper(void *context);
@@ -39,7 +39,6 @@ protected:
 	virtual void loadConfig();
 	virtual void initialize();
 
-	virtual bool handshake();
 	virtual bool validateCommand(string command);
 	virtual void processCommand(ClientInfo *client, string command);
 };
