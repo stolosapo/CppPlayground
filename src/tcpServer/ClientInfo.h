@@ -23,6 +23,7 @@ private:
 
 public:
 	ClientInfo(void *server, TcpStream *stream, Thread *thread, int index);
+	ClientInfo(void *server, TcpStream *stream, int index);
 	virtual ~ClientInfo();
 
 	int getIndex();

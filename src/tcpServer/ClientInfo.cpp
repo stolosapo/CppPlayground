@@ -15,6 +15,14 @@ ClientInfo::ClientInfo(void *server, TcpStream *stream, Thread *thread, int inde
 	this->thread = thread;
 }
 
+ClientInfo::ClientInfo(void *server, TcpStream *stream, int index)
+{
+	this->index = index;
+
+	this->stream = stream;
+	this->server = server;
+}
+
 ClientInfo::~ClientInfo()
 {
 	if (stream != NULL)

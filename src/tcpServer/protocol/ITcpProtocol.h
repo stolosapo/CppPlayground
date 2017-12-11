@@ -20,13 +20,20 @@ public:
 	void handshake(ClientInfo *client);
 	void authenticate(ClientInfo *client);
 
+	static bool help(string command);
+	static bool exit(string command);
+	static bool shutdown(string command);
+	static bool error(string command);
+	static void error(ClientInfo *client);
+	static string prompt();
+
 protected:
 	static const char* PROMPT;
 
 	static const char* CLIENT_CONNECT;
 	static const char* OK;
 	static const char* DENIED;
-	static const char* INVALID_COMMAND;
+	static const char* ERROR;
 
 	static const char* HELP;
 	static const char* EXIT;

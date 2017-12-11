@@ -6,8 +6,8 @@
 class TcpServerErrorCode
 {
 public:
-        static const DomainErrorCode TCS0001;
-        static const DomainErrorCode TCS0002;
+	static const DomainErrorCode TCS0001;
+	static const DomainErrorCode TCS0002;
 
 	TcpServerErrorCode();
 	virtual ~TcpServerErrorCode();

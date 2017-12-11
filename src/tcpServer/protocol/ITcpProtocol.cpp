@@ -8,7 +8,7 @@ const char* ITcpProtocol::PROMPT = "tfk> ";
 const char* ITcpProtocol::CLIENT_CONNECT = "client_connect";
 const char* ITcpProtocol::OK = "ok";
 const char* ITcpProtocol::DENIED = "denied";
-const char* ITcpProtocol::INVALID_COMMAND = "invalid_command";
+const char* ITcpProtocol::ERROR = "error";
 
 const char* ITcpProtocol::HELP = "help";
 const char* ITcpProtocol::EXIT = "exit";
@@ -23,6 +23,37 @@ ITcpProtocol::ITcpProtocol(bool isServer) : isServer(isServer)
 ITcpProtocol::~ITcpProtocol()
 {
 	isServer = false;
+}
+
+
+bool ITcpProtocol::help(string command)
+{
+	return command == string(HELP);
+}
+
+bool ITcpProtocol::exit(string command)
+{
+	return command == string(EXIT);
+}
+
+bool ITcpProtocol::shutdown(string command)
+{
+	return command == string(SHUTDOWN);
+}
+
+bool ITcpProtocol::error(string command)
+{
+	return command == string(ERROR);
+}
+
+void ITcpProtocol::error(ClientInfo *client)
+{
+	client->getStream()->send(string(ERROR));
+}
+
+string ITcpProtocol::prompt()
+{
+	return string(PROMPT);
 }
 
 
@@ -56,7 +87,6 @@ void ITcpProtocol::send(bool escape, ClientInfo *client, const char* command)
 		return;
 	}
 
-	cout << "Send: " << command << endl;
 	client->getStream()->send(command);
 }
 
@@ -70,7 +100,6 @@ void ITcpProtocol::receive(bool escape, ClientInfo *client, const char* expected
 	string input = "";
 	client->getStream()->receive(input);
 
-	cout << "Receive: " << input << endl;
 	if (input == string(expected))
 	{
 		return;

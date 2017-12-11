@@ -39,6 +39,8 @@ protected:
 	virtual void loadConfig();
 	virtual void initialize();
 
+	virtual void cycle(ClientInfo *client, string input);
+
 	virtual bool validateCommand(string command);
 	virtual void processCommand(ClientInfo *client, string command);
 };

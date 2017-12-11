@@ -3,26 +3,22 @@
 
 #include "ITcpClient.h"
 #include "../config/TcpClientConfig.h"
+#include "../protocol/ITcpProtocol.h"
 #include "../lib/TcpConnector.h"
 #include "../../log/ILogService.h"
 
 class TcpClient : public ITcpClient
 {
 private:
-	static const int DEFAULT_PORT = 51717;
-	static const char* DEFAULT_SERVERNAME;
-
+	InOut *in;
 	ILogService *logSrv;
 
-	int port;
-	string serverName;
-
+	ITcpProtocol *protocol;
 	TcpConnector *connector;
 	TcpStream *stream;
 	TcpClientConfig* config;
 
-	void test();
-	bool askServerPermission();
+	void finalizeClient(ClientInfo *client);
 
 public:
 	TcpClient(ILogService *logSrv);
@@ -35,6 +31,10 @@ protected:
 	virtual void loadConfig();
 	virtual void initialize();
 
+	virtual bool cycle(ClientInfo *client);
+
+	virtual void processCommand(ClientInfo *client, string command);
+	
 };
 
 #endif // TcpClient_h__

@@ -23,10 +23,8 @@ using namespace std;
 *		CONSTRUCTORS
 *
 **********************************/
-TcpServer::TcpServer(ILogService *logSrv) : ITcpServer()
+TcpServer::TcpServer(ILogService *logSrv) : ITcpServer(), logSrv(logSrv)
 {
-	this->logSrv = logSrv;
-
 	this->protocol = new ITcpProtocol(true);
 }
 
@@ -68,7 +66,6 @@ void* TcpServer::task(void *context)
 
 
 	string input = "";
-	string message = "";
 
 	string identity = client->getIdentity();
 
@@ -81,24 +78,12 @@ void* TcpServer::task(void *context)
 
 
 		/* receive messages */
-		while (stream->receive(message) > 0)
+		while (stream->receive(input) > 0)
 		{
-			input = message;
-			logger->trace("received [" + identity + "] - " + input);
 
-			if (server->validateCommand(input))
-			{
-				/* Process Message */
-				server->processCommand(client, input);
+			/* Proccess input */
+			server->cycle(client, input);
 
-				stream->send(input);
-
-			}
-			else
-			{
-				/* send error message back */
-				stream->send((string) TcpProtocol::INVALID_COMMAND);
-			}
 		}
 
 		logger->trace("Client [" + identity + "] terminated");
@@ -163,7 +148,7 @@ void TcpServer::start()
 
 	logSrv->info("Server is started");
 
-	while (!TcpProtocol::shutdown(input))
+	while (!ITcpProtocol::shutdown(input))
 	{
 		if (!pool->hasNext())
 		{
@@ -243,6 +228,27 @@ void TcpServer::initialize()
 	logSrv->info("Server Hostname: " + hostname);
 	logSrv->info("Server Port: " + Convert<int>::NumberToString(port));
 	logSrv->info("Server Poolsize: " + Convert<int>::NumberToString(poolSize));
+}
+
+void TcpServer::cycle(ClientInfo *client, string input)
+{
+	TcpStream *stream = client->getStream();
+
+
+	logSrv->trace("received [" + client->getIdentity() + "] - " + input);
+
+	if (validateCommand(input))
+	{
+		/* Process Message */
+		processCommand(client, input);
+
+		stream->send(input);
+	}
+	else
+	{
+		/* send error message back */
+		ITcpProtocol::error(client);
+	}
 }
 
 bool TcpServer::validateCommand(string command)
