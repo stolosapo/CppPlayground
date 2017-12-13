@@ -106,7 +106,7 @@ void TcpClient::start()
 		logSrv->error(e.what());
 	}
 
-	
+
 	finalizeClient(client);
 }
 
@@ -148,10 +148,11 @@ bool TcpClient::cycle(ClientInfo *client)
 {
 	TcpStream *stream = client->getStream();
 
-	
+
 	/* Prompt user for input */
 	in->outString(ITcpProtocol::prompt());
 	string userInput = in->inString();
+	// string userInput = in->inLine();
 
 	if (ITcpProtocol::exit(userInput))
 	{
