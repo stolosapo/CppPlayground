@@ -97,7 +97,7 @@ void* TcpServer::task(void *context)
 	finalizeClient(client);
 }
 
-void* TcpServer::taskHelper(void *context)
+void* TcpServer::internalClientTask(void *context)
 {
 	return ((TcpServer *)context)->task(context);
 }
@@ -111,7 +111,7 @@ Thread* TcpServer::getNextThread()
 		return NULL;
 	}
 
-	th->attachDelegate(&TcpServer::taskHelper);
+	th->attachDelegate(&TcpServer::internalClientTask);
 	th->setMustDispose(true);
 
 	return th;

@@ -23,7 +23,7 @@ private:
 	ThreadPool* pool;
 
 	void* task(void*);
-	static void* taskHelper(void *context);
+	static void* internalClientTask(void *context);
 
 	Thread* getNextThread();
 	void finalizeClient(ClientInfo *client);
