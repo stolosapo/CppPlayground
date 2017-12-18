@@ -13,6 +13,7 @@
 #include "../../lib/task/Thread.h"
 
 #include "../../lib/exception/domain/DomainException.h"
+#include "../../lib/exception/ExceptionMapper.h"
 #include "../exception/TcpServerErrorCode.h"
 
 using namespace std;
@@ -90,7 +91,7 @@ void* TcpServer::task(void *context)
 	}
 	catch (DomainException& e)
 	{
-		logger->error(e.what());
+		logger->error(handle(e));
 	}
 
 

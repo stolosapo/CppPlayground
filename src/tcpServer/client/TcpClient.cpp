@@ -10,6 +10,7 @@
 #include "../ClientInfo.h"
 
 #include "../../lib/exception/domain/DomainException.h"
+#include "../../lib/exception/ExceptionMapper.h"
 #include "../exception/TcpClientErrorCode.h"
 
 using namespace std;
@@ -104,11 +105,7 @@ void TcpClient::start()
 	}
 	catch (DomainException& e)
 	{
-		string mess = string(e.code()) + ": " + string(e.what());
-
-		// return mess.c_str();
-
-		logSrv->error(mess);
+		logSrv->error(handle(e));
 	}
 
 
