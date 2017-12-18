@@ -76,6 +76,8 @@ void TcpClient::start()
 {
 	ClientInfo *client;
 
+	client = NULL;
+
 	try
 	{
 		logSrv->trace("Client is connecting to server...");
