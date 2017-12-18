@@ -99,13 +99,16 @@ void TcpClient::start()
 		{
 			/* Proccess client */
 			cont = cycle(client);
-
 		}
 
 	}
 	catch (DomainException& e)
 	{
-		logSrv->error(e.what());
+		string mess = string(e.code()) + ": " + string(e.what());
+
+		// return mess.c_str();
+
+		logSrv->error(mess);
 	}
 
 
