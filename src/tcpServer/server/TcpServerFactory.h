@@ -10,7 +10,7 @@ public:
 	TcpServerFactory();
 	~TcpServerFactory();
 
-	static ITcpServer *create(ILogService *logSrv, bool multiThread);
+	static ITcpServer *create(ILogService *logSrv);
 };
 
 #endif // TcpServerFactory_h__

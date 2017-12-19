@@ -7,9 +7,13 @@
 #include "../lib/TcpProtocol.h"
 #include "../../lib/converter/Convert.h"
 
-using namespace std;
+#include "../ClientInfo.h"
 
-const char* TcpClient::DEFAULT_SERVERNAME = "localhost";
+#include "../../lib/exception/domain/DomainException.h"
+#include "../../lib/exception/ExceptionMapper.h"
+#include "../exception/TcpClientErrorCode.h"
+
+using namespace std;
 
 
 /*********************************
@@ -17,17 +21,34 @@ const char* TcpClient::DEFAULT_SERVERNAME = "localhost";
 *		CONSTRUCTORS
 *
 **********************************/
-TcpClient::TcpClient(ILogService *logSrv) : ITcpClient()
+TcpClient::TcpClient(ILogService *logSrv) : ITcpClient(), logSrv(logSrv)
 {
-	this->logSrv = logSrv;
+	this->in = new InOut;
 
-	this->port = TcpClient::DEFAULT_PORT;
-	this->serverName = string(TcpClient::DEFAULT_SERVERNAME);
+	this->protocol = new ITcpProtocol(false);
 }
 
 TcpClient::~TcpClient()
 {
-    delete connector;
+	if (connector != NULL)
+	{
+		delete connector;
+	}
+
+	if (config != NULL)
+	{
+		delete config;
+	}
+
+	if (protocol != NULL)
+	{
+		delete protocol;
+	}
+
+	if (in != NULL)
+	{
+		delete in;
+	}
 }
 
 
@@ -37,62 +58,12 @@ TcpClient::~TcpClient()
 *       PRIVATE METHODS
 *
 **********************************/
-void TcpClient::test()
+void TcpClient::finalizeClient(ClientInfo *client)
 {
-    // int len;
-    // string message;
-    // char line[256];
-
-    // stream = connector->connect(port, serverName);
-
-    // if (stream)
-    // {
-    //     message = "Is there life on Mars?";
-    //     stream->send(message.c_str(), message.size());
-    //     // printf("sent - %s\n", message.c_str());
-    //     this->logSrv->info("sent - " + message + "\n");
-
-
-    //     len = stream->receive(line, sizeof(line));
-    //     line[len] = 0;
-    //     string mess(line);
-    //     // printf("received - %s\n", line);
-    //     this->logSrv->info("received - " + mess + "\n");
-
-    //     delete stream;
-    // }
-
-
-    // stream = connector->connect(port, serverName);
-    // if (stream)
-    // {
-    //     message = "Why is there air?";
-    //     stream->send(message.c_str(), message.size());
-    //     // printf("sent - %s\n", message.c_str());
-    //     this->logSrv->info("sent - " + message + "\n");
-
-
-    //     len = stream->receive(line, sizeof(line));
-    //     line[len] = 0;
-    //     string mess(line);
-    //     // printf("received - %s\n", line);
-    //     this->logSrv->info("received - " + mess + "\n");
-
-    //     delete stream;
-    // }
-
-}
-
-bool TcpClient::askServerPermission()
-{
-    // ask for permission
-    stream->send((string) TcpProtocol::CLIENT_CONNECT);
-
-    // receive answer of permission
-    string answer = "";
-    stream->receive(answer);
-
-    return answer == (string) TcpProtocol::OK;
+	if (client != NULL)
+	{
+		delete client;
+	}
 }
 
 
@@ -104,50 +75,41 @@ bool TcpClient::askServerPermission()
 **********************************/
 void TcpClient::start()
 {
-    string message;
-    string input = "";
+	ClientInfo *client;
+
+	client = NULL;
+
+	try
+	{
+		logSrv->trace("Client is connecting to server...");
+		stream = connector->connect(config->getServerPort(), config->getServerName().c_str());
+
+		if (!stream)
+		{
+			throw DomainException(TcpClientErrorCode::TCC0001);
+		}
+
+		client = new ClientInfo(this, stream, 0);
+
+		protocol->handshake(client);
+
+		logSrv->info("Client is connected");
+
+		bool cont = true;
+		while (cont)
+		{
+			/* Proccess client */
+			cont = cycle(client);
+		}
+
+	}
+	catch (DomainException& e)
+	{
+		logSrv->error(handle(e));
+	}
 
 
-    logSrv->info("Client is connecting to server...");
-    stream = connector->connect(port, serverName.c_str());
-
-    if (stream)
-    {
-        InOut *in = new InOut;
-
-        // Ask server permission
-        if (askServerPermission())
-        {
-            logSrv->info("Client is connected");
-
-            while (!TcpProtocol::exit(input))
-            {
-                // Prompt for input
-                logSrv->printl("");
-                logSrv->print(TcpProtocol::PROMPT);
-                input = in->inString();
-
-                // Send messege to server
-                stream->send(input);
-
-                // Receive messege from server
-                stream->receive(message);
-
-                if (TcpProtocol::error(message))
-                {
-                    logSrv->error(message);
-                }
-            }
-        }
-        else
-        {
-            logSrv->error("Permission denied");
-            logSrv->error("Client cannot connect to server");
-        }
-
-        delete stream;
-    }
-
+	finalizeClient(client);
 }
 
 void TcpClient::action()
@@ -172,33 +134,62 @@ void TcpClient::loadConfig()
 
 void TcpClient::initialize()
 {
-	if (this->config == NULL)
+	connector = new TcpConnector();
+
+	string strServerName = config->getServerName();
+	int serverPort = config->getServerPort();
+	string strServerPort = Convert<int>::NumberToString(serverPort);
+
+	logSrv->info("Client Name: " + config->getName());
+	logSrv->info("Client Description: " + config->getDescription());
+	logSrv->info("Server Server Name: " + strServerName);
+	logSrv->info("Server Port: " + strServerPort);
+}
+
+bool TcpClient::cycle(ClientInfo *client)
+{
+	TcpStream *stream = client->getStream();
+
+
+	/* Prompt user for input */
+	in->outString(ITcpProtocol::prompt());
+	string userInput = in->inString();
+	// string userInput = in->inLine();
+
+	if (ITcpProtocol::exit(userInput))
 	{
-		this->port = DEFAULT_PORT;
-		this->serverName = string(DEFAULT_SERVERNAME);
+		return false;
+	}
+
+
+	/* Send messege to server */
+	stream->send(userInput);
+
+
+	/* Receive messege from server */
+	string serverInput = "";
+	stream->receive(serverInput);
+
+	if (ITcpProtocol::exit(serverInput))
+	{
+		return false;
+	}
+
+
+	if (!ITcpProtocol::error(serverInput))
+	{
+		processCommand(client, serverInput);
 	}
 	else
 	{
-		int curPort = this->config->getServerPort();
-		string curServerName = this->config->getServerName();
-
-		if (curPort == 0 || curServerName == "")
-		{
-			curPort = DEFAULT_PORT;
-			curServerName = string(DEFAULT_SERVERNAME);
-		}
-
-		this->port = curPort;
-		this->serverName = curServerName;
+		logSrv->error(serverInput);
 	}
 
-	connector = new TcpConnector();
 
-	string strServerName = serverName;
-	string strServerPort = Convert<int>::NumberToString(port);
+	return true;
+}
 
-	this->logSrv->info("Client Name: " + this->config->getName());
-	this->logSrv->info("Client Description: " + this->config->getDescription());
-	this->logSrv->info("Server Server Name: " + strServerName);
-	this->logSrv->info("Server Port: " + strServerPort);
+void TcpClient::processCommand(ClientInfo *client, string command)
+{
+
 }

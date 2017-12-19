@@ -10,7 +10,6 @@ TcpServerMenuItem::TcpServerMenuItem(ILogService *logSrv) : MenuItem()
         this->setId(1);
         this->setName("Tcp Server");
         this->setTitle("Tcp Server");
-
         this->setDescription("The First Kube Tcp Server");
 }
 
@@ -24,7 +23,9 @@ void TcpServerMenuItem::action()
         this->identify();
         this->logSrv->outString("\n\n");
 
-        ITcpServer* server = TcpServerFactory::create(this->logSrv, false);
+        ITcpServer* server = TcpServerFactory::create(this->logSrv);
 
         server->action();
+
+        delete server;
 }

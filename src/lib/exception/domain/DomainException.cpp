@@ -18,8 +18,7 @@ DomainException::~DomainException() throw()
 
 const char* DomainException::fullError() const throw()
 {
-	string mess = string(_errorCode.code()) + ": " + message();
-	return mess.c_str();
+	return cause();
 }
 
 const char* DomainException::message() const throw()

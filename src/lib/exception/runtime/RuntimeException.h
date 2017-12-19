@@ -9,15 +9,14 @@ using namespace std;
 class RuntimeException: public exception
 {
 private:
-	string _cause;
+	const char* _cause;
 
 public:
-	RuntimeException(const string& cause);
+	RuntimeException(const char* cause);
 	virtual ~RuntimeException() throw();
 
 	virtual const char* what() const throw();
 	virtual const char* cause() const throw();
-
 };
 
 #endif // RuntimeException_h__

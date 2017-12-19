@@ -48,10 +48,7 @@ IConfigLoader<T>::IConfigLoader(string filename)
 template<class T>
 IConfigLoader<T>::~IConfigLoader()
 {
-        if (this->serializer != NULL)
-        {
-                delete this->serializer;
-        }
+
 }
 
 template<class T>

@@ -3,28 +3,30 @@
 
 #include <string>
 #include "ITcpServer.h"
+#include "../config/TcpServerConfig.h"
+#include "../protocol/ITcpProtocol.h"
 #include "../lib/TcpAcceptor.h"
+#include "../ClientInfo.h"
 #include "../../log/ILogService.h"
+#include "../../lib/task/ThreadPool.h"
 
 using namespace std;
 
 class TcpServer : public ITcpServer
 {
 private:
-	static const int DEFAULT_PORT = 51717;
-	static const char* DEFAULT_HOSTNAME;
-
 	ILogService *logSrv;
 
-	int port;
-	const char* hostname;
-
+	ITcpProtocol *protocol;
 	TcpAcceptor *acceptor;
-	TcpStream *stream;
+	TcpServerConfig* config;
+	ThreadPool* pool;
 
-	bool acceptClient();
-	bool handshake();
-	void processCommand(TcpStream *stream, string command);
+	void* task(void*);
+	static void* internalClientTask(void *context);
+
+	Thread* getNextThread();
+	void finalizeClient(ClientInfo *client);
 
 public:
 	TcpServer(ILogService *logSrv);
@@ -32,6 +34,15 @@ public:
 
 	virtual void start();
 	virtual void action();
+
+protected:
+	virtual void loadConfig();
+	virtual void initialize();
+
+	virtual void cycle(ClientInfo *client, string input);
+
+	virtual bool validateCommand(string command);
+	virtual void processCommand(ClientInfo *client, string command);
 };
 
 #endif // TcpServer_h__

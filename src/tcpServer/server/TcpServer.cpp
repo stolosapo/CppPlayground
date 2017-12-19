@@ -2,34 +2,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../../lib/converter/Convert.h"
+
 #include "TcpServer.h"
+#include "../config/TcpServerConfigLoader.h"
 #include "../lib/TcpAcceptor.h"
 #include "../lib/TcpProtocol.h"
+#include "../ClientInfo.h"
+
+#include "../../lib/task/Thread.h"
+
+#include "../../lib/exception/domain/DomainException.h"
+#include "../../lib/exception/ExceptionMapper.h"
+#include "../exception/TcpServerErrorCode.h"
 
 using namespace std;
 
-const char* TcpServer::DEFAULT_HOSTNAME = "localhost";
 
 /*********************************
 *
 *		CONSTRUCTORS
 *
 **********************************/
-TcpServer::TcpServer(ILogService *logSrv) : ITcpServer()
+TcpServer::TcpServer(ILogService *logSrv) : ITcpServer(), logSrv(logSrv)
 {
-	this->logSrv = logSrv;
-
-	this->port = DEFAULT_PORT;
-	this->hostname = DEFAULT_HOSTNAME;
-
-	// initialize server
-	stream = NULL;
-	acceptor = new TcpAcceptor(port, hostname);
+	this->protocol = new ITcpProtocol(true);
 }
 
 TcpServer::~TcpServer()
 {
 	delete acceptor;
+
+	if (this->pool != NULL)
+	{
+		delete this->pool;
+	}
+
+	if (this->config != NULL)
+	{
+		delete this->config;
+	}
+
+	if (this->protocol != NULL)
+	{
+		delete this->protocol;
+	}
 }
 
 
@@ -39,40 +56,76 @@ TcpServer::~TcpServer()
 *       PRIVATE METHODS
 *
 **********************************/
-bool TcpServer::acceptClient()
+void* TcpServer::task(void *context)
 {
-    bool accept = false;
+	ClientInfo* client = (ClientInfo *) context;
+	client->getThread()->setSelfId();
 
-    string input = "";
-    stream->receive(input);
+	TcpServer* server = (TcpServer *) (client->getServer());
+	ILogService* logger = server->logSrv;
+	TcpStream* stream = client->getStream();
 
-    if (TcpProtocol::validAckCommand(input))
-    {
-        if (input == (string) TcpProtocol::CLIENT_CONNECT)
-        {
-            stream->send((string) TcpProtocol::OK);
 
-            accept = handshake();
-        }
-    }
-    else
-    {
-	    logSrv->error("Client sent: " + input);
-    }
+	string input = "";
 
-    return accept;
+	string identity = client->getIdentity();
+
+	try
+	{
+		/* Check new client for acceptance */
+		server->protocol->handshake(client);
+
+		logger->trace("Server accepted new client: [" + identity + "]");
+
+
+		/* receive messages */
+		while (stream->receive(input) > 0)
+		{
+
+			/* Proccess input */
+			server->cycle(client, input);
+
+		}
+
+		logger->trace("Client [" + identity + "] terminated");
+	}
+	catch (DomainException& e)
+	{
+		logger->error(handle(e));
+	}
+
+
+	finalizeClient(client);
 }
 
-bool TcpServer::handshake()
+void* TcpServer::internalClientTask(void *context)
 {
-    return true;
+	return ((TcpServer *)context)->task(context);
 }
 
-void TcpServer::processCommand(TcpStream *stream, string command)
+Thread* TcpServer::getNextThread()
 {
+	Thread* th = pool->getNext();
 
+	if (th == NULL)
+	{
+		return NULL;
+	}
+
+	th->attachDelegate(&TcpServer::internalClientTask);
+	th->setMustDispose(true);
+
+	return th;
 }
 
+void TcpServer::finalizeClient(ClientInfo* client)
+{
+	TcpServer* server = (TcpServer *) (client->getServer());
+
+	server->pool->putBack(client->getThread());
+
+	delete client;
+}
 
 /*********************************
 *
@@ -81,74 +134,130 @@ void TcpServer::processCommand(TcpStream *stream, string command)
 **********************************/
 void TcpServer::start()
 {
-    string input = "";
-    string message = "";
+	string input = "";
 
-    logSrv->info("Server is starting...");
-
-    if (acceptor->start() == 0)
-    {
-        logSrv->info("Server is started");
-
-        while (!TcpProtocol::shutdown(input))
-        {
-            // Accept new client
-            stream = acceptor->accept();
-
-            if (stream  != NULL)
-            {
-                logSrv->printl("");
-                logSrv->info("Server start to accept new client");
-
-                // Check new client for acceptance
-                if (acceptClient())
-                {
-                    logSrv->info("Server accepted new client");
-
-                    // receive messages
-                    while (stream->receive(message) > 0)
-                    {
-                        input = message;
-                        logSrv->printl("received - " + input);
-
-                        if (TcpProtocol::validCommand(input))
-                        {
-
-                            /* Process Message */
-                            processCommand(stream, input);
+	int clientCount = 0;
 
 
-                            stream->send(input);
-                        }
-                        else
-                        {
-                            // send error message back
-                            stream->send((string) TcpProtocol::INVALID_COMMAND);
-                        }
-                    }
-                }
-                else
-                {
-                    logSrv->info("Server denied access to the client");
-                }
+	logSrv->trace("Server is starting...");
 
-                delete stream;
+	if (acceptor->start() != 0)
+	{
+		throw DomainException(TcpServerErrorCode::TCS0001);
+	}
 
-                logSrv->info("Server accepted client terminated");
 
-            } // if (stream  != NULL)
+	logSrv->info("Server is started");
 
-        } // while (!TcpProtocol::shutdown(input))
+	while (!ITcpProtocol::shutdown(input))
+	{
+		if (!pool->hasNext())
+		{
+			continue;
+		}
 
-    } // if (acceptor->start() == 0)
-    else
-    {
-        logSrv->error("Could not start the Server");
-    }
 
+		/* Accept new client */
+		TcpStream* stream = acceptor->accept();
+
+		if (stream == NULL)
+		{
+			continue;
+		}
+
+
+		/* Take next thread */
+		Thread* th = getNextThread();
+
+		if (th == NULL)
+		{
+			delete stream;
+			continue;
+		}
+
+
+		/* Create new client and start in new thread */
+		ClientInfo* client = new ClientInfo(this, stream, th, clientCount);
+
+		th->start(client);
+
+
+		/* Increase thead counter */
+		clientCount++;
+	}
 }
 
 void TcpServer::action()
 {
+	this->loadConfig();
+
+	this->initialize();
+
 	this->start();
+}
+
+
+/*********************************
+*
+*		PROTECTED METHODS
+*
+**********************************/
+
+void TcpServer::loadConfig()
+{
+	TcpServerConfigLoader* loader = new TcpServerConfigLoader("tcpServer.config");
+
+	this->config = loader->load();
+
+	delete loader;
+}
+
+void TcpServer::initialize()
+{
+	string hostname = config->getHostname();
+	int port = config->getPort();
+	int poolSize = config->getPoolsize();
+
+	/* Initialize acceptor */
+	acceptor = new TcpAcceptor(port, hostname.c_str());
+
+	/* Initialize thread pool */
+	pool = new ThreadPool(poolSize);
+
+	logSrv->info("Server Name: " + config->getName());
+	logSrv->info("Server Description: " + config->getDescription());
+	logSrv->info("Server Hostname: " + hostname);
+	logSrv->info("Server Port: " + Convert<int>::NumberToString(port));
+	logSrv->info("Server Poolsize: " + Convert<int>::NumberToString(poolSize));
+}
+
+void TcpServer::cycle(ClientInfo *client, string input)
+{
+	TcpStream *stream = client->getStream();
+
+
+	logSrv->trace("received [" + client->getIdentity() + "] - " + input);
+
+	if (validateCommand(input))
+	{
+		/* Process Message */
+		processCommand(client, input);
+
+		stream->send(input);
+	}
+	else
+	{
+		/* send error message back */
+		ITcpProtocol::error(client);
+	}
+}
+
+bool TcpServer::validateCommand(string command)
+{
+	return TcpProtocol::validCommand(command);
+}
+
+void TcpServer::processCommand(ClientInfo *client, string command)
+{
+
 }

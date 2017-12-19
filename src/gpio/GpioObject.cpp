@@ -16,6 +16,11 @@ GpioObject::GpioObject(string gnum)
 	this->gpionum = gnum;  //Instatiate GpioObject object for GPIO pin number "gnum"
 }
 
+GpioObject::~GpioObject()
+{
+
+}
+
 int GpioObject::export_gpio()
 {
 	string export_str = "/sys/class/gpio/export";
@@ -65,6 +70,11 @@ int GpioObject::setdir_gpio(string dir)
 	setdirgpio.close(); // close direction file
 	
 	return 0;
+}
+
+int GpioObject::setdir_gpio()
+{	
+	return setdir_gpio("out");
 }
 
 int GpioObject::setval_gpio(string val)

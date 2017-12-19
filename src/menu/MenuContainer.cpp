@@ -6,6 +6,7 @@
 #include "../lib/di/GlobalAppContext.h"
 
 #include "../lib/exception/domain/DomainException.h"
+#include "../lib/exception/ExceptionMapper.h"
 
 using namespace std;
 
@@ -269,7 +270,7 @@ void MenuContainer::action()
 	}
 	catch (DomainException& e)
 	{
-		logSrv->error(e.fullError());
+		logSrv->error(handle(e));
 	}
 	catch (exception& e)
 	{
