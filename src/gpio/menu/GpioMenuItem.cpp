@@ -5,7 +5,8 @@
 #include <signal.h>
 
 #include "GpioMenuItem.h"
-#include "../GpioObject.h"
+#include "../GpioInObject.h"
+#include "../GpioOutObject.h"
 
 using namespace std;
 
@@ -51,18 +52,18 @@ void GpioMenuItem::action()
 	string inputstate;
 
 	// create new GPIO object to be attached to  GPIO4
-	GpioObject *gpio4 = new GpioObject("4");
+	GpioOutObject *gpio4 = new GpioOutObject("4");
 
 	// create new GPIO object to be attached to  GPIO17
-	GpioObject *gpio17 = new GpioObject("17");
+	GpioInObject *gpio17 = new GpioInObject("17");
 
 	gpio4->export_gpio();	// export GPIO4
 	gpio17->export_gpio();	// export GPIO17
 
 	logSrv->info("GPIO pins exported");
 
-	gpio4->setdir_gpio("out");	// GPIO4 set to output
-	gpio17->setdir_gpio("in");	// GPIO17 set to input
+	gpio4->setdir_gpio();	// GPIO4 set to output
+	gpio17->setdir_gpio();	// GPIO17 set to input
 
 	logSrv->info("Set GPIO pin directions");
 

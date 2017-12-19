@@ -2,6 +2,8 @@
 #include "AssertException.h"
 #include "UnitTest.h"
 
+#include <stdio.h>
+
 void assertTrue(bool value)
 {
 	if (value)
@@ -9,9 +11,13 @@ void assertTrue(bool value)
 		return;
 	}
 
-	string mess = value ? "true" : "false";
+	string strValue = value ? "true" : "false";
 
-	throw AssertException("Exprected " + mess + " to be true");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%s' to be true", strValue.c_str());
+
+	throw AssertException(mess);
 }
 
 void assertFalse(bool value)
@@ -21,9 +27,13 @@ void assertFalse(bool value)
 		return;
 	}
 
-	string mess = value ? "true" : "false";
+	string strValue = value ? "true" : "false";
 
-	throw AssertException("Exprected " + mess + " to be false");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%s' to be false", strValue.c_str());
+
+	throw AssertException(mess);
 }
 
 
@@ -34,7 +44,11 @@ void assertEqual(string val1, string val2)
 		return;
 	}
 
-	throw AssertException("Exprected '" + val1 + "' to be equal with '" + val2 + "'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%s' to be equal with '%s'", val1.c_str(), val2.c_str());
+
+	throw AssertException(mess);
 }
 
 void assertEqual(int val1, int val2)
@@ -44,7 +58,11 @@ void assertEqual(int val1, int val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%d' to be equal with '%d'", val1, val2);
+
+	throw AssertException(mess);
 }
 
 void assertEqual(long val1, long val2)
@@ -54,7 +72,11 @@ void assertEqual(long val1, long val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%ld' to be equal with '%ld'", val1, val2);
+
+	throw AssertException(mess);
 }
 
 void assertEqual(long long val1, long long val2)
@@ -64,7 +86,11 @@ void assertEqual(long long val1, long long val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%lld' to be equal with '%lld'", val1, val2);
+
+	throw AssertException(mess);
 }
 
 void assertEqual(double val1, double val2)
@@ -74,7 +100,11 @@ void assertEqual(double val1, double val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%lf' to be equal with '%lf'", val1, val2);
+
+	throw AssertException(mess);
 }
 
 void assertEqual(bool val1, bool val2)
@@ -84,7 +114,14 @@ void assertEqual(bool val1, bool val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	string strVal1 = val1 ? "true" : "false";
+	string strVal2 = val2 ? "true" : "false";
+
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%s' to be equal with '%s'", strVal1.c_str(), strVal2.c_str());
+
+	throw AssertException(mess);
 }
 
 
@@ -95,7 +132,11 @@ void assertNotEqual(string val1, string val2)
 		return;
 	}
 
-	throw AssertException("Exprected '" + val1 + "' to be equal with '" + val2 + "'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%s' to be equal with '%s'", val1.c_str(), val2.c_str());
+
+	throw AssertException(mess);
 }
 
 void assertNotEqual(int val1, int val2)
@@ -105,7 +146,11 @@ void assertNotEqual(int val1, int val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%d' to be equal with '%d'", val1, val2);
+
+	throw AssertException(mess);
 }
 
 void assertNotEqual(long val1, long val2)
@@ -115,7 +160,11 @@ void assertNotEqual(long val1, long val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%ld' to be equal with '%ld'", val1, val2);
+
+	throw AssertException(mess);
 }
 
 void assertNotEqual(long long val1, long long val2)
@@ -125,7 +174,11 @@ void assertNotEqual(long long val1, long long val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%lld' to be equal with '%lld'", val1, val2);
+
+	throw AssertException(mess);
 }
 
 void assertNotEqual(double val1, double val2)
@@ -135,7 +188,11 @@ void assertNotEqual(double val1, double val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%lf' to be equal with '%lf'", val1, val2);
+
+	throw AssertException(mess);
 }
 
 void assertNotEqual(bool val1, bool val2)
@@ -145,7 +202,14 @@ void assertNotEqual(bool val1, bool val2)
 		return;
 	}
 
-	throw AssertException("Exprected 'val1' to be equal with 'val2'");
+	string strVal1 = val1 ? "true" : "false";
+	string strVal2 = val2 ? "true" : "false";
+
+	char* mess = new char[1024];
+
+	sprintf(mess, "Exprected '%s' to be equal with '%s'", strVal1.c_str(), strVal2.c_str());
+
+	throw AssertException(mess);
 }
 
 bool assertMethod(string description, UnitTestFunction testFunction)

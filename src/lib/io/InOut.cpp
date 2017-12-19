@@ -6,7 +6,7 @@ using namespace std;
 
 InOut::InOut()
 {
-	
+
 }
 
 InOut::~InOut()
@@ -21,13 +21,28 @@ int InOut::inInt()
 
 	return num;
 }
-	
+
 string InOut::inString()
 {
 	string message;
 	cin >> message;
 
 	return message;
+}
+
+string InOut::inLine()
+{
+	string s;
+	cin >> s;
+
+	cin.ignore();
+
+	string i;
+	getline(cin, i);
+
+	s = s + " " + i;
+
+	return s;
 }
 
 void InOut::outInt(int number)

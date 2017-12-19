@@ -20,13 +20,13 @@ private:
 public:
 	MenuItem();
 	virtual ~MenuItem();
-	
+
 	int getId();
 	string getName();
 	string getTitle();
 	string getDescription();
 	bool getEnable();
-	
+
 	void setId(int id);
 	void setName(string name);
 	void setTitle(string title);
@@ -34,6 +34,7 @@ public:
 	void setEnable(bool enable);
 
 	virtual void action();
+	virtual void check();
 	virtual string identify();
 
 };

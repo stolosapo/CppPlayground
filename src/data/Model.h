@@ -21,16 +21,16 @@ private:
 	map<string, string> stringProperties;
 	map<string, bool> boolProperties;
 	map<string, Model*> objectProperties;
-	
+
 
 protected:
 	typedef Model* (*staticFactoryMethod)();
 
 	staticFactoryMethod staticFactory;
 	map<string, staticFactoryMethod> propertyFactories;
-	
 
-	virtual void registerProperties() = 0;	
+
+	virtual void registerProperties() = 0;
 	void registerPropertyName(int index, string name, Property::Type type);
 	void registerPropertyName(int index, string name, Property::Type type, staticFactoryMethod factoryMethod);
 
@@ -57,10 +57,15 @@ public:
 	Model* invokePropertyFactory(string name);
 
 	int getIntProperty(string name);
+	int getIntProperty(string name, int defaultValue);
 	long getLongProperty(string name);
+	long getLongProperty(string name, long defaultValue);
 	double getDoubleProperty(string name);
+	double getDoubleProperty(string name, double defaultValue);
 	string getStringProperty(string name);
+	string getStringProperty(string name, string defaultValue);
 	bool getBoolProperty(string name);
+	bool getBoolProperty(string name, bool defaultValue);
 	Model* getObjectProperty(string name);
 
 	void setIntProperty(string name, int value);
