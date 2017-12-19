@@ -79,6 +79,18 @@ public:
 		}
 	}
 
+	void trace(string message)
+	{
+		printColor(BOLDGREEN);
+		outString(" *** [ TRACE ]: ");
+
+		printColor(WHITE);
+		outString(message);
+		outString("\n");
+
+		printColor(RESET);
+	}
+
 	void info(string message)
 	{
 		printColor(BOLDYELLOW);
@@ -93,8 +105,20 @@ public:
 
 	void debug(string message)
 	{
-		printColor(BOLDGREEN);
+		printColor(BOLDBLUE);
 		outString(" *** [ DEBUG ]: ");
+
+		printColor(WHITE);
+		outString(message);
+		outString("\n");
+
+		printColor(RESET);
+	}
+
+	void warn(string message)
+	{
+		printColor(BOLDMAGENTA);
+		outString(" *** [ WARN ]: ");
 
 		printColor(WHITE);
 		outString(message);

@@ -5,6 +5,9 @@
 
 #include "../lib/di/GlobalAppContext.h"
 
+#include "../lib/exception/domain/DomainException.h"
+#include "../lib/exception/ExceptionMapper.h"
+
 using namespace std;
 
 /*******************************
@@ -231,37 +234,50 @@ void MenuContainer::showOptions()
 
 void MenuContainer::action()
 {
-	while(1)
+	try
 	{
-		logSrv->clearScreen();
-
-		logSrv->outString(this->identify());
-
-		this->showOptions();
-
-		this->promptQuestion();
-
-		MenuItem *selectedItem = this->findMenuItem();
-		if (selectedItem != NULL)
+		while(1)
 		{
 			logSrv->clearScreen();
-			logSrv->outString(selectedItem->identify());
-			selectedItem->action();
 
-			if (this->continueQuestion)
+			logSrv->outString(this->identify());
+
+			this->showOptions();
+
+			this->promptQuestion();
+
+			MenuItem *selectedItem = this->findMenuItem();
+			if (selectedItem != NULL)
 			{
-				bool cont = this->promptContinueQuestion();
-				if (!cont)
-				{
-					break;
-				}
-			}
+				logSrv->clearScreen();
+				logSrv->outString(selectedItem->identify());
 
+				selectedItem->check();
+				selectedItem->action();
+
+				if (this->continueQuestion)
+				{
+					bool cont = this->promptContinueQuestion();
+					if (!cont)
+					{
+						break;
+					}
+				}
+
+			}
+			else
+			{
+				break;
+			}
 		}
-		else
-		{
-			break;
-		}
+	}
+	catch (DomainException& e)
+	{
+		logSrv->error(handle(e));
+	}
+	catch (exception& e)
+	{
+		throw e;
 	}
 }
 

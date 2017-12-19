@@ -24,10 +24,16 @@ void LogMenuItem::action()
 	logSrv->print(message);
 	logSrv->printl("");
 
+	logSrv->trace(message);
+	logSrv->printl("");
+
 	logSrv->info(message);
 	logSrv->printl("");
 
 	logSrv->debug(message);
+	logSrv->printl("");
+
+	logSrv->warn(message);
 	logSrv->printl("");
 
 	logSrv->error(message);

@@ -75,9 +75,15 @@ string Model::getPropertyName(int index)
 
 int Model::getIntProperty(string name)
 {
+	return getIntProperty(name, 0);
+}
+
+
+int Model::getIntProperty(string name, int defaultValue)
+{
 	if (!intPropertyExists(name))
 	{
-		return 0;
+		return defaultValue;
 	}
 
 	return intProperties.find(name)->second;
@@ -86,9 +92,15 @@ int Model::getIntProperty(string name)
 
 long Model::getLongProperty(string name)
 {
+	return getLongProperty(name, 0);
+}
+
+
+long Model::getLongProperty(string name, long defaultValue)
+{
 	if (!longPropertyExists(name))
 	{
-		return 0;
+		return defaultValue;
 	}
 
 	return longProperties.find(name)->second;
@@ -97,9 +109,15 @@ long Model::getLongProperty(string name)
 
 double Model::getDoubleProperty(string name)
 {
+	return getDoubleProperty(name, 0.0);
+}
+
+
+double Model::getDoubleProperty(string name, double defaultValue)
+{
 	if (!doublePropertyExists(name))
 	{
-		return 0.0;
+		return defaultValue;
 	}
 
 	return doubleProperties.find(name)->second;
@@ -108,9 +126,15 @@ double Model::getDoubleProperty(string name)
 
 string Model::getStringProperty(string name)
 {
+	return getStringProperty(name, "");
+}
+
+
+string Model::getStringProperty(string name, string defaultValue)
+{
 	if (!stringPropertyExists(name))
 	{
-		return "";
+		return defaultValue;
 	}
 
 	return stringProperties.find(name)->second;
@@ -119,9 +143,15 @@ string Model::getStringProperty(string name)
 
 bool Model::getBoolProperty(string name)
 {
+	return getBoolProperty(name, false);
+}
+
+
+bool Model::getBoolProperty(string name, bool defaultValue)
+{
 	if (!boolPropertyExists(name))
 	{
-		return false;
+		return defaultValue;
 	}
 
 	return boolProperties.find(name)->second;

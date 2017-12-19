@@ -9,11 +9,16 @@ using namespace std;
 
 class TcpClientConfig : public IConfig
 {
+private:
+	static const int DEFAULT_PORT = 51717;
+	static const char* DEFAULT_SERVERNAME;
+	
+	static Model* factory();
+	
 public:
 	TcpClientConfig();
 	virtual ~TcpClientConfig();
 
-	static Model* factory();
 
 	int getId();
 	string getName();
