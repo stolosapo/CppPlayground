@@ -4,6 +4,10 @@
 
 using namespace std;
 
+
+const char* TcpServerConfig::DEFAULT_HOSTNAME = "localhost";
+
+
 TcpServerConfig::TcpServerConfig() : IConfig(&factory)
 {
 	this->registerProperties();
@@ -41,17 +45,17 @@ string TcpServerConfig::getDescription()
 
 string TcpServerConfig::getHostname()
 {
-	return getStringProperty("hostname");
+	return getStringProperty("hostname", string(DEFAULT_HOSTNAME));
 }
 
 int TcpServerConfig::getPort()
 {
-	return getIntProperty("port");
+	return getIntProperty("port", DEFAULT_PORT);
 }
 
 int TcpServerConfig::getPoolsize()
 {
-	return getIntProperty("poolsize");
+	return getIntProperty("poolsize", DEFAULT_THREAD_POOL_SIZE);
 }
 
 

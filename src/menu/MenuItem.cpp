@@ -11,7 +11,7 @@ MenuItem::MenuItem()
 
 MenuItem::~MenuItem()
 {
-	
+
 }
 
 int MenuItem::getId()
@@ -66,10 +66,14 @@ void MenuItem::setEnable(bool enable)
 	this->enable = enable;
 }
 
+void MenuItem::check()
+{
+
+}
 
 void MenuItem::action()
 {
-	
+
 }
 
 string MenuItem::identify()

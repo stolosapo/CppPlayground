@@ -6,10 +6,10 @@
 
 using namespace std;
 
-class ITcpClient : public MenuItem
+class ITcpClient
 {
 public:
-	ITcpClient() : MenuItem() {};
+	ITcpClient() {};
 	virtual ~ITcpClient() {};
 
 	virtual void action() = 0;

@@ -2,7 +2,18 @@
 #include <iostream>
 #include "ClientInfo.h"
 
+#include "../lib/converter/Convert.h"
+
 using namespace std;
+
+ClientInfo::ClientInfo(void *server, TcpStream *stream, Thread *thread, int index)
+{
+	this->index = index;
+
+	this->stream = stream;
+	this->server = server;
+	this->thread = thread;
+}
 
 ClientInfo::ClientInfo(void *server, TcpStream *stream, int index)
 {
@@ -26,9 +37,9 @@ int ClientInfo::getIndex()
 	return index;
 }
 
-long ClientInfo::getThreadNumber()
+Thread* ClientInfo::getThread()
 {
-	return threadNumber;
+	return thread;
 }
 
 string ClientInfo::getName()
@@ -46,6 +57,18 @@ string ClientInfo::getHostname()
 	return hostname;
 }
 
+string ClientInfo::getIdentity()
+{
+	string strIndex = Convert<int>::NumberToString(index);
+
+	if (thread == NULL)
+	{
+		return strIndex;
+	}
+
+	return strIndex + " - " + thread->getStringId();
+}
+
 TcpStream* ClientInfo::getStream()
 {
 	return stream;
@@ -54,11 +77,6 @@ TcpStream* ClientInfo::getStream()
 void* ClientInfo::getServer()
 {
 	return server;
-}
-
-void ClientInfo::setThreadNumber(long threadNumber)
-{
-	this->threadNumber = threadNumber;
 }
 
 void ClientInfo::setName(string name)

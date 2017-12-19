@@ -15,6 +15,7 @@ public:
 
 	int inInt();
 	string inString();
+	string inLine();
 
 	void outInt(int number);
 	void outString(string message);

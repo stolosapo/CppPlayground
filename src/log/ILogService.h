@@ -27,8 +27,10 @@ public:
 	virtual void printl(string message) = 0;
 	virtual void printColor(string message) = 0;
 
+	virtual void trace(string message) = 0;
 	virtual void info(string message) = 0;
 	virtual void debug(string message) = 0;
+	virtual void warn(string message) = 0;
 	virtual void error(string message) = 0;
 	virtual void fatal(string message) = 0;
 	
