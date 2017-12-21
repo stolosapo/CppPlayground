@@ -33,38 +33,80 @@ void LibShout::finilizeShout()
 void LibShout::initializeShout()
 {
 	shoutInit();
+	logSrv->trace("Inited");
 
 	shoutNew();
+	logSrv->trace("Created New");
 
 	setAgent(string(IcecastProtocol::USER_AGENT));
+	logSrv->trace("Set Agent");
 
 	setProtocolHttp();
+	logSrv->trace("Set Protocol Http");
 
 	setHost(config->getHostname());
+	logSrv->trace("Set Host");
+
 	setPort(Convert<unsigned short>::StringToNumber(config->getPort()));
+	logSrv->trace("Set Port");
+
 	setMount(config->getMountpoint());
+	logSrv->trace("Set Mountpoint");
+
 	setUser("source");
+	logSrv->trace("Set User");
+
 	setPassword(config->getPassword());
+	logSrv->trace("Set Password");
 
 	setFormatMp3();
+	logSrv->trace("Set Format Mp3");
+
 	setPublic(Convert<unsigned int>::StringToNumber(config->getPublic()));
+	logSrv->trace("Set Public");
+
 	setNonblocking(1);
+	logSrv->trace("Set Non-Blocking");
 
 	setName(config->getName());
+	logSrv->trace("Set Name");
+
 	setUrl(config->getUrl());
+	logSrv->trace("Set Url");
+
 	setGenre(config->getGenre());
+	logSrv->trace("Set Genre");
+
 	setDescription(config->getDescription());
+	logSrv->trace("Set Description");
+
 
 	setMetaName(config->getName());
+	logSrv->trace("Set MetaName");
+
 	setMetaUrl(config->getUrl());
+	logSrv->trace("Set MetaUrl");
+
 	setMetaGenre(config->getGenre());
+	logSrv->trace("Set MetaGenre");
+
 	setMetaDescription(config->getDescription());
-	setMeta();
+	logSrv->trace("Set MetaDescription");
+
+	// setMeta();
+	// logSrv->trace("Set Meta");
+
 
 	setAudioInfoBitrate(config->getBitrate());
+	logSrv->trace("Set AudioInfoBitrate");
+
 	setAudioInfoSamplerate(config->getSamplerate());
+	logSrv->trace("Set AudioInfoSamplerate");
+
 	setAudioInfoChannels(config->getChannels());
-	// setAudioInfoQuality()	
+	logSrv->trace("Set AudioInfoChannels");
+
+	// setAudioInfoQuality()
 }
 
 void LibShout::startShout()
@@ -109,7 +151,7 @@ void LibShout::streamFile(const char* filename)
 
 	logSrv->info("Playing: " + string(filename));
 
-	
+
 	/* Update metadata */
 	shout_metadata_t* newMetadata;
 	newMetadata = createNewMetadata();
