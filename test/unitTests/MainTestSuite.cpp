@@ -1,6 +1,6 @@
 #include "MainTestSuite.h"
 
-#include "lib/LibTestSuite.h"
+#include "kernel/LibTestSuite.h"
 #include "euler/Problem001Test.h"
 
 MainTestSuite::MainTestSuite(): UnitTestSuite("Main Test Suite", 0)
