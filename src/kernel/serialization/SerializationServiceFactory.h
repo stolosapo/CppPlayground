@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include "ISerializationService.h"
-#include "../kernel/service/IService.h"
-#include "../kernel/service/IServiceFactory.h"
+#include "../service/IService.h"
+#include "../service/IServiceFactory.h"
 
 class SerializationServiceFactory: public IServiceFactory
 {

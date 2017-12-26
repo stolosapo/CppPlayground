@@ -4,9 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "../../serialization/ISerializationService.h"
-#include "../../serialization/SerializationServiceFactory.h"
-
+#include "../../kernel/serialization/ISerializationService.h"
 #include "../../kernel/di/GlobalAppContext.h"
 
 using namespace std;

@@ -5,7 +5,7 @@
 #include "../log/LogServiceMenuContainer.h"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/menu/TcpMenuContainer.h"
-#include "../serialization/menu/SerializationMenuContainer.h"
+#include "../serialization/SerializationMenuContainer.h"
 #include "../gpio/GpioMenuContainer.h"
 
 using namespace std;

@@ -1,9 +1,9 @@
 #include "GlobalAppContextRegistration.h"
 #include "GlobalAppContext.h"
 
-#include "../../kernel/log/LogServiceFactory.h"
+#include "../log/LogServiceFactory.h"
 #include "../time/TimeServiceFactory.h"
-#include "../../serialization/SerializationServiceFactory.h"
+#include "../serialization/SerializationServiceFactory.h"
 
 void registerServices()
 {
