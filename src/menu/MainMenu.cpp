@@ -6,7 +6,7 @@
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/menu/TcpMenuContainer.h"
 #include "../serialization/menu/SerializationMenuContainer.h"
-#include "../gpio/menu/GpioMenuContainer.h"
+#include "../gpio/GpioMenuContainer.h"
 
 using namespace std;
 

@@ -5,8 +5,8 @@
 #include <signal.h>
 
 #include "GpioMenuItem.h"
-#include "../GpioInObject.h"
-#include "../GpioOutObject.h"
+#include "../kernel/gpio/GpioInObject.h"
+#include "../kernel/gpio/GpioOutObject.h"
 
 using namespace std;
 
