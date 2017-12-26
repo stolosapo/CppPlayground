@@ -1,12 +1,12 @@
 #include <iostream>
 #include <vector>
 #include "MenuContainer.h"
-#include "../kernel/log/LogServiceFactory.h"
+#include "../log/LogServiceFactory.h"
 
-#include "../kernel/di/GlobalAppContext.h"
+#include "../di/GlobalAppContext.h"
 
-#include "../kernel/exception/domain/DomainException.h"
-#include "../kernel/exception/ExceptionMapper.h"
+#include "../exception/domain/DomainException.h"
+#include "../exception/ExceptionMapper.h"
 
 using namespace std;
 

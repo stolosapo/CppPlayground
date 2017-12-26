@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include "../../kernel/log/ILogService.h"
-#include "../../menu/MenuItem.h"
+#include "../../kernel/menu/MenuItem.h"
 
 using namespace std;
 

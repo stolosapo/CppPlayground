@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include "../kernel/converter/Convert.h"
-#include "../menu/MenuItem.h"
+#include "../kernel/menu/MenuItem.h"
 #include "../kernel/log/ILogService.h"
 
 using namespace std;
