@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "../../data/Model.h"
+#include "../../kernel/data_model/Model.h"
 
 using namespace std;
 

@@ -5,7 +5,7 @@
 #include <string>
 
 #include "../kernel/service/IService.h"
-#include "../data/Model.h"
+#include "../kernel/data_model/Model.h"
 
 using namespace std;
 

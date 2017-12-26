@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "../../data/Model.h"
-#include "../../data/Property.h"
+#include "../../kernel/data_model/Model.h"
+#include "../../kernel/data_model/Property.h"
 
 using namespace std;
 
