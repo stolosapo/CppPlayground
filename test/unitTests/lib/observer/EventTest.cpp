@@ -6,8 +6,8 @@
 #include "TestEventHandler.h"
 #include "TestDelegate.h"
 
-#include "../../../../src/lib/observer/Event.h"
-#include "../../../../src/lib/observer/EventArgs.h"
+#include "../../../../src/kernel/observer/Event.h"
+#include "../../../../src/kernel/observer/EventArgs.h"
 
 EventTest::EventTest() : UnitTestSuite("Event - Test", 9)
 {

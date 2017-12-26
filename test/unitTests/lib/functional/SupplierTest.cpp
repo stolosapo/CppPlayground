@@ -2,7 +2,7 @@
 
 #include "../../../testLib/Assertion.h"
 
-#include "../../../../src/lib/functional/Supplier.h"
+#include "../../../../src/kernel/functional/Supplier.h"
 
 SupplierTest::SupplierTest() : UnitTestSuite("Supplier - Test apply", 2)
 {

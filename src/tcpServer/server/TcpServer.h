@@ -8,7 +8,7 @@
 #include "../lib/TcpAcceptor.h"
 #include "../ClientInfo.h"
 #include "../../log/ILogService.h"
-#include "../../lib/task/ThreadPool.h"
+#include "../../kernel/task/ThreadPool.h"
 
 using namespace std;
 

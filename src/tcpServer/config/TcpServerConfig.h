@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../../lib/configuration/IConfig.h"
+#include "../../kernel/configuration/IConfig.h"
 
 using namespace std;
 

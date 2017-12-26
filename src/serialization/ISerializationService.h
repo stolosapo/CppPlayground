@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "../lib/service/IService.h"
+#include "../kernel/service/IService.h"
 #include "../data/Model.h"
 
 using namespace std;

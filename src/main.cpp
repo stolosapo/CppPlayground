@@ -1,7 +1,7 @@
 #include <iostream>
 #include <exception>
 
-#include "lib/di/GlobalAppContext.h"
+#include "kernel/di/GlobalAppContext.h"
 
 #include "menu/MainMenu.cpp"
 #include "arguments/ArgParser.h"

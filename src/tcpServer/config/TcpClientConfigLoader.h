@@ -4,7 +4,7 @@
 #include <string>
 
 #include "TcpClientConfig.h"
-#include "../../lib/configuration/IConfigLoader.h"
+#include "../../kernel/configuration/IConfigLoader.h"
 
 using namespace std;
 

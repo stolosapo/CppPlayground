@@ -6,9 +6,9 @@
 #include "TcpServer.h"
 #include "../ClientInfo.h"
 
-#include "../../lib/exception/domain/DomainException.h"
-#include "../../lib/exception/ExceptionMapper.h"
-#include "../../lib/task/Locker.h"
+#include "../../kernel/exception/domain/DomainException.h"
+#include "../../kernel/exception/ExceptionMapper.h"
+#include "../../kernel/task/Locker.h"
 
 using namespace std;
 

@@ -2,7 +2,7 @@
 
 #include "../../../testLib/Assertion.h"
 
-#include "../../../../src/lib/functional/Consumer.h"
+#include "../../../../src/kernel/functional/Consumer.h"
 
 ConsumerTest::ConsumerTest() : UnitTestSuite("Consumer - Test apply", 2)
 {

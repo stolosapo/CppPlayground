@@ -2,7 +2,7 @@
 
 #include "../../../testLib/Assertion.h"
 
-#include "../../../../src/lib/converter/Convert.h"
+#include "../../../../src/kernel/converter/Convert.h"
 
 ConvertTest::ConvertTest(): UnitTestSuite("Convert Test Suite", 2)
 {

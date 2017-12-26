@@ -4,7 +4,7 @@
 
 #include "../../../testLib/Assertion.h"
 
-#include "../../../../src/lib/math/PrimeFactor.h"
+#include "../../../../src/kernel/math/PrimeFactor.h"
 
 using namespace std;
 

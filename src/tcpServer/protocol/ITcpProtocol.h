@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../../lib/exception/domain/DomainErrorCode.h"
+#include "../../kernel/exception/domain/DomainErrorCode.h"
 #include "../ClientInfo.h"
 
 using namespace std;

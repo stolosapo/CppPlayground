@@ -7,7 +7,7 @@
 #include "../../serialization/ISerializationService.h"
 #include "../../serialization/SerializationServiceFactory.h"
 
-#include "../../lib/di/GlobalAppContext.h"
+#include "../../kernel/di/GlobalAppContext.h"
 
 using namespace std;
 

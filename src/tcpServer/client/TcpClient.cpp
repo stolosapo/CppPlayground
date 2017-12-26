@@ -5,12 +5,12 @@
 #include "../config/TcpClientConfigLoader.h"
 #include "../lib/TcpConnector.h"
 #include "../lib/TcpProtocol.h"
-#include "../../lib/converter/Convert.h"
+#include "../../kernel/converter/Convert.h"
 
 #include "../ClientInfo.h"
 
-#include "../../lib/exception/domain/DomainException.h"
-#include "../../lib/exception/ExceptionMapper.h"
+#include "../../kernel/exception/domain/DomainException.h"
+#include "../../kernel/exception/ExceptionMapper.h"
 #include "../exception/TcpClientErrorCode.h"
 
 using namespace std;

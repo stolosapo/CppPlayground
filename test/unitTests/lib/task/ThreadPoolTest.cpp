@@ -1,7 +1,7 @@
 #include "ThreadPoolTest.h"
 
-#include "../../../../src/lib/task/Thread.h"
-#include "../../../../src/lib/task/ThreadPool.h"
+#include "../../../../src/kernel/task/Thread.h"
+#include "../../../../src/kernel/task/ThreadPool.h"
 #include "../../../testLib/Assertion.h"
 
 ThreadPoolTest::ThreadPoolTest() : UnitTestSuite("ThreadPool - Test", 6)

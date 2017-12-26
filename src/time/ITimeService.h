@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "../lib/service/IService.h"
+#include "../kernel/service/IService.h"
 
 using namespace std;
 

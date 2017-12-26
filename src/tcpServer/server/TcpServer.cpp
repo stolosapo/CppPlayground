@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../../lib/converter/Convert.h"
+#include "../../kernel/converter/Convert.h"
 
 #include "TcpServer.h"
 #include "../config/TcpServerConfigLoader.h"
@@ -10,10 +10,10 @@
 #include "../lib/TcpProtocol.h"
 #include "../ClientInfo.h"
 
-#include "../../lib/task/Thread.h"
+#include "../../kernel/task/Thread.h"
 
-#include "../../lib/exception/domain/DomainException.h"
-#include "../../lib/exception/ExceptionMapper.h"
+#include "../../kernel/exception/domain/DomainException.h"
+#include "../../kernel/exception/ExceptionMapper.h"
 #include "../exception/TcpServerErrorCode.h"
 
 using namespace std;

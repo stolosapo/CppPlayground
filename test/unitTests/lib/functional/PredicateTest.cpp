@@ -2,7 +2,7 @@
 
 #include "../../../testLib/Assertion.h"
 
-#include "../../../../src/lib/functional/Predicate.h"
+#include "../../../../src/kernel/functional/Predicate.h"
 
 PredicateTest::PredicateTest() : UnitTestSuite("Predicate - Test apply", 2)
 {

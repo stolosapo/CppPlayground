@@ -1,6 +1,6 @@
 #include "ITcpProtocol.h"
 
-#include "../../lib/exception/domain/DomainException.h"
+#include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/TcpProtocolErrorCode.h"
 
 const char* ITcpProtocol::PROMPT = "tfk> ";

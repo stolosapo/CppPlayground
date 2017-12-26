@@ -1,6 +1,6 @@
 #include "ThreadTest.h"
 
-#include "../../../../src/lib/task/Thread.h"
+#include "../../../../src/kernel/task/Thread.h"
 #include "../../../testLib/Assertion.h"
 
 ThreadTest::ThreadTest() : UnitTestSuite("Thread - Test", 2)

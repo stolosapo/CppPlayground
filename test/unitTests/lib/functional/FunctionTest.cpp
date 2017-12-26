@@ -2,7 +2,7 @@
 
 #include "../../../testLib/Assertion.h"
 
-#include "../../../../src/lib/functional/Function.h"
+#include "../../../../src/kernel/functional/Function.h"
 
 
 FunctionTest::FunctionTest() : UnitTestSuite("Function - Test apply", 4)

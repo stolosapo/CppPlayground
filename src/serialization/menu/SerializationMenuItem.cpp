@@ -1,7 +1,7 @@
 #include "SerializationMenuItem.h"
 #include "../SerializationServiceFactory.h"
 
-#include "../../lib/di/GlobalAppContext.h"
+#include "../../kernel/di/GlobalAppContext.h"
 
 SerializationMenuItem::SerializationMenuItem(ILogService *logSrv) : MenuItem()
 {

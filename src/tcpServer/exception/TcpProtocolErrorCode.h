@@ -1,7 +1,7 @@
 #ifndef TcpProtocolErrorCode_h__
 #define TcpProtocolErrorCode_h__
 
-#include "../../lib/exception/domain/DomainErrorCode.h"
+#include "../../kernel/exception/domain/DomainErrorCode.h"
 
 class TcpProtocolErrorCode
 {

@@ -3,7 +3,7 @@
 
 #include <string>
 #include "lib/TcpStream.h"
-#include "../lib/task/Thread.h"
+#include "../kernel/task/Thread.h"
 
 using namespace std;
 

@@ -3,10 +3,10 @@
 #include "MenuContainer.h"
 #include "../log/LogServiceFactory.h"
 
-#include "../lib/di/GlobalAppContext.h"
+#include "../kernel/di/GlobalAppContext.h"
 
-#include "../lib/exception/domain/DomainException.h"
-#include "../lib/exception/ExceptionMapper.h"
+#include "../kernel/exception/domain/DomainException.h"
+#include "../kernel/exception/ExceptionMapper.h"
 
 using namespace std;
 

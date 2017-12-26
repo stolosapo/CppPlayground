@@ -2,7 +2,7 @@
 #define TestSharedTask_h__
 
 
-#include "../../../../src/lib/task/AsyncTask.h"
+#include "../../../../src/kernel/task/AsyncTask.h"
 
 
 class TestSharedTask: public AsyncTask

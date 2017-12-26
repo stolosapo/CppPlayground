@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "../../lib/utils/FigletHeader.h"
+#include "../../kernel/utils/FigletHeader.h"
 
 using namespace std;
 
