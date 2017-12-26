@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <string>
-#include "../../kernel/converter/Convert.h"
-#include "../ILogService.h"
-#include "../../menu/MenuItem.h"
+
+#include "../kernel/log/ILogService.h"
+#include "../menu/MenuItem.h"
 
 using namespace std;
 

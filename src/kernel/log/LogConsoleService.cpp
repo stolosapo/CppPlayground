@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "ILogService.h"
-#include "../kernel/definitions/Colors.h"
+#include "../definitions/Colors.h"
 
 using namespace std;
 

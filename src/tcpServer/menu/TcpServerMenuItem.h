@@ -2,7 +2,7 @@
 #define TcpServerMenuItem_h__
 
 #include "../../menu/MenuItem.h"
-#include "../../log/ILogService.h"
+#include "../../kernel/log/ILogService.h"
 
 using namespace std;
 

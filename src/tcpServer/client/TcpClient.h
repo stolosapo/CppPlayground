@@ -5,7 +5,7 @@
 #include "../config/TcpClientConfig.h"
 #include "../protocol/ITcpProtocol.h"
 #include "../lib/TcpConnector.h"
-#include "../../log/ILogService.h"
+#include "../../kernel/log/ILogService.h"
 
 class TcpClient : public ITcpClient
 {

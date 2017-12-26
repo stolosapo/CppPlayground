@@ -2,7 +2,7 @@
 #define TcpServerFactory_h__
 
 #include "ITcpServer.h"
-#include "../../log/ILogService.h"
+#include "../../kernel/log/ILogService.h"
 
 class TcpServerFactory
 {

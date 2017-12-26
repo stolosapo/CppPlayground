@@ -2,7 +2,7 @@
 
 #include "MainMenuHeader.cpp"
 #include "../menu/MenuContainer.h"
-#include "../log/menu/LogServiceMenuContainer.h"
+#include "../log/LogServiceMenuContainer.h"
 #include "../euler/EulerProblemContainer.cpp"
 #include "../tcpServer/menu/TcpMenuContainer.h"
 #include "../serialization/menu/SerializationMenuContainer.h"

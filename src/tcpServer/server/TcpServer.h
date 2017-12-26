@@ -7,7 +7,7 @@
 #include "../protocol/ITcpProtocol.h"
 #include "../lib/TcpAcceptor.h"
 #include "../ClientInfo.h"
-#include "../../log/ILogService.h"
+#include "../../kernel/log/ILogService.h"
 #include "../../kernel/task/ThreadPool.h"
 
 using namespace std;

@@ -4,8 +4,8 @@
 #include <iostream>
 #include <string>
 
-#include "../kernel/service/IService.h"
-#include "../kernel/io/InOut.h"
+#include "../service/IService.h"
+#include "../io/InOut.h"
 
 using namespace std;
 

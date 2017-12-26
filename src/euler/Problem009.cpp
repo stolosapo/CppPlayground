@@ -2,7 +2,7 @@
 #include <string>
 #include <math.h>
 #include "EulerProblem.h"
-#include "../log/ILogService.h"
+#include "../kernel/log/ILogService.h"
 #include "../kernel/converter/Convert.h"
 
 using namespace std;

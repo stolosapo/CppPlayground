@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include "../log/ILogService.h"
+#include "../kernel/log/ILogService.h"
 #include "../menu/MenuItem.h"
 
 

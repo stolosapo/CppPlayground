@@ -1,6 +1,6 @@
 #include "TcpClientFactory.h"
 
-#include "../../log/ILogService.h"
+#include "../../kernel/log/ILogService.h"
 
 #include "TcpClient.h"
 

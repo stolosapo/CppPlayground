@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "EulerProblem.h"
-#include "../log/ILogService.h"
+#include "../kernel/log/ILogService.h"
 #include "../kernel/converter/Convert.h"
 #include "../kernel/math/PrimeFactor.h"
 

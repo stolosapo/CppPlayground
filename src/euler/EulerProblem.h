@@ -5,7 +5,7 @@
 #include <string>
 #include "../kernel/converter/Convert.h"
 #include "../menu/MenuItem.h"
-#include "../log/ILogService.h"
+#include "../kernel/log/ILogService.h"
 
 using namespace std;
 

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "MenuContainer.h"
-#include "../log/LogServiceFactory.h"
+#include "../kernel/log/LogServiceFactory.h"
 
 #include "../kernel/di/GlobalAppContext.h"
 
