@@ -1,5 +1,6 @@
 #include "LibTestSuite.h"
 
+#include "arguments/ArgParserTest.h"
 #include "converter/ConvertTest.h"
 #include "math/PrimeFactorTest.h"
 #include "functional/FunctionalTestSuite.h"
@@ -20,6 +21,7 @@ LibTestSuite::~LibTestSuite()
 
 void LibTestSuite::registerTests()
 {
+	registerTest(new ArgParserTest);
 	registerTest(new ConvertTest);
 	registerTest(new PrimeFactorTest);
 	registerTest(new FunctionalTestSuite);
