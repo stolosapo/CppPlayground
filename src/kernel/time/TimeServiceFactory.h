@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "ITimeService.h"
-#include "../kernel/service/IServiceFactory.h"
+#include "../service/IServiceFactory.h"
 
 class TimeServiceFactory: public IServiceFactory
 {
