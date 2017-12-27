@@ -15,8 +15,6 @@ using namespace std;
 class TcpServer : public ITcpServer
 {
 private:
-	ILogService *logSrv;
-
 	ITcpProtocol *protocol;
 	TcpAcceptor *acceptor;
 	TcpServerConfig* config;
@@ -36,6 +34,8 @@ public:
 	virtual void action();
 
 protected:
+	ILogService *logSrv;
+
 	virtual void loadConfig();
 	virtual void initialize();
 

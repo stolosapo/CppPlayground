@@ -191,5 +191,5 @@ bool TcpClient::cycle(ClientInfo *client)
 
 void TcpClient::processCommand(ClientInfo *client, string command)
 {
-
+	in->outString(command + "\n");
 }

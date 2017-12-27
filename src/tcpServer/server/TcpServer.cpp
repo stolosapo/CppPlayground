@@ -233,17 +233,12 @@ void TcpServer::initialize()
 
 void TcpServer::cycle(ClientInfo *client, string input)
 {
-	TcpStream *stream = client->getStream();
-
-
 	logSrv->trace("received [" + client->getIdentity() + "] - " + input);
 
 	if (validateCommand(input))
 	{
 		/* Process Message */
-		processCommand(client, input);
-
-		stream->send(input);
+		processCommand(client, input);		
 	}
 	else
 	{
@@ -259,5 +254,7 @@ bool TcpServer::validateCommand(string command)
 
 void TcpServer::processCommand(ClientInfo *client, string command)
 {
+	TcpStream *stream = client->getStream();
 
+	stream->send(command);
 }

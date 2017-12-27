@@ -16,8 +16,6 @@ template<typename T>
 class StatefullTcpServer : public TcpServer
 {
 private:
-	T* state;
-
 	Locker locker;
 
 public:
@@ -25,6 +23,8 @@ public:
 	virtual ~StatefullTcpServer();
 
 protected:
+	T* state;
+	
 	virtual T* createNewState() = 0;
 
 	virtual void initialize();
@@ -60,7 +60,7 @@ StatefullTcpServer<T>::~StatefullTcpServer()
 }
 
 template <typename T>
-StatefullTcpServer<T>::initialize()
+void StatefullTcpServer<T>::initialize()
 {
 	TcpServer::initialize();
 
@@ -68,7 +68,7 @@ StatefullTcpServer<T>::initialize()
 }
 
 template <typename T>
-StatefullTcpServer<T>::safeStateMutation(ClientInfo *client, string input)
+void StatefullTcpServer<T>::safeStateMutation(ClientInfo *client, string input)
 {
 	locker.lock();
 

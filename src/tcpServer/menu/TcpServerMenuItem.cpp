@@ -2,6 +2,7 @@
 
 #include "../server/ITcpServer.h"
 #include "../server/TcpServerFactory.h"
+#include "../server/TestStatefullTcpServer.h"
 
 TcpServerMenuItem::TcpServerMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -23,7 +24,9 @@ void TcpServerMenuItem::action()
         this->identify();
         this->logSrv->outString("\n\n");
 
-        ITcpServer* server = TcpServerFactory::create(this->logSrv);
+        // ITcpServer* server = TcpServerFactory::create(this->logSrv);
+
+        ITcpServer* server = new TestStatefullTcpServer(this->logSrv);
 
         server->action();
 
