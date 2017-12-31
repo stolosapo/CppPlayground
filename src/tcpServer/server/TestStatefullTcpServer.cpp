@@ -1,5 +1,7 @@
 #include "TestStatefullTcpServer.h"
 
+#include "../../kernel/converter/Convert.h"
+
 TestStatefullTcpServer::TestStatefullTcpServer(ILogService *logSrv) : StatefullTcpServer(logSrv)
 {
 
@@ -12,26 +14,34 @@ TestStatefullTcpServer::~TestStatefullTcpServer()
 
 TestState* TestStatefullTcpServer::createNewState()
 {
-	logSrv->trace("Create new state");
-
 	return new TestState;
 }
 
 void TestStatefullTcpServer::stateMutation(ClientInfo *client, string input)
 {
+	ILogService* logger = ((TestStatefullTcpServer*) client->getServer())->logger();
+
+	string identity = client->getIdentity();
+	string id = Convert<int>::NumberToString(client->getIndex());
+
 	if (input == "clear")
 	{
 		state = createNewState();
-		logSrv->trace("State cleared");
+		logger->trace(identity + " State cleared");
 		
 		return;
 	}
 
-	logSrv->trace("Current state name: " + state->getName());
+	// input = state->getName() + "->" + input + id;
+	input = input + id;
+
+	logger->trace(identity + " Current state name: " + state->getName());
 
 	state->setName(input);
 
-	logSrv->trace("Changed state name to: " + state->getName());	
+	logger->trace(identity + " Changed state name to: " + state->getName());
+
+	logger = NULL;
 }
 
 bool TestStatefullTcpServer::validateCommand(string command)

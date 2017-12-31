@@ -20,6 +20,8 @@ private:
 	TcpServerConfig* config;
 	ThreadPool* pool;
 
+	ILogService *logSrv;
+
 	void* task(void*);
 	static void* internalClientTask(void *context);
 
@@ -34,7 +36,7 @@ public:
 	virtual void action();
 
 protected:
-	ILogService *logSrv;
+	ILogService* logger();
 
 	virtual void loadConfig();
 	virtual void initialize();
@@ -43,6 +45,7 @@ protected:
 
 	virtual bool validateCommand(string command);
 	virtual void processCommand(ClientInfo *client, string command);
+	virtual void processErrorCommand(ClientInfo *client, string command);
 };
 
 #endif // TcpServer_h__

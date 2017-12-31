@@ -132,6 +132,11 @@ void TcpServer::finalizeClient(ClientInfo* client)
 *		PUBLIC METHODS
 *
 **********************************/
+ILogService* TcpServer::logger()
+{
+	return this->logSrv;
+}
+
 void TcpServer::start()
 {
 	string input = "";
@@ -233,7 +238,11 @@ void TcpServer::initialize()
 
 void TcpServer::cycle(ClientInfo *client, string input)
 {
-	logSrv->trace("received [" + client->getIdentity() + "] - " + input);
+	ILogService* logger = ((TcpServer*) client->getServer())->logger();
+
+	string trace = "received [" + client->getIdentity() + "] - " + input; 
+
+	logger->trace(trace);
 
 	if (validateCommand(input))
 	{
@@ -242,9 +251,11 @@ void TcpServer::cycle(ClientInfo *client, string input)
 	}
 	else
 	{
-		/* send error message back */
-		ITcpProtocol::error(client);
+		/* Process Error Message */
+		processErrorCommand(client, input);
 	}
+
+	logger = NULL;
 }
 
 bool TcpServer::validateCommand(string command)
@@ -257,4 +268,10 @@ void TcpServer::processCommand(ClientInfo *client, string command)
 	TcpStream *stream = client->getStream();
 
 	stream->send(command);
+}
+
+void TcpServer::processErrorCommand(ClientInfo *client, string command)
+{
+	/* send error message back */
+	ITcpProtocol::error(client);
 }

@@ -1,6 +1,7 @@
 #ifndef StatefullTcpServer_h__
 #define StatefullTcpServer_h__
 
+#include <iostream>
 #include <string>
 
 #include "TcpServer.h"
@@ -78,7 +79,11 @@ void StatefullTcpServer<T>::safeStateMutation(ClientInfo *client, string input)
 	}
 	catch(DomainException& e)
 	{
-		logSrv->error(handle(e));
+		ILogService* logger = ((StatefullTcpServer<T>*) client->getServer())->logger();
+		
+		logger->error(handle(e));
+
+		logger = NULL;
 	}
 
 	locker.unlock();
