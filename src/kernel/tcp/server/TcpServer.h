@@ -17,7 +17,6 @@ class TcpServer : public ITcpServer
 private:
 	ITcpProtocol *protocol;
 	TcpAcceptor *acceptor;
-	TcpServerConfig* config;
 	ThreadPool* pool;
 
 	ILogService *logSrv;
@@ -36,6 +35,8 @@ public:
 	virtual void action();
 
 protected:
+	TcpServerConfig* config;
+
 	ILogService* logger();
 
 	virtual void loadConfig();
