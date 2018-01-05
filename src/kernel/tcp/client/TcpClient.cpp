@@ -153,8 +153,8 @@ bool TcpClient::cycle(ClientInfo *client)
 
 	/* Prompt user for input */
 	in->outString(ITcpProtocol::prompt());
-	string userInput = in->inString();
-	// string userInput = in->inLine();
+	// string userInput = in->inString();
+	string userInput = in->inLine();
 
 	if (ITcpProtocol::exit(userInput))
 	{
