@@ -9,7 +9,7 @@ GameMenuContainer::GameMenuContainer() : MenuContainer(
 	"Games",
 	1)
 {
-	this->setContinueQuestion(true);
+
 }
 
 GameMenuContainer::~GameMenuContainer()

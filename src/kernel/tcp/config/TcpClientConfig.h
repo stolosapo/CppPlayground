@@ -27,6 +27,8 @@ public:
 	int getServerPort();
 
 protected:
+	TcpClientConfig(staticFactoryMethod staticFactory);
+
 	virtual void registerProperties();
 
 };

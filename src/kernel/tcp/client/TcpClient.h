@@ -10,10 +10,6 @@
 class TcpClient : public ITcpClient
 {
 private:
-	InOut *in;
-	ILogService *logSrv;
-
-	ITcpProtocol *protocol;
 	TcpConnector *connector;
 	TcpStream *stream;
 	TcpClientConfig* config;
@@ -28,6 +24,11 @@ public:
 	virtual void action();
 
 protected:
+	InOut *in;
+	ILogService *logSrv;
+
+	ITcpProtocol *protocol;
+	
 	virtual void loadConfig();
 	virtual void initialize();
 
