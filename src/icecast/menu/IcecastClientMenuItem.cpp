@@ -7,6 +7,8 @@
 #include "../../lib/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
 
+#include "../../audio/mp3/Mp3Id3v2.h"
+
 
 IcecastClientMenuItem::IcecastClientMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -32,9 +34,12 @@ void IcecastClientMenuItem::check()
 
 void IcecastClientMenuItem::action()
 {
-    IcecastClient* client = new IcecastClient(this->logSrv);
+	Mp3Id3v2 mp3;
+	mp3.action();
 
-    client->action();
-
-    delete client;
+	// IcecastClient* client = new IcecastClient(this->logSrv);
+	//
+	// client->action();
+	//
+	// delete client;
 }
