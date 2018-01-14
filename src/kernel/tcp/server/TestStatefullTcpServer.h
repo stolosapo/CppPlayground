@@ -10,13 +10,14 @@
 #include "../../exception/domain/DomainException.h"
 #include "../../exception/ExceptionMapper.h"
 #include "../../task/Locker.h"
+#include "../../interruption/SignalService.h"
 
 using namespace std;
 
 class TestStatefullTcpServer : public StatefullTcpServer<TestState>
 {
 public:
-	TestStatefullTcpServer(ILogService *logSrv);
+	TestStatefullTcpServer(ILogService *logSrv, SignalService* sigSrv);
 	virtual ~TestStatefullTcpServer();
 
 	virtual TestState* createNewState();

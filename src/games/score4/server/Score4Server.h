@@ -7,13 +7,14 @@
 
 #include "../../../kernel/tcp/ClientInfo.h"
 #include "../../../kernel/tcp/server/StatefullTcpServer.h"
+#include "../../../kernel/interruption/SignalService.h"
 
 using namespace std;
 
 class Score4Server : public StatefullTcpServer<Score4State>
 {
 public:
-	Score4Server(ILogService *logSrv);
+	Score4Server(ILogService *logSrv, SignalService *sigSrv);
 	virtual ~Score4Server();
 
 	virtual Score4State* createNewState();

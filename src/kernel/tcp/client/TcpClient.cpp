@@ -21,7 +21,7 @@ using namespace std;
 *		CONSTRUCTORS
 *
 **********************************/
-TcpClient::TcpClient(ILogService *logSrv) : ITcpClient(), logSrv(logSrv)
+TcpClient::TcpClient(ILogService *logSrv, SignalService *sigSrv) : ITcpClient(), logSrv(logSrv), sigSrv(sigSrv)
 {
 	this->in = new InOut;
 
@@ -98,6 +98,17 @@ void TcpClient::start()
 		bool cont = true;
 		while (cont)
 		{
+
+			/* Check for interruption */
+			if (sigSrv->signaled(SIGINT) == 1)
+			{
+
+				logSrv->debug("Stopping client.. ");
+				sigSrv->reset(SIGINT);
+
+				break;
+			}
+
 			/* Proccess client */
 			cont = cycle(client);
 		}

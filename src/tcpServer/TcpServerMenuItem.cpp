@@ -3,6 +3,8 @@
 #include "../kernel/tcp/server/ITcpServer.h"
 #include "../kernel/tcp/server/TcpServerFactory.h"
 #include "../kernel/tcp/server/TestStatefullTcpServer.h"
+#include "../kernel/di/GlobalAppContext.h"
+#include "../kernel/interruption/SignalService.h"
 
 TcpServerMenuItem::TcpServerMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -26,7 +28,9 @@ void TcpServerMenuItem::action()
 
         // ITcpServer* server = TcpServerFactory::create(this->logSrv);
 
-        ITcpServer* server = new TestStatefullTcpServer(this->logSrv);
+        SignalService* sigSrv = inject<SignalService>("signalService");
+
+        ITcpServer* server = new TestStatefullTcpServer(this->logSrv, sigSrv);
 
         server->action();
 

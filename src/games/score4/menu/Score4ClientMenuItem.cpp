@@ -1,6 +1,8 @@
 #include "Score4ClientMenuItem.h"
 
 #include "../client/Score4Client.h"
+#include "../../../kernel/di/GlobalAppContext.h"
+#include "../../../kernel/interruption/SignalService.h"
 
 Score4ClientMenuItem::Score4ClientMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -22,7 +24,9 @@ void Score4ClientMenuItem::action()
 	this->identify();
 	this->logSrv->outString("\n\n");
 
-	Score4Client client(logSrv);
+	SignalService* sigSrv = inject<SignalService>("signalService");
+
+	Score4Client client(logSrv, sigSrv);
 
 	client.action();
 }

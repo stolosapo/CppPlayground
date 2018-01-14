@@ -32,6 +32,7 @@ MenuContainer::MenuContainer(int id, string name, string title, const int size) 
 	this->menuItems = new MenuItem *[size];
 
 	logSrv = inject<ILogService>("logService");
+	sigSrv = inject<SignalService>("signalService");
 }
 
 MenuContainer::~MenuContainer()
@@ -159,14 +160,29 @@ MenuItem *MenuContainer::findMenuItem()
 		}
 	}
 
+	this->selection = this->exitCode;
 	logSrv->outString("No such item exists!!!\n\n");
 	logSrv->outString("Choose again: ");
 
 	this->selection = logSrv->inInt();
 
+	/* Check for Interruption */
+	if (sigSrv->signaled(SIGINT) == 1)
+	{
+		cin.clear();
+		cin.ignore();
+
+		sigSrv->reset(SIGINT);
+
+		this->selection = this->exitCode;
+	}
+
 	/* Guard for unexpected input */
 	if (this->selection < 0)
 	{
+		cin.clear();
+		cin.ignore();
+
 		logSrv->fatal("Fatal selection");
 
 		this->selection = this->exitCode;

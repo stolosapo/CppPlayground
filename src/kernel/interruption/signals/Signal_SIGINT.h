@@ -4,7 +4,7 @@
 #include "Signal.h"
 
 
-volatile sig_atomic_t sigint_signaled;
+volatile static sig_atomic_t sigint_signaled;
 
 
 class Signal_SIGINT : public Signal
@@ -13,8 +13,8 @@ private:
 	static void signal_handler(int sig);
 
 public:
-
 	Signal_SIGINT();
+	Signal_SIGINT(SignalHandlerFunction external_handler);
 	virtual ~Signal_SIGINT();
 
 	virtual sig_atomic_t getSignaled();

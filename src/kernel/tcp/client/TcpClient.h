@@ -6,6 +6,7 @@
 #include "../protocol/ITcpProtocol.h"
 #include "../lib/TcpConnector.h"
 #include "../../log/ILogService.h"
+#include "../../interruption/SignalService.h"
 
 class TcpClient : public ITcpClient
 {
@@ -14,10 +15,12 @@ private:
 	TcpStream *stream;
 	TcpClientConfig* config;
 
+	SignalService* sigSrv;
+
 	void finalizeClient(ClientInfo *client);
 
 public:
-	TcpClient(ILogService *logSrv);
+	TcpClient(ILogService *logSrv, SignalService *sigSrv);
 	virtual ~TcpClient();
 
 	void start();

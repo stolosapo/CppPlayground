@@ -9,6 +9,7 @@
 #include "../ClientInfo.h"
 #include "../../log/ILogService.h"
 #include "../../task/ThreadPool.h"
+#include "../../interruption/SignalService.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ private:
 	ThreadPool* pool;
 
 	ILogService *logSrv;
+	SignalService* sigSrv;
 
 	void* task(void*);
 	static void* internalClientTask(void *context);
@@ -28,7 +30,7 @@ private:
 	void finalizeClient(ClientInfo *client);
 
 public:
-	TcpServer(ILogService *logSrv);
+	TcpServer(ILogService *logSrv, SignalService *sigSrv);
 	virtual ~TcpServer();
 
 	virtual void start();

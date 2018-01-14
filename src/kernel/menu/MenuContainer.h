@@ -6,6 +6,7 @@
 
 #include "MenuItem.h"
 #include "../log/ILogService.h"
+#include "../interruption/SignalService.h"
 
 
 using namespace std;
@@ -40,6 +41,7 @@ public:
 
 protected:
 	ILogService *logSrv;
+	SignalService *sigSrv;
 
 	void setUseOptions(bool useOptions);
 	void setQuestion(string question);

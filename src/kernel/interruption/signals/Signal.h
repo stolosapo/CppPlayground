@@ -3,7 +3,7 @@
 
 #include <signal.h>
 
-#include "SignalHandlerFunction.h"
+#include "../SignalHandlerFunction.h"
 
 
 class Signal

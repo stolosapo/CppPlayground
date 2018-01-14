@@ -5,13 +5,14 @@
 
 #include "../../../kernel/tcp/ClientInfo.h"
 #include "../../../kernel/tcp/client/TcpClient.h"
+#include "../../../kernel/interruption/SignalService.h"
 
 using namespace std;
 
 class Score4Client : public TcpClient
 {
 public:
-	Score4Client(ILogService *logSrv);
+	Score4Client(ILogService *logSrv, SignalService *sigSrv);
 	virtual ~Score4Client();
 
 protected:

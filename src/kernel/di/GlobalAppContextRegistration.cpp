@@ -4,6 +4,7 @@
 #include "../log/LogServiceFactory.h"
 #include "../time/TimeServiceFactory.h"
 #include "../serialization/SerializationServiceFactory.h"
+#include "../interruption/SignalServiceFactory.h"
 
 void registerServices()
 {
@@ -15,4 +16,7 @@ void registerServices()
 
 	/* Serialization Service */
 	registerGlobalService<SerializationServiceFactory>(SINGLETON, "serializationService", new SerializationServiceFactory);
+
+	/* Signal Service */
+	registerGlobalService<SignalServiceFactory>(START_UP, "signalService", new SignalServiceFactory);
 }

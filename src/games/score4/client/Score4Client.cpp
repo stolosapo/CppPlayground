@@ -1,6 +1,6 @@
 #include "Score4Client.h"
 
-Score4Client::Score4Client(ILogService *logSrv) : TcpClient(logSrv)
+Score4Client::Score4Client(ILogService *logSrv, SignalService *sigSrv) : TcpClient(logSrv, sigSrv)
 {
 
 }

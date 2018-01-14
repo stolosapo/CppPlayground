@@ -24,7 +24,7 @@ using namespace std;
 *		CONSTRUCTORS
 *
 **********************************/
-TcpServer::TcpServer(ILogService *logSrv) : ITcpServer(), logSrv(logSrv)
+TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv) : ITcpServer(), logSrv(logSrv), sigSrv(sigSrv)
 {
 	this->protocol = new ITcpProtocol(true);
 }
@@ -156,6 +156,17 @@ void TcpServer::start()
 
 	while (!ITcpProtocol::shutdown(input))
 	{
+		
+		/* Check for interruption */
+		if (sigSrv->signaled(SIGINT) == 1)
+		{
+			logSrv->debug("Stopping server..");
+
+			sigSrv->reset(SIGINT);
+
+			break;
+		}
+
 		if (!pool->hasNext())
 		{
 			continue;

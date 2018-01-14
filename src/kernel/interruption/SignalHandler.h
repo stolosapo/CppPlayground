@@ -1,18 +1,29 @@
 #ifndef SignalHandler_h__
 #define SignalHandler_h__
 
+#include <map>
 
-#include "SignalHandlerFunction.h"
+#include "signals/Signal.h"
 
+using namespace std;
 
 class SignalHandler
 {
 private:
-	SignalHandlerFunction handler;
+	map<int, Signal*> signals;
 
+protected:
+	void registerSignal(Signal* sig);
+	
 public:
-	SignalHandler(SignalHandlerFunction handler);
+	SignalHandler();
 	virtual ~SignalHandler();
+
+	void setup();
+	void reset(int sig);
+	int signaled(int sig);
+
+	virtual void registerSignals() = 0;
 
 };
 
