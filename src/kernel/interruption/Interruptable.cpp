@@ -12,7 +12,7 @@ using namespace std;
 
 Interruptable::Interruptable()
 {
-        ctrl_c_pressed = false;
+	ctrl_c_pressed = false;
 }
 
 
@@ -24,35 +24,36 @@ Interruptable::~Interruptable()
 
 void Interruptable::handler(int sig)
 {
-        write(0, "\nCtrl^C pressed in sig handler\n", 32);
+	write(0, "\nCtrl^C pressed in sig handler\n", 32);
 	ctrl_c_pressed = true;
 }
 
 
 bool Interruptable::ctrlC_Interruption()
 {
-        return ctrl_c_pressed;
+	return ctrl_c_pressed;
 }
 
 
 void Interruptable::setup()
 {
-        reset();
+	reset();
 
-        struct sigaction sig_struct;
-        // sig_struct.sa_handler = handler;
-        sig_struct.sa_flags = 0;
-        sigemptyset(&sig_struct.sa_mask);
+	struct sigaction sig_struct;
 
-        if (sigaction(SIGINT, &sig_struct, NULL) == -1)
-        {
-            cout << "Problem with sigaction" << endl;
-            exit(1);
-        }
+	// sig_struct.sa_handler = handler;
+	sig_struct.sa_flags = 0;
+	sigemptyset(&sig_struct.sa_mask);
+
+	if (sigaction(SIGINT, &sig_struct, NULL) == -1)
+	{
+		cout << "Problem with sigaction" << endl;
+		exit(1);
+	}
 }
 
 
 void Interruptable::reset()
 {
-        ctrl_c_pressed = false;
+	ctrl_c_pressed = false;
 }
