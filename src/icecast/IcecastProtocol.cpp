@@ -3,7 +3,7 @@
 
 #include "IcecastProtocol.h"
 
-#include "../shared/Base64.h"
+#include "../kernel/encrypt/Base64.h"
 
 using namespace std;
 
@@ -48,7 +48,7 @@ string IcecastProtocol::getHttpBasicAuthorization(string user, string password)
 
 	unsigned char* buff = new unsigned char[authLen];
 	memcpy(buff, auth.c_str(), authLen);
-	
+
 	string encodedAuth = Base64::encode(buff, auth.length());
 
 	return encodedAuth;
@@ -60,7 +60,7 @@ string IcecastProtocol::connectionRequest()
 
 	string hostname = config->getHostname();
 	string port = config->getPort();
-	
+
 	string mountpoint = config->getMountpoint();
 	string password = config->getPassword();
 
@@ -69,11 +69,11 @@ string IcecastProtocol::connectionRequest()
 	string name = config->getName();
 	string description = config->getDescription();
 	string genre = config->getGenre();
-	
+
 	string _public = config->getPublic();
 	string url = config->getUrl();
 
-	string bitrate = config->getBitrate();	
+	string bitrate = config->getBitrate();
 	string samplerate = config->getSamplerate();
 	string channels = config->getChannels();
 
@@ -86,10 +86,10 @@ string IcecastProtocol::connectionRequest()
 		"ice-url: " + url + NEW_LINE +
 		"ice-genre: " + genre + NEW_LINE +
 		"ice-bitrate: " + bitrate + NEW_LINE +
-		"ice-audio-info: samplerate=" + samplerate + 
-			";bitrate=" + bitrate + 
+		"ice-audio-info: samplerate=" + samplerate +
+			";bitrate=" + bitrate +
 			";channels=" + channels + NEW_LINE +
-		"ice-description: " + description + NEW_LINE + 
+		"ice-description: " + description + NEW_LINE +
 		NEW_LINE;
 
 	return request;
