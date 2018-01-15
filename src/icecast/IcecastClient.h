@@ -4,7 +4,7 @@
 #include "config/IcecastClientConfig.h"
 #include "IcecastProtocol.h"
 #include "IcecastPlaylist.h"
-#include "../log/ILogService.h"
+#include "../kernel/log/ILogService.h"
 #include "libshout/LibShout.h"
 
 class IcecastClient
@@ -24,7 +24,7 @@ public:
 	IcecastClient(ILogService *logSrv);
 	virtual ~IcecastClient();
 
-	void action();	
+	void action();
 
 };
 

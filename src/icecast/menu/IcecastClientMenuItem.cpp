@@ -2,9 +2,7 @@
 
 #include "../IcecastClient.h"
 
-#include "../../lib/excecutor/Excecutor.h"
-
-#include "../../lib/exception/domain/DomainException.h"
+#include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
 
 #include "../../audio/mp3/Mp3Id3v2.h"

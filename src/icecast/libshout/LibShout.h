@@ -3,7 +3,7 @@
 
 #include <string>
 #include "../config/IcecastClientConfig.h"
-#include "../../log/ILogService.h"
+#include "../../kernel/log/ILogService.h"
 
 #ifdef ICECAST
 #include <shout/shout.h>
@@ -36,7 +36,7 @@ private:
 
 	/* Allocates and sets up a new shout_t.  Returns NULL if it can't get enough
 	 * memory.  The returns shout_t must be disposed of with shout_free. */
-	void shoutNew();	
+	void shoutNew();
 
 	/* Free all memory allocated by a shout_t */
 	void shoutFree();

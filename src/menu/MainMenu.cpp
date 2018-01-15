@@ -8,6 +8,7 @@
 #include "../tcpServer/TcpMenuContainer.h"
 #include "../serialization/SerializationMenuContainer.h"
 #include "../gpio/GpioMenuContainer.h"
+#include "../icecast/menu/IcecastMenuContainer.h"
 #include "../games/GameMenuContainer.h"
 
 using namespace std;
@@ -19,7 +20,7 @@ public:
 		1,
 		"Main Menu",
 		"Main Menu",
-		6)
+		7)
 	{
 
 	}

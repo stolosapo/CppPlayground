@@ -1,8 +1,8 @@
 #include "LibShout.h"
 
-#include "../../lib/exception/domain/DomainException.h"
+#include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
-#include "../../lib/converter/Convert.h"
+#include "../../kernel/converter/Convert.h"
 
 void LibShout::shoutInit()
 {
@@ -273,8 +273,8 @@ void LibShout::setMeta(shout_metadata_t* newMetadata)
 }
 
 void LibShout::setMeta(shout_metadata_t* metadata, string name, string value)
-{	
-	if (shout_metadata_add(metadata, name.c_str(), value.c_str()) != SHOUTERR_SUCCESS) 
+{
+	if (shout_metadata_add(metadata, name.c_str(), value.c_str()) != SHOUTERR_SUCCESS)
 	{
 		throw DomainException(IcecastDomainErrorCode::ICS0015, getError());
 	}

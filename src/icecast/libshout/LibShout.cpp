@@ -3,11 +3,11 @@
 
 #include "LibShout.h"
 
-#include "../../lib/converter/Convert.h"
+#include "../../kernel/converter/Convert.h"
 #include "../../audio/mp3/Mp3Parser.h"
 #include "../IcecastProtocol.h"
 
-#include "../../lib/exception/domain/DomainException.h"
+#include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
 
 LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)

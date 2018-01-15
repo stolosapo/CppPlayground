@@ -5,8 +5,8 @@
 #include "../audio/mp3/Mp3Parser.h"
 #include "IcecastPlaylist.h"
 
-#include "../lib/converter/Convert.h"
-#include "../lib/exception/domain/DomainException.h"
+#include "../kernel/converter/Convert.h"
+#include "../kernel/exception/domain/DomainException.h"
 
 
 IcecastClient::IcecastClient(ILogService *logSrv)
@@ -69,7 +69,7 @@ void IcecastClient::streamAudio()
 		{
 			string track = playlist->getNext(currentTrackNum);
 
-			libShout->streamFile(track.c_str());	
+			libShout->streamFile(track.c_str());
 		}
 
 	}

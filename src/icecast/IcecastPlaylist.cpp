@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "../lib/converter/Convert.h"
-#include "../lib/exception/domain/DomainException.h"
-#include "../lib/exception/domain/GeneralDomainErrorCode.h"
+#include "../kernel/converter/Convert.h"
+#include "../kernel/exception/domain/DomainException.h"
+#include "../kernel/exception/domain/GeneralDomainErrorCode.h"
 
 IcecastPlaylist::IcecastPlaylist(ILogService *logSrv, IcecastClientConfig *config) : logSrv(logSrv), config(config)
 {

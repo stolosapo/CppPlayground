@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "config/IcecastClientConfig.h"
-#include "../log/ILogService.h"
+#include "../kernel/log/ILogService.h"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ private:
 
 	int randomLine();
 
-public:	
+public:
 	IcecastPlaylist(ILogService *logSrv, IcecastClientConfig *config);
 	virtual ~IcecastPlaylist();
 

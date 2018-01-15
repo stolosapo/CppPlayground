@@ -1,7 +1,7 @@
 #ifndef IcecastDomainErrorCode_h__
 #define IcecastDomainErrorCode_h__
 
-#include "../../lib/exception/domain/DomainErrorCode.h"
+#include "../../kernel/exception/domain/DomainErrorCode.h"
 
 class IcecastDomainErrorCode
 {
@@ -26,7 +26,7 @@ public:
         static const DomainErrorCode ICS0017;
         static const DomainErrorCode ICS0018;
         static const DomainErrorCode ICS0019;
-        
+
         static const DomainErrorCode ICS0020;
 
 	IcecastDomainErrorCode();
