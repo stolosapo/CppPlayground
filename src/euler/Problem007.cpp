@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include "EulerProblem.h"
-#include "../log/ILogService.h"
-#include "../lib/math/PrimeFactor.h"
+#include "../kernel/log/ILogService.h"
+#include "../kernel/math/PrimeFactor.h"
 
 using namespace std;
 

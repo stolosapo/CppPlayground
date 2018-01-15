@@ -1,14 +1,14 @@
 #include <iostream>
 
 #include "MainMenuHeader.cpp"
-#include "../menu/MenuContainer.h"
-#include "../log/menu/LogServiceMenuContainer.h"
+#include "../kernel/menu/MenuContainer.h"
+#include "../log/LogServiceMenuContainer.h"
 #include "../euler/EulerProblemContainer.cpp"
 
-#include "../tcpServer/menu/TcpMenuContainer.h"
-#include "../serialization/menu/SerializationMenuContainer.h"
-#include "../gpio/menu/GpioMenuContainer.h"
-#include "../icecast/menu/IcecastMenuContainer.h"
+#include "../tcpServer/TcpMenuContainer.h"
+#include "../serialization/SerializationMenuContainer.h"
+#include "../gpio/GpioMenuContainer.h"
+#include "../games/GameMenuContainer.h"
 
 using namespace std;
 
@@ -38,12 +38,12 @@ protected:
 		this->addMenuItem(3, new SerializationMenuContainer);
 		this->addMenuItem(4, new GpioMenuContainer);
 		this->addMenuItem(5, new IcecastMenuContainer);
+		this->addMenuItem(6, new GameMenuContainer);
 	}
 
 	virtual string getHeader()
 	{
 		MainMenuHeader header;
-
 		return header.getRandomHeader();
 	}
 
