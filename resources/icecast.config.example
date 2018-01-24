@@ -1,6 +1,7 @@
 {
 	"hostname":"giss.tv",
 	"port":"8000",
+	"username":"source",
 	"password":"pass",
 	"protocol":"http",
 	"mountpoint":"/thefirstkube.mp3",

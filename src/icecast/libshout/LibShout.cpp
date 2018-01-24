@@ -53,11 +53,11 @@ void LibShout::initializeShout()
 	setMount(config->getMountpoint());
 	logSrv->trace("Set Mountpoint");
 
-	setUser("source");
-	logSrv->trace("Set User");
+	setUser(config->getUsername());
+	logSrv->trace("Set User '" + config->getUsername() + "'");
 
 	setPassword(config->getPassword());
-	logSrv->trace("Set Password");
+	logSrv->trace("Set Password '" + config->getPassword() + "'");
 
 	setFormatMp3();
 	logSrv->trace("Set Format Mp3");
@@ -156,6 +156,7 @@ void LibShout::streamFile(const char* filename)
 	shout_metadata_t* newMetadata;
 	newMetadata = createNewMetadata();
 	setMetaSong(newMetadata, string(filename));
+	setMeta(newMetadata);
 
 	while (1)
 	{
@@ -165,7 +166,7 @@ void LibShout::streamFile(const char* filename)
 		if (read > 0)
 		{
 
-			setMeta(newMetadata);
+			// setMeta(newMetadata);
 
 			ret = shoutSend(buff, read);
 

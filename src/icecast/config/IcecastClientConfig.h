@@ -17,6 +17,7 @@ public:
 
 	string getHostname();
 	string getPort();
+	string getUsername();
 	string getPassword();
 	string getProtocol();
 	string getMountpoint();
