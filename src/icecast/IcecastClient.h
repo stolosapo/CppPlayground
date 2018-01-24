@@ -2,7 +2,6 @@
 #define IcecastClient_h__
 
 #include "config/IcecastClientConfig.h"
-#include "IcecastProtocol.h"
 #include "IcecastPlaylist.h"
 #include "../kernel/log/ILogService.h"
 #include "libshout/LibShout.h"
@@ -13,7 +12,6 @@ private:
 	ILogService *logSrv;
 
 	IcecastClientConfig* config;
-	IcecastProtocol* protocol;
 	LibShout* libShout;
 	IcecastPlaylist* playlist;
 
@@ -23,6 +21,15 @@ private:
 public:
 	IcecastClient(ILogService *logSrv);
 	virtual ~IcecastClient();
+
+	static const char* USER_AGENT;
+	
+	static const int MAJOR_VERSION = 1;
+	static const int MINOR_VERSION = 0;
+	static const int PATCH_VERSION = 0;
+
+	static string version();
+	static string agentVersion();
 
 	void action();
 

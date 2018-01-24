@@ -268,7 +268,7 @@ void LibShout::setMeta(shout_metadata_t* newMetadata)
 
 	if (m != SHOUTERR_SUCCESS)
 	{
-		logSrv->debug("Updating metadata failed. " + getError());
+		logSrv->warn("Updating metadata failed. " + getError());
 	}
 }
 

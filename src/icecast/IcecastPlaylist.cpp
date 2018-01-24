@@ -12,7 +12,7 @@
 
 IcecastPlaylist::IcecastPlaylist(ILogService *logSrv, IcecastClientConfig *config) : logSrv(logSrv), config(config)
 {
-
+	srand(time(NULL));
 }
 
 IcecastPlaylist::~IcecastPlaylist()
@@ -38,45 +38,53 @@ void IcecastPlaylist::load()
 
 	file.close();
 
-	logSrv->info("Playlist: '" + config->getPlaylist() + "' loaded, with '" + Convert<int>::NumberToString(playlist.size()) + "' tracks");
+	logSrv->info("Playlist: '" + config->getPlaylist() + "' loaded, with '" + Convert<int>::NumberToString(size()) + "' tracks");
 }
 
 int IcecastPlaylist::randomLine()
 {
-	srand(time(NULL));
-
 	int size = playlist.size();
 
 	return rand() % size;
 }
 
-bool IcecastPlaylist::hasNext(int current)
+void IcecastPlaylist::addToHistory(int index)
 {
-	// if (config->getRepeat())
-	// {
-	// 	return true;
-	// }
+	history_index.push_back(index);
+}
 
-	// if (config->getRandom())
-	// {
-	// 	return true;
-	// }
+bool IcecastPlaylist::existsInHistory(int index)
+{
+	vector<int>::iterator it = find(history_index.begin(), history_index.end(), index);
 
-	return current < playlist.size();
+	return it != history_index.end();
+}
+
+bool IcecastPlaylist::hasNext(int current, int count)
+{
+	if (config->getRepeat())
+	{
+		return true;
+	}
+
+	return count < playlist.size();
 }
 
 string IcecastPlaylist::getNext(int& current)
 {
 	string track;
 
-	// if (config->getRandom())
-	// {
-	// 	current = randomLine();
-	// }
+	if (config->getRandom())
+	{
+		current = randomLine();
+	}
 
 	track = playlist.at(current);
 
-	current++;
-
 	return track;
+}
+
+int IcecastPlaylist::size()
+{
+	return playlist.size();
 }

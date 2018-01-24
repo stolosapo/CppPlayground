@@ -12,11 +12,13 @@
 #include "../kernel/interruption/SignalService.h"
 
 
+const char* IcecastClient::USER_AGENT = "NoiseStreamer";
+
+
 IcecastClient::IcecastClient(ILogService *logSrv)
 {
 	this->logSrv = logSrv;
 
-	this->protocol = NULL;
 	this->config = NULL;
 	this->libShout = NULL;
 	this->playlist = NULL;
@@ -24,11 +26,6 @@ IcecastClient::IcecastClient(ILogService *logSrv)
 
 IcecastClient::~IcecastClient()
 {
-	if (protocol != NULL)
-	{
-		delete protocol;
-	}
-
 	if (config != NULL)
 	{
 		delete config;
@@ -45,13 +42,25 @@ IcecastClient::~IcecastClient()
 	}
 }
 
+string IcecastClient::version()
+{
+	string major = Convert<const int>::NumberToString(MAJOR_VERSION);
+	string minor = Convert<const int>::NumberToString(MINOR_VERSION);
+	string patch = Convert<const int>::NumberToString(PATCH_VERSION);
+
+	return major + "." + minor + "." + patch;
+}
+
+string IcecastClient::agentVersion()
+{
+	return string(USER_AGENT) + "/" + version();
+}
+
 void IcecastClient::loadConfig()
 {
 	IcecastClientConfigLoader* loader = new IcecastClientConfigLoader("icecast.config");
 
 	this->config = loader->load();
-
-	this->protocol = new IcecastProtocol(this->config);
 
 	delete loader;
 }
@@ -59,6 +68,7 @@ void IcecastClient::loadConfig()
 void IcecastClient::streamAudio()
 {
 	int currentTrackNum = 0;
+	int trackCnt = 0;
 
 	SignalService* sigSrv = inject<SignalService>("signalService");
 
@@ -70,7 +80,7 @@ void IcecastClient::streamAudio()
 	{
 		libShout->startShout();
 
-		while (playlist->hasNext(currentTrackNum))
+		while (playlist->hasNext(currentTrackNum, trackCnt))
 		{
 			/* Check for Interruption */
 			if (sigSrv->signaled(SIGINT) == 1)
@@ -83,7 +93,15 @@ void IcecastClient::streamAudio()
 
 			string track = playlist->getNext(currentTrackNum);
 
+			string i = Convert<int>::NumberToString(currentTrackNum);
+			string c = Convert<int>::NumberToString(trackCnt + 1);
+			string s = Convert<int>::NumberToString(playlist->size());
+
+			logSrv->info("Index: " + i + " (" + c + "/" + s + ")");
+
 			libShout->streamFile(track.c_str());
+
+			trackCnt++;
 		}
 
 	}

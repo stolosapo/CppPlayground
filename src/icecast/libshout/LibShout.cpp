@@ -8,10 +8,10 @@
 
 #include "../../kernel/converter/Convert.h"
 #include "../../audio/mp3/Mp3Parser.h"
-#include "../IcecastProtocol.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
+#include "../IcecastClient.h"
 
 
 LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)
@@ -42,7 +42,16 @@ void LibShout::initializeShout()
 	shoutNew();
 	logSrv->trace("Created New");
 
-	setAgent(string(IcecastProtocol::USER_AGENT));
+	int major;
+	int minor;
+	int patch;
+	string version = shoutVersion(&major, &minor, &patch);
+	logSrv->info("LibShout Version: " + version);
+
+	string shoutVersion = "libshout/" + version;
+	string clientVersion = IcecastClient::agentVersion();
+
+	setAgent(clientVersion + " " + shoutVersion);
 	logSrv->trace("Set Agent");
 
 	setProtocolHttp();
@@ -190,6 +199,7 @@ void LibShout::streamFile(const char* filename)
 			if (shoutQueuelen() > 0)
 			{
 				logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
+				usleep(10000);
 			}
 		}
 		else
