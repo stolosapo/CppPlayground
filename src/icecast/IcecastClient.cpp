@@ -8,6 +8,9 @@
 #include "../kernel/converter/Convert.h"
 #include "../kernel/exception/domain/DomainException.h"
 
+#include "../kernel/di/GlobalAppContext.h"
+#include "../kernel/interruption/SignalService.h"
+
 
 IcecastClient::IcecastClient(ILogService *logSrv)
 {
@@ -57,6 +60,8 @@ void IcecastClient::streamAudio()
 {
 	int currentTrackNum = 0;
 
+	SignalService* sigSrv = inject<SignalService>("signalService");
+
 	libShout = new LibShout(logSrv, config);
 
 	libShout->initializeShout();
@@ -67,6 +72,15 @@ void IcecastClient::streamAudio()
 
 		while (playlist->hasNext(currentTrackNum))
 		{
+			/* Check for Interruption */
+			if (sigSrv->signaled(SIGINT) == 1)
+			{
+				logSrv->debug("Playlist stopped");
+				sigSrv->reset(SIGINT);
+				
+				break;
+			}
+
 			string track = playlist->getNext(currentTrackNum);
 
 			libShout->streamFile(track.c_str());

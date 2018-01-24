@@ -3,12 +3,16 @@
 
 #include "LibShout.h"
 
+#include "../../kernel/di/GlobalAppContext.h"
+#include "../../kernel/interruption/SignalService.h"
+
 #include "../../kernel/converter/Convert.h"
 #include "../../audio/mp3/Mp3Parser.h"
 #include "../IcecastProtocol.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
+
 
 LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)
 {
@@ -158,15 +162,22 @@ void LibShout::streamFile(const char* filename)
 	setMetaSong(newMetadata, string(filename));
 	setMeta(newMetadata);
 
+	SignalService* sigSrv = inject<SignalService>("signalService");
+
 	while (1)
 	{
+		/* Check for Interruption */
+		if (sigSrv->signaled(SIGINT) == 1)
+		{
+			logSrv->debug("Playing interrupted");
+			break;
+		}
+
 		read = fread(buff, 1, sizeof(buff), mp3file);
 		total = total + read;
 
 		if (read > 0)
 		{
-
-			// setMeta(newMetadata);
 
 			ret = shoutSend(buff, read);
 
