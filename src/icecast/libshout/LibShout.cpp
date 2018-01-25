@@ -13,6 +13,8 @@
 #include "../exception/IcecastDomainErrorCode.h"
 #include "../IcecastClient.h"
 
+#include "../../audio/mp3/Mp3Id3v1.h"
+
 
 LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)
 {
@@ -162,13 +164,28 @@ void LibShout::streamFile(const char* filename)
 	FILE* mp3file;
 	mp3file = fopen(filename , "rb");
 
+	Mp3Id3v1 mp3Tag;
+
+	mp3Tag.load(filename);
+
+	string trackMetadata;
+
+	if (mp3Tag.isCorrectVersion())
+	{
+		trackMetadata = mp3Tag.getArtist() + " - " + mp3Tag.getTitle();
+	}
+	else
+	{
+		 trackMetadata = string(filename);
+	}
+
 	logSrv->info("Playing: " + string(filename));
 
 
 	/* Update metadata */
 	shout_metadata_t* newMetadata;
 	newMetadata = createNewMetadata();
-	setMetaSong(newMetadata, string(filename));
+	setMetaSong(newMetadata, trackMetadata);
 	setMeta(newMetadata);
 
 	SignalService* sigSrv = inject<SignalService>("signalService");
