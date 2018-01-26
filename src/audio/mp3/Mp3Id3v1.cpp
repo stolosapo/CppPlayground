@@ -5,10 +5,10 @@ using namespace std;
 Mp3Id3v1::Mp3Id3v1()
 {
 	this->title = "";
-        this->artist = "";
-        this->album = "";
-        this->year = "";
-        this->comments = "";
+	this->artist = "";
+	this->album = "";
+	this->year = "";
+	this->comments = "";
 
 	this->correctVersion = true;
 }
@@ -20,15 +20,15 @@ Mp3Id3v1::~Mp3Id3v1()
 
 void Mp3Id3v1::load(const char* filename)
 {
-        FILE *ifile;
-        ifile = fopen(filename, "r+");
+	FILE *ifile;
+	ifile = fopen(filename, "r+");
 
-        if (ifile == NULL)
-        {
-                cerr << "File is null" << endl;
+	if (ifile == NULL)
+	{
+		cerr << "File is null" << endl;
 		fclose(ifile);
-                return;
-        }
+		return;
+	}
 
 	if (!checkMp3(filename))
 	{
@@ -61,7 +61,7 @@ void Mp3Id3v1::load(const char* filename)
 
 	readMP3(ifile);
 
-        fclose(ifile);
+	fclose(ifile);
 }
 
 bool Mp3Id3v1::isCorrectVersion()

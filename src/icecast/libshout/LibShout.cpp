@@ -216,7 +216,7 @@ void LibShout::streamFile(const char* filename)
 			if (shoutQueuelen() > 0)
 			{
 				logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
-				usleep(10000);
+				usleep(50000);
 			}
 		}
 		else
