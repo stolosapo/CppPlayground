@@ -32,9 +32,6 @@ void IcecastClientMenuItem::check()
 
 void IcecastClientMenuItem::action()
 {
-	// Mp3Id3v2 mp3;
-	// mp3.action();
-
 	IcecastClient* client = new IcecastClient(this->logSrv);
 	
 	client->action();

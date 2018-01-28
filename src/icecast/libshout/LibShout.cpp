@@ -159,7 +159,7 @@ void LibShout::streamFile(const char* filename)
 {
 #ifdef ICECAST
 	unsigned char buff[4096];
-	long read, ret, total;
+	long read, ret;
 
 	FILE* mp3file;
 	mp3file = fopen(filename , "rb");
@@ -176,7 +176,7 @@ void LibShout::streamFile(const char* filename)
 	}
 	else
 	{
-		 trackMetadata = string(filename);
+		trackMetadata = string(filename);
 	}
 
 	logSrv->info("Playing: " + string(filename));
@@ -200,28 +200,24 @@ void LibShout::streamFile(const char* filename)
 		}
 
 		read = fread(buff, 1, sizeof(buff), mp3file);
-		total = total + read;
 
-		if (read > 0)
+		if (read <= 0)
 		{
-
-			ret = shoutSend(buff, read);
-
-			if (ret != SHOUTERR_SUCCESS)
-			{
-				logSrv->error("Send error: " + getError());
-				break;
-			}
-
-			if (shoutQueuelen() > 0)
-			{
-				logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
-				usleep(50000);
-			}
+			break;			
 		}
-		else
+
+		ret = shoutSend(buff, read);
+
+		if (ret != SHOUTERR_SUCCESS)
 		{
+			logSrv->error("Send error: " + getError());
 			break;
+		}
+
+		if (shoutQueuelen() > 0)
+		{
+			// logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
+			// usleep(50000);
 		}
 
 		shoutSync();
