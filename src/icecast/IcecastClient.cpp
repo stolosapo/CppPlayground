@@ -67,9 +67,6 @@ void IcecastClient::loadConfig()
 
 void IcecastClient::streamAudio()
 {
-	int currentTrackNum = 0;
-	int trackCnt = 0;
-
 	SignalService* sigSrv = inject<SignalService>("signalService");
 
 	libShout = new LibShout(logSrv, config);
@@ -80,7 +77,7 @@ void IcecastClient::streamAudio()
 	{
 		libShout->startShout();
 
-		while (playlist->hasNext(currentTrackNum, trackCnt))
+		while (playlist->hasNext())
 		{
 			/* Check for Interruption */
 			if (sigSrv->signaled(SIGINT) == 1)
@@ -91,17 +88,15 @@ void IcecastClient::streamAudio()
 				break;
 			}
 
-			string track = playlist->getNext(currentTrackNum);
+			string track = playlist->getNext();
 
-			string i = Convert<int>::NumberToString(currentTrackNum);
-			string c = Convert<int>::NumberToString(trackCnt + 1);
+			string i = Convert<int>::NumberToString(playlist->getCurrentIndex());
+			string c = Convert<int>::NumberToString(playlist->getHistoryCount());
 			string s = Convert<int>::NumberToString(playlist->size());
 
 			logSrv->info("Index: " + i + " (" + c + "/" + s + ")");
 
 			libShout->streamFile(track.c_str());
-
-			trackCnt++;
 		}
 
 	}

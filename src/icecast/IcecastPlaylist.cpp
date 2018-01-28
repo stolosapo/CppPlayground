@@ -12,6 +12,8 @@
 
 IcecastPlaylist::IcecastPlaylist(ILogService *logSrv, IcecastClientConfig *config) : logSrv(logSrv), config(config)
 {
+	this->currentIndex = 0;
+
 	srand(time(NULL));
 }
 
@@ -60,26 +62,32 @@ bool IcecastPlaylist::existsInHistory(int index)
 	return it != history_index.end();
 }
 
-bool IcecastPlaylist::hasNext(int current, int count)
+bool IcecastPlaylist::hasNext()
 {
 	if (config->getRepeat())
 	{
 		return true;
 	}
 
-	return count < playlist.size();
+	return getHistoryCount() < playlist.size();
 }
 
-string IcecastPlaylist::getNext(int& current)
+string IcecastPlaylist::getNext()
 {
 	string track;
 
 	if (config->getRandom())
 	{
-		current = randomLine();
+		currentIndex = randomLine();
+	}
+	else
+	{
+		currentIndex = currentIndex + 1;
 	}
 
-	track = playlist.at(current);
+	addToHistory(currentIndex);
+
+	track = playlist.at(currentIndex);
 
 	return track;
 }
@@ -87,4 +95,14 @@ string IcecastPlaylist::getNext(int& current)
 int IcecastPlaylist::size()
 {
 	return playlist.size();
+}
+
+int IcecastPlaylist::getCurrentIndex()
+{
+	return currentIndex;
+}
+
+int IcecastPlaylist::getHistoryCount()
+{
+	return history_index.size();
 }

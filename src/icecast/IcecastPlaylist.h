@@ -17,9 +17,10 @@ private:
 
 	vector<string> playlist;
 	vector<int> history_index;
+	int currentIndex;
 
 	int randomLine();
-	int findNextIndex(int& current);
+	int findNextIndex(int current);
 
 	void addToHistory(int index);
 	bool existsInHistory(int index);
@@ -29,10 +30,13 @@ public:
 	virtual ~IcecastPlaylist();
 
 	int size();
+	int getCurrentIndex();
+	int getHistoryCount();
+	
 	void load();
 
-	bool hasNext(int current, int count);
-	string getNext(int& current);
+	bool hasNext();
+	string getNext();
 
 };
 
