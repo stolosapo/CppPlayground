@@ -190,15 +190,9 @@ void LibShout::streamFile(const char* filename)
 
 	SignalService* sigSrv = inject<SignalService>("signalService");
 
-	while (1)
+	while (!sigSrv->gotSigInt())
 	{
-		/* Check for Interruption */
-		if (sigSrv->signaled(SIGINT) == 1)
-		{
-			logSrv->debug("Playing interrupted");
-			break;
-		}
-
+		
 		read = fread(buff, 1, sizeof(buff), mp3file);
 
 		if (read <= 0)

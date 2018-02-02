@@ -80,10 +80,9 @@ void IcecastClient::streamAudio()
 		while (playlist->hasNext())
 		{
 			/* Check for Interruption */
-			if (sigSrv->signaled(SIGINT) == 1)
+			if (sigSrv->gotSigIntAndReset())
 			{
 				logSrv->debug("Playlist stopped");
-				sigSrv->reset(SIGINT);
 				
 				break;
 			}
