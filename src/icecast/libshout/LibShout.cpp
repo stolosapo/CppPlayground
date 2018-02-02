@@ -16,10 +16,9 @@
 #include "../../audio/mp3/Mp3Id3v1.h"
 
 
-LibShout::LibShout(ILogService *logSrv, IcecastClientConfig* config)
+LibShout::LibShout(ILogService *logSrv, SignalService* sigSrv, IcecastClientConfig* config) : logSrv(logSrv), sigSrv(sigSrv), config(config)
 {
-	this->logSrv = logSrv;
-	this->config = config;
+
 }
 
 LibShout::~LibShout()
@@ -188,11 +187,9 @@ void LibShout::streamFile(const char* filename)
 	setMetaSong(newMetadata, trackMetadata);
 	setMeta(newMetadata);
 
-	SignalService* sigSrv = inject<SignalService>("signalService");
-
 	while (!sigSrv->gotSigInt())
 	{
-		
+
 		read = fread(buff, 1, sizeof(buff), mp3file);
 
 		if (read <= 0)

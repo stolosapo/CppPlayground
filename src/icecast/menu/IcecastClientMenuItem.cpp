@@ -7,6 +7,9 @@
 
 #include "../../audio/mp3/Mp3Id3v2.h"
 
+#include "../../kernel/di/GlobalAppContext.h"
+#include "../../kernel/interruption/SignalService.h"
+
 
 IcecastClientMenuItem::IcecastClientMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -32,7 +35,9 @@ void IcecastClientMenuItem::check()
 
 void IcecastClientMenuItem::action()
 {
-	IcecastClient* client = new IcecastClient(this->logSrv);
+	SignalService* sigSrv = inject<SignalService>("signalService");
+
+	IcecastClient* client = new IcecastClient(this->logSrv, sigSrv);
 	
 	client->action();
 	

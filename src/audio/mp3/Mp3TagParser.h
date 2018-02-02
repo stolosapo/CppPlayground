@@ -1,5 +1,5 @@
-#ifndef IMp3TagParser_h__
-#define IMp3TagParser_h__
+#ifndef Mp3TagParser_h__
+#define Mp3TagParser_h__
 
 #include <fstream>
 
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class IMp3TagParser
+class Mp3TagParser
 {
 private:
 	AudioType type;
@@ -18,12 +18,12 @@ protected:
 	virtual AudioTagVersion getTagVersion();
 
 public:
-	IMp3TagParser(AudioType type, AudioTagVersion tagVersion);
-	virtual ~IMp3TagParser();
+	Mp3TagParser(AudioType type, AudioTagVersion tagVersion);
+	virtual ~Mp3TagParser();
 
 	virtual AudioMetadata* parse(FILE* file) = 0;
 	virtual bool isCorrectVersion(FILE* file) = 0;
 
 };
 
-#endif // IMp3TagParser_h__
+#endif // Mp3TagParser_h__

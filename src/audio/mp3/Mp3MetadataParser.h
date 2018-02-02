@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "IMp3TagParser.h"
+#include "Mp3TagParser.h"
 #include "../AudioMetadata.h"
 
 using namespace std;
@@ -11,7 +11,7 @@ using namespace std;
 class Mp3MetadataParser
 {
 private:
-	vector<IMp3TagParser*> tagParsers;
+	vector<Mp3TagParser*> tagParsers;
 
 	void registerParsers();
 	bool checkMp3(string filename);

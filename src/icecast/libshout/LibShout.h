@@ -4,6 +4,7 @@
 #include <string>
 #include "../config/IcecastClientConfig.h"
 #include "../../kernel/log/ILogService.h"
+#include "../../kernel/interruption/SignalService.h"
 
 #ifdef ICECAST
 #include <shout/shout.h>
@@ -15,6 +16,7 @@ class LibShout
 {
 private:
 	ILogService *logSrv;
+	SignalService* sigSrv;
 
 	IcecastClientConfig* config;
 
@@ -140,7 +142,7 @@ private:
 	int shoutDelay();
 
 public:
-	LibShout(ILogService *logSrv, IcecastClientConfig* config);
+	LibShout(ILogService *logSrv, SignalService* sigSrv, IcecastClientConfig* config);
 	virtual ~LibShout();
 
 	void initializeShout();

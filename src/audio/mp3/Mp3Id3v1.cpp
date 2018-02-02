@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Mp3Id3v1::Mp3Id3v1()
+Mp3Id3v1::Mp3Id3v1() : Mp3TagParser(MP3, MP3_ID3_V1)
 {
 	this->title = "";
 	this->artist = "";
@@ -62,6 +62,36 @@ void Mp3Id3v1::load(const char* filename)
 	readMP3(ifile);
 
 	fclose(ifile);
+}
+
+AudioMetadata* Mp3Id3v1::parse(FILE* file)
+{
+	//Go to byte location of information
+	int readloc = getSize(file) - 128;
+
+	//stores the full file size needed for writing data later
+	int filesize = getSize(file);
+
+	// //read The Tag to make sure the audio file is tagged
+	// string tag = readHeader(file, readloc);
+
+	readloc += 3;
+
+	readMP3(file);
+}
+
+bool Mp3Id3v1::isCorrectVersion(FILE* file)
+{
+	//Go to byte location of information
+	int readloc = getSize(file) - 128;
+
+	//stores the full file size needed for writing data later
+	int filesize = getSize(file);
+
+	//read The Tag to make sure the audio file is tagged
+	string tag = readHeader(file, readloc);
+
+	return tag == "TAG";
 }
 
 bool Mp3Id3v1::isCorrectVersion()
@@ -133,7 +163,7 @@ string Mp3Id3v1::readThirty(FILE *file, int readloc)
 	return str;
 }
 
-void Mp3Id3v1::readMP3(FILE *file)
+AudioMetadata* Mp3Id3v1::readMP3(FILE *file)
 {
 	//The following code reads the information for x bytes and then increases the readlocation x spaces
 	//so the next information can be read
@@ -158,6 +188,15 @@ void Mp3Id3v1::readMP3(FILE *file)
 	// cout << "Album: "<<album<<endl;
 	// cout << "Year: "<<year<<endl;
 	// cout << "Comment: "<<comments<<endl<<endl;
+
+	return new AudioMetadata(
+		getType(), 
+		getTagVersion(), 
+		title, 
+		artist, 
+		album, 
+		year, 
+		comments);
 }
 
 string Mp3Id3v1::getTitle()

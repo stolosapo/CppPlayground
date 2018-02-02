@@ -4,12 +4,14 @@
 #include "config/IcecastClientConfig.h"
 #include "IcecastPlaylist.h"
 #include "../kernel/log/ILogService.h"
+#include "../kernel/interruption/SignalService.h"
 #include "libshout/LibShout.h"
 
 class IcecastClient
 {
 private:
 	ILogService *logSrv;
+	SignalService* sigSrv;
 
 	IcecastClientConfig* config;
 	LibShout* libShout;
@@ -19,7 +21,7 @@ private:
 	void streamAudio();
 
 public:
-	IcecastClient(ILogService *logSrv);
+	IcecastClient(ILogService *logSrv, SignalService *sigSrv);
 	virtual ~IcecastClient();
 
 	static const char* USER_AGENT;

@@ -5,6 +5,8 @@
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../../kernel/exception/domain/GeneralDomainErrorCode.h"
 
+#include "Mp3Id3v1.h"
+
 Mp3MetadataParser::Mp3MetadataParser()
 {
 
@@ -13,7 +15,7 @@ Mp3MetadataParser::Mp3MetadataParser()
 Mp3MetadataParser::~Mp3MetadataParser()
 {
 	/* Clear parsers*/
-	for (vector<IMp3TagParser*>::iterator it = tagParsers.begin();
+	for (vector<Mp3TagParser*>::iterator it = tagParsers.begin();
 		it != tagParsers.end(); 
 		++it)
 	{
@@ -25,7 +27,7 @@ Mp3MetadataParser::~Mp3MetadataParser()
 
 void Mp3MetadataParser::registerParsers()
 {
-
+	tagParsers.push_back(new Mp3Id3v1);
 }
 
 bool Mp3MetadataParser::checkMp3(string filename)
@@ -50,23 +52,18 @@ AudioMetadata* Mp3MetadataParser::parse(const char* filename)
 	{	
 		file = fopen(filename, "r+");
 
-		if (file == NULL)
+		if (file == NULL || !checkMp3(filename))
 		{
 			throw DomainException(GeneralDomainErrorCode::GNR0001, filename);
 		}
 
-		if (!checkMp3(filename))
-		{
-			/* throw exception */
-		}
+		Mp3TagParser* parser = NULL;
 
-		IMp3TagParser* parser = NULL;
-
-		for(vector<IMp3TagParser*>::iterator it = tagParsers.begin(); 
+		for(vector<Mp3TagParser*>::iterator it = tagParsers.begin(); 
 			it != tagParsers.end(); 
 			++it) 
 		{
-			parser = (IMp3TagParser*) *it;
+			parser = (Mp3TagParser*) *it;
 
 			if (parser->isCorrectVersion(file))
 			{

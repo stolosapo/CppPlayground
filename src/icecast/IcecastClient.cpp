@@ -15,10 +15,8 @@
 const char* IcecastClient::USER_AGENT = "NoiseStreamer";
 
 
-IcecastClient::IcecastClient(ILogService *logSrv)
+IcecastClient::IcecastClient(ILogService *logSrv, SignalService *sigSrv) : logSrv(logSrv), sigSrv(sigSrv)
 {
-	this->logSrv = logSrv;
-
 	this->config = NULL;
 	this->libShout = NULL;
 	this->playlist = NULL;
@@ -67,9 +65,7 @@ void IcecastClient::loadConfig()
 
 void IcecastClient::streamAudio()
 {
-	SignalService* sigSrv = inject<SignalService>("signalService");
-
-	libShout = new LibShout(logSrv, config);
+	libShout = new LibShout(logSrv, sigSrv, config);
 
 	libShout->initializeShout();
 
@@ -77,15 +73,8 @@ void IcecastClient::streamAudio()
 	{
 		libShout->startShout();
 
-		while (playlist->hasNext())
+		while (playlist->hasNext() && !sigSrv->gotSigIntAndReset())
 		{
-			/* Check for Interruption */
-			if (sigSrv->gotSigIntAndReset())
-			{
-				logSrv->debug("Playlist stopped");
-				
-				break;
-			}
 
 			string track = playlist->getNext();
 
