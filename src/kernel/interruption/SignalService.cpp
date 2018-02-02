@@ -16,3 +16,21 @@ void SignalService::registerSignals()
 {
 	registerSignal(new Signal_SIGINT);
 }
+
+bool SignalService::gotSigInt()
+{
+	return signaled(SIGINT);
+}
+
+bool SignalService::gotSigIntAndReset()
+{
+	bool got = gotSigInt();
+
+	if (got)
+	{
+		reset(SIGINT);
+	}
+
+
+	return got;
+}

@@ -16,6 +16,9 @@ public:
 	virtual ~SignalService();
 
 	virtual void registerSignals();
+
+	bool gotSigInt();
+	bool gotSigIntAndReset();
 };
 
 #endif // SignalService_h__

@@ -167,12 +167,10 @@ MenuItem *MenuContainer::findMenuItem()
 	this->selection = logSrv->inInt();
 
 	/* Check for Interruption */
-	if (sigSrv->signaled(SIGINT) == 1)
+	if (sigSrv->gotSigIntAndReset())
 	{
 		cin.clear();
 		cin.ignore();
-
-		sigSrv->reset(SIGINT);
 
 		this->selection = this->exitCode;
 	}

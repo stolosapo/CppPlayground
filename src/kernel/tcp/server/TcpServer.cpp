@@ -158,11 +158,9 @@ void TcpServer::start()
 	{
 		
 		/* Check for interruption */
-		if (sigSrv->signaled(SIGINT) == 1)
+		if (sigSrv->gotSigIntAndReset())
 		{
 			logSrv->debug("Stopping server..");
-
-			sigSrv->reset(SIGINT);
 
 			break;
 		}
