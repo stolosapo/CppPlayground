@@ -37,16 +37,8 @@ void Mp3Id3v1::load(const char* filename)
 		return;
 	}
 
-	// cout << "File " <<filename<<" Opened Successfully"<<endl;
-
-	//Go to byte location of information
-	int readloc = getSize(ifile) - 128;
-
-	//stores the full file size needed for writing data later
-	int filesize = getSize(ifile);
-
 	//read The Tag to make sure the audio file is tagged
-	string tag = readHeader(ifile, readloc);
+	string tag = readHeader(ifile);
 
 	if (tag != "TAG")
 	{
@@ -57,8 +49,6 @@ void Mp3Id3v1::load(const char* filename)
 		return;
 	}
 
-	readloc += 3;
-
 	readMP3(ifile);
 
 	fclose(ifile);
@@ -66,30 +56,12 @@ void Mp3Id3v1::load(const char* filename)
 
 AudioMetadata* Mp3Id3v1::parse(FILE* file)
 {
-	//Go to byte location of information
-	int readloc = getSize(file) - 128;
-
-	//stores the full file size needed for writing data later
-	int filesize = getSize(file);
-
-	// //read The Tag to make sure the audio file is tagged
-	// string tag = readHeader(file, readloc);
-
-	readloc += 3;
-
-	readMP3(file);
+	return readMP3(file);
 }
 
 bool Mp3Id3v1::isCorrectVersion(FILE* file)
 {
-	//Go to byte location of information
-	int readloc = getSize(file) - 128;
-
-	//stores the full file size needed for writing data later
-	int filesize = getSize(file);
-
-	//read The Tag to make sure the audio file is tagged
-	string tag = readHeader(file, readloc);
+	string tag = readHeader(file);
 
 	return tag == "TAG";
 }
@@ -116,27 +88,30 @@ bool Mp3Id3v1::checkMp3(string filename)
 
 	int filetype = filename.length() - 4;
 	string filetipe = filename.substr(filetype, 4);
-	if (filetipe == ".mp3")
-	{
-		return true;
-	}
-	else
+
+	if (filetipe != ".mp3")
 	{
 		return false;
 	}
+	
+	return true;
 }
 
-string Mp3Id3v1::readHeader(FILE *file, int readloc)
+string Mp3Id3v1::readHeader(FILE *file)
 {
 	//Checks for ID3v1 Tag Header 4bytes long...
 	//currently only supports v1
 	//v1+ coming later
+
+	//Go to byte location of information
+	int readloc = getSize(file) - 128;
 
 	char magic[4];
 	fseek(file , readloc, SEEK_SET);
 	fread(magic, 1, 4, file);
 	string str(magic);
 	string mag = str.substr(0,3);
+
 	return mag;
 }
 
@@ -168,26 +143,20 @@ AudioMetadata* Mp3Id3v1::readMP3(FILE *file)
 	//The following code reads the information for x bytes and then increases the readlocation x spaces
 	//so the next information can be read
 
-	int readloc = getSize(file)-125;
+	int readloc = getSize(file) - 125;
 	title = readThirty(file, readloc);
-	readloc+=30;
+	readloc += 30;
 
 	artist = readThirty(file, readloc);
-	readloc+=30;
+	readloc += 30;
 
 	album = readThirty(file, readloc);
-	readloc+=30;
+	readloc += 30;
 
 	year = readYear(file, readloc);
-	readloc+=4;
+	readloc += 4;
 
 	comments = readThirty(file, readloc);
-
-	// cout << "Artist: " <<artist<<endl;
-	// cout << "Title: " <<title<<endl;
-	// cout << "Album: "<<album<<endl;
-	// cout << "Year: "<<year<<endl;
-	// cout << "Comment: "<<comments<<endl<<endl;
 
 	return new AudioMetadata(
 		getType(), 

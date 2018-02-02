@@ -22,7 +22,7 @@ private:
 
 	int getSize(FILE *file);
 	bool checkMp3(string filename);
-	string readHeader(FILE *file, int readloc);
+	string readHeader(FILE *file);
 	string readYear(FILE *file, int readloc);
 	string readThirty(FILE *file, int readloc);
 	AudioMetadata* readMP3(FILE *file);

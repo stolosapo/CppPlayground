@@ -169,7 +169,7 @@ void LibShout::streamFile(const char* filename)
 
 	string trackMetadata;
 
-	if (mp3Tag.isCorrectVersion())
+	if (mp3Tag.isCorrectVersion(mp3file))
 	{
 		trackMetadata = mp3Tag.getArtist() + " - " + mp3Tag.getTitle();
 	}
