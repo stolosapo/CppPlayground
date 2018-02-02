@@ -100,11 +100,10 @@ void TcpClient::start()
 		{
 
 			/* Check for interruption */
-			if (sigSrv->signaled(SIGINT) == 1)
+			if (sigSrv->gotSigIntAndReset())
 			{
 
 				logSrv->debug("Stopping client.. ");
-				sigSrv->reset(SIGINT);
 
 				break;
 			}
