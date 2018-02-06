@@ -21,7 +21,7 @@ Mp3Id3v1::~Mp3Id3v1()
 void Mp3Id3v1::load(const char* filename)
 {
 	FILE *ifile;
-	ifile = fopen(filename, "r+");
+	ifile = fopen(filename, "r");
 
 	if (ifile == NULL)
 	{
