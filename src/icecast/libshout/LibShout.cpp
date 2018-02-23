@@ -94,23 +94,6 @@ void LibShout::initializeShout()
 	setDescription(config->getDescription());
 	logSrv->trace("Set Description");
 
-
-	setMetaName(config->getName());
-	logSrv->trace("Set MetaName");
-
-	setMetaUrl(config->getUrl());
-	logSrv->trace("Set MetaUrl");
-
-	setMetaGenre(config->getGenre());
-	logSrv->trace("Set MetaGenre");
-
-	setMetaDescription(config->getDescription());
-	logSrv->trace("Set MetaDescription");
-
-	// setMeta();
-	// logSrv->trace("Set Meta");
-
-
 	setAudioInfoBitrate(config->getBitrate());
 	logSrv->trace("Set AudioInfoBitrate");
 
@@ -184,7 +167,7 @@ void LibShout::streamFile(const char* filename)
 	/* Update metadata */
 	shout_metadata_t* newMetadata;
 	newMetadata = createNewMetadata();
-	setMetaSong(newMetadata, trackMetadata);
+	addMetaSong(newMetadata, trackMetadata);
 	setMeta(newMetadata);
 
 	while (!sigSrv->gotSigInt())
@@ -194,7 +177,7 @@ void LibShout::streamFile(const char* filename)
 
 		if (read <= 0)
 		{
-			break;			
+			break;
 		}
 
 		ret = shoutSend(buff, read);

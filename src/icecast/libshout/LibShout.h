@@ -22,7 +22,6 @@ private:
 
 #ifdef ICECAST
 	shout_t* shout;
-	shout_metadata_t* metadata;
 #endif
 
 	/* initializes the shout library. Must be called before anything else */
@@ -87,20 +86,10 @@ private:
 #ifdef ICECAST
 	shout_metadata_t* createNewMetadata();
 	void setMeta(shout_metadata_t* metadata);
-	void setMeta(shout_metadata_t* metadata, string name, string value);
-	void setMetaSong(shout_metadata_t* metadata, string song);
+	void addMeta(shout_metadata_t* metadata, string name, string value);
+	void addMetaSong(shout_metadata_t* metadata, string song);
 	void freeMetadate(shout_metadata_t* metadata);
 #endif
-
-	void setMeta();
-	void setMeta(string name, string value);
-	void setMetaName(string value);
-	void setMetaUrl(string value);
-	void setMetaGenre(string value);
-	void setMetaDescription(string value);
-	void setMetaIrc(string value);
-	void setMetaAim(string value);
-	void setMetaIcq(string value);
 
 	void setPublic(unsigned int make_public);
 

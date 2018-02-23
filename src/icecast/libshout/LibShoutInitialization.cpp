@@ -35,8 +35,6 @@ void LibShout::shoutNew()
 	{
 		throw DomainException(IcecastDomainErrorCode::ICS0002);
 	}
-
-	metadata = shout_metadata_new();
 #endif
 }
 
@@ -44,6 +42,5 @@ void LibShout::shoutFree()
 {
 #ifdef ICECAST
 	shout_free(shout);
-	shout_metadata_free(metadata);
 #endif
 }
