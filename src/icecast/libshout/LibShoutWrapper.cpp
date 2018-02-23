@@ -469,7 +469,7 @@ int LibShout::shoutOpen()
 int LibShout::shoutClose()
 {
 #ifdef ICECAST
-	shout_open(shout);
+	shout_close(shout);
 #endif
 }
 
