@@ -7,14 +7,18 @@
 int LibShout::shoutOpen()
 {
 #ifdef ICECAST
-	shout_open(shout);
+	return shout_open(shout);
+#else
+	return 0;
 #endif
 }
 
 int LibShout::shoutClose()
 {
 #ifdef ICECAST
-	shout_close(shout);
+	return shout_close(shout);
+#else
+	return 0;
 #endif
 }
 
@@ -42,6 +46,8 @@ string LibShout::getHost()
 {
 #ifdef ICECAST
 	return string(shout_get_host(shout));
+#else
+	return "";
 #endif
 }
 
@@ -59,6 +65,8 @@ string LibShout::getPort()
 {
 #ifdef ICECAST
 	return Convert<unsigned short>::NumberToString(shout_get_port(shout));
+#else
+	return "";
 #endif
 }
 
@@ -96,5 +104,7 @@ string LibShout::getMount()
 {
 #ifdef ICECAST
 	return string(shout_get_mount(shout));
+#else
+	return "";
 #endif
 }

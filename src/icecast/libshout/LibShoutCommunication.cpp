@@ -7,7 +7,9 @@
 int LibShout::shoutSend(const unsigned char *data, size_t len)
 {
 #ifdef ICECAST
-	shout_send(shout, data, len);
+	return shout_send(shout, data, len);
+#else
+	return 0;
 #endif
 }
 
