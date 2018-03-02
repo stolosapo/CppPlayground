@@ -26,6 +26,78 @@ LibShout::~LibShout()
 
 }
 
+void LibShout::logCurrentStatus()
+{
+	int errNo = getErrno();
+
+	/*
+	SHOUTERR_SUCCESS		(0) /* No error
+	SHOUTERR_INSANE			(-1) /* Nonsensical arguments e.g. self being NULL
+	SHOUTERR_NOCONNECT		(-2) /* Couldn't connect
+	SHOUTERR_NOLOGIN		(-3) /* Login failed
+	SHOUTERR_SOCKET			(-4) /* Socket error
+	SHOUTERR_MALLOC			(-5) /* Out of memory
+	SHOUTERR_METADATA		(-6)
+	SHOUTERR_CONNECTED		(-7) /* Cannot set parameter while connected
+	SHOUTERR_UNCONNECTED		(-8) /* Not connected
+	SHOUTERR_UNSUPPORTED		(-9) /* This libshout doesn't support the requested option
+	SHOUTERR_BUSY			(-10) /* Socket is busy
+	SHOUTERR_NOTLS                  (-11) /* TLS requested but not supported by peer
+	SHOUTERR_TLSBADCERT             (-12) /* TLS connection can not be established because of bad certificate
+	SHOUTERR_RETRY                  (-13) /* Retry last operation.
+	*/
+#ifdef ICECAST
+	switch (errNo) {
+
+		case SHOUTERR_SUCCESS:
+			logSrv->trace("SHOUTERR_SUCCESS");
+			break;
+		case SHOUTERR_INSANE:
+			logSrv->trace("SHOUTERR_INSANE");
+			break;
+		case SHOUTERR_NOCONNECT:
+			logSrv->trace("SHOUTERR_NOCONNE");
+			break;
+		case SHOUTERR_NOLOGIN:
+			logSrv->trace("SHOUTERR_NOLOGIN");
+			break;
+		case SHOUTERR_SOCKET:
+			logSrv->trace("SHOUTERR_SOCKET");
+			break;
+		case SHOUTERR_MALLOC:
+			logSrv->trace("SHOUTERR_MALLOC");
+			break;
+		case SHOUTERR_METADATA:
+			logSrv->trace("SHOUTERR_METADAT");
+			break;
+		case SHOUTERR_CONNECTED:
+			logSrv->trace("SHOUTERR_CONNECT");
+			break;
+		case SHOUTERR_UNCONNECTED:
+			logSrv->trace("SHOUTERR_UNCONNE");
+			break;
+		case SHOUTERR_UNSUPPORTED:
+			logSrv->trace("SHOUTERR_UNSUPPO");
+			break;
+		case SHOUTERR_BUSY:
+			logSrv->trace("SHOUTERR_BUSY");
+			break;
+		case SHOUTERR_NOTLS:
+			logSrv->trace("SHOUTERR_NOTLS");
+			break;
+		case SHOUTERR_TLSBADCERT:
+			logSrv->trace("SHOUTERR_TLSBADC");
+			break;
+		case SHOUTERR_RETRY:
+			logSrv->trace("SHOUTERR_RETRY");
+			break;
+		default:
+			logSrv->trace("No error");
+			break;
+	}
+#endif
+}
+
 void LibShout::finilizeShout()
 {
 	shoutClose();

@@ -130,6 +130,8 @@ private:
 	/* Amount of time in ms caller should wait before sending again */
 	int shoutDelay();
 
+	void logCurrentStatus();
+
 public:
 	LibShout(ILogService *logSrv, SignalService* sigSrv, IcecastClientConfig* config);
 	virtual ~LibShout();
