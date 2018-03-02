@@ -34,6 +34,12 @@ OPTS := -DICECAST
 LIB := $(LIB) -lshout
 endif
 
+# TagLib feature
+ifeq ($(WITH_TAGLIB), 1)
+OPTS += -DTAGLIB
+LIB += $(LIB) -ltag
+endif
+
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
 	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
