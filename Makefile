@@ -30,14 +30,14 @@ INC := -I include
 
 # ICECASTE feature
 ifeq ($(WITH_ICECAST), 1)
-OPTS := -DICECAST
-LIB := $(LIB) -lshout
+OPTS += -DICECAST
+LIB += -lshout
 endif
 
 # TagLib feature
 ifeq ($(WITH_TAGLIB), 1)
 OPTS += -DTAGLIB
-LIB += $(LIB) -ltag
+LIB += -ltag -lz
 endif
 
 $(TARGET): $(OBJECTS)
