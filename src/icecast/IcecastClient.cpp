@@ -2,7 +2,6 @@
 
 #include "config/IcecastClientConfigLoader.h"
 #include "exception/IcecastDomainErrorCode.h"
-#include "../audio/mp3/Mp3Parser.h"
 #include "IcecastPlaylist.h"
 
 #include "../kernel/converter/Convert.h"

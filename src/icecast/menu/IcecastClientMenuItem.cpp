@@ -5,8 +5,6 @@
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
 
-#include "../../audio/mp3/Mp3Id3v2.h"
-
 #include "../../kernel/di/GlobalAppContext.h"
 #include "../../kernel/interruption/SignalService.h"
 
@@ -38,8 +36,8 @@ void IcecastClientMenuItem::action()
 	SignalService* sigSrv = inject<SignalService>("signalService");
 
 	IcecastClient* client = new IcecastClient(this->logSrv, sigSrv);
-	
+
 	client->action();
-	
+
 	delete client;
 }

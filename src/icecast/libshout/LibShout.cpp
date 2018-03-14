@@ -7,7 +7,6 @@
 #include "../../kernel/interruption/SignalService.h"
 
 #include "../../kernel/converter/Convert.h"
-#include "../../audio/mp3/Mp3Parser.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
