@@ -5,6 +5,11 @@
 #include <stdio.h>
 #include <string>
 
+#include "../../exception/domain/DomainException.h"
+#include "../../exception/domain/GeneralDomainErrorCode.h"
+
+#include "Mp3Id3v1Parser.h"
+
 using namespace std;
 
 SimpleAudioTagService::SimpleAudioTagService() : AudioTagService()
@@ -27,33 +32,46 @@ SimpleAudioTagService::~SimpleAudioTagService()
 
 void SimpleAudioTagService::registerParsers()
 {
-	// tagParsers.push_back(new Mp3Id3v1);
+	tagParsers.push_back(new Mp3Id3v1Parser);
 }
 
 AudioTag* SimpleAudioTagService::read(const char* filename)
 {
-        string title = "";
-        string artist = "";
-        string album = "";
-        string comment = "";
-        string genre = "";
-        int year = 0;
-        int track = 0;
+        FILE *file;
 
-        int duration = 0;
-        int bitrate = 0;
-        int samplerate = 0;
-        int channels = 0;
+	try
+	{
+		file = fopen(filename, "r+");
 
-        return new AudioTag(title,
-                 artist,
-                 album,
-                 comment,
-                 genre,
-                 year,
-                 track,
-                 duration,
-                 bitrate,
-                 samplerate,
-                 channels);
+		if (file == NULL)
+		{
+			throw DomainException(GeneralDomainErrorCode::GNR0001, filename);
+		}
+
+		AudioTagParser* parser = NULL;
+
+		for(vector<AudioTagParser*>::iterator it = tagParsers.begin();
+			it != tagParsers.end();
+			++it)
+		{
+			parser = (AudioTagParser*) *it;
+
+			if (parser->isCorrectVersion(file))
+			{
+				break;
+			}
+		}
+
+		if (parser == NULL)
+		{
+			return NULL;
+		}
+
+		return parser->parse(file);
+	}
+	catch (exception& e)
+	{
+		fclose(file);
+		throw e;
+	}
 }
