@@ -13,7 +13,7 @@ Mp3Id3v1Parser::~Mp3Id3v1Parser()
 
 }
 
-bool Mp3Id3v1Parser::isCorrectVersion(FILE* file)
+bool Mp3Id3v1Parser::isCorrectVersion(const char* filepath, FILE* file)
 {
 	string tag = readHeader(file);
 
@@ -87,7 +87,7 @@ string Mp3Id3v1Parser::readThirty(FILE *file, int readloc)
 	return str;
 }
 
-AudioTag* Mp3Id3v1Parser::parse(FILE *file)
+AudioTag* Mp3Id3v1Parser::parse(const char* filepath, FILE *file)
 {
 	string title = "";
 	string artist = "";

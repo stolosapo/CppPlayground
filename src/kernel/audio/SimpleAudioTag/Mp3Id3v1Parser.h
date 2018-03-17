@@ -23,8 +23,8 @@ public:
 	Mp3Id3v1Parser();
 	virtual ~Mp3Id3v1Parser();
 
-	virtual AudioTag* parse(FILE* file);
-	virtual bool isCorrectVersion(FILE* file);
+	virtual AudioTag* parse(const char* filepath, FILE* file);
+	virtual bool isCorrectVersion(const char* filepath, FILE* file);
 };
 
 #endif // Mp3Id3v1Parser_h__

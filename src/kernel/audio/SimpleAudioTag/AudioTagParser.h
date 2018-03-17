@@ -13,8 +13,8 @@ public:
 	AudioTagParser() {};
 	virtual ~AudioTagParser() {};
 
-	virtual AudioTag* parse(FILE* file) = 0;
-	virtual bool isCorrectVersion(FILE* file) = 0;
+	virtual AudioTag* parse(const char* filepath, FILE* file) = 0;
+	virtual bool isCorrectVersion(const char* filepath, FILE* file) = 0;
 };
 
 #endif // AudioTagParser_h__
