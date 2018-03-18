@@ -14,7 +14,8 @@
 const char* IcecastClient::USER_AGENT = "NoiseStreamer";
 
 
-IcecastClient::IcecastClient(ILogService *logSrv, SignalService *sigSrv) : logSrv(logSrv), sigSrv(sigSrv)
+IcecastClient::IcecastClient(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv) 
+	: logSrv(logSrv), sigSrv(sigSrv), tagSrv(tagSrv)
 {
 	this->config = NULL;
 	this->libShout = NULL;
@@ -82,6 +83,11 @@ void IcecastClient::streamAudio()
 			string s = Convert<int>::NumberToString(playlist->size());
 
 			logSrv->info("Index: " + i + " (" + c + "/" + s + ")");
+
+			AudioTag *tag = tagSrv->read(track.c_str());
+
+			string trackTitle = tag->getArtist() + " - " + tag->getTitle();
+			logSrv->info("Playing: " + trackTitle);			
 
 			libShout->streamFile(track.c_str());
 		}
