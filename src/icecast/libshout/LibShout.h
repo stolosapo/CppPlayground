@@ -140,7 +140,7 @@ public:
 	void finilizeShout();
 
 	void startShout();
-	void streamFile(const char* filename);
+	void streamFile(const char* filename, const char* trackMetadata);
 
 };
 

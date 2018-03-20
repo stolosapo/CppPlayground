@@ -208,7 +208,7 @@ void LibShout::startShout()
 #endif
 }
 
-void LibShout::streamFile(const char* filename)
+void LibShout::streamFile(const char* filename, const char* trackMetadata)
 {
 #ifdef ICECAST
 	unsigned char buff[4096];
@@ -217,28 +217,10 @@ void LibShout::streamFile(const char* filename)
 	FILE* mp3file;
 	mp3file = fopen(filename , "rb");
 
-	Mp3Id3v1 mp3Tag;
-
-	mp3Tag.load(filename);
-
-	string trackMetadata;
-
-	if (mp3Tag.isCorrectVersion())
-	{
-		trackMetadata = mp3Tag.getArtist() + " - " + mp3Tag.getTitle();
-	}
-	else
-	{
-		trackMetadata = string(filename);
-	}
-
-	logSrv->info("Playing: " + string(filename));
-
-
 	/* Update metadata */
 	shout_metadata_t* newMetadata;
 	newMetadata = createNewMetadata();
-	addMetaSong(newMetadata, trackMetadata);
+	addMetaSong(newMetadata, string(trackMetadata));
 	setMeta(newMetadata);
 
 	while (!sigSrv->gotSigInt())
