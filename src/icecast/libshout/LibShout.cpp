@@ -49,13 +49,13 @@ void LibShout::logCurrentStatus()
 	switch (errNo) {
 
 		case SHOUTERR_SUCCESS:
-			logSrv->trace("SHOUTERR_SUCCESS");
+			// logSrv->trace("SHOUTERR_SUCCESS");
 			break;
 		case SHOUTERR_INSANE:
 			logSrv->trace("SHOUTERR_INSANE");
 			break;
 		case SHOUTERR_NOCONNECT:
-			logSrv->trace("SHOUTERR_NOCONNE");
+			logSrv->trace("SHOUTERR_NOCONNECT");
 			break;
 		case SHOUTERR_NOLOGIN:
 			logSrv->trace("SHOUTERR_NOLOGIN");
@@ -67,16 +67,16 @@ void LibShout::logCurrentStatus()
 			logSrv->trace("SHOUTERR_MALLOC");
 			break;
 		case SHOUTERR_METADATA:
-			logSrv->trace("SHOUTERR_METADAT");
+			logSrv->trace("SHOUTERR_METADATA");
 			break;
 		case SHOUTERR_CONNECTED:
-			logSrv->trace("SHOUTERR_CONNECT");
+			logSrv->trace("SHOUTERR_CONNECTED");
 			break;
 		case SHOUTERR_UNCONNECTED:
-			logSrv->trace("SHOUTERR_UNCONNE");
+			logSrv->trace("SHOUTERR_UNCONNECTED");
 			break;
 		case SHOUTERR_UNSUPPORTED:
-			logSrv->trace("SHOUTERR_UNSUPPO");
+			logSrv->trace("SHOUTERR_UNSUPPORTED");
 			break;
 		case SHOUTERR_BUSY:
 			logSrv->trace("SHOUTERR_BUSY");
@@ -85,13 +85,14 @@ void LibShout::logCurrentStatus()
 			logSrv->trace("SHOUTERR_NOTLS");
 			break;
 		case SHOUTERR_TLSBADCERT:
-			logSrv->trace("SHOUTERR_TLSBADC");
+			logSrv->trace("SHOUTERR_TLSBADCERT");
 			break;
 		case SHOUTERR_RETRY:
 			logSrv->trace("SHOUTERR_RETRY");
 			break;
 		default:
-			logSrv->trace("No error");
+			// logSrv->trace("Invalid errNo: ");
+			cerr << "Invalid errNo: " << errNo << endl;
 			break;
 	}
 #endif
@@ -218,10 +219,15 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 	mp3file = fopen(filename , "rb");
 
 	/* Update metadata */
+
+	logCurrentStatus();
+
 	shout_metadata_t* newMetadata;
 	newMetadata = createNewMetadata();
 	addMetaSong(newMetadata, string(trackMetadata));
 	setMeta(newMetadata);
+
+	logCurrentStatus();
 
 	while (!sigSrv->gotSigInt())
 	{
@@ -230,10 +236,13 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (read <= 0)
 		{
+			logCurrentStatus();
 			break;
 		}
 
 		ret = shoutSend(buff, read);
+
+		logCurrentStatus();
 
 		if (ret != SHOUTERR_SUCCESS)
 		{
@@ -243,14 +252,18 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (shoutQueuelen() > 0)
 		{
+			logCurrentStatus();
 			// logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
 			// usleep(50000);
 		}
 
 		shoutSync();
+
+		logCurrentStatus();
 	}
 
 	freeMetadate(newMetadata);
+	logCurrentStatus();
 
 	fclose(mp3file);
 #endif
