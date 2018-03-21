@@ -54,6 +54,24 @@ string IcecastClient::agentVersion()
 	return string(USER_AGENT) + "/" + version();
 }
 
+string IcecastClient::getTrackTitle(string filename)
+{
+	AudioTag *tag = tagSrv->read(filename.c_str());
+
+	return tag->getArtist() + " - " + tag->getTitle();
+}
+
+void IcecastClient::logNowPlaying(string filename, string trackTitle)
+{
+	string i = Convert<int>::NumberToString(playlist->getCurrentIndex());
+	string c = Convert<int>::NumberToString(playlist->getHistoryCount());
+	string s = Convert<int>::NumberToString(playlist->size());
+
+	logSrv->info("Index: " + i + " (" + c + "/" + s + ")");
+	logSrv->info("-- Playing: " + filename);
+	logSrv->info("-- Track: " + trackTitle);
+}
+
 void IcecastClient::loadConfig()
 {
 	IcecastClientConfigLoader* loader = new IcecastClientConfigLoader("icecast.config");
@@ -75,20 +93,10 @@ void IcecastClient::streamAudio()
 
 		while (playlist->hasNext() && !sigSrv->gotSigIntAndReset())
 		{
-
 			string track = playlist->getNext();
+			string trackTitle = getTrackTitle(track);
 
-			string i = Convert<int>::NumberToString(playlist->getCurrentIndex());
-			string c = Convert<int>::NumberToString(playlist->getHistoryCount());
-			string s = Convert<int>::NumberToString(playlist->size());
-
-			logSrv->info("Index: " + i + " (" + c + "/" + s + ")");
-
-			AudioTag *tag = tagSrv->read(track.c_str());
-
-			string trackTitle = tag->getArtist() + " - " + tag->getTitle();
-
-			logSrv->info("Playing: " + trackTitle + " -> " + track);
+			logNowPlaying(track, trackTitle);
 
 			libShout->streamFile(track.c_str(), trackTitle.c_str());
 		}

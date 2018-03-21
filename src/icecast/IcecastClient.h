@@ -19,6 +19,9 @@ private:
 	LibShout* libShout;
 	IcecastPlaylist* playlist;
 
+	string getTrackTitle(string filename);
+	void logNowPlaying(string filename, string trackTitle);
+
 	void loadConfig();
 	void streamAudio();
 
@@ -27,7 +30,7 @@ public:
 	virtual ~IcecastClient();
 
 	static const char* USER_AGENT;
-	
+
 	static const int MAJOR_VERSION = 1;
 	static const int MINOR_VERSION = 0;
 	static const int PATCH_VERSION = 0;
