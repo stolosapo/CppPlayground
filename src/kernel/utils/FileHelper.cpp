@@ -28,14 +28,18 @@ string FileHelper::filename(const char* filepath)
 {
 	string name = filenameExt(filepath);
 
-	vector<string> file = StringHelper::split(name, ".");
+	string ext = extension(name.c_str());
 
-	if (file.size() != 2)
+	if (ext == "")
 	{
-		return "";
+		return name;
 	}
 
-	return file.at(0);
+	ext = "." + ext;
+
+	size_t pos = name.find(ext);
+
+	return name.substr(0, pos);
 }
 
 string FileHelper::extension(const char* filename)
@@ -44,7 +48,7 @@ string FileHelper::extension(const char* filename)
 
 	vector<string> file = StringHelper::split(name, ".");
 
-	if (file.size() != 2)
+	if (file.size() <= 1)
 	{
 		return "";
 	}

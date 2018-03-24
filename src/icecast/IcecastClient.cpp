@@ -5,6 +5,7 @@
 #include "IcecastPlaylist.h"
 
 #include "../kernel/converter/Convert.h"
+#include "../kernel/utils/FileHelper.h"
 #include "../kernel/exception/domain/DomainException.h"
 
 #include "../kernel/di/GlobalAppContext.h"
@@ -57,6 +58,11 @@ string IcecastClient::agentVersion()
 string IcecastClient::getTrackTitle(string filename)
 {
 	AudioTag *tag = tagSrv->read(filename.c_str());
+
+	if (tag == NULL)
+	{
+		return FileHelper::filename(filename.c_str());
+	}
 
 	return tag->getArtist() + " - " + tag->getTitle();
 }

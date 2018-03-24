@@ -65,7 +65,7 @@ void test_filename_return_correct_result__failure()
 
 	string result = FileHelper::filename(str.c_str());
 
-	assertEqual(result, "");
+	assertEqual(result, "path");
 }
 
 void test_extension_return_correct_result__success()
