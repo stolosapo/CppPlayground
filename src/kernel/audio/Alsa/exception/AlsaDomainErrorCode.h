@@ -23,6 +23,7 @@ public:
         static const DomainErrorCode ALS0013;
         static const DomainErrorCode ALS0014;
         static const DomainErrorCode ALS0015;
+        static const DomainErrorCode ALS0016;
 
 
 	AlsaDomainErrorCode();

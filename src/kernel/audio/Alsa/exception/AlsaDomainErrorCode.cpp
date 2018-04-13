@@ -18,6 +18,7 @@ const DomainErrorCode AlsaDomainErrorCode::ALS0012 = DomainErrorCode("ALS0012", 
 const DomainErrorCode AlsaDomainErrorCode::ALS0013 = DomainErrorCode("ALS0013", "Cannot set start mode (%s)");
 const DomainErrorCode AlsaDomainErrorCode::ALS0014 = DomainErrorCode("ALS0014", "Cannot set software parameters (%s)");
 const DomainErrorCode AlsaDomainErrorCode::ALS0015 = DomainErrorCode("ALS0015", "Cannot prepare audio interface for use (%s)");
+const DomainErrorCode AlsaDomainErrorCode::ALS0016 = DomainErrorCode("ALS0016", "Read from audio interface failed");
 
 
 
