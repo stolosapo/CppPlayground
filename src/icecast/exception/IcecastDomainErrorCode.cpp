@@ -24,6 +24,8 @@ const DomainErrorCode IcecastDomainErrorCode::ICS0019 = DomainErrorCode("ICS0019
 
 const DomainErrorCode IcecastDomainErrorCode::ICS0020 = DomainErrorCode("ICS0020", "Error connecting: '%s'");
 
+const DomainErrorCode IcecastDomainErrorCode::ICS0021 = DomainErrorCode("ICS0021", "ALSA feature is not enabled, try to pass the WITH_ALSA=1 param when Make.");
+
 
 IcecastDomainErrorCode::IcecastDomainErrorCode()
 {
