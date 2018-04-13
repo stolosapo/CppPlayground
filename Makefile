@@ -40,6 +40,12 @@ OPTS += -DTAGLIB
 LIB += -ltag -lz
 endif
 
+# ALSA feature
+ifeq ($(WITH_ALSA), 1)
+OPTS += -DALSA
+LIB += -lasound
+endif
+
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
 	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
