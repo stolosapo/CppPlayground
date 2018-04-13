@@ -6,6 +6,7 @@
 #include "../../kernel/di/GlobalAppContext.h"
 #include "../../kernel/interruption/SignalService.h"
 
+#include "../../kernel/audio/Alsa/exception/AlsaDomainErrorCode.h"
 #include "../../kernel/audio/Alsa/AlsaCapture.h"
 
 
@@ -27,7 +28,7 @@ AlsaCaptureMenuItem::~AlsaCaptureMenuItem()
 void AlsaCaptureMenuItem::check()
 {
 #ifndef ALSA
-	throw DomainException(IcecastDomainErrorCode::ICS0021);
+	throw DomainException(AlsaDomainErrorCode::ALS0001);
 #endif
 }
 
