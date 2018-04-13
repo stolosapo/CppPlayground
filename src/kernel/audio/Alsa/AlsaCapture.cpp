@@ -7,6 +7,12 @@
 #include <alsa/asoundlib.h>
 #endif
 
+/*
+        http://equalarea.com/paul/alsa-audio.html
+        https://gist.github.com/albanpeignier/104902
+        https://linuxconfig.org/how-to-test-microphone-with-audio-linux-sound-architecture-alsa
+*/
+
 AlsaCapture::AlsaCapture()
 {
 
