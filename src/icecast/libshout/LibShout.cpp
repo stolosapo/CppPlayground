@@ -194,7 +194,7 @@ void LibShout::startShout()
 		logSrv->info("Connection pending...");
 	}
 
-	while (ret == SHOUTERR_BUSY)
+	while (ret == SHOUTERR_BUSY && !sigSrv->gotSigInt())
 	{
 		usleep(10000);
 		ret = getConnected();
