@@ -10,7 +10,7 @@ using namespace std;
 class ArgumentList
 {
 private:
-        const list<Argument> arguments;
+        list<Argument> arguments;
 
 public:
 	ArgumentList(list<Argument> args);

@@ -1,8 +1,8 @@
 #include "ArgumentList.h"
 
-ArgumentList::ArgumentList(list<Argument> args)
+ArgumentList::ArgumentList(list<Argument> args) : arguments(args)
 {
-        // arguments = list<Argument>(args);
+
 }
 
 ArgumentList::~ArgumentList()
