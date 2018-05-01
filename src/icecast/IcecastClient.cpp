@@ -87,6 +87,12 @@ void IcecastClient::loadConfig()
 	delete loader;
 }
 
+void IcecastClient::loadPlaylist()
+{
+	playlist = new IcecastPlaylist(logSrv, config);
+	playlist->load();
+}
+
 void IcecastClient::streamAudio()
 {
 	libShout = new LibShout(logSrv, sigSrv, config);
@@ -120,11 +126,7 @@ void IcecastClient::action()
 {
 	loadConfig();
 
-	/* Load playlist */
-	playlist = new IcecastPlaylist(logSrv, config);
-	playlist->load();
-
+	loadPlaylist();
+	
 	streamAudio();
-
-	return;
 }

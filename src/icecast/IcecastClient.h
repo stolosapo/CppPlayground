@@ -23,6 +23,7 @@ private:
 	void logNowPlaying(string filename, string trackTitle);
 
 	void loadConfig();
+	void loadPlaylist();
 	void streamAudio();
 
 public:
