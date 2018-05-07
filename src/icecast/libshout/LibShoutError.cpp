@@ -4,11 +4,10 @@
 #include "../exception/IcecastDomainErrorCode.h"
 #include "../../kernel/converter/Convert.h"
 
-string LibShout::getError()
+const char* LibShout::getError()
 {
 #ifdef ICECAST
-	const char* error = shout_get_error(shout);
-	return string(error);
+	return shout_get_error(shout);
 #else
 	return "";
 #endif

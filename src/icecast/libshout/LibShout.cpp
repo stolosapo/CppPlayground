@@ -246,7 +246,7 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (ret != SHOUTERR_SUCCESS)
 		{
-			logSrv->error("Send error: " + getError());
+			logSrv->error("Send error: " + string(getError()));
 			break;
 		}
 

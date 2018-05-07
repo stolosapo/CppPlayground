@@ -44,7 +44,7 @@ private:
 
 	/* Returns a statically allocated string describing the last shout error
 	 * to occur.  Only valid until the next libshout call on this shout_t */
-	string getError();
+	const char* getError();
 
 	/* Return the error code (e.g. SHOUTERR_SOCKET) for this shout instance */
 	int getErrno();

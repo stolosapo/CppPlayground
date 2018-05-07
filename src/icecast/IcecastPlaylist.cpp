@@ -28,7 +28,7 @@ void IcecastPlaylist::load()
 
 	if(file.fail() == true)
 	{
-		throw DomainException(GeneralDomainErrorCode::GNR0001, config->getPlaylist());
+		throw DomainException(GeneralDomainErrorCode::GNR0001, config->getPlaylist().c_str());
 	}
 
 	string line;

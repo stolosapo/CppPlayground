@@ -11,11 +11,11 @@ class DomainException: public RuntimeException
 {
 private:
 	const DomainErrorCode& _errorCode;
-	string _arg;
+	const char* _arg;
 
 public:
 	DomainException(const DomainErrorCode& errorCode);
-	DomainException(const DomainErrorCode& errorCode, string arg);
+	DomainException(const DomainErrorCode& errorCode, const char* arg);
 	virtual ~DomainException() throw();
 
 	virtual const char* fullError() const throw();

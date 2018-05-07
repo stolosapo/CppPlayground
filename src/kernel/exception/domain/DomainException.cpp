@@ -6,7 +6,7 @@ DomainException::DomainException(const DomainErrorCode& errorCode) : RuntimeExce
 
 }
 
-DomainException::DomainException(const DomainErrorCode& errorCode, string arg) : RuntimeException(errorCode.cause()), _errorCode(errorCode), _arg(arg)
+DomainException::DomainException(const DomainErrorCode& errorCode, const char* arg) : RuntimeException(errorCode.cause()), _errorCode(errorCode), _arg(arg)
 {
 
 }
@@ -25,7 +25,7 @@ const char* DomainException::message() const throw()
 {
 	char* mess = new char[1024];
 
-	sprintf(mess, cause(), _arg.c_str());
+	sprintf(mess, cause(), _arg);
 
 	return string(mess).c_str();
 }
