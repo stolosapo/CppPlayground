@@ -1,5 +1,5 @@
-#ifndef PlaylistHandler_h__
-#define PlaylistHandler_h__
+#ifndef PlaylistStrategy_h__
+#define PlaylistStrategy_h__
 
 #include "../../log/ILogService.h"
 #include "Playlist.h"
@@ -8,27 +8,23 @@
 #include "PlaylistStrategyType.h"
 #include "PlaylistStrategy.h"
 
-class PlaylistHandler
+class PlaylistStrategy
 {
-private:
+protected:
 	ILogService* logSrv;
 	Playlist* playlist;
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;
 
-	PlaylistStrategyType strategyType;
-	PlaylistStrategy* strategy;
-
 public:
-	PlaylistHandler(
+	PlaylistStrategy(
 		ILogService* logSrv, 
 		Playlist* playlist, 
 		PlaylistHistory* history, 
-		PlaylistMetadata* metadata, 
-		PlaylistStrategyType strategyType);
-	virtual ~PlaylistHandler();
+		PlaylistMetadata* metadata);
+	virtual ~PlaylistStrategy();
 
-	AudioTag* nextTrack();
+	virtual AudioTag* nextTrack() = 0;
 };
 
-#endif // PlaylistHandler_h__
+#endif // PlaylistStrategy_h__

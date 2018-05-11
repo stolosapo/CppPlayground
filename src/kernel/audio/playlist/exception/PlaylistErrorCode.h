@@ -11,6 +11,7 @@ public:
 	static const DomainErrorCode PLS0003;
 	static const DomainErrorCode PLS0004;
 	static const DomainErrorCode PLS0005;
+	static const DomainErrorCode PLS0006;
 
 	PlaylistErrorCode();
 	virtual ~PlaylistErrorCode();
