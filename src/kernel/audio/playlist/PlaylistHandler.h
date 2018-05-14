@@ -21,8 +21,7 @@ private:
 
 	bool repeat;
 
-	int currentTrackIndex;
-	AudioTag* currentTrack;
+	PlaylistItem* currentTrack;
 
 public:
 	PlaylistHandler(

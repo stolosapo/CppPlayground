@@ -17,7 +17,7 @@ PlaylistHandler::PlaylistHandler(
 	strategyType(strategyType),
 	repeat(repeat)
 {
-	currentTrackIndex = 0;
+	currentTrack = NULL;
 }
 
 PlaylistHandler::~PlaylistHandler()
@@ -32,9 +32,7 @@ AudioTag* PlaylistHandler::nextTrack()
 		throw DomainException(PlaylistErrorCode::PLS0006);
 	}
 
-	AudioTag* track = strategy->nextTrack(currentTrackIndex);
+	currentTrack = strategy->nextTrack(currentTrack);
 
-	currentTrack = track;
-
-	return track;
+	return currentTrack->getMetadata();
 }

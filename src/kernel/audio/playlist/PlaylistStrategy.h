@@ -7,6 +7,7 @@
 #include "PlaylistMetadata.h"
 #include "PlaylistStrategyType.h"
 #include "PlaylistStrategy.h"
+#include "PlaylistItem.h"
 
 class PlaylistStrategy
 {
@@ -27,7 +28,7 @@ public:
 		bool repeat);
 	virtual ~PlaylistStrategy();
 
-	virtual AudioTag* nextTrack(int currentTrackIndex) = 0;
+	virtual PlaylistItem* nextTrack(PlaylistItem* currentTrack) = 0;
 };
 
 #endif // PlaylistStrategy_h__

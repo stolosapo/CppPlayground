@@ -16,7 +16,23 @@ SimplePlaylistStrategy::~SimplePlaylistStrategy()
 
 }
 
-AudioTag* SimplePlaylistStrategy::nextTrack(int currentTrackIndex)
+PlaylistItem* SimplePlaylistStrategy::nextTrack(PlaylistItem* currentTrack)
 {
+	int currentTrackIndex = 0;
 
+	if (currentTrack != NULL)
+	{
+		currentTrackIndex = currentTrack->getTrackIndex();
+	}
+
+	currentTrackIndex++;
+
+	if (currentTrackIndex >= playlist->size())
+	{
+		currentTrackIndex = 0;
+	}
+
+
+	string track = playlist->read(currentTrackIndex);
+	
 }

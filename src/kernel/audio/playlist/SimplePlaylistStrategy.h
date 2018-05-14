@@ -14,7 +14,7 @@ public:
 		bool repeat);
 	virtual ~SimplePlaylistStrategy();
 
-	AudioTag* nextTrack(int currentTrackIndex);
+	virtual PlaylistItem* nextTrack(PlaylistItem* currentTrack);
 };
 
 #endif // SimplePlaylistStrategy_h__
