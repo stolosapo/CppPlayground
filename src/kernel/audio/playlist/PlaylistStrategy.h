@@ -28,6 +28,7 @@ public:
 		bool repeat);
 	virtual ~PlaylistStrategy();
 
+	virtual bool hasNext(PlaylistItem* currentTrack) = 0;
 	virtual PlaylistItem* nextTrack(PlaylistItem* currentTrack) = 0;
 };
 

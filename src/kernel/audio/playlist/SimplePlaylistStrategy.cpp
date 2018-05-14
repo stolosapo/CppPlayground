@@ -16,6 +16,16 @@ SimplePlaylistStrategy::~SimplePlaylistStrategy()
 
 }
 
+bool SimplePlaylistStrategy::hasNext(PlaylistItem* currentTrack)
+{
+	if (repeat || currentTrack == NULL)
+	{
+		return true;
+	}
+
+	// return currentTrack->getTrackIndex() == playlist->size() - 1;
+}
+
 PlaylistItem* SimplePlaylistStrategy::nextTrack(PlaylistItem* currentTrack)
 {
 	int currentTrackIndex = 0;
@@ -34,5 +44,5 @@ PlaylistItem* SimplePlaylistStrategy::nextTrack(PlaylistItem* currentTrack)
 
 
 	string track = playlist->read(currentTrackIndex);
-	
+
 }
