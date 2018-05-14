@@ -16,15 +16,18 @@ protected:
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;
 
+	bool repeat;
+
 public:
 	PlaylistStrategy(
-		ILogService* logSrv, 
-		Playlist* playlist, 
-		PlaylistHistory* history, 
-		PlaylistMetadata* metadata);
+		ILogService* logSrv,
+		Playlist* playlist,
+		PlaylistHistory* history,
+		PlaylistMetadata* metadata,
+		bool repeat);
 	virtual ~PlaylistStrategy();
 
-	virtual AudioTag* nextTrack() = 0;
+	virtual AudioTag* nextTrack(int currentTrackIndex) = 0;
 };
 
 #endif // PlaylistStrategy_h__

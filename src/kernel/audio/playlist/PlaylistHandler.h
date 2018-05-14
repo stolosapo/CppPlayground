@@ -19,13 +19,19 @@ private:
 	PlaylistStrategyType strategyType;
 	PlaylistStrategy* strategy;
 
+	bool repeat;
+
+	int currentTrackIndex;
+	AudioTag* currentTrack;
+
 public:
 	PlaylistHandler(
-		ILogService* logSrv, 
-		Playlist* playlist, 
-		PlaylistHistory* history, 
-		PlaylistMetadata* metadata, 
-		PlaylistStrategyType strategyType);
+		ILogService* logSrv,
+		Playlist* playlist,
+		PlaylistHistory* history,
+		PlaylistMetadata* metadata,
+		PlaylistStrategyType strategyType,
+		bool repeat);
 	virtual ~PlaylistHandler();
 
 	AudioTag* nextTrack();

@@ -17,8 +17,8 @@ public:
 	Playlist(const char* filename);
 	virtual ~Playlist();
 
-	int size();	
-	
+	int size();
+
 	void load();
 	void clear();
 	void reload();

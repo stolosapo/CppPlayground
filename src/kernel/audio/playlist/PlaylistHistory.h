@@ -21,7 +21,7 @@ public:
 	virtual ~PlaylistHistory();
 
 	int size();
-	
+
 	void loadAll();
 	void load(int lastLines);
 	void clear();
