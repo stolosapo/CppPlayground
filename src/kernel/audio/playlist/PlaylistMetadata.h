@@ -31,6 +31,7 @@ public:
 	bool exist(string track);
 	void remove(string track);
 	AudioTag* read(string track);
+	AudioTag* readAndLoadIfNotExist(string track);
 
 };
 

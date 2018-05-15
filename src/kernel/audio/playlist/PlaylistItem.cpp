@@ -1,9 +1,22 @@
 #include "PlaylistItem.h"
 
-PlaylistItem::PlaylistItem(int trackIndex, string track, AudioTag* metadata) 
+PlaylistItem::PlaylistItem()
+	: trackIndex(-1), track("")
+{
+
+}
+
+PlaylistItem::PlaylistItem(int trackIndex, string track, AudioTag* metadata)
 	: trackIndex(trackIndex), track(track), metadata(metadata)
 {
 
+}
+
+PlaylistItem::PlaylistItem(const PlaylistItem &item)
+{
+	trackIndex = item.trackIndex;
+	track = item.track;
+	metadata = item.metadata;
 }
 
 PlaylistItem::~PlaylistItem()

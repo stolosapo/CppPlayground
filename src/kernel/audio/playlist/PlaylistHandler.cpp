@@ -17,12 +17,15 @@ PlaylistHandler::PlaylistHandler(
 	strategyType(strategyType),
 	repeat(repeat)
 {
-	currentTrack = NULL;
+
 }
 
 PlaylistHandler::~PlaylistHandler()
 {
-
+	if (strategy != NULL)
+	{
+		delete strategy;
+	}
 }
 
 AudioTag* PlaylistHandler::nextTrack()
@@ -34,5 +37,5 @@ AudioTag* PlaylistHandler::nextTrack()
 
 	currentTrack = strategy->nextTrack(currentTrack);
 
-	return currentTrack->getMetadata();
+	return currentTrack.getMetadata();
 }

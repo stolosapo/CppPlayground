@@ -49,8 +49,8 @@ void PlaylistMetadata::remove(string track)
 void PlaylistMetadata::clear()
 {
 	/* Clear metadata */
-	for (map<string, AudioTag*>::iterator it = metadata.begin(); 
-		it != metadata.end(); 
+	for (map<string, AudioTag*>::iterator it = metadata.begin();
+		it != metadata.end();
 		++it)
 	{
 		delete it->second;
@@ -82,4 +82,14 @@ AudioTag* PlaylistMetadata::read(string track)
 	}
 
 	return metadata.find(track)->second;
+}
+
+AudioTag* PlaylistMetadata::readAndLoadIfNotExist(string track)
+{
+	if (!exist(track))
+	{
+		load(track);
+	}
+
+	return read(track);
 }

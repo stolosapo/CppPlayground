@@ -21,7 +21,7 @@ private:
 
 	bool repeat;
 
-	PlaylistItem* currentTrack;
+	PlaylistItem currentTrack;
 
 public:
 	PlaylistHandler(

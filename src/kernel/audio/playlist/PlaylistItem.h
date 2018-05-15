@@ -16,7 +16,9 @@ private:
 	AudioTag* metadata;
 
 public:
+	PlaylistItem();
 	PlaylistItem(int trackIndex, string track, AudioTag* metadata);
+	PlaylistItem(const PlaylistItem &item);
 	virtual ~PlaylistItem();
 
 	int getTrackIndex();

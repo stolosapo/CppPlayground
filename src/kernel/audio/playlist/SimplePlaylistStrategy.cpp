@@ -16,24 +16,22 @@ SimplePlaylistStrategy::~SimplePlaylistStrategy()
 
 }
 
-bool SimplePlaylistStrategy::hasNext(PlaylistItem* currentTrack)
+bool SimplePlaylistStrategy::hasNext(PlaylistItem currentTrack)
 {
-	if (repeat || currentTrack == NULL)
+	if (repeat)
 	{
 		return true;
 	}
 
-	// return currentTrack->getTrackIndex() == playlist->size() - 1;
+	int index = currentTrack.getTrackIndex();
+	int size = playlist->size();
+
+	return index < size;
 }
 
-PlaylistItem* SimplePlaylistStrategy::nextTrack(PlaylistItem* currentTrack)
+PlaylistItem SimplePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 {
-	int currentTrackIndex = 0;
-
-	if (currentTrack != NULL)
-	{
-		currentTrackIndex = currentTrack->getTrackIndex();
-	}
+	int currentTrackIndex = currentTrack.getTrackIndex();
 
 	currentTrackIndex++;
 
@@ -42,7 +40,10 @@ PlaylistItem* SimplePlaylistStrategy::nextTrack(PlaylistItem* currentTrack)
 		currentTrackIndex = 0;
 	}
 
-
 	string track = playlist->read(currentTrackIndex);
+	AudioTag* meta = metadata->readAndLoadIfNotExist(track);
 
+	PlaylistItem item(currentTrackIndex, track, meta);
+
+	return item;
 }

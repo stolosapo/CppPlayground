@@ -14,8 +14,8 @@ public:
 		bool repeat);
 	virtual ~SimplePlaylistStrategy();
 
-	virtual bool hasNext(PlaylistItem* currentTrack);
-	virtual PlaylistItem* nextTrack(PlaylistItem* currentTrack);
+	virtual bool hasNext(PlaylistItem currentTrack);
+	virtual PlaylistItem nextTrack(PlaylistItem currentTrack);
 };
 
 #endif // SimplePlaylistStrategy_h__
