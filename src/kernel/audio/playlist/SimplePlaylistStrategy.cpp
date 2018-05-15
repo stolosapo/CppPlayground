@@ -40,10 +40,5 @@ PlaylistItem SimplePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 		currentTrackIndex = 0;
 	}
 
-	string track = playlist->read(currentTrackIndex);
-	AudioTag* meta = metadata->readAndLoadIfNotExist(track);
-
-	PlaylistItem item(currentTrackIndex, track, meta);
-
-	return item;
+	return getTrack(currentTrackIndex);
 }

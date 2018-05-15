@@ -19,3 +19,11 @@ PlaylistStrategy::~PlaylistStrategy()
 {
 
 }
+
+PlaylistItem PlaylistStrategy::getTrack(int trackIndex)
+{
+	string track = playlist->read(trackIndex);
+	AudioTag* meta = metadata->readAndLoadIfNotExist(track);
+
+	return PlaylistItem(trackIndex, track, meta);
+}

@@ -19,6 +19,8 @@ protected:
 
 	bool repeat;
 
+	virtual PlaylistItem getTrack(int trackIndex);
+
 public:
 	PlaylistStrategy(
 		ILogService* logSrv,
