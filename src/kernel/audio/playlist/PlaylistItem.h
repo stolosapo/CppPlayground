@@ -23,6 +23,7 @@ public:
 
 	int getTrackIndex();
 	string getTrack();
+	string getTrackTitle();
 	AudioTag* getMetadata();
 
 };

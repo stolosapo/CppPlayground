@@ -46,6 +46,16 @@ void PlaylistHandler::load()
 	}
 }
 
+int PlaylistHandler::playlistSize()
+{
+	if (playlist == NULL)
+	{
+		return -1;
+	}
+
+	return playlist->size();
+}
+
 bool PlaylistHandler::hasNext()
 {
 	if (strategy == NULL)

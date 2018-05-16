@@ -1,6 +1,7 @@
 #include "PlaylistItem.h"
 
 #include <iostream>
+#include "../../utils/FileHelper.h"
 
 using namespace std;
 
@@ -36,6 +37,16 @@ int PlaylistItem::getTrackIndex()
 string PlaylistItem::getTrack()
 {
 	return track;
+}
+
+string PlaylistItem::getTrackTitle()
+{
+	if (metadata == NULL)
+	{
+		return FileHelper::filename(track.c_str());
+	}
+
+	return metadata->getArtist() + " - " + metadata->getTitle();
 }
 
 AudioTag* PlaylistItem::getMetadata()
