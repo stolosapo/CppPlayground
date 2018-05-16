@@ -2,6 +2,7 @@
 #define PlaylistHandler_h__
 
 #include "../../log/ILogService.h"
+#include "../../strategy/Strategy.h"
 #include "Playlist.h"
 #include "PlaylistHistory.h"
 #include "PlaylistMetadata.h"
@@ -19,9 +20,13 @@ private:
 	PlaylistStrategyType strategyType;
 	PlaylistStrategy* strategy;
 
+	Strategy<PlaylistStrategyType, PlaylistStrategy> *pattern;
+
 	bool repeat;
 
 	PlaylistItem currentTrack;
+
+	void load();
 
 public:
 	PlaylistHandler(

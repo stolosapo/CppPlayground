@@ -2,6 +2,7 @@
 
 #include "../../exception/domain/DomainException.h"
 #include "exception/PlaylistErrorCode.h"
+#include "SimplePlaylistStrategy.h"
 
 PlaylistHandler::PlaylistHandler(
 	ILogService* logSrv,
@@ -17,15 +18,29 @@ PlaylistHandler::PlaylistHandler(
 	strategyType(strategyType),
 	repeat(repeat)
 {
+	pattern = new Strategy<PlaylistStrategyType, PlaylistStrategy>;
 
+	load();
+
+	strategy = pattern->get(strategyType);
 }
 
 PlaylistHandler::~PlaylistHandler()
 {
+	if (pattern != NULL)
+	{
+		delete pattern;
+	}
+
 	if (strategy != NULL)
 	{
 		delete strategy;
 	}
+}
+
+void PlaylistHandler::load()
+{
+	pattern->registerStrategy(SIMPLE, new SimplePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
 }
 
 AudioTag* PlaylistHandler::nextTrack()
