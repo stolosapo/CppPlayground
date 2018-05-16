@@ -7,8 +7,8 @@
 #include "../../exception/domain/GeneralDomainErrorCode.h"
 #include "exception/PlaylistErrorCode.h"
 
-PlaylistHistory::PlaylistHistory(ILogService* logSrv, const char* filename)
-	: logSrv(logSrv), filename(filename)
+PlaylistHistory::PlaylistHistory(const char* filename)
+	: filename(filename)
 {
 
 }
@@ -63,6 +63,4 @@ string PlaylistHistory::read(int historyIndex)
 void PlaylistHistory::add(string track)
 {
 	history.push_back(track);
-
-	logSrv->info(track);
 }

@@ -11,13 +11,12 @@ using namespace std;
 class PlaylistHistory
 {
 private:
-	ILogService* logSrv;
 	const char* filename;
 
 	vector<string> history;
 
 public:
-	PlaylistHistory(ILogService* logSrv, const char* filename);
+	PlaylistHistory(const char* filename);
 	virtual ~PlaylistHistory();
 
 	int size();

@@ -1,5 +1,9 @@
 #include "PlaylistItem.h"
 
+#include <iostream>
+
+using namespace std;
+
 PlaylistItem::PlaylistItem()
 	: trackIndex(-1), track("")
 {

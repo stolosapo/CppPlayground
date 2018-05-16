@@ -20,7 +20,7 @@ PlaylistHandler::PlaylistHandler(
 {
 	pattern = new Strategy<PlaylistStrategyType, PlaylistStrategy>;
 
-	load();
+	registerStrategies();
 
 	strategy = pattern->get(strategyType);
 }
@@ -31,19 +31,32 @@ PlaylistHandler::~PlaylistHandler()
 	{
 		delete pattern;
 	}
-
-	if (strategy != NULL)
-	{
-		delete strategy;
-	}
 }
 
-void PlaylistHandler::load()
+void PlaylistHandler::registerStrategies()
 {
 	pattern->registerStrategy(SIMPLE, new SimplePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
 }
 
-AudioTag* PlaylistHandler::nextTrack()
+void PlaylistHandler::load()
+{
+	if (playlist != NULL)
+	{
+		playlist->load();
+	}
+}
+
+bool PlaylistHandler::hasNext()
+{
+	if (strategy == NULL)
+	{
+		throw DomainException(PlaylistErrorCode::PLS0006);
+	}
+
+	return strategy->hasNext(currentTrack);
+}
+
+PlaylistItem PlaylistHandler::nextTrack()
 {
 	if (strategy == NULL)
 	{
@@ -52,5 +65,5 @@ AudioTag* PlaylistHandler::nextTrack()
 
 	currentTrack = strategy->nextTrack(currentTrack);
 
-	return currentTrack.getMetadata();
+	return currentTrack;
 }

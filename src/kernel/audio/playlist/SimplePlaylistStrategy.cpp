@@ -26,7 +26,7 @@ bool SimplePlaylistStrategy::hasNext(PlaylistItem currentTrack)
 	int index = currentTrack.getTrackIndex();
 	int size = playlist->size();
 
-	return index < size;
+	return index < size - 1;
 }
 
 PlaylistItem SimplePlaylistStrategy::nextTrack(PlaylistItem currentTrack)

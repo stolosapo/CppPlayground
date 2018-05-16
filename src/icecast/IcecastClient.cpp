@@ -11,6 +11,8 @@
 #include "../kernel/di/GlobalAppContext.h"
 #include "../kernel/interruption/SignalService.h"
 
+#include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
+
 
 const char* IcecastClient::USER_AGENT = "NoiseStreamer";
 
@@ -91,6 +93,46 @@ void IcecastClient::loadPlaylist()
 {
 	playlist = new IcecastPlaylist(logSrv, config);
 	playlist->load();
+
+
+	/* Tests for Playlist */
+
+	PlaylistHandlerFactory* factory = 
+		new PlaylistHandlerFactory("playlist.pls", "playlist.history.pls", SIMPLE, false);
+
+	PlaylistHandler* handler = factory->create();
+
+	handler->load();
+
+	while (handler->hasNext() && !sigSrv->gotSigIntAndReset())
+	{
+		try
+		{
+			PlaylistItem item = handler->nextTrack();
+
+			string track = string(item.getTrack());
+			string trackTitle = "";
+
+			AudioTag *tag = item.getMetadata();
+
+			if (tag != NULL)
+			{
+				trackTitle = tag->getArtist() + " - " + tag->getTitle();
+			}
+
+			// logNowPlaying(track, trackTitle);
+
+			// cout << endl << endl;
+		}
+		catch(DomainException& e)
+		{
+			cerr << e.fullError() << endl;
+			break;
+		}
+	}
+
+	delete handler;
+	delete factory;
 }
 
 void IcecastClient::streamAudio()

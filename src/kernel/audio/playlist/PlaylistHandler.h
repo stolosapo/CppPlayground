@@ -26,7 +26,7 @@ private:
 
 	PlaylistItem currentTrack;
 
-	void load();
+	void registerStrategies();
 
 public:
 	PlaylistHandler(
@@ -38,7 +38,10 @@ public:
 		bool repeat);
 	virtual ~PlaylistHandler();
 
-	AudioTag* nextTrack();
+	void load();
+
+	bool hasNext();
+	PlaylistItem nextTrack();
 };
 
 #endif // PlaylistHandler_h__
