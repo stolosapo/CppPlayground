@@ -7,11 +7,12 @@ class PlaylistHandlerFactory
 {
 private:
 	ILogService* logService;
+	ISerializationService* serializationSrv;
 	const char* playlistFile;
 	const char* historyFile;
 	PlaylistStrategyType strategyType;
 	bool repeat;
-	
+
 	Playlist* playlist;
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;

@@ -13,6 +13,7 @@ PlaylistHandlerFactory::PlaylistHandlerFactory(
 	repeat(repeat)
 {
 	logService = inject<ILogService>("logService");
+	serializationSrv = inject<ISerializationService>("serializationService");
 	AudioTagService* audioTagService = inject<AudioTagService>("audioTagService");
 
 	playlist = new Playlist(playlistFile);
@@ -42,6 +43,7 @@ PlaylistHandler* PlaylistHandlerFactory::create()
 {
 	PlaylistHandler* handler = new PlaylistHandler(
 		logService,
+		serializationSrv,
 		playlist,
 		history,
 		metadata,

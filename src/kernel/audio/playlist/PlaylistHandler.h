@@ -2,6 +2,7 @@
 #define PlaylistHandler_h__
 
 #include "../../log/ILogService.h"
+#include "../../serialization/ISerializationService.h"
 #include "../../strategy/Strategy.h"
 #include "Playlist.h"
 #include "PlaylistHistory.h"
@@ -13,6 +14,7 @@ class PlaylistHandler
 {
 private:
 	ILogService* logSrv;
+	ISerializationService* serializationSrv;
 	Playlist* playlist;
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;
@@ -31,6 +33,7 @@ private:
 public:
 	PlaylistHandler(
 		ILogService* logSrv,
+		ISerializationService* serializationSrv,
 		Playlist* playlist,
 		PlaylistHistory* history,
 		PlaylistMetadata* metadata,

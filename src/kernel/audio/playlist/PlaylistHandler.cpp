@@ -6,12 +6,14 @@
 
 PlaylistHandler::PlaylistHandler(
 	ILogService* logSrv,
+	ISerializationService* serializationSrv,
 	Playlist* playlist,
 	PlaylistHistory* history,
 	PlaylistMetadata* metadata,
 	PlaylistStrategyType strategyType,
 	bool repeat)
 	: logSrv(logSrv),
+	serializationSrv(serializationSrv),
 	playlist(playlist),
 	history(history),
 	metadata(metadata),
