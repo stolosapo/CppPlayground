@@ -8,12 +8,15 @@
 #include "../AudioTagService.h"
 #include "../AudioTag.h"
 #include "../../log/ILogService.h"
+#include "../../task/Locker.h"
 
 using namespace std;
 
 class PlaylistMetadata
 {
 private:
+	Locker _locker;
+
 	Playlist* playlist;
 	AudioTagService* audioService;
 

@@ -1,8 +1,13 @@
 #include "PlaylistHandler.h"
 
 #include "../../exception/domain/DomainException.h"
+#include "../../task/Barrier.h"
+#include "../../task/Thread.h"
+#include "../../converter/Convert.h"
 #include "exception/PlaylistErrorCode.h"
 #include "SimplePlaylistStrategy.h"
+#include "PlaylistItemModel.h"
+#include "PlaylistAsyncMessage.h"
 
 PlaylistHandler::PlaylistHandler(
 	ILogService* logSrv,
@@ -33,6 +38,16 @@ PlaylistHandler::~PlaylistHandler()
 	{
 		delete pattern;
 	}
+}
+
+PlaylistStrategy* PlaylistHandler::getStrategy()
+{
+	return strategy;
+}
+
+ISerializationService* PlaylistHandler::getSerializationService()
+{
+	return serializationSrv;
 }
 
 void PlaylistHandler::registerStrategies()
@@ -78,4 +93,107 @@ PlaylistItem PlaylistHandler::nextTrack()
 	currentTrack = strategy->nextTrack(currentTrack);
 
 	return currentTrack;
+}
+
+void PlaylistHandler::exportPlaylistMetadata(const char* filename, int parralelismNumber)
+{
+	int size = playlistSize();
+
+	int THREAD_CNT = parralelismNumber;
+
+	if (parralelismNumber > size)
+	{
+		THREAD_CNT = size;
+	}
+
+	// Barrier _barrier(THREAD_CNT);
+
+	// _barrier.init();
+
+	Thread *threads[THREAD_CNT];
+	PlaylistAsyncMessage *messages[THREAD_CNT];
+
+	int prevTo = -1;
+
+	for (int i = 0; i < THREAD_CNT; ++i)
+	{
+		int batchSize = size / THREAD_CNT;
+		int rest = size % THREAD_CNT;
+		int addition = rest == 0 ? 0 : i % rest;
+		batchSize += addition;
+
+		int from = prevTo + 1;
+		int to = from + (batchSize - 1);
+		prevTo = to;
+
+		PlaylistAsyncMessage* message = new PlaylistAsyncMessage;
+		message->setIndex(i);
+		message->setFromPlaylistIndex(from);
+		message->setToPlaylistIndex(to);
+		message->setFilename(filename);
+		message->setHandler(this);
+
+		messages[i] = message;
+
+		Thread *th = new Thread;
+		threads[i] = th;
+		th->attachDelegate(exportPlaylistMetadataAsync);
+		th->start(message);
+	}
+
+
+	// for (int i = 0; i < THREAD_CNT; ++i)
+	// {
+	// 	cout << i << endl;
+	// 	threads[i]->wait();
+	// }
+
+
+	// _barrier.wait();
+	// _barrier.destroy();
+
+
+	// for (int i = 0; i < THREAD_CNT; ++i)
+	// {
+	// 	delete threads[i];
+	// 	delete messages[i];
+	// }
+}
+
+void* exportPlaylistMetadataAsync(void* context)
+{
+	PlaylistAsyncMessage* message = (PlaylistAsyncMessage*) context;
+
+	int index = message->getIndex();
+	int from = message->getFromPlaylistIndex();
+	int to = message->getToPlaylistIndex();
+	const char* filename = message->getFilename();
+	PlaylistHandler* handler = message->getHandler();
+	PlaylistStrategy* strategy = handler->getStrategy();
+	ISerializationService* serializationSrv = handler->getSerializationService();
+
+	string curFilename = Convert<int>::NumberToString(index) + "_" + string(filename);
+
+	int size = (to - from) + 1;
+
+
+	Model *items[size];
+
+	for (int i = 0; i < size; ++i)
+	{
+		int actualIndex = from + i;
+
+		PlaylistItem item = strategy->getTrack(actualIndex);
+		
+		PlaylistItemModel *model = new PlaylistItemModel(item);
+
+		items[i] = (Model*) model;
+	}
+
+	serializationSrv->saveModelsToFile(items, size, curFilename);
+
+	for (int i = 0; i < size; ++i)
+	{
+		delete items[i];
+	}
 }

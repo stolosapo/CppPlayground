@@ -5,12 +5,15 @@
 #include <vector>
 
 #include "../../log/ILogService.h"
+#include "../../task/Locker.h"
 
 using namespace std;
 
 class PlaylistHistory
 {
 private:
+	Locker _locker;
+
 	const char* filename;
 
 	vector<string> history;

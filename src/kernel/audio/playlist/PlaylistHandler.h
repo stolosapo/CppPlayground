@@ -10,6 +10,8 @@
 #include "PlaylistStrategyType.h"
 #include "PlaylistStrategy.h"
 
+void* exportPlaylistMetadataAsync(void* context);
+
 class PlaylistHandler
 {
 private:
@@ -41,11 +43,17 @@ public:
 		bool repeat);
 	virtual ~PlaylistHandler();
 
+	PlaylistStrategy* getStrategy();
+	ISerializationService* getSerializationService();
+
+
 	void load();
 	int playlistSize();
 
 	bool hasNext();
 	PlaylistItem nextTrack();
+
+	void exportPlaylistMetadata(const char* filename, int parralelismNumber);
 };
 
 #endif // PlaylistHandler_h__

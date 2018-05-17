@@ -83,6 +83,8 @@ void IcecastClient::loadPlaylist()
 	int size = playlistHandler->playlistSize();
 
 	logSrv->info("Playlist: '" + playlistFile + "' loaded, with '" + Convert<int>::NumberToString(size) + "' tracks");
+
+	playlistHandler->exportPlaylistMetadata("playlist.metadata.json", 4);
 }
 
 void IcecastClient::streamAudio()

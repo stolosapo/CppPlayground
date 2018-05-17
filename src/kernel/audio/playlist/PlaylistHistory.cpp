@@ -10,12 +10,14 @@
 PlaylistHistory::PlaylistHistory(const char* filename)
 	: filename(filename)
 {
-
+	_locker.init();
 }
 
 PlaylistHistory::~PlaylistHistory()
 {
 	clear();
+
+	_locker.destroy();
 }
 
 int PlaylistHistory::size()
@@ -35,7 +37,11 @@ void PlaylistHistory::load(int lastLines)
 
 void PlaylistHistory::clear()
 {
+	_locker.lock();
+
 	history.clear();
+
+	_locker.unlock();
 }
 
 void PlaylistHistory::reloadAll()
@@ -62,5 +68,9 @@ string PlaylistHistory::read(int historyIndex)
 
 void PlaylistHistory::add(string track)
 {
+	_locker.lock();
+
 	history.push_back(track);
+
+	_locker.unlock();
 }

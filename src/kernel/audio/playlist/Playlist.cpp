@@ -9,12 +9,14 @@
 
 Playlist::Playlist(const char* filename) : filename(filename)
 {
-
+	_locker.init();
 }
 
 Playlist::~Playlist()
 {
 	clear();
+
+	_locker.destroy();
 }
 
 int Playlist::size()
@@ -35,7 +37,11 @@ void Playlist::load()
 
 	while (getline(file, line))
 	{
+		_locker.lock();
+		
 		playlist.push_back(line);
+
+		_locker.unlock();
 	}
 
 	file.close();
@@ -43,7 +49,11 @@ void Playlist::load()
 
 void Playlist::clear()
 {
+	_locker.lock();
+
 	playlist.clear();
+
+	_locker.unlock();
 }
 
 void Playlist::reload()

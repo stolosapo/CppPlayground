@@ -4,11 +4,15 @@
 #include <string>
 #include <vector>
 
+#include "../../task/Locker.h"
+
 using namespace std;
 
 class Playlist
 {
 private:
+	Locker _locker;
+	
 	const char* filename;
 
 	vector<string> playlist;

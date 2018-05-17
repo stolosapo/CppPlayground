@@ -8,12 +8,14 @@
 PlaylistMetadata::PlaylistMetadata(Playlist* playlist, AudioTagService* audioService)
 	: playlist(playlist), audioService(audioService)
 {
-
+	_locker.init();
 }
 
 PlaylistMetadata::~PlaylistMetadata()
 {
 	clear();
+
+	_locker.destroy();
 }
 
 void PlaylistMetadata::loadAll()
@@ -33,21 +35,26 @@ void PlaylistMetadata::load(string track)
 		throw DomainException(PlaylistErrorCode::PLS0005, track.c_str());
 	}
 
-	if (exist(track))
-	{
-		remove(track);
-	}
+	_locker.lock();
 
 	metadata[track] = audioTag;
+
+	_locker.unlock();
 }
 
 void PlaylistMetadata::remove(string track)
 {
+	_locker.lock();
+
 	metadata.erase(metadata.find(track));
+
+	_locker.unlock();
 }
 
 void PlaylistMetadata::clear()
 {
+	_locker.lock();
+
 	/* Clear metadata */
 	for (map<string, AudioTag*>::iterator it = metadata.begin();
 		it != metadata.end();
@@ -57,6 +64,8 @@ void PlaylistMetadata::clear()
 	}
 
 	metadata.clear();
+
+	_locker.unlock();
 }
 
 void PlaylistMetadata::reload()

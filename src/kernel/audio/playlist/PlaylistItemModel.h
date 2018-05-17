@@ -11,11 +11,11 @@ using namespace std;
 class PlaylistItemModel : public Model
 {
 public:
-        PlaylistItemModel();
+	PlaylistItemModel();
 	PlaylistItemModel(PlaylistItem item);
 	virtual ~PlaylistItemModel();
 
-        static Model* factory();
+	static Model* factory();
 
 	int getTrackIndex();
 	string getTrack();
@@ -23,7 +23,7 @@ public:
 	AudioTag* getMetadata();
 
 protected:
-        virtual void registerProperties();
+	virtual void registerProperties();
 
 };
 
