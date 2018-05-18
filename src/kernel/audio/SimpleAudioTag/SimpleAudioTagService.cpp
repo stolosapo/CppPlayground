@@ -33,7 +33,7 @@ SimpleAudioTagService::~SimpleAudioTagService()
 
 void SimpleAudioTagService::registerParsers()
 {
-	tagParsers.push_back(new Mp3Id3v1Parser);
+	// tagParsers.push_back(new Mp3Id3v1Parser);
 	tagParsers.push_back(new FilenameTagParser);
 }
 

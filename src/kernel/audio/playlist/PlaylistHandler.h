@@ -44,6 +44,7 @@ public:
 	virtual ~PlaylistHandler();
 
 	PlaylistStrategy* getStrategy();
+	ILogService* getLogService();
 	ISerializationService* getSerializationService();
 
 

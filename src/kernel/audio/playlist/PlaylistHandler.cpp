@@ -1,6 +1,7 @@
 #include "PlaylistHandler.h"
 
 #include "../../exception/domain/DomainException.h"
+#include "../../exception/ExceptionMapper.h"
 #include "../../task/Barrier.h"
 #include "../../task/Thread.h"
 #include "../../converter/Convert.h"
@@ -43,6 +44,11 @@ PlaylistHandler::~PlaylistHandler()
 PlaylistStrategy* PlaylistHandler::getStrategy()
 {
 	return strategy;
+}
+
+ILogService* PlaylistHandler::getLogService()
+{
+	return logSrv;
 }
 
 ISerializationService* PlaylistHandler::getSerializationService()
@@ -170,30 +176,46 @@ void* exportPlaylistMetadataAsync(void* context)
 	const char* filename = message->getFilename();
 	PlaylistHandler* handler = message->getHandler();
 	PlaylistStrategy* strategy = handler->getStrategy();
+	ILogService* logSrv = handler->getLogService();
 	ISerializationService* serializationSrv = handler->getSerializationService();
 
-	string curFilename = Convert<int>::NumberToString(index) + "_" + string(filename);
-
-	int size = (to - from) + 1;
-
-
-	Model *items[size];
-
-	for (int i = 0; i < size; ++i)
+	try
 	{
-		int actualIndex = from + i;
+		string curFilename = Convert<int>::NumberToString(index) + "_" + string(filename);
 
-		PlaylistItem item = strategy->getTrack(actualIndex);
-		
-		PlaylistItemModel *model = new PlaylistItemModel(item);
+		int size = (to - from) + 1;
 
-		items[i] = (Model*) model;
+
+		Model *items[size];
+
+		for (int i = 0; i < size; ++i)
+		{
+			int actualIndex = from + i;
+
+			PlaylistItem item = strategy->getTrack(actualIndex);
+
+			PlaylistItemModel *model = new PlaylistItemModel(item);
+
+			items[i] = (Model*) model;
+		}
+
+		serializationSrv->saveModelsToFile(items, size, curFilename);
+
+		for (int i = 0; i < size; ++i)
+		{
+			delete items[i];
+		}
 	}
-
-	serializationSrv->saveModelsToFile(items, size, curFilename);
-
-	for (int i = 0; i < size; ++i)
+	catch (DomainException& e)
 	{
-		delete items[i];
+		logSrv->error(handle(e));
+	}
+	catch (RuntimeException& e)
+	{
+		logSrv->error(handle(e));
+	}
+	catch (exception& e)
+	{
+		cerr << "Error: " << e.what() << endl;
 	}
 }

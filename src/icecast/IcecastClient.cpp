@@ -75,7 +75,7 @@ void IcecastClient::loadPlaylist()
 {
 	string playlistFile = config->getPlaylist();
 
-	playlistHandlerFactory = 
+	playlistHandlerFactory =
 		new PlaylistHandlerFactory(playlistFile.c_str(), "playlist.history.pls", SIMPLE, true);
 
 	playlistHandler = playlistHandlerFactory->create();
@@ -122,6 +122,6 @@ void IcecastClient::action()
 	loadConfig();
 
 	loadPlaylist();
-	
+
 	streamAudio();
 }
