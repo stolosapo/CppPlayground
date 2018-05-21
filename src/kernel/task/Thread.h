@@ -26,6 +26,11 @@ public:
 
 	virtual bool start(void* data);
 	virtual void wait();
+	virtual void* result();
+	virtual bool cancel();
+	virtual bool detach();
+	virtual void* exit();
+
 	virtual long long self();
 
 	long long getId();

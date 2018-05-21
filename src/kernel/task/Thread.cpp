@@ -45,6 +45,38 @@ void Thread::wait()
 	pthread_join(_thread, NULL);
 }
 
+void* Thread::result()
+{
+	void* retval = NULL;
+
+	pthread_join(_thread, &retval);
+
+	return retval;
+}
+
+bool Thread::cancel()
+{
+	int status = pthread_cancel(_thread);
+
+	return (status == 0);
+}
+
+bool Thread::detach()
+{
+	int status = pthread_detach(_thread);
+
+	return (status == 0);
+}
+
+void* Thread::exit()
+{
+	void* retval = NULL;
+
+	pthread_exit(retval);
+
+	return retval;
+}
+
 long long Thread::self()
 {
 	return pthread_self();
