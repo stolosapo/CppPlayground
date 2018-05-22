@@ -76,7 +76,7 @@ void IcecastClient::loadPlaylist()
 	string playlistFile = config->getPlaylist();
 
 	playlistHandlerFactory =
-		new PlaylistHandlerFactory(playlistFile.c_str(), "playlist.history.pls", SIMPLE, true);
+		new PlaylistHandlerFactory(playlistFile.c_str(), "playlist.history.pls", RANDOM, true);
 
 	playlistHandler = playlistHandlerFactory->create();
 	playlistHandler->load();

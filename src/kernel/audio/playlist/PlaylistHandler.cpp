@@ -7,6 +7,7 @@
 #include "../../converter/Convert.h"
 #include "exception/PlaylistErrorCode.h"
 #include "SimplePlaylistStrategy.h"
+#include "RandomPlaylistStrategy.h"
 #include "PlaylistItemModel.h"
 #include "PlaylistAsyncMessage.h"
 
@@ -59,6 +60,7 @@ ISerializationService* PlaylistHandler::getSerializationService()
 void PlaylistHandler::registerStrategies()
 {
 	pattern->registerStrategy(SIMPLE, new SimplePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
+	pattern->registerStrategy(RANDOM, new RandomPlaylistStrategy(logSrv, playlist, history, metadata, repeat));
 }
 
 void PlaylistHandler::load()
