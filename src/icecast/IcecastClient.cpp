@@ -2,7 +2,6 @@
 
 #include "config/IcecastClientConfigLoader.h"
 #include "exception/IcecastDomainErrorCode.h"
-#include "IcecastPlaylist.h"
 
 #include "../kernel/converter/Convert.h"
 #include "../kernel/utils/FileHelper.h"
@@ -74,6 +73,8 @@ void IcecastClient::loadConfig()
 void IcecastClient::loadPlaylist()
 {
 	string playlistFile = config->getPlaylist();
+	const char* historyFile = config->getHistory().c_str();
+	const char* metadataFile = config->getMetadata().c_str();
 	PlaylistStrategyType type = config->getStrategyType();
 	bool repeat = config->getRepeat();
 
@@ -83,7 +84,7 @@ void IcecastClient::loadPlaylist()
 	}
 
 	playlistHandlerFactory =
-		new PlaylistHandlerFactory(playlistFile.c_str(), "playlist.history.pls", type, repeat);
+		new PlaylistHandlerFactory(playlistFile.c_str(), historyFile, type, repeat);
 
 	playlistHandler = playlistHandlerFactory->create();
 	playlistHandler->load();
@@ -91,7 +92,7 @@ void IcecastClient::loadPlaylist()
 
 	logSrv->info("Playlist: '" + playlistFile + "' loaded, with '" + Convert<int>::NumberToString(size) + "' tracks");
 
-	// playlistHandler->exportPlaylistMetadata("playlist.metadata.json", 4);
+	// playlistHandler->exportPlaylistMetadata(metadataFile, 4);
 }
 
 void IcecastClient::streamAudio()

@@ -28,9 +28,10 @@ void IcecastClientConfig::registerProperties()
 	registerPropertyName(13, "samplerate", Property::STRING);
 	registerPropertyName(14, "channels", Property::STRING);
 	registerPropertyName(15, "playlist", Property::STRING);
-	registerPropertyName(16, "random", Property::BOOL);
-	registerPropertyName(17, "repeat", Property::BOOL);
-	registerPropertyName(18, "strategy", Property::STRING);
+	registerPropertyName(16, "history", Property::STRING);
+	registerPropertyName(17, "metadata", Property::STRING);
+	registerPropertyName(18, "repeat", Property::BOOL);
+	registerPropertyName(19, "strategy", Property::STRING);
 }
 
 Model* IcecastClientConfig::factory()
@@ -111,6 +112,15 @@ string IcecastClientConfig::getChannels()
 string IcecastClientConfig::getPlaylist()
 {
 	return getStringProperty("playlist");
+}
+
+string IcecastClientConfig::getHistory()
+{
+	return getStringProperty("history", "playlist.history.pls");
+}
+string IcecastClientConfig::getMetadata()
+{
+	return getStringProperty("metadata", "playlist.metadata.json");
 }
 
 bool IcecastClientConfig::getRepeat()

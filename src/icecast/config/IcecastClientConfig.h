@@ -32,6 +32,9 @@ public:
 	string getChannels();
 
 	string getPlaylist();
+	string getHistory();
+	string getMetadata();
+
 	bool getRepeat();
 	string getStrategy();
 	PlaylistStrategyType getStrategyType();
