@@ -14,6 +14,6 @@
 	"samplerate":"44100",
 	"channels":"2",
 	"playlist":"playlist.pls",
-	"random":true,
-	"repeat":true
+	"repeat":true,
+	"strategy":"RANDOM"
 }

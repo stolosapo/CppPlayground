@@ -26,6 +26,8 @@ const DomainErrorCode IcecastDomainErrorCode::ICS0020 = DomainErrorCode("ICS0020
 
 const DomainErrorCode IcecastDomainErrorCode::ICS0021 = DomainErrorCode("ICS0021", "ALSA feature is not enabled, try to pass the WITH_ALSA=1 param when Make.");
 
+const DomainErrorCode IcecastDomainErrorCode::ICS0022 = DomainErrorCode("ICS0022", "Please specify playlist strategy (SIMPLE, RANDOM)");
+
 
 IcecastDomainErrorCode::IcecastDomainErrorCode()
 {

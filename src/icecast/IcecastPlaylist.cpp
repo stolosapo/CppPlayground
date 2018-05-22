@@ -76,14 +76,14 @@ string IcecastPlaylist::getNext()
 {
 	string track;
 
-	if (config->getRandom())
-	{
+	// if (config->getRandom())
+	// {
 		currentIndex = randomLine();
-	}
-	else
-	{
-		currentIndex = currentIndex + 1;
-	}
+	// }
+	// else
+	// {
+	// 	currentIndex = currentIndex + 1;
+	// }
 
 	addToHistory(currentIndex);
 

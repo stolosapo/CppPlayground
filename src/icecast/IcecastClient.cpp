@@ -74,9 +74,16 @@ void IcecastClient::loadConfig()
 void IcecastClient::loadPlaylist()
 {
 	string playlistFile = config->getPlaylist();
+	PlaylistStrategyType type = config->getStrategyType();
+	bool repeat = config->getRepeat();
+
+	if (type == NONE)
+	{
+		throw DomainException(IcecastDomainErrorCode::ICS0022);
+	}
 
 	playlistHandlerFactory =
-		new PlaylistHandlerFactory(playlistFile.c_str(), "playlist.history.pls", RANDOM, true);
+		new PlaylistHandlerFactory(playlistFile.c_str(), "playlist.history.pls", type, repeat);
 
 	playlistHandler = playlistHandlerFactory->create();
 	playlistHandler->load();

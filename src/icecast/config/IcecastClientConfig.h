@@ -4,6 +4,7 @@
 #include <string>
 
 #include "../../kernel/configuration/IConfig.h"
+#include "../../kernel/audio/playlist/PlaylistStrategyType.h"
 
 using namespace std;
 
@@ -31,8 +32,9 @@ public:
 	string getChannels();
 
 	string getPlaylist();
-	bool getRandom();
 	bool getRepeat();
+	string getStrategy();
+	PlaylistStrategyType getStrategyType();
 
 protected:
 	virtual void registerProperties();

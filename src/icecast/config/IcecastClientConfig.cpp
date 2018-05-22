@@ -30,6 +30,7 @@ void IcecastClientConfig::registerProperties()
 	registerPropertyName(15, "playlist", Property::STRING);
 	registerPropertyName(16, "random", Property::BOOL);
 	registerPropertyName(17, "repeat", Property::BOOL);
+	registerPropertyName(18, "strategy", Property::STRING);
 }
 
 Model* IcecastClientConfig::factory()
@@ -112,12 +113,29 @@ string IcecastClientConfig::getPlaylist()
 	return getStringProperty("playlist");
 }
 
-bool IcecastClientConfig::getRandom()
-{
-	return getBoolProperty("random");
-}
-
 bool IcecastClientConfig::getRepeat()
 {
 	return getBoolProperty("repeat");
+}
+
+string IcecastClientConfig::getStrategy()
+{
+	return getStringProperty("strategy", "");
+}
+
+PlaylistStrategyType IcecastClientConfig::getStrategyType()
+{
+	string strategy = getStrategy();
+
+	if (strategy == "SIMPLE")
+	{
+		return SIMPLE;
+	}
+
+	if (strategy == "RANDOM")
+	{
+		return RANDOM;
+	}
+
+	return NONE;
 }

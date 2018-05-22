@@ -100,6 +100,8 @@ PlaylistItem PlaylistHandler::nextTrack()
 
 	currentTrack = strategy->nextTrack(currentTrack);
 
+	history->add(currentTrack.getTrack());
+
 	return currentTrack;
 }
 

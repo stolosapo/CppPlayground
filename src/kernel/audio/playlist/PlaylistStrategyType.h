@@ -4,6 +4,8 @@
 
 enum PlaylistStrategyType
 {
+	NONE,
+	
 	SIMPLE,
 
 	RANDOM
