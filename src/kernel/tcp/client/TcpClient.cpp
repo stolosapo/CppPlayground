@@ -25,7 +25,7 @@ TcpClient::TcpClient(ILogService *logSrv, SignalService *sigSrv) : ITcpClient(),
 {
 	this->in = new InOut;
 
-	this->protocol = new ITcpProtocol(false);
+	this->protocol = createProtocol();
 }
 
 TcpClient::~TcpClient()
@@ -131,10 +131,19 @@ void TcpClient::action()
 	this->start();
 }
 
+ITcpProtocol* TcpClient::createProtocol()
+{
+	return new ITcpProtocol(false);
+}
+
+const char* TcpClient::configFilename()
+{
+	return "tcpClient.config";
+}
 
 void TcpClient::loadConfig()
 {
-	TcpClientConfigLoader* loader = new TcpClientConfigLoader("tcpClient.config");
+	TcpClientConfigLoader* loader = new TcpClientConfigLoader(configFilename());
 
 	this->config = loader->load();
 

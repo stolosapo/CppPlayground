@@ -133,3 +133,13 @@ void IcecastClient::action()
 
 	streamAudio();
 }
+
+void IcecastClient::nextTrack()
+{
+	logSrv->debug("Next Track");
+}
+
+void IcecastClient::stopPlaying()
+{
+	logSrv->debug("Stop Playing");
+}

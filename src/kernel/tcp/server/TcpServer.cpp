@@ -26,7 +26,7 @@ using namespace std;
 **********************************/
 TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv) : ITcpServer(), logSrv(logSrv), sigSrv(sigSrv)
 {
-	this->protocol = new ITcpProtocol(true);
+
 }
 
 TcpServer::~TcpServer()
@@ -137,6 +137,11 @@ ILogService* TcpServer::logger()
 	return this->logSrv;
 }
 
+ITcpProtocol* TcpServer::getProtocol()
+{
+	return this->protocol;
+}
+
 void TcpServer::start()
 {
 	string input = "";
@@ -203,6 +208,8 @@ void TcpServer::start()
 
 void TcpServer::action()
 {
+	this->protocol = createProtocol();
+
 	this->loadConfig();
 
 	this->initialize();
@@ -217,9 +224,19 @@ void TcpServer::action()
 *
 **********************************/
 
+ITcpProtocol* TcpServer::createProtocol()
+{
+	return new ITcpProtocol(true);
+}
+
+const char* TcpServer::configFilename()
+{
+	return "tcpServer.config";
+}
+
 void TcpServer::loadConfig()
 {
-	TcpServerConfigLoader* loader = new TcpServerConfigLoader("tcpServer.config");
+	TcpServerConfigLoader* loader = new TcpServerConfigLoader(configFilename());
 
 	this->config = loader->load();
 

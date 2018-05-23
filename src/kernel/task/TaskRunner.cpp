@@ -1,5 +1,9 @@
 #include "TaskRunner.h"
 
+#include <iostream>
+
+using namespace std;
+
 TaskRunner::TaskRunner()
 {
         tasks = new Strategy<string, ThreadDelegate>;
@@ -18,6 +22,11 @@ void TaskRunner::registerTask(string task, ThreadDelegate delegate)
         tasks->registerStrategy(task, &delegate);
 }
 
+bool TaskRunner::taskExist(string task)
+{
+        return tasks->keyExists(task);
+}
+
 Thread* TaskRunner::startTask(string task, void* data)
 {
         ThreadDelegate* delegate = tasks->get(task);
@@ -26,6 +35,8 @@ Thread* TaskRunner::startTask(string task, void* data)
         {
                 return NULL;
         }
+
+        cout << delegate;
 
         Thread* th = new Thread;
 

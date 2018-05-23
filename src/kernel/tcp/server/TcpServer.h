@@ -40,7 +40,10 @@ protected:
 	TcpServerConfig* config;
 
 	ILogService* logger();
+	ITcpProtocol* getProtocol();
 
+	virtual ITcpProtocol* createProtocol();
+	virtual const char* configFilename();
 	virtual void loadConfig();
 	virtual void initialize();
 

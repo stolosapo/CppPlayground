@@ -38,6 +38,9 @@ public:
 
 	void action();
 
+	void nextTrack();
+	void stopPlaying();
+
 };
 
 #endif // IcecastClient_h__

@@ -11,12 +11,11 @@ class Strategy
 private:
         map<K, V*> strategies;
 
-        bool keyExists(K key);
-
 public:
-	Strategy();
-	virtual ~Strategy();
+        Strategy();
+        virtual ~Strategy();
 
+        bool keyExists(K key);
 	virtual void registerStrategy(K key, V* value);
         virtual V* get(K key);
 
