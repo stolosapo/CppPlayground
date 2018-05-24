@@ -33,6 +33,7 @@ public:
 	IcecastAgent(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv);
 	virtual ~IcecastAgent();
 
+	IcecastClient* getIcecast();
 };
 
 #endif // IcecastAgent_h__

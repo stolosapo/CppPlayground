@@ -4,11 +4,20 @@
 IcecastAgent::IcecastAgent(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv)
 	: TcpServer(logSrv, sigSrv)
 {
+	icecastThread = NULL;
 	icecast = new IcecastClient(logSrv, sigSrv, tagSrv);
 }
 
 IcecastAgent::~IcecastAgent()
 {
+	if (icecastThread != NULL)
+	{
+		cout << "Before wait" << endl;
+		icecastThread->wait();
+		cout << "After wait" << endl;
+		delete icecastThread;
+	}
+
 	delete icecast;
 }
 
@@ -27,9 +36,14 @@ const char* IcecastAgent::configFilename()
 	return "icecastAgent.config";
 }
 
+IcecastClient* IcecastAgent::getIcecast()
+{
+	return icecast;
+}
+
 void IcecastAgent::startIcecast()
 {
-	icecastThread = agentProtocol()->startTask("start", icecast);
+	icecastThread = agentProtocol()->startTask("start", this);
 }
 
 void IcecastAgent::initialize()
@@ -53,7 +67,7 @@ void IcecastAgent::processCommand(ClientInfo *client, string command)
 {
 	TcpStream *stream = client->getStream();
 
-	agentProtocol()->runTask(command, client);
+	agentProtocol()->runTask(command, this);
 
 	stream->send(command);
 }

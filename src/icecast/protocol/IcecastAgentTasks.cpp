@@ -3,22 +3,29 @@
 #include <iostream>
 
 #include "../IcecastClient.h"
+#include "../IcecastAgent.h"
 
 using namespace std;
 
-void* icecast_start(void* icecast)
+void* icecast_start(void* agent)
 {
-	IcecastClient* client = (IcecastClient*) icecast;
+	IcecastAgent* a = (IcecastAgent*) agent;
 
-	client->action();
+	a->getIcecast()->action();
+
+	cout << "Icecast action ended" << endl;
 }
 
-void* icecast_next_track(void* data)
+void* icecast_next_track(void* agent)
 {
-	cout << "icecast_next_track" << endl;
+	IcecastAgent* a = (IcecastAgent*) agent;
+
+	a->getIcecast()->nextTrack();
 }
 
-void* icecast_stop_playing(void* data)
+void* icecast_stop_playing(void* agent)
 {
-	cout << "icecast_stop_playing" << endl;
+	IcecastAgent* a = (IcecastAgent*) agent;
+
+	a->getIcecast()->stopPlaying();
 }

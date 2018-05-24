@@ -2,9 +2,9 @@
 #define IcecastAgentTasks_h__
 
 
-void* icecast_start(void* icecast);
-void* icecast_next_track(void* data);
-void* icecast_stop_playing(void* data);
+void* icecast_start(void* agent);
+void* icecast_next_track(void* agent);
+void* icecast_stop_playing(void* agent);
 
 
 #endif // IcecastAgentTasks_h__

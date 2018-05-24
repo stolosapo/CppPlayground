@@ -36,8 +36,6 @@ Thread* TaskRunner::startTask(string task, void* data)
                 return NULL;
         }
 
-        cout << delegate;
-
         Thread* th = new Thread;
 
         th->attachDelegate(delegate);
