@@ -6,7 +6,7 @@ using namespace std;
 
 TaskRunner::TaskRunner()
 {
-        tasks = new Strategy<string, ThreadDelegate>;
+        tasks = new ValueStrategy<string, ThreadDelegate>;
 }
 
 TaskRunner::~TaskRunner()
@@ -19,7 +19,7 @@ TaskRunner::~TaskRunner()
 
 void TaskRunner::registerTask(string task, ThreadDelegate delegate)
 {
-        tasks->registerStrategy(task, &delegate);
+        tasks->registerStrategy(task, delegate);
 }
 
 bool TaskRunner::taskExist(string task)
@@ -29,7 +29,7 @@ bool TaskRunner::taskExist(string task)
 
 Thread* TaskRunner::startTask(string task, void* data)
 {
-        ThreadDelegate* delegate = tasks->get(task);
+        ThreadDelegate delegate = tasks->get(task);
 
         if (delegate == NULL)
         {
@@ -40,7 +40,7 @@ Thread* TaskRunner::startTask(string task, void* data)
 
         Thread* th = new Thread;
 
-        th->attachDelegate(*delegate);
+        th->attachDelegate(delegate);
         th->start(data);
 
         return th;
@@ -55,14 +55,12 @@ void TaskRunner::startTaskDetached(string task, void* data)
 
 void* TaskRunner::runTask(string task, void* data)
 {
-        ThreadDelegate* delegate = tasks->get(task);
+        ThreadDelegate delegate = tasks->get(task);
 
         if (delegate == NULL)
         {
                 return NULL;
         }
 
-        ThreadDelegate dlg = *delegate;
-
-        return dlg(data);
+        return delegate(data);
 }

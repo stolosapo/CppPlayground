@@ -4,14 +4,14 @@
 #include <string>
 #include "Thread.h"
 #include "ThreadDelegate.h"
-#include "../strategy/Strategy.h"
+#include "../strategy/ValueStrategy.h"
 
 using namespace std;
 
 class TaskRunner
 {
 private:
-	Strategy<string, ThreadDelegate> *tasks;
+	ValueStrategy<string, ThreadDelegate> *tasks;
 
 public:
 	TaskRunner();
@@ -23,7 +23,7 @@ public:
 	virtual Thread* startTask(string task, void* data);
 	virtual void startTaskDetached(string task, void* data);
 	virtual void* runTask(string task, void* data);
-	
+
 };
 
 #endif // TaskRunner_h__
