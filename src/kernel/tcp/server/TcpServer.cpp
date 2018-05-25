@@ -1,6 +1,7 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 #include "../../converter/Convert.h"
 
@@ -59,7 +60,7 @@ TcpServer::~TcpServer()
 void* TcpServer::task(void *context)
 {
 	ClientInfo* client = (ClientInfo *) context;
-	client->getThread()->setSelfId();
+	// client->getThread()->setSelfId();
 
 	TcpServer* server = (TcpServer *) (client->getServer());
 	ILogService* logger = server->logSrv;
@@ -84,7 +85,6 @@ void* TcpServer::task(void *context)
 
 			/* Proccess input */
 			server->cycle(client, input);
-
 		}
 
 		logger->trace("Client [" + identity + "] terminated");
@@ -113,7 +113,6 @@ Thread* TcpServer::getNextThread()
 	}
 
 	th->attachDelegate(&TcpServer::internalClientTask);
-	th->setMustDispose(true);
 
 	return th;
 }
@@ -145,8 +144,9 @@ ITcpProtocol* TcpServer::getProtocol()
 void TcpServer::start()
 {
 	string input = "";
-
 	int clientCount = 0;
+
+	vector<ClientInfo*> clients;
 
 
 	logSrv->trace("Server is starting...");
@@ -159,16 +159,8 @@ void TcpServer::start()
 
 	logSrv->info("Server is started");
 
-	while (!ITcpProtocol::shutdown(input))
+	while (!ITcpProtocol::shutdown(input) && !sigSrv->gotSigInt())
 	{
-
-		/* Check for interruption */
-		if (sigSrv->gotSigInt())
-		{
-			logSrv->debug("Stopping server..");
-
-			break;
-		}
 
 		if (!pool->hasNext())
 		{
@@ -200,10 +192,14 @@ void TcpServer::start()
 
 		th->start(client);
 
+		clients.push_back(client);
+
 
 		/* Increase thead counter */
 		clientCount++;
 	}
+
+	logSrv->debug("Stopping server..");
 }
 
 void TcpServer::action()

@@ -12,11 +12,10 @@ IcecastAgent::~IcecastAgent()
 {
 	if (icecastThread != NULL)
 	{
-		cout << "Before wait" << endl;
 		logger()->trace("Waiting Icecast thread to finnished..");
 		icecastThread->wait();
-		cout << "After wait" << endl;
 		logger()->trace("Icecast thread finnished!");
+		
 		delete icecastThread;
 	}
 
