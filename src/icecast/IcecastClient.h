@@ -24,6 +24,9 @@ private:
 
 	void logNowPlaying(PlaylistItem item);
 
+	void initializePlaylist();
+	void initializeShout();
+
 	void loadConfig();
 	void loadPlaylist();
 	void streamAudio();

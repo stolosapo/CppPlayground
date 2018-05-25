@@ -70,7 +70,7 @@ void IcecastClient::loadConfig()
 	this->config = loader.load();
 }
 
-void IcecastClient::loadPlaylist()
+void IcecastClient::initializePlaylist()
 {
 	string playlistFile = config->getPlaylist();
 	const char* historyFile = config->getHistory().c_str();
@@ -87,6 +87,13 @@ void IcecastClient::loadPlaylist()
 		new PlaylistHandlerFactory(playlistFile.c_str(), historyFile, type, repeat);
 
 	playlistHandler = playlistHandlerFactory->create();
+
+	logSrv->info("Icecast playlist initialized!");
+}
+
+void IcecastClient::loadPlaylist()
+{
+	string playlistFile = config->getPlaylist();
 	playlistHandler->load();
 	int size = playlistHandler->playlistSize();
 
@@ -95,16 +102,19 @@ void IcecastClient::loadPlaylist()
 	// playlistHandler->exportPlaylistMetadata(metadataFile, 4);
 }
 
-void IcecastClient::streamAudio()
+void IcecastClient::initializeShout()
 {
 	libShout = new LibShout(logSrv, sigSrv, config);
 	libShout->initializeShout();
+}
 
+void IcecastClient::streamAudio()
+{
 	try
 	{
 		libShout->startShout();
 
-		while (playlistHandler->hasNext() && !sigSrv->gotSigIntAndReset())
+		while (playlistHandler->hasNext() && !sigSrv->gotSigInt())
 		{
 			PlaylistItem item = playlistHandler->nextTrack();
 
@@ -129,7 +139,11 @@ void IcecastClient::action()
 {
 	loadConfig();
 
+	initializePlaylist();
+
 	loadPlaylist();
+
+	initializeShout();
 
 	streamAudio();
 }

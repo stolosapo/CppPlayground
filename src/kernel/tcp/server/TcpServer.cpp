@@ -161,9 +161,9 @@ void TcpServer::start()
 
 	while (!ITcpProtocol::shutdown(input))
 	{
-		
+
 		/* Check for interruption */
-		if (sigSrv->gotSigIntAndReset())
+		if (sigSrv->gotSigInt())
 		{
 			logSrv->debug("Stopping server..");
 
@@ -266,14 +266,14 @@ void TcpServer::cycle(ClientInfo *client, string input)
 {
 	ILogService* logger = ((TcpServer*) client->getServer())->logger();
 
-	string trace = "received [" + client->getIdentity() + "] - " + input; 
+	string trace = "received [" + client->getIdentity() + "] - " + input;
 
 	logger->trace(trace);
 
 	if (validateCommand(input))
 	{
 		/* Process Message */
-		processCommand(client, input);		
+		processCommand(client, input);
 	}
 	else
 	{
