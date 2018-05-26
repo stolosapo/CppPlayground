@@ -48,6 +48,8 @@ TcpServer::~TcpServer()
 	{
 		delete this->protocol;
 	}
+
+	logSrv->trace("Server finalized!");
 }
 
 

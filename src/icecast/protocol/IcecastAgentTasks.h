@@ -11,10 +11,6 @@ agent-status (active connections, uptime, version ..)
 shout-status (errors, version ..)
 shout-config
 
-now (now playing)
-next (next track)
-stop (stop playlist)
-
 playlist-info (number of tracks, name)
 playlist-show-all-artists
 playlist-show-all-genre

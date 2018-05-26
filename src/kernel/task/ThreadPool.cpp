@@ -27,11 +27,12 @@ void ThreadPool::clear()
 {
 	while (pool.hasNext())
 	{
-		delete getNext();
+		/* make all threads 'in use' one by one */
+		getNext();
 	}
 
 
-	/* Clear used threads */
+	/* Clear all used threads */
 	for (map<Thread*, Thread*>::iterator it = usedThreads.begin(); 
 		it != usedThreads.end(); 
 		++it)

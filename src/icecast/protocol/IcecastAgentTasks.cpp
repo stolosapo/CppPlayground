@@ -15,7 +15,7 @@ void* icecast_now_playing(void* agent)
 	PlaylistItem track = client->nowPlaying();
 	AudioTag* tag = track.getMetadata();
 
-	string value = "";
+	string value = "\n";
 
 	value += "Title: " + tag->getTitle() + "\n";
 	value += "Artist: " + tag->getArtist() + "\n";
