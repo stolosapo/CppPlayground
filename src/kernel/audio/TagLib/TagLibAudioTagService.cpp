@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string>
 
+#include "../../converter/Convert.h"
+
 #ifdef TAGLIB
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
@@ -34,6 +36,7 @@ AudioTag* TagLibAudioTagService::read(const char* filename)
 	int track = 0;
 
 	int duration = 0;
+	string strDuration = "--:--";
 	int bitrate = 0;
 	int samplerate = 0;
 	int channels = 0;
@@ -65,7 +68,11 @@ AudioTag* TagLibAudioTagService::read(const char* filename)
 		int seconds = properties->length() % 60;
 		int minutes = (properties->length() - seconds) / 60;
 
+		string s = Convert<int>::NumberToString(seconds);
+		string m = Convert<int>::NumberToString(minutes);
+
 		duration = properties->length();
+		strDuration = s + ":" + m;
 		bitrate = properties->bitrate();
 		samplerate = properties->sampleRate();
 		channels = properties->channels();
@@ -82,6 +89,7 @@ AudioTag* TagLibAudioTagService::read(const char* filename)
 		 year,
 		 track,
 		 duration,
+		 strDuration,
 		 bitrate,
 		 samplerate,
 		 channels);

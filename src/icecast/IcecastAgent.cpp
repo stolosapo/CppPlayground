@@ -68,7 +68,17 @@ void IcecastAgent::processCommand(ClientInfo *client, string command)
 {
 	TcpStream *stream = client->getStream();
 
-	agentProtocol()->runTask(command, this);
+	void* retval = agentProtocol()->runTask(command, this);
 
-	stream->send(command);
+	string strValue = command;
+
+	if (retval != NULL)
+	{
+		string *str = static_cast<string*>(retval);
+		strValue = *str;
+
+		delete str;
+	}
+
+	stream->send(strValue);
 }

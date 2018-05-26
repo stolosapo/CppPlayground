@@ -29,6 +29,7 @@ AudioTag* FilenameTagParser::parse(const char* filepath, FILE *file)
 			0,
 			0,
 			0,
+			"--:--",
 			0,
 			0,
 			0);

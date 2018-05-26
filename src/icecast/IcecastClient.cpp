@@ -157,3 +157,8 @@ void IcecastClient::stopPlaying()
 {
 	logSrv->debug("Stop Playing");
 }
+
+PlaylistItem IcecastClient::nowPlaying()
+{
+	return playlistHandler->getCurrentTrack();
+}

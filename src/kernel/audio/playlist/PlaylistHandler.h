@@ -53,6 +53,7 @@ public:
 
 	bool hasNext();
 	PlaylistItem nextTrack();
+	PlaylistItem getCurrentTrack();
 
 	void exportPlaylistMetadata(const char* filename, int parralelismNumber);
 };

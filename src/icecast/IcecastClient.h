@@ -43,6 +43,7 @@ public:
 
 	void nextTrack();
 	void stopPlaying();
+	PlaylistItem nowPlaying();
 
 };
 

@@ -99,6 +99,7 @@ AudioTag* Mp3Id3v1Parser::parse(const char* filepath, FILE *file)
 	int track = 0;
 
 	int duration = 0;
+	string strDuration = "--:--";
 	int bitrate = 0;
 	int samplerate = 0;
 	int channels = 0;
@@ -126,6 +127,7 @@ AudioTag* Mp3Id3v1Parser::parse(const char* filepath, FILE *file)
 			Convert<int>::StringToNumber(year),
 			track,
 			duration,
+			strDuration,
 			bitrate,
 			samplerate,
 			channels);

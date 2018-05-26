@@ -52,6 +52,11 @@ ILogService* PlaylistHandler::getLogService()
 	return logSrv;
 }
 
+PlaylistItem PlaylistHandler::getCurrentTrack()
+{
+	return currentTrack;
+}
+
 ISerializationService* PlaylistHandler::getSerializationService()
 {
 	return serializationSrv;

@@ -17,6 +17,7 @@ private:
 	int track;
 
 	int duration;
+	string strDuration;
 	int bitrate;
 	int samplerate;
 	int channels;
@@ -30,6 +31,7 @@ public:
 		int year,
 		int track,
 		int duration,
+		string strDuration,
 		int bitrate,
 		int samplerate,
 		int channels);
@@ -45,6 +47,7 @@ public:
 	virtual int getTrack();
 
 	virtual int getDuration();
+	virtual string getStrDuration();
 	virtual int getBitrate();
 	virtual int getSamplerate();
 	virtual int getChannels();

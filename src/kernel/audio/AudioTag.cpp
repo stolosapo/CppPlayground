@@ -8,6 +8,7 @@ AudioTag::AudioTag(string title,
         int year,
         int track,
         int duration,
+        string strDuration,
         int bitrate,
         int samplerate,
         int channels) :
@@ -19,6 +20,7 @@ AudioTag::AudioTag(string title,
         year(year),
         track(track),
         duration(duration),
+        strDuration(strDuration),
         bitrate(bitrate),
         samplerate(samplerate),
         channels(channels)
@@ -69,6 +71,11 @@ int AudioTag::getTrack()
 int AudioTag::getDuration()
 {
         return duration;
+}
+
+string AudioTag::getStrDuration()
+{
+        return strDuration;
 }
 
 int AudioTag::getBitrate()
