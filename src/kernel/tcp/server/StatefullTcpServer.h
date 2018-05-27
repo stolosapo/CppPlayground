@@ -11,6 +11,7 @@
 #include "../../exception/ExceptionMapper.h"
 #include "../../task/Locker.h"
 #include "../../interruption/SignalService.h"
+#include "../../time/ITimeService.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ private:
 	Locker locker;
 
 public:
-	StatefullTcpServer(ILogService *logSrv, SignalService *sigSrv);
+	StatefullTcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv);
 	virtual ~StatefullTcpServer();
 
 protected:
@@ -45,7 +46,8 @@ protected:
 
 
 template <typename T>
-StatefullTcpServer<T>::StatefullTcpServer(ILogService *logSrv, SignalService *sigSrv) : TcpServer(logSrv, sigSrv)
+StatefullTcpServer<T>::StatefullTcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv) 
+	: TcpServer(logSrv, sigSrv, timeSrv)
 {
 	locker.init();	
 }

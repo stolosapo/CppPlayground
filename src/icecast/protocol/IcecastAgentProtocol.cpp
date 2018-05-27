@@ -16,6 +16,8 @@ IcecastAgentProtocol::~IcecastAgentProtocol()
 
 void IcecastAgentProtocol::registerTasks()
 {
+	registerTask("agent-status", &icecast_agent_status);
+
 	registerTask("now", &icecast_now_playing);
 
 	registerTask("start", &icecast_start);

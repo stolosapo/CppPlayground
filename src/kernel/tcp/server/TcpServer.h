@@ -10,6 +10,7 @@
 #include "../../log/ILogService.h"
 #include "../../task/ThreadPool.h"
 #include "../../interruption/SignalService.h"
+#include "../../time/ITimeService.h"
 
 using namespace std;
 
@@ -22,6 +23,9 @@ private:
 
 	ILogService *logSrv;
 	SignalService* sigSrv;
+	ITimeService* timeSrv;
+
+	time_t startTime;
 
 	void* task(void*);
 	static void* internalClientTask(void *context);
@@ -30,11 +34,12 @@ private:
 	void finalizeClient(ClientInfo *client);
 
 public:
-	TcpServer(ILogService *logSrv, SignalService *sigSrv);
+	TcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv);
 	virtual ~TcpServer();
 
 	virtual void start();
 	virtual void action();
+	virtual double uptime();
 
 protected:
 	TcpServerConfig* config;

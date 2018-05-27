@@ -25,9 +25,10 @@ using namespace std;
 *		CONSTRUCTORS
 *
 **********************************/
-TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv) : ITcpServer(), logSrv(logSrv), sigSrv(sigSrv)
+TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv) 
+	: ITcpServer(), logSrv(logSrv), sigSrv(sigSrv), timeSrv(timeSrv)
 {
-
+	startTime = timeSrv->rawNow();
 }
 
 TcpServer::~TcpServer()
@@ -141,6 +142,13 @@ ILogService* TcpServer::logger()
 ITcpProtocol* TcpServer::getProtocol()
 {
 	return this->protocol;
+}
+
+double TcpServer::uptime()
+{
+	time_t now = timeSrv->rawNow();
+
+	return difftime(now, startTime);
 }
 
 void TcpServer::start()

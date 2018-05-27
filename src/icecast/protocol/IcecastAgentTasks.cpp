@@ -4,8 +4,36 @@
 
 #include "../IcecastClient.h"
 #include "../IcecastAgent.h"
+#include "../../kernel/converter/Convert.h"
 
 using namespace std;
+
+void* icecast_agent_status(void* agent)
+{
+	IcecastAgent* a = (IcecastAgent*) agent;
+	IcecastClient* client = a->getIcecast();
+
+	double uptimeSec = a->uptime();
+
+	int sec = uptimeSec;
+
+	int days = sec / 60 / 60 / 24;
+	int hours = (sec / 60 / 60) % 24;
+	int minutes = (sec / 60) % 60;
+	int seconds = sec % 60;
+
+	char s[25];
+	sprintf(s, "%01d days, %02d:%02d:%02d", days, hours, minutes, seconds);
+	string str(s);
+
+	string value = "\n";
+
+	value += "Version: " + string(client->version()) + "\n";
+	value += "Uptime: " + str + "\n";
+	value += "Active connections: \n";
+
+	return static_cast<void*>(new string(value));
+}
 
 void* icecast_now_playing(void* agent)
 {

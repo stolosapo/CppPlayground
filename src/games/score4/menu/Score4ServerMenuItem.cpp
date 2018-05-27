@@ -3,6 +3,7 @@
 #include "../server/Score4Server.h"
 #include "../../../kernel/di/GlobalAppContext.h"
 #include "../../../kernel/interruption/SignalService.h"
+#include "../../../kernel/time/ITimeService.h"
 
 Score4ServerMenuItem::Score4ServerMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -25,8 +26,9 @@ void Score4ServerMenuItem::action()
 	this->logSrv->outString("\n\n");
 
 	SignalService* sigSrv = inject<SignalService>("signalService");
+	ITimeService* timeSrv = inject<ITimeService>("timeService");
 
-	Score4Server server(this->logSrv, sigSrv);
+	Score4Server server(this->logSrv, sigSrv, timeSrv);
 
 	server.action();
 }

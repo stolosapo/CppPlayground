@@ -12,6 +12,7 @@ shout-status (errors, version ..)
 shout-config
 
 playlist-info (number of tracks, name)
+playlist-load-metadata
 playlist-show-all-artists
 playlist-show-all-genre
 playlist-search-artist "XXX"
@@ -22,7 +23,12 @@ playlist-search-genre "XXX"
 history-info (number of tracks)
 history-show-last X
 
+request-track X
+request-list
+
 */
+
+void* icecast_agent_status(void* agent);
 
 void* icecast_now_playing(void* agent);
 

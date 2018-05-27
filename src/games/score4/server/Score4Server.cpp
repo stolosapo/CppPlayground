@@ -1,7 +1,8 @@
 #include "Score4Server.h"
 
 
-Score4Server::Score4Server(ILogService *logSrv, SignalService *sigSrv) : StatefullTcpServer(logSrv, sigSrv)
+Score4Server::Score4Server(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv) 
+	: StatefullTcpServer(logSrv, sigSrv, timeSrv)
 {
 
 }

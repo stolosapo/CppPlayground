@@ -1,8 +1,8 @@
 #include "IcecastAgent.h"
 
 
-IcecastAgent::IcecastAgent(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv)
-	: TcpServer(logSrv, sigSrv)
+IcecastAgent::IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv, AudioTagService *tagSrv)
+	: TcpServer(logSrv, sigSrv, timeSrv)
 {
 	icecastThread = NULL;
 	icecast = new IcecastClient(logSrv, sigSrv, tagSrv);

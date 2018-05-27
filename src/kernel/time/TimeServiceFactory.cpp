@@ -14,6 +14,6 @@ TimeServiceFactory::~TimeServiceFactory()
 
 IService *TimeServiceFactory::create()
 {
-	TimeService* srv = new TimeService;
+	ITimeService* srv = (ITimeService*) new TimeService;
 	return (IService*) srv;
 }

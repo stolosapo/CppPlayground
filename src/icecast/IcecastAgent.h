@@ -9,6 +9,7 @@
 #include "../kernel/tcp/ClientInfo.h"
 #include "../kernel/tcp/server/StatefullTcpServer.h"
 #include "../kernel/interruption/SignalService.h"
+#include "../kernel/time/ITimeService.h"
 #include "../kernel/audio/AudioTagService.h"
 
 using namespace std;
@@ -30,7 +31,7 @@ protected:
 	virtual void processCommand(ClientInfo *client, string command);
 
 public:
-	IcecastAgent(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv);
+	IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv, AudioTagService *tagSrv);
 	virtual ~IcecastAgent();
 
 	IcecastClient* getIcecast();
