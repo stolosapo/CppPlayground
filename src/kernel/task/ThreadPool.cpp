@@ -93,3 +93,8 @@ void ThreadPool::putBack(Thread* thread)
 
 	locker.unlock();
 }
+
+int ThreadPool::numberOfActiveThreads()
+{
+	return usedThreads.size();
+}

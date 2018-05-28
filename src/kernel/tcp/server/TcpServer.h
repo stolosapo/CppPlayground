@@ -39,7 +39,9 @@ public:
 
 	virtual void start();
 	virtual void action();
+
 	virtual double uptime();
+	virtual int numberOfActiveConnections();
 
 protected:
 	TcpServerConfig* config;

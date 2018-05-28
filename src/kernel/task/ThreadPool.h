@@ -35,6 +35,8 @@ public:
 	Thread* getNext();
 	void putBack(Thread* thread);
 
+	int numberOfActiveThreads();
+
 };
 
 #endif // ThreadPool_h__

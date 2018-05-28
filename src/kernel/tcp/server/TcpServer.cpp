@@ -151,6 +151,11 @@ double TcpServer::uptime()
 	return difftime(now, startTime);
 }
 
+int TcpServer::numberOfActiveConnections()
+{
+	return pool->numberOfActiveThreads();
+}
+
 void TcpServer::start()
 {
 	string input = "";
