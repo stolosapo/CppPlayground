@@ -2,8 +2,11 @@
 
 #include "StringHelper.h"
 
+#include <fstream>
+#include <cstring>
 #include <vector>
 
+using namespace std;
 
 const char* FileHelper::FILE_DELIMITTER = "/";
 
@@ -54,4 +57,25 @@ string FileHelper::extension(const char* filename)
 	}
 
 	return file.back();
+}
+
+void FileHelper::appendLineFileToFile(const char* filename, string line)
+{
+	ofstream file;
+
+	file.open(filename, ios::out | ios::app);
+
+	cout << filename << endl;
+
+	if (file.fail())
+	{
+		throw ios_base::failure(strerror(errno));
+	}
+
+	//make sure write fails with exception if something is wrong
+	file.exceptions(file.exceptions() | ios::failbit | ifstream::badbit);
+
+	file << line << endl;
+
+	file.close();
 }
