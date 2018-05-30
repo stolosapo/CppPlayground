@@ -14,12 +14,12 @@ class PlaylistHistory
 private:
 	Locker _locker;
 
-	const char* filename;
+	string filename;
 
 	vector<string> history;
 
 public:
-	PlaylistHistory(const char* filename);
+	PlaylistHistory(string filename);
 	virtual ~PlaylistHistory();
 
 	int size();

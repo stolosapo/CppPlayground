@@ -8,8 +8,6 @@ class PlaylistHandlerFactory
 private:
 	ILogService* logService;
 	ISerializationService* serializationSrv;
-	const char* playlistFile;
-	const char* historyFile;
 	PlaylistStrategyType strategyType;
 	bool repeat;
 
@@ -20,7 +18,7 @@ private:
 public:
 	PlaylistHandlerFactory(
 		const char* playlistFile,
-		const char* historyFile,
+		string historyFile,
 		PlaylistStrategyType strategyType,
 		bool repeat);
 	virtual ~PlaylistHandlerFactory();

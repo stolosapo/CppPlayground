@@ -66,8 +66,6 @@ void FileHelper::appendLineFileToFile(const char* filename, string line)
 
 	file.open(filename, ios::out | ios::app);
 
-	cout << filename << endl;
-
 	if (file.fail())
 	{
 		throw ios_base::failure(strerror(errno));

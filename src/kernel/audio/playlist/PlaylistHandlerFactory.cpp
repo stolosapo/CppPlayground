@@ -4,12 +4,10 @@
 
 PlaylistHandlerFactory::PlaylistHandlerFactory(
 	const char* playlistFile,
-	const char* historyFile,
+	string historyFile,
 	PlaylistStrategyType strategyType,
 	bool repeat)
-	: playlistFile(playlistFile),
-	historyFile(historyFile),
-	strategyType(strategyType),
+	: strategyType(strategyType),
 	repeat(repeat)
 {
 	logService = inject<ILogService>("logService");

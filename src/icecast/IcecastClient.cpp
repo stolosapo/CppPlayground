@@ -73,7 +73,7 @@ void IcecastClient::loadConfig()
 void IcecastClient::initializePlaylist()
 {
 	string playlistFile = config->getPlaylist();
-	const char* historyFile = config->getHistory().c_str();
+	string historyFile = config->getHistory();
 	const char* metadataFile = config->getMetadata().c_str();
 	PlaylistStrategyType type = config->getStrategyType();
 	bool repeat = config->getRepeat();

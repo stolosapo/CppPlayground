@@ -3,11 +3,12 @@
 #include <fstream>
 
 #include "../../converter/Convert.h"
+#include "../../utils/FileHelper.h"
 #include "../../exception/domain/DomainException.h"
 #include "../../exception/domain/GeneralDomainErrorCode.h"
 #include "exception/PlaylistErrorCode.h"
 
-PlaylistHistory::PlaylistHistory(const char* filename)
+PlaylistHistory::PlaylistHistory(string filename)
 	: filename(filename)
 {
 	_locker.init();
@@ -71,6 +72,7 @@ void PlaylistHistory::add(string track)
 	_locker.lock();
 
 	history.push_back(track);
+	FileHelper::appendLineFileToFile(filename.c_str(), track);
 
 	_locker.unlock();
 }
