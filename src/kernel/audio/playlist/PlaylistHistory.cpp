@@ -33,7 +33,13 @@ void PlaylistHistory::loadAll()
 
 void PlaylistHistory::load(int lastLines)
 {
+	vector<string> fileContent =
+		FileHelper::readLastLines(filename.c_str(), lastLines);
 
+	for (int i = 0; i < fileContent.size(); i++)
+	{
+		history.push_back(fileContent.at(i));
+	}
 }
 
 void PlaylistHistory::clear()

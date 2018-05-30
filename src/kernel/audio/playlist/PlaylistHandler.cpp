@@ -74,6 +74,11 @@ void PlaylistHandler::load()
 	{
 		playlist->load();
 	}
+
+	if (history != NULL)
+	{
+		// history->loadAll();
+	}
 }
 
 int PlaylistHandler::playlistSize()

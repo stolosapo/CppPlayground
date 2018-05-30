@@ -5,7 +5,9 @@
 #include <errno.h>
 #include <fstream>
 #include <cstring>
-#include <vector>
+
+#include "../exception/domain/DomainException.h"
+#include "../exception/domain/GeneralDomainErrorCode.h"
 
 using namespace std;
 
@@ -77,4 +79,34 @@ void FileHelper::appendLineFileToFile(const char* filename, string line)
 	file << line << endl;
 
 	file.close();
+}
+
+vector<string> FileHelper::readLastLines(const char* filename, int lineCount)
+{
+	ifstream file(filename);
+
+	if(file.fail())
+	{
+		throw DomainException(GeneralDomainErrorCode::GNR0001, filename);
+	}
+
+	vector<string> fileContent;
+	string line;
+	while (getline(file, line))
+	{
+		fileContent.push_back(line);
+	}
+
+	file.close();
+
+	int it = 0;
+	vector<string> output;
+	while (it < lineCount && !fileContent.empty())
+	{
+		output.insert(output.begin(), fileContent.back());
+		fileContent.pop_back();
+		it++;
+	}
+
+	return output;
 }
