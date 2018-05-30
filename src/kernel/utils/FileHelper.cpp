@@ -2,6 +2,7 @@
 
 #include "StringHelper.h"
 
+#include <errno.h>
 #include <fstream>
 #include <cstring>
 #include <vector>
