@@ -8,7 +8,9 @@ enum PlaylistStrategyType
 	
 	SIMPLE,
 
-	RANDOM
+	RANDOM,
+
+	RANDOM_ONCE
 };
 
 

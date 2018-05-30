@@ -126,6 +126,7 @@ void IcecastClient::streamAudio()
 			libShout->streamFile(track.c_str(), trackTitle.c_str());
 		}
 
+		logSrv->info("Playlist finished!");
 	}
 	catch (DomainException& e)
 	{
