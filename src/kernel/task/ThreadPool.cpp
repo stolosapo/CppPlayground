@@ -33,15 +33,16 @@ void ThreadPool::clear()
 
 
 	/* Clear all used threads */
-	for (map<Thread*, Thread*>::iterator it = usedThreads.begin(); 
-		it != usedThreads.end(); 
+	for (map<Thread*, Thread*>::iterator it = usedThreads.begin();
+		it != usedThreads.end();
 		++it)
 	{
 		Thread* th = it->first;
-		
+
 		if (th != NULL)
 		{
 			th->cancel();
+			th->wait();
 			delete it->first;
 			th = NULL;
 		}
