@@ -7,21 +7,24 @@
 #include <map>
 #include <vector>
 
+#include "../../task/Locker.h"
+
 using namespace std;
 
 class RandomOncePlaylistStrategy : public PlaylistStrategy
 {
 private:
-	vector<int> originalIndexes;
-	map<string, int> trackToRemainingIndex;
-	map<int, int> originalIndexToRemainingIndex;
+	Locker _locker;
+
+	vector<string> remainingTracks;
+	map<string, int> trackToOriginalIndex;
 
 protected:
 	virtual void clonePlaylist();
 	virtual void removeHistory();
 	virtual void removeFromRemaining(string track);
 	virtual void removeFromRemaining(int remainingIndex);
-	virtual void loadRemaining();
+	virtual bool trackExist(string track);
 
 	virtual int randomLine();
 
@@ -34,6 +37,7 @@ public:
 		bool repeat);
 	virtual ~RandomOncePlaylistStrategy();
 
+	virtual void load();
 	virtual bool hasNext(PlaylistItem currentTrack);
 	virtual PlaylistItem nextTrack(PlaylistItem currentTrack);
 };

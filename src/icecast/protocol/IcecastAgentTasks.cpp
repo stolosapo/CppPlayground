@@ -5,6 +5,7 @@
 #include "../IcecastClient.h"
 #include "../IcecastAgent.h"
 #include "../../kernel/converter/Convert.h"
+#include "../../kernel/exception/ExceptionMapper.h"
 
 using namespace std;
 
@@ -58,8 +59,24 @@ void* icecast_now_playing(void* agent)
 void* icecast_start(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
+	ILogService* logSrv = a->logger();
 
-	a->getIcecast()->action();
+	try
+	{
+		a->getIcecast()->action();
+	}
+	catch(DomainException& e)
+	{
+		logSrv->error(handle(e));
+	}
+	catch(RuntimeException& e)
+	{
+		logSrv->error(handle(e));
+	}
+	catch(exception& e)
+	{
+		logSrv->error(e.what());
+	}
 
 	return NULL;
 }

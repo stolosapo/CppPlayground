@@ -27,3 +27,8 @@ PlaylistItem PlaylistStrategy::getTrack(int trackIndex)
 
 	return PlaylistItem(trackIndex, track, meta);
 }
+
+void PlaylistStrategy::load()
+{
+	
+}

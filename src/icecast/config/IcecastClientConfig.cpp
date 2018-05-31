@@ -147,5 +147,10 @@ PlaylistStrategyType IcecastClientConfig::getStrategyType()
 		return RANDOM;
 	}
 
+	if (strategy == "RANDOM_ONCE")
+	{
+		return RANDOM_ONCE;
+	}
+
 	return NONE;
 }

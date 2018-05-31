@@ -8,6 +8,7 @@
 #include "exception/PlaylistErrorCode.h"
 #include "SimplePlaylistStrategy.h"
 #include "RandomPlaylistStrategy.h"
+#include "RandomOncePlaylistStrategy.h"
 #include "PlaylistItemModel.h"
 #include "PlaylistAsyncMessage.h"
 
@@ -66,6 +67,7 @@ void PlaylistHandler::registerStrategies()
 {
 	pattern->registerStrategy(SIMPLE, new SimplePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
 	pattern->registerStrategy(RANDOM, new RandomPlaylistStrategy(logSrv, playlist, history, metadata, repeat));
+	pattern->registerStrategy(RANDOM_ONCE, new RandomOncePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
 }
 
 void PlaylistHandler::load()
@@ -77,7 +79,12 @@ void PlaylistHandler::load()
 
 	if (history != NULL)
 	{
-		// history->loadAll();
+		history->loadAll();
+	}
+
+	if (strategy != NULL)
+	{
+		strategy->load();
 	}
 }
 

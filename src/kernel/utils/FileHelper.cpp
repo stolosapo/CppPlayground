@@ -83,11 +83,13 @@ void FileHelper::appendLineFileToFile(const char* filename, string line)
 
 vector<string> FileHelper::readLastLines(const char* filename, int lineCount)
 {
+	vector<string> output;
 	ifstream file(filename);
 
 	if(file.fail())
 	{
-		throw DomainException(GeneralDomainErrorCode::GNR0001, filename);
+		// throw DomainException(GeneralDomainErrorCode::GNR0001, filename);
+		return output;
 	}
 
 	vector<string> fileContent;
@@ -100,7 +102,6 @@ vector<string> FileHelper::readLastLines(const char* filename, int lineCount)
 	file.close();
 
 	int it = 0;
-	vector<string> output;
 	while (it < lineCount && !fileContent.empty())
 	{
 		output.insert(output.begin(), fileContent.back());

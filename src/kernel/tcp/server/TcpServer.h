@@ -37,6 +37,8 @@ public:
 	TcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv);
 	virtual ~TcpServer();
 
+	ILogService* logger();
+
 	virtual void start();
 	virtual void action();
 
@@ -46,7 +48,6 @@ public:
 protected:
 	TcpServerConfig* config;
 
-	ILogService* logger();
 	ITcpProtocol* getProtocol();
 
 	virtual ITcpProtocol* createProtocol();
