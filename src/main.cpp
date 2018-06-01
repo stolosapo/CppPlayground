@@ -16,14 +16,15 @@ int main(int argc, char* argv[])
 		initializeAppContext();
 
 
-		ArgParser *args = new ArgParser(argc, argv);
-		args->printArgs();
-		args->parse();
-		args->printParsed();
+		ArgParser args(argc, argv);
+		args.printArgs();
+		args.parse();
+		args.printParsed();
 
-		MainMenu *menu = new MainMenu;
-		menu->check();
-		menu->action();
+
+		MainMenu menu;
+		menu.check();
+		menu.action();
 
 
 		/* Clear AppContext */

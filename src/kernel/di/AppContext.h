@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 
 #include "../service/IService.h"
 #include "../service/IServiceFactory.h"
@@ -22,6 +23,9 @@ private:
 
 	/* All scoped service */
 	map<string, InjectionScope> scopes;
+
+	/* All instantiated services, to be desposed */
+	vector<IService*> servicesToBeDisposed;
 
 	bool serviceExists(string serviceName);
 	bool factoryExists(string serviceName);
