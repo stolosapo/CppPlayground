@@ -16,6 +16,7 @@ void* icecast_agent_status(void* agent)
 
 	double uptimeSec = a->uptime();
 	int connections = a->numberOfActiveConnections();
+	int numOfTracks = client->getNumberOfPlayedTracks();
 
 	int sec = uptimeSec;
 
@@ -33,6 +34,7 @@ void* icecast_agent_status(void* agent)
 	value += "Version: " + string(client->version()) + "\n";
 	value += "Uptime: " + str + "\n";
 	value += "Active connections: " + Convert<int>::NumberToString(connections) + "\n";
+	value += "Number of played tracks: " + Convert<int>::NumberToString(numOfTracks) + "\n";
 
 	return static_cast<void*>(new string(value));
 }

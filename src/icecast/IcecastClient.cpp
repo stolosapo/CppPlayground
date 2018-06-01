@@ -23,6 +23,8 @@ IcecastClient::IcecastClient(ILogService *logSrv, SignalService *sigSrv, AudioTa
 	this->libShout = NULL;
 	playlistHandlerFactory = NULL;
 	playlistHandler = NULL;
+
+	numberOfPlayedTracks = 0;
 }
 
 IcecastClient::~IcecastClient()
@@ -61,6 +63,11 @@ void IcecastClient::logNowPlaying(PlaylistItem item)
 	logSrv->info("Index: " + i);
 	logSrv->info("-- Playing: " + item.getTrack());
 	logSrv->info("-- Track: " + item.getTrackTitle());
+}
+
+int IcecastClient::getNumberOfPlayedTracks()
+{
+	return numberOfPlayedTracks;
 }
 
 void IcecastClient::loadConfig()
@@ -112,6 +119,8 @@ void IcecastClient::streamAudio()
 {
 	try
 	{
+		numberOfPlayedTracks = 0;
+
 		libShout->startShout();
 
 		while (playlistHandler->hasNext() && !sigSrv->gotSigInt())
@@ -124,6 +133,8 @@ void IcecastClient::streamAudio()
 			logNowPlaying(item);
 
 			libShout->streamFile(track.c_str(), trackTitle.c_str());
+
+			numberOfPlayedTracks++;
 		}
 
 		logSrv->info("Playlist finished!");

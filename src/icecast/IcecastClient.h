@@ -22,6 +22,8 @@ private:
 	PlaylistHandlerFactory* playlistHandlerFactory;
 	PlaylistHandler* playlistHandler;
 
+	int numberOfPlayedTracks;
+
 	void logNowPlaying(PlaylistItem item);
 
 	void initializePlaylist();
@@ -38,6 +40,8 @@ public:
 	static const char* USER_AGENT;
 
 	static string agentVersion();
+
+	int getNumberOfPlayedTracks();
 
 	void action();
 

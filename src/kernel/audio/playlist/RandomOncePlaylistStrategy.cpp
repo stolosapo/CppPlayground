@@ -45,8 +45,6 @@ void RandomOncePlaylistStrategy::clonePlaylist()
 		remainingTracks.push_back(track);
 		trackToOriginalIndex[track] = i;
 	}
-
-	cout << "Loaded: " << remainingTracks.size() << ", " << trackToOriginalIndex.size() << endl;
 }
 
 void RandomOncePlaylistStrategy::removeHistory()
@@ -56,8 +54,6 @@ void RandomOncePlaylistStrategy::removeHistory()
 		string track = history->read(i);
 		removeFromRemaining(track);
 	}
-
-	cout << "Remained: " << remainingTracks.size() << ", " << trackToOriginalIndex.size() << endl;
 }
 
 void RandomOncePlaylistStrategy::removeFromRemaining(string track)
@@ -110,29 +106,33 @@ bool RandomOncePlaylistStrategy::hasNext(PlaylistItem currentTrack)
 
 PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 {
+	_locker.lock();
+
+	PlaylistItem newTrack = currentTrack;
+
+
+	/* Take a random index from the list of the remaining tracks */
 	int remainingIndex = randomLine();
 
-	if (remainingIndex < 0)
-	{
-		return currentTrack;
-	}
 
-	/* Get the track based on this index */
 	bool exists = false;
 	string randomTrack = "";
 	int cnt = 0;
-	while (!exists && cnt < 100)
+	while (!exists && cnt < 100 && remainingIndex >= 0)
 	{
 		cnt++;
+
+		/* Get the track based on this index */
 		randomTrack = remainingTracks[remainingIndex];
+
 
 		/* Check is this track exists in the remaining */
 		exists = trackExist(randomTrack);
 
-		cout << "randomTrack: " << randomTrack << " exists: " << exists << " cnt: " << cnt << endl;
 
 		/* remove this random index from remainings */
 		removeFromRemaining(remainingIndex);
+
 
 		if (!exists)
 		{
@@ -140,24 +140,27 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 		}
 	}
 
+
 	if (randomTrack == "")
 	{
-		cerr << "Could not get next track, so take the same.." << endl;
-		return currentTrack;
+		logSrv->warn("Could not get next track, so take the same..");
 	}
-
-
-	int newTrackIndex = trackToOriginalIndex[randomTrack];
-
-	if (newTrackIndex >= playlist->size())
+	else
 	{
-		newTrackIndex = 0;
-		randomTrack = remainingTracks[newTrackIndex];
+		int newTrackIndex = trackToOriginalIndex[randomTrack];
+
+		if (newTrackIndex >= playlist->size())
+		{
+			newTrackIndex = 0;
+			randomTrack = remainingTracks[newTrackIndex];
+		}
+
+		removeFromRemaining(randomTrack);
+
+		newTrack = getTrack(newTrackIndex);
 	}
 
-	removeFromRemaining(randomTrack);
+	_locker.unlock();
 
-	cout << "Remained: " << remainingTracks.size() << ", " << trackToOriginalIndex.size() << endl;
-
-	return getTrack(newTrackIndex);
+	return newTrack;
 }
