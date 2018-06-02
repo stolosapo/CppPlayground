@@ -65,14 +65,17 @@ AudioTag* TagLibAudioTagService::read(const char* filename)
 	{
 		TagLib::AudioProperties *properties = f.audioProperties();
 
-		int seconds = properties->length() % 60;
-		int minutes = (properties->length() - seconds) / 60;
+		int sec = properties->lengthInSeconds();
+		int hours = (sec / 60 / 60) % 24;
+		int minutes = (sec / 60) % 60;
+		int seconds = sec % 60;
 
-		string s = Convert<int>::NumberToString(seconds);
-		string m = Convert<int>::NumberToString(minutes);
+		char s[25];
+		sprintf(s, "%02d:%02d", minutes, seconds);
+
+		strDuration = string(s);
 
 		duration = properties->length();
-		strDuration = s + ":" + m;
 		bitrate = properties->bitrate();
 		samplerate = properties->sampleRate();
 		channels = properties->channels();
