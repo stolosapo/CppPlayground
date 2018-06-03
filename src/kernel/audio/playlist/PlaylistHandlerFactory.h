@@ -14,6 +14,7 @@ private:
 	Playlist* playlist;
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;
+	PlaylistStatistics* stats;
 
 public:
 	PlaylistHandlerFactory(

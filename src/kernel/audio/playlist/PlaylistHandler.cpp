@@ -18,6 +18,7 @@ PlaylistHandler::PlaylistHandler(
 	Playlist* playlist,
 	PlaylistHistory* history,
 	PlaylistMetadata* metadata,
+	PlaylistStatistics* stats,
 	PlaylistStrategyType strategyType,
 	bool repeat)
 	: logSrv(logSrv),
@@ -25,6 +26,7 @@ PlaylistHandler::PlaylistHandler(
 	playlist(playlist),
 	history(history),
 	metadata(metadata),
+	stats(stats),
 	strategyType(strategyType),
 	repeat(repeat)
 {
@@ -119,7 +121,19 @@ PlaylistItem PlaylistHandler::nextTrack()
 
 	history->add(currentTrack.getTrack());
 
+	stats->add(currentTrack.getMetadata());
+
 	return currentTrack;
+}
+
+string PlaylistHandler::getGenrePercentages()
+{
+	return stats->getGenrePercentages();
+}
+
+string PlaylistHandler::getArtistPercentages()
+{
+	return stats->getArtistPercentages();
 }
 
 void PlaylistHandler::exportPlaylistMetadata(const char* filename, int parralelismNumber)

@@ -9,6 +9,7 @@
 #include "PlaylistMetadata.h"
 #include "PlaylistStrategyType.h"
 #include "PlaylistStrategy.h"
+#include "PlaylistStatistics.h"
 
 void* exportPlaylistMetadataAsync(void* context);
 
@@ -20,6 +21,7 @@ private:
 	Playlist* playlist;
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;
+	PlaylistStatistics* stats;
 
 	PlaylistStrategyType strategyType;
 	PlaylistStrategy* strategy;
@@ -39,6 +41,7 @@ public:
 		Playlist* playlist,
 		PlaylistHistory* history,
 		PlaylistMetadata* metadata,
+		PlaylistStatistics* stats,
 		PlaylistStrategyType strategyType,
 		bool repeat);
 	virtual ~PlaylistHandler();
@@ -54,6 +57,9 @@ public:
 	bool hasNext();
 	PlaylistItem nextTrack();
 	PlaylistItem getCurrentTrack();
+
+	string getGenrePercentages();
+	string getArtistPercentages();
 
 	void exportPlaylistMetadata(const char* filename, int parralelismNumber);
 };

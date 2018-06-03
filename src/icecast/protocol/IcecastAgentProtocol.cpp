@@ -23,4 +23,7 @@ void IcecastAgentProtocol::registerTasks()
 	registerTask("start", &icecast_start);
 	registerTask("next", &icecast_next_track);
 	registerTask("stop", &icecast_stop_playing);
+
+	registerTask("stats-genre", &icecast_stats_genre);
+	registerTask("stats-artist", &icecast_stats_artist);
 }

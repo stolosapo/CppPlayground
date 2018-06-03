@@ -100,3 +100,27 @@ void* icecast_stop_playing(void* agent)
 
 	return NULL;
 }
+
+void* icecast_stats_genre(void* agent)
+{
+	IcecastAgent* a = (IcecastAgent*) agent;
+	IcecastClient* client = a->getIcecast();
+
+	string value = "\n";
+
+	value += client->getGenreStats();
+
+	return static_cast<void*>(new string(value));
+}
+
+void* icecast_stats_artist(void* agent)
+{
+	IcecastAgent* a = (IcecastAgent*) agent;
+	IcecastClient* client = a->getIcecast();
+
+	string value = "\n";
+
+	value += client->getArtistStats();
+
+	return static_cast<void*>(new string(value));
+}

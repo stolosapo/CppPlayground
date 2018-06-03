@@ -174,3 +174,13 @@ PlaylistItem IcecastClient::nowPlaying()
 {
 	return playlistHandler->getCurrentTrack();
 }
+
+string IcecastClient::getGenreStats()
+{
+	return playlistHandler->getGenrePercentages();
+}
+
+string IcecastClient::getArtistStats()
+{
+	return playlistHandler->getArtistPercentages();
+}

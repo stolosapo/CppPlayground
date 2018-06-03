@@ -49,6 +49,9 @@ public:
 	void stopPlaying();
 	PlaylistItem nowPlaying();
 
+	string getGenreStats();
+	string getArtistStats();
+
 };
 
 #endif // IcecastClient_h__

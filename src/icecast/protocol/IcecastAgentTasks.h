@@ -26,6 +26,9 @@ history-show-last X
 request-track X
 request-list
 
+stats-genre
+stats-artist
+
 */
 
 void* icecast_agent_status(void* agent);
@@ -35,6 +38,9 @@ void* icecast_now_playing(void* agent);
 void* icecast_start(void* agent);
 void* icecast_next_track(void* agent);
 void* icecast_stop_playing(void* agent);
+
+void* icecast_stats_genre(void* agent);
+void* icecast_stats_artist(void* agent);
 
 
 #endif // IcecastAgentTasks_h__

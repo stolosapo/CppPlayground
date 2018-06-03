@@ -17,10 +17,16 @@ PlaylistHandlerFactory::PlaylistHandlerFactory(
 	playlist = new Playlist(playlistFile);
 	history = new PlaylistHistory(historyFile);
 	metadata = new PlaylistMetadata(playlist, audioTagService);
+	stats = new PlaylistStatistics;
 }
 
 PlaylistHandlerFactory::~PlaylistHandlerFactory()
 {
+	if (stats != NULL)
+	{
+		delete stats;
+	}
+
 	if (metadata != NULL)
 	{
 		delete metadata;
@@ -45,6 +51,7 @@ PlaylistHandler* PlaylistHandlerFactory::create()
 		playlist,
 		history,
 		metadata,
+		stats,
 		strategyType,
 		repeat);
 
