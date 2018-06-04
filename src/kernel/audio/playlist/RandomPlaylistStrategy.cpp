@@ -6,11 +6,12 @@
 
 RandomPlaylistStrategy::RandomPlaylistStrategy(
 	ILogService* logSrv,
+	ITimeService* timeSrv,
 	Playlist* playlist,
 	PlaylistHistory* history,
 	PlaylistMetadata* metadata,
 	bool repeat)
-	: PlaylistStrategy(logSrv, playlist, history, metadata, repeat)
+	: PlaylistStrategy(logSrv, timeSrv, playlist, history, metadata, repeat)
 {
         srand(time(NULL));
 }

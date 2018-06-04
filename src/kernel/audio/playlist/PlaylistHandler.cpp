@@ -15,6 +15,7 @@
 PlaylistHandler::PlaylistHandler(
 	ILogService* logSrv,
 	ISerializationService* serializationSrv,
+	ITimeService* timeSrv,
 	Playlist* playlist,
 	PlaylistHistory* history,
 	PlaylistMetadata* metadata,
@@ -23,6 +24,7 @@ PlaylistHandler::PlaylistHandler(
 	bool repeat)
 	: logSrv(logSrv),
 	serializationSrv(serializationSrv),
+	timeSrv(timeSrv),
 	playlist(playlist),
 	history(history),
 	metadata(metadata),
@@ -67,9 +69,9 @@ ISerializationService* PlaylistHandler::getSerializationService()
 
 void PlaylistHandler::registerStrategies()
 {
-	pattern->registerStrategy(SIMPLE, new SimplePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
-	pattern->registerStrategy(RANDOM, new RandomPlaylistStrategy(logSrv, playlist, history, metadata, repeat));
-	pattern->registerStrategy(RANDOM_ONCE, new RandomOncePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
+	pattern->registerStrategy(SIMPLE, new SimplePlaylistStrategy(logSrv, timeSrv, playlist, history, metadata, repeat));
+	pattern->registerStrategy(RANDOM, new RandomPlaylistStrategy(logSrv, timeSrv, playlist, history, metadata, repeat));
+	pattern->registerStrategy(RANDOM_ONCE, new RandomOncePlaylistStrategy(logSrv, timeSrv, playlist, history, metadata, repeat));
 }
 
 void PlaylistHandler::load()

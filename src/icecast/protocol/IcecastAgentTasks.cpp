@@ -11,7 +11,7 @@ using namespace std;
 
 void* icecast_help(void* agent)
 {
-	
+
 }
 
 void* icecast_agent_status(void* agent)
@@ -59,6 +59,7 @@ void* icecast_now_playing(void* agent)
 	value += "Album: " + tag->getAlbum() + "\n";
 	value += "Genre: " + tag->getGenre() + "\n";
 	value += "Duration: " + tag->getStrDuration() + "\n";
+	// value += "Remaining: " + tag->getStrDuration() + "\n";
 
 	return static_cast<void*>(new string(value));
 }

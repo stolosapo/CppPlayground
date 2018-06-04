@@ -18,6 +18,8 @@ class PlaylistHandler
 private:
 	ILogService* logSrv;
 	ISerializationService* serializationSrv;
+	ITimeService* timeSrv;
+	
 	Playlist* playlist;
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;
@@ -38,6 +40,7 @@ public:
 	PlaylistHandler(
 		ILogService* logSrv,
 		ISerializationService* serializationSrv,
+		ITimeService* timeSrv,
 		Playlist* playlist,
 		PlaylistHistory* history,
 		PlaylistMetadata* metadata,

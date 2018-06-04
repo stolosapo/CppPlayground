@@ -2,6 +2,8 @@
 #define PlaylistStrategy_h__
 
 #include "../../log/ILogService.h"
+#include "../../time/ITimeService.h"
+
 #include "Playlist.h"
 #include "PlaylistHistory.h"
 #include "PlaylistMetadata.h"
@@ -13,6 +15,8 @@ class PlaylistStrategy
 {
 protected:
 	ILogService* logSrv;
+	ITimeService* timeSrv;
+
 	Playlist* playlist;
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;
@@ -22,6 +26,7 @@ protected:
 public:
 	PlaylistStrategy(
 		ILogService* logSrv,
+		ITimeService* timeSrv,
 		Playlist* playlist,
 		PlaylistHistory* history,
 		PlaylistMetadata* metadata,

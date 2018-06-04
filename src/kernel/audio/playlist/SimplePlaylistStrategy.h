@@ -8,6 +8,7 @@ class SimplePlaylistStrategy : public PlaylistStrategy
 public:
 	SimplePlaylistStrategy(
 		ILogService* logSrv,
+		ITimeService* timeSrv,
 		Playlist* playlist,
 		PlaylistHistory* history,
 		PlaylistMetadata* metadata,

@@ -11,6 +11,7 @@ protected:
 public:
 	RandomPlaylistStrategy(
 		ILogService* logSrv,
+		ITimeService* timeSrv,
 		Playlist* playlist,
 		PlaylistHistory* history,
 		PlaylistMetadata* metadata,
