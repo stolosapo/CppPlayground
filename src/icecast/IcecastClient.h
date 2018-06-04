@@ -48,6 +48,7 @@ public:
 	void nextTrack();
 	void stopPlaying();
 	PlaylistItem nowPlaying();
+	int remainingTrackTime();
 
 	string getGenreStats();
 	string getArtistStats();

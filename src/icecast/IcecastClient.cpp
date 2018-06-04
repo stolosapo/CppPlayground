@@ -175,6 +175,11 @@ PlaylistItem IcecastClient::nowPlaying()
 	return playlistHandler->getCurrentTrack();
 }
 
+int IcecastClient::remainingTrackTime()
+{
+	return playlistHandler->getRemainingTrackDuration();
+}
+
 string IcecastClient::getGenreStats()
 {
 	return playlistHandler->getGenrePercentages();

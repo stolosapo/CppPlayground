@@ -51,7 +51,7 @@ string Statistics::getPercentagesAsString(int totalCount)
 		res += ": ";
 
 		int cnt = it->second;
-		double perc = (100 * cnt) / totalCount;
+		double perc = (100 * cnt) / ((double) totalCount);
 
 		res += Convert<double>::NumberToString(perc);
 		res += "%\n";

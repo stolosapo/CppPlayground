@@ -60,6 +60,8 @@ public:
 	bool hasNext();
 	PlaylistItem nextTrack();
 	PlaylistItem getCurrentTrack();
+	int getTrackProgress();
+	int getRemainingTrackDuration();
 
 	string getGenrePercentages();
 	string getArtistPercentages();

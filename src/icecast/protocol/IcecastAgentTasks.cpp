@@ -51,6 +51,13 @@ void* icecast_now_playing(void* agent)
 
 	PlaylistItem track = client->nowPlaying();
 	AudioTag* tag = track.getMetadata();
+	int remaining = client->remainingTrackTime();
+	int minutes = (remaining / 60) % 60;
+	int seconds = remaining % 60;
+
+	char s[25];
+	sprintf(s, "%02d:%02d", minutes, seconds);
+	string strRemaining(s);
 
 	string value = "\n";
 
@@ -59,7 +66,7 @@ void* icecast_now_playing(void* agent)
 	value += "Album: " + tag->getAlbum() + "\n";
 	value += "Genre: " + tag->getGenre() + "\n";
 	value += "Duration: " + tag->getStrDuration() + "\n";
-	// value += "Remaining: " + tag->getStrDuration() + "\n";
+	value += "Remaining: " + strRemaining + "\n";
 
 	return static_cast<void*>(new string(value));
 }

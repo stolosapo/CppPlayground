@@ -75,7 +75,7 @@ AudioTag* TagLibAudioTagService::read(const char* filename)
 
 		strDuration = string(s);
 
-		duration = properties->length();
+		duration = properties->lengthInSeconds();
 		bitrate = properties->bitrate();
 		samplerate = properties->sampleRate();
 		channels = properties->channels();

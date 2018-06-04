@@ -128,6 +128,24 @@ PlaylistItem PlaylistHandler::nextTrack()
 	return currentTrack;
 }
 
+int PlaylistHandler::getTrackProgress()
+{
+	time_t startTime = currentTrack.getStartTime();
+	time_t now = timeSrv->rawNow();
+
+	return difftime(now, startTime);
+}
+
+int PlaylistHandler::getRemainingTrackDuration()
+{
+	int progress = getTrackProgress();
+	int duration = currentTrack.getMetadata()->getDuration();
+
+	int remaining = duration - progress;
+
+	return remaining;
+}
+
 string PlaylistHandler::getGenrePercentages()
 {
 	return stats->getGenrePercentages();
