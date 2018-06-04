@@ -172,8 +172,12 @@ bool TcpClient::cycle(ClientInfo *client)
 
 	/* Prompt user for input */
 	in->outString(protocol->prompt());
-	// string userInput = in->inString();
 	string userInput = in->inLine();
+
+	if (userInput == "")
+	{
+		return true;
+	}
 
 	if (ITcpProtocol::exit(userInput))
 	{
@@ -187,7 +191,8 @@ bool TcpClient::cycle(ClientInfo *client)
 
 	/* Receive messege from server */
 	string serverInput = "";
-	stream->receive(serverInput);
+	ssize_t size = stream->receiveAll(serverInput);
+
 
 	if (ITcpProtocol::exit(serverInput))
 	{

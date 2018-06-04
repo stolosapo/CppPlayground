@@ -25,11 +25,14 @@ class TcpStream
 
     ssize_t receive(string& message);
     ssize_t receive(char* buffer, size_t len);
+    ssize_t receiveAll(string& message);
 
     string getPeerIP();
     int getPeerPort();
 
   private:
+    static const int RECEIVE_SIZE = 256;
+
     TcpStream(int sd, struct sockaddr_in* address);
     TcpStream();
     TcpStream(const TcpStream& stream);

@@ -57,7 +57,7 @@ ssize_t TcpStream::receive(char* buffer, size_t len)
 
 ssize_t TcpStream::receive(string& message)
 {
-	char line[256];
+	char line[RECEIVE_SIZE];
 	int len = receive(line, sizeof(line));
 
 	if (len > 0)
@@ -71,4 +71,37 @@ ssize_t TcpStream::receive(string& message)
 	}
 
 	return len;
+}
+
+ssize_t TcpStream::receiveAll(string& message)
+{
+	string result = "";
+	int cnt = 0;
+	ssize_t currentSize = receive(result);
+	ssize_t totalSize = currentSize;
+
+	while (currentSize == RECEIVE_SIZE && cnt < 50)
+	{
+		cnt++;
+
+		string s = "";
+		currentSize = receive(s);
+
+		result += s;
+		totalSize += currentSize;
+	}
+
+	if (cnt >= 50)
+	{
+		result += "\n";
+		result += "\n========================\n";
+		result += "\n TOO LARGE RECEIVE TEXT \n";
+		result += "\n MISSING TEXT...        \n";
+		result += "\n========================\n";
+		result += "\n";
+	}
+
+	message = result;
+
+	return totalSize;
 }
