@@ -9,6 +9,11 @@
 
 using namespace std;
 
+void* icecast_help(void* agent)
+{
+	
+}
+
 void* icecast_agent_status(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;

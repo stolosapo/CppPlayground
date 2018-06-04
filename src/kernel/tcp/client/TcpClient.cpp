@@ -24,8 +24,6 @@ using namespace std;
 TcpClient::TcpClient(ILogService *logSrv, SignalService *sigSrv) : ITcpClient(), logSrv(logSrv), sigSrv(sigSrv)
 {
 	this->in = new InOut;
-
-	this->protocol = createProtocol();
 }
 
 TcpClient::~TcpClient()
@@ -124,6 +122,8 @@ void TcpClient::start()
 
 void TcpClient::action()
 {
+	this->protocol = createProtocol();
+	
 	this->loadConfig();
 
 	this->initialize();
@@ -171,7 +171,7 @@ bool TcpClient::cycle(ClientInfo *client)
 
 
 	/* Prompt user for input */
-	in->outString(ITcpProtocol::prompt());
+	in->outString(protocol->prompt());
 	// string userInput = in->inString();
 	string userInput = in->inLine();
 

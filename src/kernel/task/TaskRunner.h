@@ -24,6 +24,8 @@ public:
 	virtual void startTaskDetached(string task, void* data);
 	virtual void* runTask(string task, void* data);
 
+	virtual string list();
+
 };
 
 #endif // TaskRunner_h__

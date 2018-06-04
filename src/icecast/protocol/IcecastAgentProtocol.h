@@ -8,11 +8,14 @@ class IcecastAgentProtocol : public ITcpProtocol, public TaskRunner
 {
 private:
 	void registerTasks();
-	
+
 public:
 	IcecastAgentProtocol(bool isServer);
 	virtual ~IcecastAgentProtocol();
-	
+
+	virtual string prompt();
+	virtual string help();
+
 };
 
 #endif // IcecastAgentProtocol_h__

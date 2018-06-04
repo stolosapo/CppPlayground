@@ -11,7 +11,12 @@ IcecastAgentProtocol::IcecastAgentProtocol(bool isServer)
 
 IcecastAgentProtocol::~IcecastAgentProtocol()
 {
-	
+
+}
+
+string IcecastAgentProtocol::prompt()
+{
+	return "streamer> ";
 }
 
 void IcecastAgentProtocol::registerTasks()
@@ -26,4 +31,9 @@ void IcecastAgentProtocol::registerTasks()
 
 	registerTask("stats-genre", &icecast_stats_genre);
 	registerTask("stats-artist", &icecast_stats_artist);
+}
+
+string IcecastAgentProtocol::help()
+{
+
 }

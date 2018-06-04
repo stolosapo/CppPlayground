@@ -26,9 +26,14 @@ ITcpProtocol::~ITcpProtocol()
 }
 
 
-bool ITcpProtocol::help(string command)
+bool ITcpProtocol::isHelp(string command)
 {
 	return command == string(HELP);
+}
+
+string ITcpProtocol::help()
+{
+	return "";
 }
 
 bool ITcpProtocol::exit(string command)
@@ -56,14 +61,10 @@ string ITcpProtocol::prompt()
 	return string(PROMPT);
 }
 
-
-
 bool ITcpProtocol::getIsServer()
 {
 	return isServer;
 }
-
-
 
 void ITcpProtocol::handshake(ClientInfo *client)
 {

@@ -62,3 +62,8 @@ void* TaskRunner::runTask(string task, void* data)
 
         return delegate(data);
 }
+
+string TaskRunner::list()
+{
+
+}
