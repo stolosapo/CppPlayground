@@ -63,7 +63,6 @@ TcpServer::~TcpServer()
 void* TcpServer::task(void *context)
 {
 	ClientInfo* client = (ClientInfo *) context;
-	// client->getThread()->setSelfId();
 
 	TcpServer* server = (TcpServer *) (client->getServer());
 	ILogService* logger = server->logSrv;
@@ -158,7 +157,6 @@ int TcpServer::numberOfActiveConnections()
 
 void TcpServer::start()
 {
-	string input = "";
 	int clientCount = 0;
 
 	vector<ClientInfo*> clients;
@@ -174,7 +172,7 @@ void TcpServer::start()
 
 	logSrv->info("Server is started");
 
-	while (!ITcpProtocol::shutdown(input) && !sigSrv->gotSigInt())
+	while (!sigSrv->gotSigInt())
 	{
 
 		if (!pool->hasNext())
