@@ -33,7 +33,7 @@ void Statistics::add(string data)
 	{
 		counter = stats[data];
 	}
-	
+
 	counter++;
 
 	stats[data] = counter;
@@ -54,9 +54,9 @@ string Statistics::getPercentagesAsString(int totalCount)
 		double perc = (100 * cnt) / ((double) totalCount);
 
 		res += Convert<double>::NumberToString(perc);
-		res += " (";
+		res += "% (";
 		res += Convert<int>::NumberToString(cnt);
-		res += ")%\n";
+		res += ")\n";
 	}
 
 	return res;
