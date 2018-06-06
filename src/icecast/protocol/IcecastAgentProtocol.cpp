@@ -35,5 +35,16 @@ void IcecastAgentProtocol::registerTasks()
 
 string IcecastAgentProtocol::help()
 {
+	string result = "";
 
+	result += "NoiseStreamer :: Client\n";
+	result += "=======================\n\n";
+	result += "usage: <command> [<args>]\n\n";
+	result += "These are the common NoiseStreamer commands:\n\n";
+	result += "agent-status       See the status of the NoiseStreamer server\n";
+	result += "now                See the current playing track\n";
+	result += "stats-genre        See statistics of played genres\n";
+	result += "stats-artist       See statistics of played artists\n";
+
+	return result;
 }
