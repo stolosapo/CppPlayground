@@ -1,6 +1,7 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 #include "../../converter/Convert.h"
 
@@ -24,9 +25,10 @@ using namespace std;
 *		CONSTRUCTORS
 *
 **********************************/
-TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv) : ITcpServer(), logSrv(logSrv), sigSrv(sigSrv)
+TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv) 
+	: ITcpServer(), logSrv(logSrv), sigSrv(sigSrv), timeSrv(timeSrv)
 {
-	this->protocol = new ITcpProtocol(true);
+	startTime = timeSrv->rawNow();
 }
 
 TcpServer::~TcpServer()
@@ -47,6 +49,8 @@ TcpServer::~TcpServer()
 	{
 		delete this->protocol;
 	}
+
+	logSrv->trace("Server finalized!");
 }
 
 
@@ -59,7 +63,6 @@ TcpServer::~TcpServer()
 void* TcpServer::task(void *context)
 {
 	ClientInfo* client = (ClientInfo *) context;
-	client->getThread()->setSelfId();
 
 	TcpServer* server = (TcpServer *) (client->getServer());
 	ILogService* logger = server->logSrv;
@@ -84,7 +87,6 @@ void* TcpServer::task(void *context)
 
 			/* Proccess input */
 			server->cycle(client, input);
-
 		}
 
 		logger->trace("Client [" + identity + "] terminated");
@@ -113,7 +115,6 @@ Thread* TcpServer::getNextThread()
 	}
 
 	th->attachDelegate(&TcpServer::internalClientTask);
-	th->setMustDispose(true);
 
 	return th;
 }
@@ -137,11 +138,28 @@ ILogService* TcpServer::logger()
 	return this->logSrv;
 }
 
+ITcpProtocol* TcpServer::getProtocol()
+{
+	return this->protocol;
+}
+
+double TcpServer::uptime()
+{
+	time_t now = timeSrv->rawNow();
+
+	return difftime(now, startTime);
+}
+
+int TcpServer::numberOfActiveConnections()
+{
+	return pool->numberOfActiveThreads();
+}
+
 void TcpServer::start()
 {
-	string input = "";
-
 	int clientCount = 0;
+
+	vector<ClientInfo*> clients;
 
 
 	logSrv->trace("Server is starting...");
@@ -154,16 +172,8 @@ void TcpServer::start()
 
 	logSrv->info("Server is started");
 
-	while (!ITcpProtocol::shutdown(input))
+	while (!sigSrv->gotSigInt())
 	{
-		
-		/* Check for interruption */
-		if (sigSrv->gotSigIntAndReset())
-		{
-			logSrv->debug("Stopping server..");
-
-			break;
-		}
 
 		if (!pool->hasNext())
 		{
@@ -195,14 +205,20 @@ void TcpServer::start()
 
 		th->start(client);
 
+		clients.push_back(client);
+
 
 		/* Increase thead counter */
 		clientCount++;
 	}
+
+	logSrv->debug("Stopping server..");
 }
 
 void TcpServer::action()
 {
+	this->protocol = createProtocol();
+
 	this->loadConfig();
 
 	this->initialize();
@@ -217,9 +233,19 @@ void TcpServer::action()
 *
 **********************************/
 
+ITcpProtocol* TcpServer::createProtocol()
+{
+	return new ITcpProtocol(true);
+}
+
+const char* TcpServer::configFilename()
+{
+	return "tcpServer.config";
+}
+
 void TcpServer::loadConfig()
 {
-	TcpServerConfigLoader* loader = new TcpServerConfigLoader("tcpServer.config");
+	TcpServerConfigLoader* loader = new TcpServerConfigLoader(configFilename());
 
 	this->config = loader->load();
 
@@ -249,14 +275,14 @@ void TcpServer::cycle(ClientInfo *client, string input)
 {
 	ILogService* logger = ((TcpServer*) client->getServer())->logger();
 
-	string trace = "received [" + client->getIdentity() + "] - " + input; 
+	string trace = "received [" + client->getIdentity() + "] - " + input;
 
 	logger->trace(trace);
 
 	if (validateCommand(input))
 	{
 		/* Process Message */
-		processCommand(client, input);		
+		processCommand(client, input);
 	}
 	else
 	{

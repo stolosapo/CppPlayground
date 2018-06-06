@@ -10,7 +10,7 @@ class DomainErrorCode
 {
 private:
 	const char* _code;
-        const char* _cause;
+	const char* _cause;
 
 public:
 	DomainErrorCode(const char* code, const char* cause);

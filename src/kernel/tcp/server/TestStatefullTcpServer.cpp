@@ -2,7 +2,8 @@
 
 #include "../../converter/Convert.h"
 
-TestStatefullTcpServer::TestStatefullTcpServer(ILogService *logSrv, SignalService *sigSrv) : StatefullTcpServer(logSrv, sigSrv)
+TestStatefullTcpServer::TestStatefullTcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv) 
+	: StatefullTcpServer(logSrv, sigSrv, timeSrv)
 {
 
 }

@@ -1,0 +1,21 @@
+{
+	"hostname":"giss.tv",
+	"port":"8000",
+	"username":"source",
+	"password":"pass",
+	"protocol":"http",
+	"mountpoint":"/thefirstkube.mp3",
+	"name":"The First Kube",
+	"genre":"Experimental Industrial Noise and more...",
+	"description":"An Experimenatl Industrial Noise Radio",
+	"url":"http://www.thefirstkube.net",
+	"public":"1",
+	"bitrate":"128",
+	"samplerate":"44100",
+	"channels":"2",
+	"playlist":"playlist.pls",
+	"history":"playlist.history.pls",
+	"metadata":"playlist.metadata.json",
+	"repeat":true,
+	"strategy":"RANDOM"
+}

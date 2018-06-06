@@ -20,12 +20,15 @@ public:
 	void handshake(ClientInfo *client);
 	void authenticate(ClientInfo *client);
 
-	static bool help(string command);
+	virtual string prompt();
+	
+	virtual bool isHelp(string command);
+	virtual string help();
+
 	static bool exit(string command);
 	static bool shutdown(string command);
 	static bool error(string command);
 	static void error(ClientInfo *client);
-	static string prompt();
 
 protected:
 	static const char* PROMPT;

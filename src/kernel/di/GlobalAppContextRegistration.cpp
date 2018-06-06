@@ -5,6 +5,7 @@
 #include "../time/TimeServiceFactory.h"
 #include "../serialization/SerializationServiceFactory.h"
 #include "../interruption/SignalServiceFactory.h"
+#include "../audio/AudioTagServiceFactory.h"
 
 void registerServices()
 {
@@ -19,4 +20,7 @@ void registerServices()
 
 	/* Signal Service */
 	registerGlobalService<SignalServiceFactory>(START_UP, "signalService", new SignalServiceFactory);
+
+	/* AudioTag Service */
+	registerGlobalService<AudioTagServiceFactory>(SINGLETON, "audioTagService", new AudioTagServiceFactory);
 }

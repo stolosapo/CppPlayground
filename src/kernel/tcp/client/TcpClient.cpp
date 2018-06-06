@@ -24,8 +24,6 @@ using namespace std;
 TcpClient::TcpClient(ILogService *logSrv, SignalService *sigSrv) : ITcpClient(), logSrv(logSrv), sigSrv(sigSrv)
 {
 	this->in = new InOut;
-
-	this->protocol = new ITcpProtocol(false);
 }
 
 TcpClient::~TcpClient()
@@ -124,6 +122,8 @@ void TcpClient::start()
 
 void TcpClient::action()
 {
+	this->protocol = createProtocol();
+	
 	this->loadConfig();
 
 	this->initialize();
@@ -131,10 +131,19 @@ void TcpClient::action()
 	this->start();
 }
 
+ITcpProtocol* TcpClient::createProtocol()
+{
+	return new ITcpProtocol(false);
+}
+
+const char* TcpClient::configFilename()
+{
+	return "tcpClient.config";
+}
 
 void TcpClient::loadConfig()
 {
-	TcpClientConfigLoader* loader = new TcpClientConfigLoader("tcpClient.config");
+	TcpClientConfigLoader* loader = new TcpClientConfigLoader(configFilename());
 
 	this->config = loader->load();
 
@@ -162,9 +171,13 @@ bool TcpClient::cycle(ClientInfo *client)
 
 
 	/* Prompt user for input */
-	in->outString(ITcpProtocol::prompt());
-	// string userInput = in->inString();
+	in->outString(protocol->prompt());
 	string userInput = in->inLine();
+
+	if (userInput == "")
+	{
+		return true;
+	}
 
 	if (ITcpProtocol::exit(userInput))
 	{
@@ -178,7 +191,8 @@ bool TcpClient::cycle(ClientInfo *client)
 
 	/* Receive messege from server */
 	string serverInput = "";
-	stream->receive(serverInput);
+	ssize_t size = stream->receiveAll(serverInput);
+
 
 	if (ITcpProtocol::exit(serverInput))
 	{

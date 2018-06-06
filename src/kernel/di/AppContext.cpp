@@ -112,7 +112,7 @@ IService* AppContext::getRequestedService(string serviceName)
 
 IService* AppContext::getStartupService(string serviceName)
 {
-	return instantiateService(serviceName);
+	return getSingletonService(serviceName);
 }
 
 

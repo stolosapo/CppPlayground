@@ -17,6 +17,12 @@ private:
 	long long id;
 	bool dispose;
 
+	static void* delegateInterceptor(void *);
+
+	void setId(long long id);
+	void setSelfId();
+	void setMustDispose(bool dispose);
+
 public:
 	Thread();
 	virtual ~Thread();
@@ -26,15 +32,16 @@ public:
 
 	virtual bool start(void* data);
 	virtual void wait();
+	virtual void* result();
+	virtual bool cancel();
+	virtual bool detach();
+	virtual void* exit();
+
 	virtual long long self();
 
 	long long getId();
 	string getStringId();
-	void setId(long long id);
-	void setSelfId();
-
 	bool mustDispose();
-	void setMustDispose(bool dispose);
 
 	Thread& operator+=(ThreadDelegate delegate);
 	Thread& operator-=(ThreadDelegate delegate);

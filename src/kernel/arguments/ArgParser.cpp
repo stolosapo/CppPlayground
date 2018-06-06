@@ -28,12 +28,7 @@ ArgParser::ArgParser(int argc, char* argv[])
 
 ArgParser::~ArgParser()
 {
-	for (int i = 0; i < count; ++i)
-	{
-		delete values[i];
-	}
 
-	delete[] values;
 }
 
 

@@ -4,9 +4,11 @@
 #include "../kernel/menu/MenuContainer.h"
 #include "../log/LogServiceMenuContainer.h"
 #include "../euler/EulerProblemContainer.cpp"
+
 #include "../tcpServer/TcpMenuContainer.h"
 #include "../serialization/SerializationMenuContainer.h"
 #include "../gpio/GpioMenuContainer.h"
+#include "../icecast/menu/IcecastMenuContainer.h"
 #include "../games/GameMenuContainer.h"
 
 using namespace std;
@@ -18,7 +20,7 @@ public:
 		1,
 		"Main Menu",
 		"Main Menu",
-		6)
+		7)
 	{
 
 	}
@@ -36,7 +38,8 @@ protected:
 		this->addMenuItem(2, new TcpMenuContainer);
 		this->addMenuItem(3, new SerializationMenuContainer);
 		this->addMenuItem(4, new GpioMenuContainer);
-		this->addMenuItem(5, new GameMenuContainer);
+		this->addMenuItem(5, new IcecastMenuContainer);
+		this->addMenuItem(6, new GameMenuContainer);
 	}
 
 	virtual string getHeader()

@@ -261,27 +261,24 @@ void MenuContainer::action()
 			this->promptQuestion();
 
 			MenuItem *selectedItem = this->findMenuItem();
-			if (selectedItem != NULL)
-			{
-				logSrv->clearScreen();
-				logSrv->outString(selectedItem->identify());
-
-				selectedItem->check();
-				selectedItem->action();
-
-				if (this->continueQuestion)
-				{
-					bool cont = this->promptContinueQuestion();
-					if (!cont)
-					{
-						break;
-					}
-				}
-
-			}
-			else
+			if (selectedItem == NULL)
 			{
 				break;
+			}
+
+			logSrv->clearScreen();
+			logSrv->outString(selectedItem->identify());
+
+			selectedItem->check();
+			selectedItem->action();
+
+			if (this->continueQuestion)
+			{
+				bool cont = this->promptContinueQuestion();
+				if (!cont)
+				{
+					break;
+				}
 			}
 		}
 	}

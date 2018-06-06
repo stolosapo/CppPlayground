@@ -16,8 +16,8 @@ bool Score4Client::cycle(ClientInfo *client)
 
 
 	/* Prompt user for input */
-	in->outString(ITcpProtocol::prompt());
-	
+	in->outString(protocol->prompt());
+
 	string userInput = in->inLine();
 
 	if (ITcpProtocol::exit(userInput))

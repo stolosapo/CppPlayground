@@ -2,6 +2,7 @@
 #define ThreadPool_h__
 
 #include <queue>
+#include <map>
 
 #include "Thread.h"
 #include "Locker.h"
@@ -18,6 +19,8 @@ private:
 	Locker locker;
 
 	Queue<Thread> pool;
+	map<Thread*, Thread*> usedThreads;
+
 
 protected:
 	void init();
@@ -31,6 +34,8 @@ public:
 	bool reachSize();
 	Thread* getNext();
 	void putBack(Thread* thread);
+
+	int numberOfActiveThreads();
 
 };
 

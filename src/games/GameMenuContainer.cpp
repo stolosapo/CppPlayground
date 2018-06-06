@@ -4,7 +4,7 @@
 #include "score4/menu/Score4MenuContainer.h"
 
 GameMenuContainer::GameMenuContainer() : MenuContainer(
-	6,
+	7,
 	"Games",
 	"Games",
 	1)

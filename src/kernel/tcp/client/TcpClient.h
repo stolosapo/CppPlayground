@@ -32,6 +32,8 @@ protected:
 
 	ITcpProtocol *protocol;
 	
+	virtual ITcpProtocol* createProtocol();
+	virtual const char* configFilename();
 	virtual void loadConfig();
 	virtual void initialize();
 
