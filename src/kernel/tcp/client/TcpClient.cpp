@@ -98,7 +98,7 @@ void TcpClient::start()
 		{
 
 			/* Check for interruption */
-			if (sigSrv->gotSigIntAndReset())
+			if (sigSrv->gotSigInt())
 			{
 
 				logSrv->debug("Stopping client.. ");
@@ -123,7 +123,7 @@ void TcpClient::start()
 void TcpClient::action()
 {
 	this->protocol = createProtocol();
-	
+
 	this->loadConfig();
 
 	this->initialize();
@@ -176,6 +176,12 @@ bool TcpClient::cycle(ClientInfo *client)
 
 	if (userInput == "")
 	{
+		return true;
+	}
+
+	if (protocol->isHelp(userInput))
+	{
+		in->outString(protocol->help());
 		return true;
 	}
 
