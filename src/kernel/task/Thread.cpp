@@ -8,6 +8,8 @@
 
 Thread::Thread()
 {
+	_thread = 0;
+
 	delegate = NULL;
 
 	id = 0;
@@ -17,6 +19,10 @@ Thread::Thread()
 Thread::~Thread()
 {
 	delegate = NULL;
+
+	cancel();
+	wait();
+	_thread = 0;
 
 	id = 0;
 	dispose = false;
@@ -78,6 +84,11 @@ bool Thread::start(void* data)
 
 void Thread::wait()
 {
+	if (_thread == 0)
+	{
+		return;
+	}
+
 	pthread_join(_thread, NULL);
 
 	setMustDispose(false);
@@ -86,6 +97,11 @@ void Thread::wait()
 void* Thread::result()
 {
 	void* retval = NULL;
+
+	if (_thread == 0)
+	{
+		return retval;
+	}
 
 	pthread_join(_thread, &retval);
 
@@ -96,6 +112,11 @@ void* Thread::result()
 
 bool Thread::cancel()
 {
+	if (_thread == 0)
+	{
+		return false;
+	}
+
 	int status = pthread_cancel(_thread);
 
 	setMustDispose(false);
@@ -105,6 +126,11 @@ bool Thread::cancel()
 
 bool Thread::detach()
 {
+	if (_thread == 0)
+	{
+		return false;
+	}
+
 	int status = pthread_detach(_thread);
 
 	setMustDispose(false);

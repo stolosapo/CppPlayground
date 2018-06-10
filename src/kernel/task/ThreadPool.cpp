@@ -41,9 +41,7 @@ void ThreadPool::clear()
 
 		if (th != NULL)
 		{
-			th->cancel();
-			th->wait();
-			delete it->first;
+			delete th;
 			th = NULL;
 		}
 	}
