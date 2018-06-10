@@ -13,10 +13,8 @@ IcecastAgent::~IcecastAgent()
 	if (icecastThread != NULL)
 	{
 		logger()->trace("Waiting Icecast thread to finnished..");
-		icecastThread->wait();
-		logger()->trace("Icecast thread finnished!");
-		
 		delete icecastThread;
+		logger()->trace("Icecast thread finnished!");
 	}
 
 	delete icecast;
