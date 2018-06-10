@@ -14,18 +14,24 @@ Thread::Thread()
 
 	id = 0;
 	dispose = false;
+	running = false;
 }
 
 Thread::~Thread()
 {
 	delegate = NULL;
 
-	cancel();
+	if (running)
+	{
+		cancel();
+	}
+
 	wait();
 	_thread = 0;
 
 	id = 0;
 	dispose = false;
+	running = false;
 }
 
 void Thread::attachDelegate(ThreadDelegate delegate)
@@ -52,10 +58,13 @@ void* Thread::delegateInterceptor(void* interceptionData)
 
 	try
 	{
+		th->running = true;
 		retval = dlg(interception->getData());
+		th->running = false;
 	}
 	catch(exception& e)
 	{
+		th->running = false;
 		delete interception;
 		interception = NULL;
 
@@ -182,6 +191,11 @@ bool Thread::mustDispose()
 void Thread::setMustDispose(bool dispose)
 {
 	this->dispose = dispose;
+}
+
+bool Thread::isRunning()
+{
+	return running;
 }
 
 Thread& Thread::operator+=(ThreadDelegate delegate)

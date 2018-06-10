@@ -16,6 +16,7 @@ private:
 
 	long long id;
 	bool dispose;
+	bool running;
 
 	static void* delegateInterceptor(void *);
 
@@ -42,6 +43,7 @@ public:
 	long long getId();
 	string getStringId();
 	bool mustDispose();
+	bool isRunning();
 
 	Thread& operator+=(ThreadDelegate delegate);
 	Thread& operator-=(ThreadDelegate delegate);
