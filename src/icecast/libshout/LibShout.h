@@ -15,6 +15,10 @@ using namespace std;
 class LibShout
 {
 private:
+	static const int MAX_RETRY_NUMBER = 10;
+
+	int currentRetryNumber;
+
 	ILogService *logSrv;
 	SignalService* sigSrv;
 
@@ -51,6 +55,7 @@ private:
 
 	/* returns SHOUTERR_CONNECTED or SHOUTERR_UNCONNECTED */
 	int getConnected();
+	bool isConnected();
 
 	/* Connection parameters */
 	void setHost(string host);
@@ -88,7 +93,7 @@ private:
 	void setMeta(shout_metadata_t* metadata);
 	void addMeta(shout_metadata_t* metadata, string name, string value);
 	void addMetaSong(shout_metadata_t* metadata, string song);
-	void freeMetadate(shout_metadata_t* metadata);
+	void freeMetadata(shout_metadata_t* metadata);
 #endif
 
 	void setPublic(unsigned int make_public);
@@ -130,7 +135,11 @@ private:
 	/* Amount of time in ms caller should wait before sending again */
 	int shoutDelay();
 
-	void logCurrentStatus();
+	void logCurrentStatus(string mess);
+	int currentTries();
+	void incrementTries();
+	void clearTries();
+	bool maxTriesReached();
 
 public:
 	LibShout(ILogService *logSrv, SignalService* sigSrv, IcecastClientConfig* config);
@@ -140,6 +149,7 @@ public:
 	void finilizeShout();
 
 	void startShout();
+	void restartShout();
 	void streamFile(const char* filename, const char* trackMetadata);
 
 };

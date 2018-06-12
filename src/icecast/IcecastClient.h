@@ -28,10 +28,12 @@ private:
 
 	void initializePlaylist();
 	void initializeShout();
+	void finilizeShout();
+	void connectShout();
 
 	void loadConfig();
 	void loadPlaylist();
-	void streamAudio();
+	void streamPlaylist();
 
 public:
 	IcecastClient(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv);

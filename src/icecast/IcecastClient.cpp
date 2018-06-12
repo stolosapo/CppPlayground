@@ -115,13 +115,21 @@ void IcecastClient::initializeShout()
 	libShout->initializeShout();
 }
 
-void IcecastClient::streamAudio()
+void IcecastClient::connectShout()
+{
+	libShout->startShout();
+}
+
+void IcecastClient::finilizeShout()
+{
+	libShout->finilizeShout();
+}
+
+void IcecastClient::streamPlaylist()
 {
 	try
 	{
 		numberOfPlayedTracks = 0;
-
-		libShout->startShout();
 
 		while (playlistHandler->hasNext() && !sigSrv->gotSigInt())
 		{
@@ -143,8 +151,6 @@ void IcecastClient::streamAudio()
 	{
 		logSrv->error(e.fullError());
 	}
-
-	libShout->finilizeShout();
 }
 
 void IcecastClient::action()
@@ -157,7 +163,11 @@ void IcecastClient::action()
 
 	initializeShout();
 
-	streamAudio();
+	connectShout();
+
+	streamPlaylist();
+
+	finilizeShout();
 }
 
 void IcecastClient::nextTrack()

@@ -9,6 +9,7 @@
 #include "../../kernel/converter/Convert.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
+#include "../../kernel/exception/ExceptionMapper.h"
 #include "../exception/IcecastDomainErrorCode.h"
 #include "../IcecastClient.h"
 
@@ -17,7 +18,7 @@
 
 LibShout::LibShout(ILogService *logSrv, SignalService* sigSrv, IcecastClientConfig* config) : logSrv(logSrv), sigSrv(sigSrv), config(config)
 {
-
+	currentRetryNumber = 0;
 }
 
 LibShout::~LibShout()
@@ -25,7 +26,7 @@ LibShout::~LibShout()
 
 }
 
-void LibShout::logCurrentStatus()
+void LibShout::logCurrentStatus(string mess)
 {
 	int errNo = getErrno();
 
@@ -52,43 +53,43 @@ void LibShout::logCurrentStatus()
 			// logSrv->trace("SHOUTERR_SUCCESS");
 			break;
 		case SHOUTERR_INSANE:
-			logSrv->trace("SHOUTERR_INSANE");
+			logSrv->trace(mess + " SHOUTERR_INSANE");
 			break;
 		case SHOUTERR_NOCONNECT:
-			logSrv->trace("SHOUTERR_NOCONNECT");
+			logSrv->trace(mess + " SHOUTERR_NOCONNECT");
 			break;
 		case SHOUTERR_NOLOGIN:
-			logSrv->trace("SHOUTERR_NOLOGIN");
+			logSrv->trace(mess + " SHOUTERR_NOLOGIN");
 			break;
 		case SHOUTERR_SOCKET:
-			logSrv->trace("SHOUTERR_SOCKET");
+			logSrv->trace(mess + " SHOUTERR_SOCKET");
 			break;
 		case SHOUTERR_MALLOC:
-			logSrv->trace("SHOUTERR_MALLOC");
+			logSrv->trace(mess + " SHOUTERR_MALLOC");
 			break;
 		case SHOUTERR_METADATA:
-			logSrv->trace("SHOUTERR_METADATA");
+			logSrv->trace(mess + " SHOUTERR_METADATA");
 			break;
 		case SHOUTERR_CONNECTED:
-			logSrv->trace("SHOUTERR_CONNECTED");
+			logSrv->trace(mess + " SHOUTERR_CONNECTED");
 			break;
 		case SHOUTERR_UNCONNECTED:
-			logSrv->trace("SHOUTERR_UNCONNECTED");
+			logSrv->trace(mess + " SHOUTERR_UNCONNECTED");
 			break;
 		case SHOUTERR_UNSUPPORTED:
-			logSrv->trace("SHOUTERR_UNSUPPORTED");
+			logSrv->trace(mess + " SHOUTERR_UNSUPPORTED");
 			break;
 		case SHOUTERR_BUSY:
-			logSrv->trace("SHOUTERR_BUSY");
+			logSrv->trace(mess + " SHOUTERR_BUSY");
 			break;
 		case SHOUTERR_NOTLS:
-			logSrv->trace("SHOUTERR_NOTLS");
+			logSrv->trace(mess + " SHOUTERR_NOTLS");
 			break;
 		case SHOUTERR_TLSBADCERT:
-			logSrv->trace("SHOUTERR_TLSBADCERT");
+			logSrv->trace(mess + " SHOUTERR_TLSBADCERT");
 			break;
 		case SHOUTERR_RETRY:
-			logSrv->trace("SHOUTERR_RETRY");
+			logSrv->trace(mess + " SHOUTERR_RETRY");
 			break;
 		default:
 			// logSrv->trace("Invalid errNo: ");
@@ -96,6 +97,26 @@ void LibShout::logCurrentStatus()
 			break;
 	}
 #endif
+}
+
+int LibShout::currentTries()
+{
+	return currentRetryNumber;
+}
+
+void LibShout::incrementTries()
+{
+	currentRetryNumber++;
+}
+
+void LibShout::clearTries()
+{
+	currentRetryNumber = 0;
+}
+
+bool LibShout::maxTriesReached()
+{
+	return currentTries() >= MAX_RETRY_NUMBER;
 }
 
 void LibShout::finilizeShout()
@@ -181,9 +202,7 @@ void LibShout::initializeShout()
 void LibShout::startShout()
 {
 #ifdef ICECAST
-	long ret;
-
-	ret = shoutOpen();
+	long ret = shoutOpen();
 	if (ret == SHOUTERR_SUCCESS)
 	{
 		ret = SHOUTERR_CONNECTED;
@@ -202,11 +221,43 @@ void LibShout::startShout()
 
 	if (ret != SHOUTERR_CONNECTED)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0020, getError());
+		DomainException err(IcecastDomainErrorCode::ICS0020, getError());
+		logSrv->warn(handle(err));
+		restartShout();
+	}
+	else
+	{
+		logSrv->info("Connected to server...");
+	}
+#endif
+}
+
+void LibShout::restartShout()
+{
+	if (isConnected())
+	{
+		return;
 	}
 
-	logSrv->info("Connected to server...");
-#endif
+	while (!maxTriesReached() && !isConnected() && !sigSrv->gotSigInt())
+	{
+		incrementTries();
+
+		string times = Convert<int>::NumberToString(currentTries());
+		logSrv->info("Try to reconnect... (" + times + ")");
+		startShout();
+	}
+
+	if (isConnected())
+	{
+		clearTries();
+	}
+
+	if (maxTriesReached())
+	{
+		clearTries();
+		throw DomainException(IcecastDomainErrorCode::ICS0023);
+	}
 }
 
 void LibShout::streamFile(const char* filename, const char* trackMetadata)
@@ -219,15 +270,13 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 	mp3file = fopen(filename , "rb");
 
 	/* Update metadata */
+	logCurrentStatus("Before update metedata:");
 
-	logCurrentStatus();
-
-	shout_metadata_t* newMetadata;
-	newMetadata = createNewMetadata();
+	shout_metadata_t* newMetadata = createNewMetadata();
 	addMetaSong(newMetadata, string(trackMetadata));
 	setMeta(newMetadata);
 
-	logCurrentStatus();
+	logCurrentStatus("After update metedata:");
 
 	while (!sigSrv->gotSigInt())
 	{
@@ -236,13 +285,13 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (read <= 0)
 		{
-			logCurrentStatus();
+			logCurrentStatus("After fread():");
 			break;
 		}
 
 		ret = shoutSend(buff, read);
 
-		logCurrentStatus();
+		logCurrentStatus("After shoutSend:");
 
 		if (ret != SHOUTERR_SUCCESS)
 		{
@@ -252,18 +301,18 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (shoutQueuelen() > 0)
 		{
-			logCurrentStatus();
+			logCurrentStatus("After shoutQueuelen:");
 			// logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
 			// usleep(50000);
 		}
 
 		shoutSync();
 
-		logCurrentStatus();
+		logCurrentStatus("After shoutSync:");
 	}
 
-	freeMetadate(newMetadata);
-	logCurrentStatus();
+	freeMetadata(newMetadata);
+	logCurrentStatus("After freeMetadata:");
 
 	fclose(mp3file);
 #endif

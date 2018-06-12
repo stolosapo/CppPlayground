@@ -40,7 +40,7 @@ void LibShout::addMetaSong(shout_metadata_t* metadata, string song)
 	addMeta(metadata, "song", song);
 }
 
-void LibShout::freeMetadate(shout_metadata_t* metadata)
+void LibShout::freeMetadata(shout_metadata_t* metadata)
 {
 	shout_metadata_free(metadata);
 }

@@ -32,6 +32,15 @@ int LibShout::getConnected()
 #endif
 }
 
+bool LibShout::isConnected()
+{
+#ifdef ICECAST
+	return getConnected() == SHOUTERR_CONNECTED;
+#else
+	return false;;
+#endif
+}
+
 void LibShout::setHost(string host)
 {
 #ifdef ICECAST

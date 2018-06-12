@@ -33,6 +33,8 @@ public:
 
         static const DomainErrorCode ICS0022;
 
+        static const DomainErrorCode ICS0023;
+
 	IcecastDomainErrorCode();
 	virtual ~IcecastDomainErrorCode();
 
