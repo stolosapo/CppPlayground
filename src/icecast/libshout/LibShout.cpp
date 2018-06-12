@@ -270,8 +270,6 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 	mp3file = fopen(filename , "rb");
 
 	/* Update metadata */
-	logCurrentStatus("Before update metedata:");
-
 	shout_metadata_t* newMetadata = createNewMetadata();
 	addMetaSong(newMetadata, string(trackMetadata));
 	setMeta(newMetadata);
@@ -285,7 +283,6 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (read <= 0)
 		{
-			logCurrentStatus("After fread():");
 			break;
 		}
 
