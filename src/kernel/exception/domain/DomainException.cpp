@@ -27,7 +27,11 @@ const char* DomainException::message() const throw()
 
 	sprintf(mess, cause(), _arg);
 
-	return string(mess).c_str();
+	const char* res = static_cast<const char*>((new string(mess))->c_str());
+
+	delete mess;
+
+	return res;
 }
 
 const char* DomainException::code() const throw()

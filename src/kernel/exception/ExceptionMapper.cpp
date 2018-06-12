@@ -7,5 +7,11 @@ string handle(RuntimeException& e)
 
 string handle(DomainException& e)
 {
-	return string(e.code()) + ": " + string(e.what());
+	const char* message = e.message();
+
+	string fullError = string(e.code()) + ": " + string(message);
+
+	delete message;
+
+	return fullError;
 }
