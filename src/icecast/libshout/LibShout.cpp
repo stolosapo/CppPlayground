@@ -260,21 +260,46 @@ void LibShout::restartShout()
 	}
 }
 
+bool LibShout::successLastAction(string mess)
+{
+	int errNo = getErrno();
+
+#ifdef ICECAST
+
+	bool isOk = errNo == SHOUTERR_SUCCESS;
+
+	if (!isOk)
+	{
+		cout << errNo << ". " << getError() << " -- " << mess << endl;
+	}
+
+	return isOk;
+#else
+	return false;
+#endif
+}
+
 void LibShout::streamFile(const char* filename, const char* trackMetadata)
 {
 #ifdef ICECAST
 	unsigned char buff[4096];
 	long read, ret;
+	bool succ = true;
 
 	FILE* mp3file;
 	mp3file = fopen(filename , "rb");
 
 	/* Update metadata */
 	shout_metadata_t* newMetadata = createNewMetadata();
-	addMetaSong(newMetadata, string(trackMetadata));
-	setMeta(newMetadata);
+	succ = successLastAction("After createNewMetadata");
 
-	logCurrentStatus("After update metedata:");
+	addMetaSong(newMetadata, string(trackMetadata));
+	succ = successLastAction("After addMetaSong");
+
+	setMeta(newMetadata);
+	succ = successLastAction("After setMeta");
+
+	// logCurrentStatus("After update metedata:");
 
 	while (!sigSrv->gotSigInt())
 	{
@@ -287,8 +312,9 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 		}
 
 		ret = shoutSend(buff, read);
+		succ = successLastAction("After shoutSend");
 
-		logCurrentStatus("After shoutSend:");
+		// logCurrentStatus("After shoutSend:");
 
 		if (ret != SHOUTERR_SUCCESS)
 		{
@@ -298,18 +324,21 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (shoutQueuelen() > 0)
 		{
-			logCurrentStatus("After shoutQueuelen:");
+			succ = successLastAction("After shoutQueuelen");
+			// logCurrentStatus("After shoutQueuelen:");
 			// logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
 			// usleep(50000);
 		}
 
 		shoutSync();
+		succ = successLastAction("After shoutSync");
 
-		logCurrentStatus("After shoutSync:");
+		// logCurrentStatus("After shoutSync:");
 	}
 
 	freeMetadata(newMetadata);
-	logCurrentStatus("After freeMetadata:");
+	succ = successLastAction("After freeMetadata");
+	// logCurrentStatus("After freeMetadata:");
 
 	fclose(mp3file);
 #endif

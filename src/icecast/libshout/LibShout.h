@@ -136,6 +136,8 @@ private:
 	int shoutDelay();
 
 	void logCurrentStatus(string mess);
+	bool successLastAction(string mess);
+
 	int currentTries();
 	void incrementTries();
 	void clearTries();
