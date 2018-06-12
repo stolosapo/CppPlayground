@@ -42,6 +42,11 @@ IcecastClient* IcecastAgent::getIcecast()
 
 void IcecastAgent::startIcecast()
 {
+	if (icecastThread != NULL)
+	{
+		delete icecastThread;
+	}
+	
 	icecastThread = agentProtocol()->startTask("start", this);
 }
 
