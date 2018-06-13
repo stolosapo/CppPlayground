@@ -1,6 +1,7 @@
 #ifndef IcecastClient_h__
 #define IcecastClient_h__
 
+#include "IcecastClientNavigator.h"
 #include "config/IcecastClientConfig.h"
 #include "../kernel/log/ILogService.h"
 #include "../kernel/interruption/SignalService.h"
@@ -10,7 +11,7 @@
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
 
 
-class IcecastClient : public Version
+class IcecastClient : public Version, public IcecastClientNavigator
 {
 private:
 	ILogService *logSrv;
@@ -34,6 +35,7 @@ private:
 	void loadConfig();
 	void loadPlaylist();
 	void streamPlaylist();
+	void streamAudioFile(const char* filename, const char* trackMetadata);
 
 	static void onLibShoutError(void* sender, EventArgs* e);
 
@@ -49,7 +51,6 @@ public:
 
 	void action();
 
-	void nextTrack();
 	void stopPlaying();
 	PlaylistItem nowPlaying();
 	int remainingTrackTime();

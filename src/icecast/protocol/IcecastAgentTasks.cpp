@@ -100,7 +100,7 @@ void* icecast_next_track(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->getIcecast()->nextTrack();
+	a->getIcecast()->next();
 
 	return NULL;
 }
@@ -110,6 +110,24 @@ void* icecast_stop_playing(void* agent)
 	IcecastAgent* a = (IcecastAgent*) agent;
 
 	a->getIcecast()->stopPlaying();
+
+	return NULL;
+}
+
+void* icecast_pause(void* agent)
+{
+	IcecastAgent* a = (IcecastAgent*) agent;
+
+	a->getIcecast()->pause();
+
+	return NULL;
+}
+
+void* icecast_resume(void* agent)
+{
+	IcecastAgent* a = (IcecastAgent*) agent;
+
+	a->getIcecast()->resume();
 
 	return NULL;
 }

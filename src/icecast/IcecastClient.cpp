@@ -1,5 +1,7 @@
 #include "IcecastClient.h"
 
+#include <fstream>
+
 #include "config/IcecastClientConfigLoader.h"
 #include "exception/IcecastDomainErrorCode.h"
 
@@ -16,8 +18,15 @@
 const char* IcecastClient::USER_AGENT = "NoiseStreamer";
 
 
-IcecastClient::IcecastClient(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv)
-	: Version(1, 0, 0), logSrv(logSrv), sigSrv(sigSrv), tagSrv(tagSrv)
+IcecastClient::IcecastClient(
+	ILogService *logSrv, 
+	SignalService *sigSrv, 
+	AudioTagService *tagSrv)
+	: Version(1, 0, 0), 
+	IcecastClientNavigator(logSrv, sigSrv), 
+	logSrv(logSrv), 
+	sigSrv(sigSrv), 
+	tagSrv(tagSrv)
 {
 	this->config = NULL;
 	this->libShout = NULL;
@@ -73,7 +82,7 @@ void IcecastClient::onLibShoutError(void* sender, EventArgs* e)
 		shout->restartShout();
 	}
 
-	throw DomainException(IcecastDomainErrorCode::ICS0022);
+	// throw DomainException(IcecastDomainErrorCode::ICS0022);
 }
 
 int IcecastClient::getNumberOfPlayedTracks()
@@ -171,6 +180,8 @@ void IcecastClient::streamPlaylist()
 
 		while (playlistHandler->hasNext() && !sigSrv->gotSigInt())
 		{
+			waitForResume();
+
 			PlaylistItem item = playlistHandler->nextTrack();
 
 			string track = item.getTrack();
@@ -178,7 +189,7 @@ void IcecastClient::streamPlaylist()
 
 			logNowPlaying(item);
 
-			libShout->streamFile(track.c_str(), trackTitle.c_str());
+			streamAudioFile(track.c_str(), trackTitle.c_str());
 
 			numberOfPlayedTracks++;
 		}
@@ -189,6 +200,37 @@ void IcecastClient::streamPlaylist()
 	{
 		logSrv->error(e.fullError());
 	}
+}
+
+void IcecastClient::streamAudioFile(const char* filename, const char* trackMetadata)
+{
+	unsigned char buff[4096];
+	long read;
+
+	FILE* mp3file;
+	mp3file = fopen(filename , "rb");
+
+	/* Update metadata */
+	libShout->updateMetadata(string(trackMetadata));
+
+	while (!sigSrv->gotSigInt() && !isGoToNext())
+	{
+		waitForResume();
+		
+		read = fread(buff, 1, sizeof(buff), mp3file);
+
+		if (read <= 0)
+		{
+			break;
+		}
+
+		libShout->shoutSend(buff, read);
+		libShout->shoutSync();
+	}
+
+	normal();
+
+	fclose(mp3file);
 }
 
 void IcecastClient::action()
@@ -206,11 +248,6 @@ void IcecastClient::action()
 	streamPlaylist();
 
 	finilizeShout();
-}
-
-void IcecastClient::nextTrack()
-{
-	logSrv->debug("Next Track");
 }
 
 void IcecastClient::stopPlaying()

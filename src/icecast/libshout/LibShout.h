@@ -112,6 +112,7 @@ public:
 	void addMetaSong(shout_metadata_t* metadata, string song);
 	void freeMetadata(shout_metadata_t* metadata);
 #endif
+	void updateMetadata(string song);
 
 	void setPublic(unsigned int make_public);
 
@@ -159,8 +160,6 @@ public:
 
 	void startShout();
 	void restartShout();
-	void streamFile(const char* filename, const char* trackMetadata);
-
 };
 
 #endif // LibShout_h__
