@@ -2,7 +2,6 @@
 #define LibShout_h__
 
 #include <string>
-#include "../config/IcecastClientConfig.h"
 #include "../../kernel/log/ILogService.h"
 #include "../../kernel/interruption/SignalService.h"
 
@@ -14,15 +13,13 @@ using namespace std;
 
 class LibShout
 {
-private:
+public:
 	static const int MAX_RETRY_NUMBER = 10;
 
 	int currentRetryNumber;
 
 	ILogService *logSrv;
 	SignalService* sigSrv;
-
-	IcecastClientConfig* config;
 
 #ifdef ICECAST
 	shout_t* shout;
@@ -38,6 +35,7 @@ private:
 	/* returns a static version string.  Non-null parameters will be set to the
 	 * value of the library major, minor, and patch levels, respectively */
 	string shoutVersion(int *major, int *minor, int *patch);
+	string shoutFullVersion();
 
 	/* Allocates and sets up a new shout_t.  Returns NULL if it can't get enough
 	 * memory.  The returns shout_t must be disposed of with shout_free. */
@@ -143,8 +141,8 @@ private:
 	void clearTries();
 	bool maxTriesReached();
 
-public:
-	LibShout(ILogService *logSrv, SignalService* sigSrv, IcecastClientConfig* config);
+
+	LibShout(ILogService *logSrv, SignalService* sigSrv);
 	virtual ~LibShout();
 
 	void initializeShout();

@@ -52,8 +52,7 @@ IcecastClient::~IcecastClient()
 
 string IcecastClient::agentVersion()
 {
-	// return string(USER_AGENT) + "/" + string(version());
-	return string(USER_AGENT);
+	return string(USER_AGENT) + "/" + string(version());
 }
 
 void IcecastClient::logNowPlaying(PlaylistItem item)
@@ -105,14 +104,40 @@ void IcecastClient::loadPlaylist()
 	int size = playlistHandler->playlistSize();
 
 	logSrv->info("Playlist: '" + playlistFile + "' loaded, with '" + Convert<int>::NumberToString(size) + "' tracks");
-
-	// playlistHandler->exportPlaylistMetadata(metadataFile, 4);
 }
 
 void IcecastClient::initializeShout()
 {
-	libShout = new LibShout(logSrv, sigSrv, config);
+	libShout = new LibShout(logSrv, sigSrv);
 	libShout->initializeShout();
+
+	string shoutVersion = libShout->shoutFullVersion();
+	string clientVersion = agentVersion();
+	string fullVersion = clientVersion + " " + shoutVersion;
+
+	libShout->setAgent(fullVersion);
+	libShout->setProtocolHttp();
+	libShout->setHost(config->getHostname());
+	libShout->setPort(Convert<unsigned short>::StringToNumber(config->getPort()));
+	libShout->setMount(config->getMountpoint());
+
+	libShout->setUser(config->getUsername());
+	libShout->setPassword(config->getPassword());
+
+	libShout->setFormatMp3();
+	libShout->setPublic(Convert<unsigned int>::StringToNumber(config->getPublic()));
+	libShout->setNonblocking(1);
+
+	libShout->setName(config->getName());
+	libShout->setUrl(config->getUrl());
+	libShout->setGenre(config->getGenre());
+	libShout->setDescription(config->getDescription());
+
+	libShout->setAudioInfoBitrate(config->getBitrate());
+	libShout->setAudioInfoSamplerate(config->getSamplerate());
+	libShout->setAudioInfoChannels(config->getChannels());
+
+	logSrv->info("LibShout initialized: " + shoutVersion);
 }
 
 void IcecastClient::connectShout()

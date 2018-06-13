@@ -16,7 +16,8 @@
 #include "../../audio/mp3/Mp3Id3v1.h"
 
 
-LibShout::LibShout(ILogService *logSrv, SignalService* sigSrv, IcecastClientConfig* config) : logSrv(logSrv), sigSrv(sigSrv), config(config)
+LibShout::LibShout(ILogService *logSrv, SignalService* sigSrv)
+	: logSrv(logSrv), sigSrv(sigSrv)
 {
 	currentRetryNumber = 0;
 }
@@ -131,72 +132,8 @@ void LibShout::finilizeShout()
 void LibShout::initializeShout()
 {
 	shoutInit();
-	logSrv->trace("Inited");
 
 	shoutNew();
-	logSrv->trace("Created New");
-
-	int major;
-	int minor;
-	int patch;
-	string version = shoutVersion(&major, &minor, &patch);
-	logSrv->info("LibShout Version: " + version);
-
-	string shoutVersion = "libshout/" + version;
-	string clientVersion = IcecastClient::agentVersion();
-
-	setAgent(clientVersion + " " + shoutVersion);
-	logSrv->trace("Set Agent");
-
-	setProtocolHttp();
-	logSrv->trace("Set Protocol Http");
-
-	setHost(config->getHostname());
-	logSrv->trace("Set Host");
-
-	setPort(Convert<unsigned short>::StringToNumber(config->getPort()));
-	logSrv->trace("Set Port");
-
-	setMount(config->getMountpoint());
-	logSrv->trace("Set Mountpoint");
-
-	setUser(config->getUsername());
-	logSrv->trace("Set User '" + config->getUsername() + "'");
-
-	setPassword(config->getPassword());
-	logSrv->trace("Set Password '" + config->getPassword() + "'");
-
-	setFormatMp3();
-	logSrv->trace("Set Format Mp3");
-
-	setPublic(Convert<unsigned int>::StringToNumber(config->getPublic()));
-	logSrv->trace("Set Public");
-
-	setNonblocking(1);
-	logSrv->trace("Set Non-Blocking");
-
-	setName(config->getName());
-	logSrv->trace("Set Name");
-
-	setUrl(config->getUrl());
-	logSrv->trace("Set Url");
-
-	setGenre(config->getGenre());
-	logSrv->trace("Set Genre");
-
-	setDescription(config->getDescription());
-	logSrv->trace("Set Description");
-
-	setAudioInfoBitrate(config->getBitrate());
-	logSrv->trace("Set AudioInfoBitrate");
-
-	setAudioInfoSamplerate(config->getSamplerate());
-	logSrv->trace("Set AudioInfoSamplerate");
-
-	setAudioInfoChannels(config->getChannels());
-	logSrv->trace("Set AudioInfoChannels");
-
-	// setAudioInfoQuality()
 }
 
 void LibShout::startShout()

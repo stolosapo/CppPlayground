@@ -41,7 +41,7 @@ public:
 
 	static const char* USER_AGENT;
 
-	static string agentVersion();
+	string agentVersion();
 
 	int getNumberOfPlayedTracks();
 

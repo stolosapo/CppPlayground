@@ -28,6 +28,15 @@ string LibShout::shoutVersion(int *major, int *minor, int *patch)
 #endif
 }
 
+string LibShout::shoutFullVersion()
+{
+	int major;
+	int minor;
+	int patch;
+	string version = shoutVersion(&major, &minor, &patch);
+	return "libshout/" + version;
+}
+
 void LibShout::shoutNew()
 {
 #ifdef ICECAST
