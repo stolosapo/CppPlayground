@@ -13,7 +13,11 @@ int LibShout::shoutSend(const unsigned char *data, size_t len)
 		return 0;
 	}
 
-	return shout_send(shout, data, len);
+	int res = shout_send(shout, data, len);
+
+	raiseErrorOnFailedAction();
+
+	return res;
 #else
 	return 0;
 #endif
@@ -28,7 +32,11 @@ int LibShout::shoutQueuelen()
 		return 0;
 	}
 
-	return (int) shout_queuelen(shout);
+	int res = (int) shout_queuelen(shout);
+
+	raiseErrorOnFailedAction();
+
+	return res;
 #else
 	return 0;
 #endif
@@ -44,6 +52,8 @@ void LibShout::shoutSync()
 	}
 
 	shout_sync(shout);
+
+	raiseErrorOnFailedAction();
 #endif
 }
 
@@ -56,7 +66,11 @@ int LibShout::shoutDelay()
 		return 0;
 	}
 
-	return shout_delay(shout);
+	int res = shout_delay(shout);
+
+	raiseErrorOnFailedAction();
+
+	return res;
 #else
 	return 0;
 #endif

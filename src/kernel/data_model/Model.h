@@ -6,7 +6,6 @@
 #include <map>
 
 #include "Property.h"
-#include "Event.h"
 
 using namespace std;
 

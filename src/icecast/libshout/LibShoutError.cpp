@@ -21,3 +21,18 @@ int LibShout::getErrno()
 	return 0;
 #endif
 }
+
+void LibShout::raiseErrorOnFailedAction()
+{
+	if (successLastAction())
+	{
+		return;
+	}
+
+	string errNo = Convert<int>::NumberToString(getErrno());
+	string errMess = "LibShout error: '" + string(getError()) + "', with code: " + errNo;
+
+	logSrv->error(errMess);
+
+	errorEvent.raise(this, NULL);
+}

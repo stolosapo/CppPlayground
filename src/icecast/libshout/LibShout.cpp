@@ -20,11 +20,12 @@ LibShout::LibShout(ILogService *logSrv, SignalService* sigSrv)
 	: logSrv(logSrv), sigSrv(sigSrv)
 {
 	currentRetryNumber = 0;
+	_retryLocker.init();
 }
 
 LibShout::~LibShout()
 {
-
+	_retryLocker.destroy();
 }
 
 bool LibShout::checkStatusAndLogOnError(string mess)
@@ -41,17 +42,25 @@ bool LibShout::checkStatusAndLogOnError(string mess)
 
 int LibShout::currentTries()
 {
-	return currentRetryNumber;
+	_retryLocker.lock();
+	int num = currentRetryNumber;
+	_retryLocker.unlock();
+
+	return num;
 }
 
 void LibShout::incrementTries()
 {
+	_retryLocker.lock();
 	currentRetryNumber++;
+	_retryLocker.unlock();
 }
 
 void LibShout::clearTries()
 {
+	_retryLocker.lock();
 	currentRetryNumber = 0;
+	_retryLocker.unlock();
 }
 
 bool LibShout::maxTriesReached()
@@ -181,7 +190,6 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 	while (!sigSrv->gotSigInt())
 	{
-
 		read = fread(buff, 1, sizeof(buff), mp3file);
 
 		if (read <= 0)
@@ -193,6 +201,7 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (ret != SHOUTERR_SUCCESS)
 		{
+			// throw DomainException(IcecastDomainErrorCode::ICS0023);
 			logSrv->error("Send error: " + string(getError()));
 			break;
 		}

@@ -35,6 +35,8 @@ private:
 	void loadPlaylist();
 	void streamPlaylist();
 
+	static void onLibShoutError(void* sender, EventArgs* e);
+
 public:
 	IcecastClient(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv);
 	virtual ~IcecastClient();

@@ -4,6 +4,8 @@
 #include <string>
 #include "../../kernel/log/ILogService.h"
 #include "../../kernel/interruption/SignalService.h"
+#include "../../kernel/observer/Event.h"
+#include "../../kernel/task/Locker.h"
 
 #ifdef ICECAST
 #include <shout/shout.h>
@@ -13,13 +15,30 @@ using namespace std;
 
 class LibShout
 {
-public:
+private:
 	static const int MAX_RETRY_NUMBER = 10;
 
 	int currentRetryNumber;
 
 	ILogService *logSrv;
 	SignalService* sigSrv;
+
+	Locker _retryLocker;
+
+	int currentTries();
+	void incrementTries();
+	void clearTries();
+	bool maxTriesReached();
+
+	bool checkStatusAndLogOnError(string mess);
+	bool successLastAction();
+	void raiseErrorOnFailedAction();
+
+public:
+	Event errorEvent;
+
+	LibShout(ILogService *logSrv, SignalService* sigSrv);
+	virtual ~LibShout();
 
 #ifdef ICECAST
 	shout_t* shout;
@@ -133,20 +152,10 @@ public:
 	/* Amount of time in ms caller should wait before sending again */
 	int shoutDelay();
 
-	bool checkStatusAndLogOnError(string mess);
-	bool successLastAction();
-
-	int currentTries();
-	void incrementTries();
-	void clearTries();
-	bool maxTriesReached();
-
-
-	LibShout(ILogService *logSrv, SignalService* sigSrv);
-	virtual ~LibShout();
 
 	void initializeShout();
 	void finilizeShout();
+
 
 	void startShout();
 	void restartShout();

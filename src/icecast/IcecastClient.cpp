@@ -64,6 +64,18 @@ void IcecastClient::logNowPlaying(PlaylistItem item)
 	logSrv->info("-- Track: " + item.getTrackTitle());
 }
 
+void IcecastClient::onLibShoutError(void* sender, EventArgs* e)
+{
+	LibShout* shout = (LibShout*) sender;
+
+	if (!shout->isConnected())
+	{
+		shout->restartShout();
+	}
+
+	throw DomainException(IcecastDomainErrorCode::ICS0022);
+}
+
 int IcecastClient::getNumberOfPlayedTracks()
 {
 	return numberOfPlayedTracks;
@@ -109,6 +121,7 @@ void IcecastClient::loadPlaylist()
 void IcecastClient::initializeShout()
 {
 	libShout = new LibShout(logSrv, sigSrv);
+	libShout->errorEvent += onLibShoutError;
 	libShout->initializeShout();
 
 	string shoutVersion = libShout->shoutFullVersion();
