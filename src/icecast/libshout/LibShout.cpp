@@ -27,77 +27,16 @@ LibShout::~LibShout()
 
 }
 
-void LibShout::logCurrentStatus(string mess)
+bool LibShout::checkStatusAndLogOnError(string mess)
 {
-	int errNo = getErrno();
+	bool isOk = successLastAction();
 
-	/*
-	SHOUTERR_SUCCESS		(0) /* No error
-	SHOUTERR_INSANE			(-1) /* Nonsensical arguments e.g. self being NULL
-	SHOUTERR_NOCONNECT		(-2) /* Couldn't connect
-	SHOUTERR_NOLOGIN		(-3) /* Login failed
-	SHOUTERR_SOCKET			(-4) /* Socket error
-	SHOUTERR_MALLOC			(-5) /* Out of memory
-	SHOUTERR_METADATA		(-6)
-	SHOUTERR_CONNECTED		(-7) /* Cannot set parameter while connected
-	SHOUTERR_UNCONNECTED		(-8) /* Not connected
-	SHOUTERR_UNSUPPORTED		(-9) /* This libshout doesn't support the requested option
-	SHOUTERR_BUSY			(-10) /* Socket is busy
-	SHOUTERR_NOTLS                  (-11) /* TLS requested but not supported by peer
-	SHOUTERR_TLSBADCERT             (-12) /* TLS connection can not be established because of bad certificate
-	SHOUTERR_RETRY                  (-13) /* Retry last operation.
-	*/
-#ifdef ICECAST
-	switch (errNo) {
-
-		case SHOUTERR_SUCCESS:
-			// logSrv->trace("SHOUTERR_SUCCESS");
-			break;
-		case SHOUTERR_INSANE:
-			logSrv->trace(mess + " SHOUTERR_INSANE");
-			break;
-		case SHOUTERR_NOCONNECT:
-			logSrv->trace(mess + " SHOUTERR_NOCONNECT");
-			break;
-		case SHOUTERR_NOLOGIN:
-			logSrv->trace(mess + " SHOUTERR_NOLOGIN");
-			break;
-		case SHOUTERR_SOCKET:
-			logSrv->trace(mess + " SHOUTERR_SOCKET");
-			break;
-		case SHOUTERR_MALLOC:
-			logSrv->trace(mess + " SHOUTERR_MALLOC");
-			break;
-		case SHOUTERR_METADATA:
-			logSrv->trace(mess + " SHOUTERR_METADATA");
-			break;
-		case SHOUTERR_CONNECTED:
-			logSrv->trace(mess + " SHOUTERR_CONNECTED");
-			break;
-		case SHOUTERR_UNCONNECTED:
-			logSrv->trace(mess + " SHOUTERR_UNCONNECTED");
-			break;
-		case SHOUTERR_UNSUPPORTED:
-			logSrv->trace(mess + " SHOUTERR_UNSUPPORTED");
-			break;
-		case SHOUTERR_BUSY:
-			logSrv->trace(mess + " SHOUTERR_BUSY");
-			break;
-		case SHOUTERR_NOTLS:
-			logSrv->trace(mess + " SHOUTERR_NOTLS");
-			break;
-		case SHOUTERR_TLSBADCERT:
-			logSrv->trace(mess + " SHOUTERR_TLSBADCERT");
-			break;
-		case SHOUTERR_RETRY:
-			logSrv->trace(mess + " SHOUTERR_RETRY");
-			break;
-		default:
-			// logSrv->trace("Invalid errNo: ");
-			cerr << "Invalid errNo: " << errNo << endl;
-			break;
+	if (!isOk)
+	{
+		cout << getErrno() << ". " << getError() << " -- " << mess << endl;
 	}
-#endif
+
+	return isOk;
 }
 
 int LibShout::currentTries()
@@ -197,20 +136,29 @@ void LibShout::restartShout()
 	}
 }
 
-bool LibShout::successLastAction(string mess)
+bool LibShout::successLastAction()
 {
 	int errNo = getErrno();
 
+	/*
+	SHOUTERR_SUCCESS		(0) /* No error
+	SHOUTERR_INSANE			(-1) /* Nonsensical arguments e.g. self being NULL
+	SHOUTERR_NOCONNECT		(-2) /* Couldn't connect
+	SHOUTERR_NOLOGIN		(-3) /* Login failed
+	SHOUTERR_SOCKET			(-4) /* Socket error
+	SHOUTERR_MALLOC			(-5) /* Out of memory
+	SHOUTERR_METADATA		(-6)
+	SHOUTERR_CONNECTED		(-7) /* Cannot set parameter while connected
+	SHOUTERR_UNCONNECTED		(-8) /* Not connected
+	SHOUTERR_UNSUPPORTED		(-9) /* This libshout doesn't support the requested option
+	SHOUTERR_BUSY			(-10) /* Socket is busy
+	SHOUTERR_NOTLS                  (-11) /* TLS requested but not supported by peer
+	SHOUTERR_TLSBADCERT             (-12) /* TLS connection can not be established because of bad certificate
+	SHOUTERR_RETRY                  (-13) /* Retry last operation.
+	*/
+
 #ifdef ICECAST
-
-	bool isOk = errNo == SHOUTERR_SUCCESS;
-
-	if (!isOk)
-	{
-		cout << errNo << ". " << getError() << " -- " << mess << endl;
-	}
-
-	return isOk;
+	return errNo == SHOUTERR_SUCCESS;
 #else
 	return false;
 #endif
@@ -228,15 +176,8 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 	/* Update metadata */
 	shout_metadata_t* newMetadata = createNewMetadata();
-	succ = successLastAction("After createNewMetadata");
-
 	addMetaSong(newMetadata, string(trackMetadata));
-	succ = successLastAction("After addMetaSong");
-
 	setMeta(newMetadata);
-	succ = successLastAction("After setMeta");
-
-	// logCurrentStatus("After update metedata:");
 
 	while (!sigSrv->gotSigInt())
 	{
@@ -249,9 +190,6 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 		}
 
 		ret = shoutSend(buff, read);
-		succ = successLastAction("After shoutSend");
-
-		// logCurrentStatus("After shoutSend:");
 
 		if (ret != SHOUTERR_SUCCESS)
 		{
@@ -261,21 +199,14 @@ void LibShout::streamFile(const char* filename, const char* trackMetadata)
 
 		if (shoutQueuelen() > 0)
 		{
-			succ = successLastAction("After shoutQueuelen");
-			// logCurrentStatus("After shoutQueuelen:");
 			// logSrv->debug("Queue length: " + Convert<int>::NumberToString(shoutQueuelen()));
 			// usleep(50000);
 		}
 
 		shoutSync();
-		succ = successLastAction("After shoutSync");
-
-		// logCurrentStatus("After shoutSync:");
 	}
 
 	freeMetadata(newMetadata);
-	succ = successLastAction("After freeMetadata");
-	// logCurrentStatus("After freeMetadata:");
 
 	fclose(mp3file);
 #endif

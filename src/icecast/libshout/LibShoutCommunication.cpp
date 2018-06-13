@@ -7,6 +7,12 @@
 int LibShout::shoutSend(const unsigned char *data, size_t len)
 {
 #ifdef ICECAST
+
+	if (!successLastAction())
+	{
+		return 0;
+	}
+
 	return shout_send(shout, data, len);
 #else
 	return 0;
@@ -16,6 +22,12 @@ int LibShout::shoutSend(const unsigned char *data, size_t len)
 int LibShout::shoutQueuelen()
 {
 #ifdef ICECAST
+
+	if (!successLastAction())
+	{
+		return 0;
+	}
+
 	return (int) shout_queuelen(shout);
 #else
 	return 0;
@@ -25,6 +37,12 @@ int LibShout::shoutQueuelen()
 void LibShout::shoutSync()
 {
 #ifdef ICECAST
+
+	if (!successLastAction())
+	{
+		return;
+	}
+
 	shout_sync(shout);
 #endif
 }
@@ -32,6 +50,12 @@ void LibShout::shoutSync()
 int LibShout::shoutDelay()
 {
 #ifdef ICECAST
+
+	if (!successLastAction())
+	{
+		return 0;
+	}
+
 	return shout_delay(shout);
 #else
 	return 0;

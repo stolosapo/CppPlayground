@@ -19,6 +19,11 @@ shout_metadata_t* LibShout::createNewMetadata()
 
 void LibShout::setMeta(shout_metadata_t* newMetadata)
 {
+	if (!successLastAction())
+	{
+		return;
+	}
+
 	int m = shout_set_metadata(shout, newMetadata);
 
 	if (m != SHOUTERR_SUCCESS)

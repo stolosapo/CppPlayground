@@ -133,8 +133,8 @@ public:
 	/* Amount of time in ms caller should wait before sending again */
 	int shoutDelay();
 
-	void logCurrentStatus(string mess);
-	bool successLastAction(string mess);
+	bool checkStatusAndLogOnError(string mess);
+	bool successLastAction();
 
 	int currentTries();
 	void incrementTries();
