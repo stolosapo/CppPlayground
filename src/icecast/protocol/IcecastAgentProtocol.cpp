@@ -40,13 +40,22 @@ string IcecastAgentProtocol::help()
 	string result = "\n";
 
 	result += "NoiseStreamer :: Client\n";
-	result += "=======================\n\n";
-	result += "usage: <command> [<args>]\n\n";
-	result += "These are the common NoiseStreamer commands:\n\n";
-	result += "agent-status       See the status of the NoiseStreamer server\n\n";
-	result += "now                See the current playing track\n\n";
+	result += "=======================\n";
+	result += "\n";
+	result += "usage: <command> [<args>]\n";
+	result += "\n";
+	result += "These are the common NoiseStreamer commands:\n";
+	result += "\n";
+	result += "agent-status       See the status of the NoiseStreamer server\n";
+	result += "\n";
+	result += "now                See the current playing track\n";
+	result += "\n";
+	result += "next               Navigate to the next track\n";
+	result += "\n";
 	result += "stats-genre        See statistics of played genres\n";
-	result += "stats-artist       See statistics of played artists\n\n";
+	result += "stats-artist       See statistics of played artists\n";
+
+	result += "\n";
 
 	return result;
 }
