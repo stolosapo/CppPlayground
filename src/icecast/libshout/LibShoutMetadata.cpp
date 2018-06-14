@@ -54,8 +54,10 @@ void LibShout::freeMetadata(shout_metadata_t* metadata)
 
 void LibShout::updateMetadata(string metadata)
 {
+#ifdef ICECAST
 	shout_metadata_t* newMetadata = createNewMetadata();
 	addMetaSong(newMetadata, metadata);
 	setMeta(newMetadata);
 	freeMetadata(newMetadata);
+#endif
 }
