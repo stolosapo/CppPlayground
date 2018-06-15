@@ -31,6 +31,11 @@ Thread* TaskRunner::startTask(string task, void* data)
 {
         ThreadDelegate delegate = tasks->get(task);
 
+        return startTask(delegate, data);
+}
+
+Thread* TaskRunner::startTask(ThreadDelegate delegate, void* data)
+{
         if (delegate == NULL)
         {
                 return NULL;

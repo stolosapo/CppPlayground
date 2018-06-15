@@ -1,5 +1,7 @@
 #include "IcecastAgent.h"
 
+#include "protocol/IcecastAgentTasks.h"
+
 
 IcecastAgent::IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv, AudioTagService *tagSrv)
 	: TcpServer(logSrv, sigSrv, timeSrv)
@@ -46,8 +48,8 @@ void IcecastAgent::startIcecast()
 	{
 		delete icecastThread;
 	}
-	
-	icecastThread = agentProtocol()->startTask("start", this);
+
+	icecastThread = agentProtocol()->startTask(icecast_start_client, this);
 }
 
 void IcecastAgent::initialize()

@@ -19,13 +19,13 @@ const char* IcecastClient::USER_AGENT = "NoiseStreamer";
 
 
 IcecastClient::IcecastClient(
-	ILogService *logSrv, 
-	SignalService *sigSrv, 
+	ILogService *logSrv,
+	SignalService *sigSrv,
 	AudioTagService *tagSrv)
-	: Version(1, 0, 0), 
-	IcecastClientNavigator(logSrv, sigSrv), 
-	logSrv(logSrv), 
-	sigSrv(sigSrv), 
+	: Version(1, 0, 0),
+	IcecastClientNavigator(logSrv, sigSrv),
+	logSrv(logSrv),
+	sigSrv(sigSrv),
 	tagSrv(tagSrv)
 {
 	this->config = NULL;
@@ -216,7 +216,7 @@ void IcecastClient::streamAudioFile(const char* filename, const char* trackMetad
 	while (!sigSrv->gotSigInt() && !isGoToNext())
 	{
 		waitForResume();
-		
+
 		read = fread(buff, 1, sizeof(buff), mp3file);
 
 		if (read <= 0)

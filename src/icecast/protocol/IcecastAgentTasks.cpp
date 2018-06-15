@@ -9,10 +9,6 @@
 
 using namespace std;
 
-void* icecast_help(void* agent)
-{
-
-}
 
 void* icecast_agent_status(void* agent)
 {
@@ -71,7 +67,7 @@ void* icecast_now_playing(void* agent)
 	return static_cast<void*>(new string(value));
 }
 
-void* icecast_start(void* agent)
+void* icecast_start_client(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 	ILogService* logSrv = a->logger();
@@ -96,12 +92,10 @@ void* icecast_start(void* agent)
 	return NULL;
 }
 
-void* icecast_next_track(void* agent)
+void* icecast_start(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-
-	a->getIcecast()->next();
-
+	
 	return NULL;
 }
 
@@ -128,6 +122,15 @@ void* icecast_resume(void* agent)
 	IcecastAgent* a = (IcecastAgent*) agent;
 
 	a->getIcecast()->resume();
+
+	return NULL;
+}
+
+void* icecast_next_track(void* agent)
+{
+	IcecastAgent* a = (IcecastAgent*) agent;
+
+	a->getIcecast()->next();
 
 	return NULL;
 }

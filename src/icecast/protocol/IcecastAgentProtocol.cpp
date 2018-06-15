@@ -21,16 +21,20 @@ string IcecastAgentProtocol::prompt()
 
 void IcecastAgentProtocol::registerTasks()
 {
+	/* Status tasks */
 	registerTask("agent-status", &icecast_agent_status);
 
-	registerTask("now", &icecast_now_playing);
 
+	/* Navigation tasks */
+	registerTask("now", &icecast_now_playing);
 	registerTask("start", &icecast_start);
-	registerTask("next", &icecast_next_track);
 	registerTask("stop", &icecast_stop_playing);
 	registerTask("pause", &icecast_pause);
 	registerTask("resume", &icecast_resume);
+	registerTask("next", &icecast_next_track);
 
+
+	/* Statistic tasks */
 	registerTask("stats-genre", &icecast_stats_genre);
 	registerTask("stats-artist", &icecast_stats_artist);
 }

@@ -21,6 +21,7 @@ public:
 
 	virtual bool taskExist(string task);
 	virtual Thread* startTask(string task, void* data);
+	virtual Thread* startTask(ThreadDelegate delegate, void* data);
 	virtual void startTaskDetached(string task, void* data);
 	virtual void* runTask(string task, void* data);
 

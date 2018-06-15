@@ -29,12 +29,9 @@ private:
 
 	void initializePlaylist();
 	void initializeShout();
-	void finilizeShout();
-	void connectShout();
 
 	void loadConfig();
 	void loadPlaylist();
-	void streamPlaylist();
 	void streamAudioFile(const char* filename, const char* trackMetadata);
 
 	static void onLibShoutError(void* sender, EventArgs* e);
@@ -51,6 +48,10 @@ public:
 
 	void action();
 
+	void connectShout();
+	void finilizeShout();
+
+	void streamPlaylist();
 	void stopPlaying();
 	PlaylistItem nowPlaying();
 	int remainingTrackTime();
