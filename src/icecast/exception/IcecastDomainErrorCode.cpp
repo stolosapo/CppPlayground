@@ -29,6 +29,7 @@ const DomainErrorCode IcecastDomainErrorCode::ICS0021 = DomainErrorCode("ICS0021
 const DomainErrorCode IcecastDomainErrorCode::ICS0022 = DomainErrorCode("ICS0022", "Please specify playlist strategy (SIMPLE, RANDOM, RANDOM_ONCE)");
 
 const DomainErrorCode IcecastDomainErrorCode::ICS0023 = DomainErrorCode("ICS0023", "Maximum of retries reached. Give up..");
+const DomainErrorCode IcecastDomainErrorCode::ICS0024 = DomainErrorCode("ICS0024", "Libshout error occured. Playlist stopped");
 
 
 IcecastDomainErrorCode::IcecastDomainErrorCode()

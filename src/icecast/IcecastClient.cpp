@@ -8,6 +8,7 @@
 #include "../kernel/converter/Convert.h"
 #include "../kernel/utils/FileHelper.h"
 #include "../kernel/exception/domain/DomainException.h"
+#include "../kernel/exception/ExceptionMapper.h"
 
 #include "../kernel/di/GlobalAppContext.h"
 #include "../kernel/interruption/SignalService.h"
@@ -82,7 +83,7 @@ void IcecastClient::onLibShoutError(void* sender, EventArgs* e)
 		shout->restartShout();
 	}
 
-	// throw DomainException(IcecastDomainErrorCode::ICS0022);
+	throw DomainException(IcecastDomainErrorCode::ICS0024);
 }
 
 int IcecastClient::getNumberOfPlayedTracks()
@@ -198,7 +199,7 @@ void IcecastClient::streamPlaylist()
 	}
 	catch (DomainException& e)
 	{
-		logSrv->error(e.fullError());
+		logSrv->error(handle(e));
 	}
 }
 
