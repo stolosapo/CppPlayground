@@ -6,7 +6,8 @@
 #include <map>
 #include <vector>
 
-#include "Property.h"
+#include "property/Property.h"
+#include "property/PropertyType.h"
 
 using namespace std;
 
@@ -32,8 +33,8 @@ protected:
 
 
 	virtual void registerProperties() = 0;
-	void registerPropertyName(int index, string name, Property::Type type);
-	void registerPropertyName(int index, string name, Property::Type type, staticFactoryMethod factoryMethod);
+	void registerPropertyName(int index, string name, PropertyType type);
+	void registerPropertyName(int index, string name, PropertyType type, staticFactoryMethod factoryMethod);
 
 	string getPropertyName(int index);
 

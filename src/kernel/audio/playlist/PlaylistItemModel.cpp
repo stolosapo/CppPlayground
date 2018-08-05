@@ -28,7 +28,7 @@ Model* PlaylistItemModel::factory()
 
 void PlaylistItemModel::registerProperties()
 {
-	registerPropertyName(1, "trackIndex", Property::INT);
-	registerPropertyName(2, "track", Property::STRING);
-	registerPropertyName(3, "metadata", Property::OBJECT, &AudioTagModel::factory);
+	registerPropertyName(1, "trackIndex", INT);
+	registerPropertyName(2, "track", STRING);
+	registerPropertyName(3, "metadata", OBJECT, &AudioTagModel::factory);
 }

@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "../../data_model/Model.h"
-#include "../../data_model/Property.h"
 
 using namespace std;
 
@@ -102,13 +101,13 @@ public:
 protected:
 	virtual void registerProperties()
 	{
-		registerPropertyName(1, "id", Property::LONG);
-		registerPropertyName(2, "name", Property::STRING);
-		registerPropertyName(3, "description", Property::STRING);
-		registerPropertyName(4, "value", Property::DOUBLE);
-		registerPropertyName(5, "enable", Property::BOOL);
-        registerPropertyName(6, "child", Property::OBJECT, &factory);
-		registerPropertyName(7, "intArray", Property::COLLECTION_INT);
+		registerPropertyName(1, "id", LONG);
+		registerPropertyName(2, "name", STRING);
+		registerPropertyName(3, "description", STRING);
+		registerPropertyName(4, "value", DOUBLE);
+		registerPropertyName(5, "enable", BOOL);
+        registerPropertyName(6, "child", OBJECT, &factory);
+		registerPropertyName(7, "intArray", COLLECTION_INT);
 	}
 
 };

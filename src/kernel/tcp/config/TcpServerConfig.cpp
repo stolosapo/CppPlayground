@@ -20,12 +20,12 @@ TcpServerConfig::~TcpServerConfig()
 
 void TcpServerConfig::registerProperties()
 {
-	registerPropertyName(1, "id", Property::INT);
-	registerPropertyName(2, "name", Property::STRING);
-	registerPropertyName(3, "description", Property::STRING);
-	registerPropertyName(4, "hostname", Property::STRING);
-	registerPropertyName(5, "port", Property::INT);
-	registerPropertyName(6, "poolsize", Property::INT);
+	registerPropertyName(1, "id", INT);
+	registerPropertyName(2, "name", STRING);
+	registerPropertyName(3, "description", STRING);
+	registerPropertyName(4, "hostname", STRING);
+	registerPropertyName(5, "port", INT);
+	registerPropertyName(6, "poolsize", INT);
 }
 
 int TcpServerConfig::getId()

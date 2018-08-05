@@ -15,31 +15,31 @@ JzonService::~JzonService()
 void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
 {
 	string name = prop->getName();
-	Property::Type type = prop->getType();
+	PropertyType type = prop->getType();
 
 	switch (type)
 	{
-		case Property::INT:
+		case INT:
 			node->add(name, model->getIntProperty(name));
 			break;
 
-		case Property::LONG:
+		case LONG:
 			node->add(name, (long long) model->getLongProperty(name));
 			break;
 
-		case Property::DOUBLE:
+		case DOUBLE:
 			node->add(name, model->getDoubleProperty(name));
 			break;
 
-		case Property::STRING:
+		case STRING:
 			node->add(name, model->getStringProperty(name));
 			break;
 
-		case Property::BOOL:
+		case BOOL:
 			node->add(name, model->getBoolProperty(name));
 			break;
 
-		case Property::OBJECT:
+		case OBJECT:
             {
     			Model *subObject = model->getObjectProperty(name);
     			if (subObject != NULL)
@@ -55,7 +55,7 @@ void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
             }
 			break;
 
-        case Property::COLLECTION_INT:
+        case COLLECTION_INT:
             {
                 vector<int> collection = model->getCollectionIntProperty(name);
 
@@ -80,7 +80,7 @@ void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *pro
 		return;
 	}
 
-	Property::Type type = prop->getType();
+	PropertyType type = prop->getType();
 
 	Jzon::Node currentNode;
 	currentNode = node->get(name);
@@ -93,42 +93,42 @@ void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *pro
 
 	switch (type)
 	{
-		case Property::INT:
+		case INT:
 			if (currentNode.isNumber())
 			{
 				model->setIntProperty(name, currentNode.toInt());
 			}
 			break;
 
-		case Property::LONG:
+		case LONG:
 			if (currentNode.isNumber())
 			{
 				model->setLongProperty(name, (long) currentNode.toInt());
 			}
 			break;
 
-		case Property::DOUBLE:
+		case DOUBLE:
 			if (currentNode.isNumber())
 			{
 				model->setDoubleProperty(name, currentNode.toDouble());
 			}
 			break;
 
-		case Property::STRING:
+		case STRING:
 			if (currentNode.isString())
 			{
 				model->setStringProperty(name, currentNode.toString());
 			}
 			break;
 
-		case Property::BOOL:
+		case BOOL:
 			if (currentNode.isBool())
 			{
 				model->setBoolProperty(name, currentNode.toBool());
 			}
 			break;
 
-		case Property::OBJECT:
+		case OBJECT:
 			if (currentNode.isObject())
 			{
 				Model *child = model->invokePropertyFactory(name);
@@ -141,7 +141,7 @@ void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *pro
 			}
 			break;
 
-        case Property::COLLECTION_INT:
+        case COLLECTION_INT:
             if (currentNode.isArray())
             {
                 vector<int> collection;

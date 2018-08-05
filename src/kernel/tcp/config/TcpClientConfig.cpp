@@ -25,11 +25,11 @@ TcpClientConfig::~TcpClientConfig()
 
 void TcpClientConfig::registerProperties()
 {
-	registerPropertyName(1, "id", Property::INT);
-	registerPropertyName(2, "name", Property::STRING);
-	registerPropertyName(3, "description", Property::STRING);
-	registerPropertyName(4, "servername", Property::STRING);
-	registerPropertyName(5, "serverport", Property::INT);
+	registerPropertyName(1, "id", INT);
+	registerPropertyName(2, "name", STRING);
+	registerPropertyName(3, "description", STRING);
+	registerPropertyName(4, "servername", STRING);
+	registerPropertyName(5, "serverport", INT);
 }
 
 int TcpClientConfig::getId()

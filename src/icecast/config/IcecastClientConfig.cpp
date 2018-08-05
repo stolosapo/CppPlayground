@@ -13,25 +13,25 @@ IcecastClientConfig::~IcecastClientConfig()
 
 void IcecastClientConfig::registerProperties()
 {
-	registerPropertyName(1, "hostname", Property::STRING);
-	registerPropertyName(2, "port", Property::STRING);
-	registerPropertyName(3, "username", Property::STRING);
-	registerPropertyName(4, "password", Property::STRING);
-	registerPropertyName(5, "protocol", Property::STRING);
-	registerPropertyName(6, "mountpoint", Property::STRING);
-	registerPropertyName(7, "name", Property::STRING);
-	registerPropertyName(8, "genre", Property::STRING);
-	registerPropertyName(9, "description", Property::STRING);
-	registerPropertyName(10, "url", Property::STRING);
-	registerPropertyName(11, "public", Property::STRING);
-	registerPropertyName(12, "bitrate", Property::STRING);
-	registerPropertyName(13, "samplerate", Property::STRING);
-	registerPropertyName(14, "channels", Property::STRING);
-	registerPropertyName(15, "playlist", Property::STRING);
-	registerPropertyName(16, "history", Property::STRING);
-	registerPropertyName(17, "metadata", Property::STRING);
-	registerPropertyName(18, "repeat", Property::BOOL);
-	registerPropertyName(19, "strategy", Property::STRING);
+	registerPropertyName(1, "hostname", STRING);
+	registerPropertyName(2, "port", STRING);
+	registerPropertyName(3, "username", STRING);
+	registerPropertyName(4, "password", STRING);
+	registerPropertyName(5, "protocol", STRING);
+	registerPropertyName(6, "mountpoint", STRING);
+	registerPropertyName(7, "name", STRING);
+	registerPropertyName(8, "genre", STRING);
+	registerPropertyName(9, "description", STRING);
+	registerPropertyName(10, "url", STRING);
+	registerPropertyName(11, "public", STRING);
+	registerPropertyName(12, "bitrate", STRING);
+	registerPropertyName(13, "samplerate", STRING);
+	registerPropertyName(14, "channels", STRING);
+	registerPropertyName(15, "playlist", STRING);
+	registerPropertyName(16, "history", STRING);
+	registerPropertyName(17, "metadata", STRING);
+	registerPropertyName(18, "repeat", BOOL);
+	registerPropertyName(19, "strategy", STRING);
 }
 
 Model* IcecastClientConfig::factory()

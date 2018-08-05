@@ -34,17 +34,17 @@ Model* AudioTagModel::factory()
 
 void AudioTagModel::registerProperties()
 {
-        registerPropertyName(1, "title", Property::STRING);
-        registerPropertyName(2, "artist", Property::STRING);
-        registerPropertyName(3, "album", Property::STRING);
-        registerPropertyName(4, "comments", Property::STRING);
-        registerPropertyName(5, "genre", Property::STRING);
-        registerPropertyName(6, "year", Property::INT);
-        registerPropertyName(7, "track", Property::INT);
-        registerPropertyName(8, "duration", Property::INT);
-        registerPropertyName(9, "bitrate", Property::INT);
-        registerPropertyName(10, "samplerate", Property::INT);
-        registerPropertyName(11, "channels", Property::INT);
+        registerPropertyName(1, "title", STRING);
+        registerPropertyName(2, "artist", STRING);
+        registerPropertyName(3, "album", STRING);
+        registerPropertyName(4, "comments", STRING);
+        registerPropertyName(5, "genre", STRING);
+        registerPropertyName(6, "year", INT);
+        registerPropertyName(7, "track", INT);
+        registerPropertyName(8, "duration", INT);
+        registerPropertyName(9, "bitrate", INT);
+        registerPropertyName(10, "samplerate", INT);
+        registerPropertyName(11, "channels", INT);
 }
 
 string AudioTagModel::getTitle()

@@ -1,5 +1,7 @@
 #include "Model.h"
 
+#include "property/PropertyFactory.h"
+
 Model::Model(staticFactoryMethod staticFactory)
 {
 	this->staticFactory = staticFactory;
@@ -27,26 +29,27 @@ Model::~Model()
 		delete it->second;
 	}
 
-	objectProperties.clear();
+    objectProperties.clear();
+    collectionIntProperties.clear();
 
 	staticFactory = NULL;
 }
 
 
-void Model::registerPropertyName(int index, string name, Property::Type type)
+void Model::registerPropertyName(int index, string name, PropertyType type)
 {
 	if (propertyNameExists(index))
 	{
 		allProperties.erase(allProperties.find(index));
 	}
 
-	Property *prop = new Property(name, type);
+    PropertyFactory factory;
 
-	allProperties[index] = prop;
+	allProperties[index] = factory.create(name, type);
 }
 
 
-void Model::registerPropertyName(int index, string name, Property::Type type, staticFactoryMethod factoryMethod)
+void Model::registerPropertyName(int index, string name, PropertyType type, staticFactoryMethod factoryMethod)
 {
 	registerPropertyName(index, name, type);
 
