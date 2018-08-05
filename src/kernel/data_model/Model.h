@@ -14,7 +14,7 @@ using namespace std;
 class Model
 {
 private:
-	map<int, Property*> allProperties;
+	map<string, Property*> allProperties;
 
 	map<string, int> intProperties;
 	map<string, long> longProperties;
@@ -36,9 +36,7 @@ protected:
 	void registerPropertyName(int index, string name, PropertyType type);
 	void registerPropertyName(int index, string name, PropertyType type, staticFactoryMethod factoryMethod);
 
-	string getPropertyName(int index);
-
-	bool propertyNameExists(int index);
+	bool propertyNameExists(string name);
 	bool factoryMethodExists(string name);
 
 	bool intPropertyExists(string name);
@@ -56,7 +54,7 @@ public:
 
 	Model* createNew();
 
-	map<int, Property*> getAllProperties();
+	map<string, Property*> getAllProperties();
 	Model* invokePropertyFactory(string name);
 
 	int getIntProperty(string name);

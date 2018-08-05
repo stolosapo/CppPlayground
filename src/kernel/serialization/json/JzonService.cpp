@@ -163,9 +163,9 @@ void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *pro
 
 void JzonService::serializeModelToNode(Model *model, Jzon::Node *node)
 {
-	map<int, Property*> props = model->getAllProperties();
+	map<string, Property*> props = model->getAllProperties();
 
-	for (map<int, Property*>::iterator it = props.begin(); it != props.end(); ++it)
+	for (map<string, Property*>::iterator it = props.begin(); it != props.end(); ++it)
 	{
 		/* Add fields */
 		addFieldToNode(node, model, it->second);
@@ -206,9 +206,9 @@ Jzon::Node JzonService::serializeModelsToArrayNode(Model **models, int size)
 
 void JzonService::deserializeNodeToModel(Jzon::Node *node, Model *model)
 {
-	map<int, Property*> props = model->getAllProperties();
+	map<string, Property*> props = model->getAllProperties();
 
-	for (map<int, Property*>::iterator it = props.begin(); it != props.end(); ++it)
+	for (map<string, Property*>::iterator it = props.begin(); it != props.end(); ++it)
 	{
 		/* Write each fields */
 		writeNodeToField(node, model, it->second);

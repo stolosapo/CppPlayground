@@ -10,7 +10,7 @@ Model::Model(staticFactoryMethod staticFactory)
 
 Model::~Model()
 {
-	for (map<int, Property*>::iterator it = allProperties.begin(); it != allProperties.end(); ++it)
+	for (map<string, Property*>::iterator it = allProperties.begin(); it != allProperties.end(); ++it)
 	{
 		delete it->second;
 	}
@@ -38,14 +38,14 @@ Model::~Model()
 
 void Model::registerPropertyName(int index, string name, PropertyType type)
 {
-	if (propertyNameExists(index))
+	if (propertyNameExists(name))
 	{
-		allProperties.erase(allProperties.find(index));
+		allProperties.erase(allProperties.find(name));
 	}
 
     PropertyFactory factory;
 
-	allProperties[index] = factory.create(name, type);
+	allProperties[name] = factory.create(name, type);
 }
 
 
@@ -60,20 +60,6 @@ void Model::registerPropertyName(int index, string name, PropertyType type, stat
 
 	propertyFactories[name] = factoryMethod;
 }
-
-
-string Model::getPropertyName(int index)
-{
-	if (!propertyNameExists(index))
-	{
-		return "";
-	}
-
-	Property *prop = allProperties.find(index)->second;
-
-	return prop->getName();
-}
-
 
 
 int Model::getIntProperty(string name)
@@ -261,10 +247,10 @@ void Model::setCollectionIntProperty(string name, vector<int> value)
 }
 
 
-bool Model::propertyNameExists(int index)
+bool Model::propertyNameExists(string name)
 {
-	map<int, Property*>::iterator it;
-	it = allProperties.find(index);
+	map<string, Property*>::iterator it;
+	it = allProperties.find(name);
 
 	return it != allProperties.end();
 }
@@ -342,7 +328,7 @@ bool Model::collectionIntPropertyExists(string name)
 }
 
 
-map<int, Property*> Model::getAllProperties()
+map<string, Property*> Model::getAllProperties()
 {
 	return allProperties;
 }
