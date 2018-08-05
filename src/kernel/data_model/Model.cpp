@@ -169,6 +169,18 @@ Model* Model::getObjectProperty(string name)
 }
 
 
+vector<int> Model::getCollectionIntProperty(string name)
+{
+    if (!collectionIntPropertyExists(name))
+    {
+        vector<int> defaultValue;
+        return defaultValue;
+    }
+
+    return collectionIntProperties.find(name)->second;
+}
+
+
 void Model::setIntProperty(string name, int value)
 {
 	if (intPropertyExists(name))
@@ -232,6 +244,17 @@ void Model::setObjectProperty(string name, Model *value)
 	}
 
 	objectProperties[name] = value;
+}
+
+
+void Model::setCollectionIntProperty(string name, vector<int> value)
+{
+    if (collectionIntPropertyExists(name))
+    {
+        collectionIntProperties.erase(collectionIntProperties.find(name));
+    }
+
+    collectionIntProperties[name] = value;
 }
 
 
@@ -304,6 +327,15 @@ bool Model::objectPropertyExists(string name)
 	it = objectProperties.find(name);
 
 	return it != objectProperties.end();
+}
+
+
+bool Model::collectionIntPropertyExists(string name)
+{
+    map<string, vector<int>>::iterator it;
+    it = collectionIntProperties.find(name);
+
+    return it != collectionIntProperties.end();
 }
 
 

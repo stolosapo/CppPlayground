@@ -21,9 +21,9 @@ public:
 
 		BOOL = 4,
 
-		OBJECT = 5
+		OBJECT = 5,
 
-		// COLLECTION_INT = 6,
+		COLLECTION_INT = 6
 
 		// COLLECTION_LONG = 7,
 
@@ -41,7 +41,7 @@ public:
 
 	string getName();
 	Type getType();
-	
+
 private:
 	string name;
 	Type type;

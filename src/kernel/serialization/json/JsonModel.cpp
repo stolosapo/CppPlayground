@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "../../data_model/Model.h"
 #include "../../data_model/Property.h"
@@ -50,6 +51,11 @@ public:
 		return (JsonModel*) getObjectProperty("child");
 	}
 
+    vector<int> getIntArray()
+    {
+        return getCollectionIntProperty("intArray");
+    }
+
 
 
 	void setId(long id)
@@ -82,6 +88,11 @@ public:
 		setObjectProperty("child", child);
 	}
 
+    void setIntArray(vector<int> value)
+    {
+        setCollectionIntProperty("intArray", value);
+    }
+
 	static Model* factory()
 	{
 		return (Model*) new JsonModel;
@@ -96,7 +107,8 @@ protected:
 		registerPropertyName(3, "description", Property::STRING);
 		registerPropertyName(4, "value", Property::DOUBLE);
 		registerPropertyName(5, "enable", Property::BOOL);
-		registerPropertyName(6, "child", Property::OBJECT, &factory);
+        registerPropertyName(6, "child", Property::OBJECT, &factory);
+		registerPropertyName(7, "intArray", Property::COLLECTION_INT);
 	}
 
 };

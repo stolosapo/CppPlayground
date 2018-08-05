@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 
 #include "Property.h"
 
@@ -19,7 +20,8 @@ private:
 	map<string, double> doubleProperties;
 	map<string, string> stringProperties;
 	map<string, bool> boolProperties;
-	map<string, Model*> objectProperties;
+    map<string, Model*> objectProperties;
+	map<string, vector<int>> collectionIntProperties;
 
 
 protected:
@@ -44,6 +46,7 @@ protected:
 	bool stringPropertyExists(string name);
 	bool boolPropertyExists(string name);
 	bool objectPropertyExists(string name);
+    bool collectionIntPropertyExists(string name);
 
 
 public:
@@ -65,14 +68,16 @@ public:
 	string getStringProperty(string name, string defaultValue);
 	bool getBoolProperty(string name);
 	bool getBoolProperty(string name, bool defaultValue);
-	Model* getObjectProperty(string name);
+    Model* getObjectProperty(string name);
+	vector<int> getCollectionIntProperty(string name);
 
 	void setIntProperty(string name, int value);
 	void setLongProperty(string name, long value);
 	void setDoubleProperty(string name, double value);
 	void setStringProperty(string name, string value);
 	void setBoolProperty(string name, bool value);
-	void setObjectProperty(string name, Model *value);
+    void setObjectProperty(string name, Model *value);
+	void setCollectionIntProperty(string name, vector<int> value);
 
 };
 #endif // Model_h__

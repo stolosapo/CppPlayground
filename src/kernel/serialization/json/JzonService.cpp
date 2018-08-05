@@ -1,5 +1,7 @@
 #include "JzonService.h"
 
+#include <vector>
+
 JzonService::JzonService() : ISerializationService()
 {
 
@@ -38,20 +40,33 @@ void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
 			break;
 
 		case Property::OBJECT:
-
-			Model *subObject = model->getObjectProperty(name);
-			if (subObject != NULL)
-			{
-				Jzon::Node subNode = Jzon::object();
-				serializeModelToNode(model->getObjectProperty(name), &subNode);
-				node->add(name, subNode);
-			}
-			else
-			{
-				node->add(name, Jzon::null());
-			}
-
+            {
+    			Model *subObject = model->getObjectProperty(name);
+    			if (subObject != NULL)
+    			{
+    				Jzon::Node subNode = Jzon::object();
+    				serializeModelToNode(model->getObjectProperty(name), &subNode);
+    				node->add(name, subNode);
+    			}
+    			else
+    			{
+    				node->add(name, Jzon::null());
+    			}
+            }
 			break;
+
+        case Property::COLLECTION_INT:
+            {
+                vector<int> collection = model->getCollectionIntProperty(name);
+
+                Jzon::Node array = Jzon::array();
+                for (vector<int>::iterator it = collection.begin(); it != collection.end(); ++it)
+                {
+                    array.add(*it);
+                }
+                node->add(name, array);
+            }
+            break;
 	}
 }
 
@@ -125,6 +140,24 @@ void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *pro
 				model->setObjectProperty(name, child);
 			}
 			break;
+
+        case Property::COLLECTION_INT:
+            if (currentNode.isArray())
+            {
+                vector<int> collection;
+
+                for (int i = 0; i < currentNode.getCount(); ++i)
+                {
+                    Jzon::Node n = currentNode.get(i);
+                    if (n.isNumber())
+                    {
+                        collection.push_back(n.toInt());
+                    }
+                }
+
+                model->setCollectionIntProperty(name, collection);
+            }
+            break;
 	}
 }
 
@@ -417,6 +450,11 @@ void JzonService::testRead()
 
 void JzonService::testModels()
 {
+    vector<int> intArray;
+    intArray.push_back(1);
+    intArray.push_back(2);
+    intArray.push_back(3);
+
 	JsonModel *child = new JsonModel;
 	child->setId(2);
 	child->setName("Test child");
@@ -431,13 +469,14 @@ void JzonService::testModels()
 	model->setValue(876.987);
 	model->setEnable(true);
 	model->setChild(child);
+    model->setIntArray(intArray);
 
 	cout << "Id: " << model->getId() << endl;
 	cout << "Name: " << model->getName() << endl;
 	cout << "Description: " << model->getDescription() << endl;
 	cout << "Value: " << model->getValue() << endl;
 	cout << "Enable: " << model->getEnable() << endl;
-	cout << "Child: " << model->getChild() << endl;
+    cout << "Child: " << model->getChild() << endl;
 	cout << endl << endl;
 
 	cout << serializeModel(model) << endl << endl;
