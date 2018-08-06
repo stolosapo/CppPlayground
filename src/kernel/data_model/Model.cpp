@@ -1,6 +1,7 @@
 #include "Model.h"
 
 #include "property/PropertyFactory.h"
+#include "property/TypedProperty.h"
 #include "property/IntProperty.h"
 
 Model::Model(staticFactoryMethod staticFactory)
@@ -62,6 +63,17 @@ void Model::registerPropertyName(int index, string name, PropertyType type, stat
 }
 
 
+Property* Model::getProperty(string name)
+{
+    if (!propertyNameExists(name))
+    {
+        return NULL;
+    }
+
+    return allProperties.find(name)->second;
+}
+
+
 int Model::getIntProperty(string name)
 {
 	return getIntProperty(name, 0);
@@ -70,19 +82,14 @@ int Model::getIntProperty(string name)
 
 int Model::getIntProperty(string name, int defaultValue)
 {
-    if (!propertyNameExists(name))
+    IntProperty* prop = getTypedProperty<IntProperty>(getProperty(name));
+
+    if (prop == NULL)
     {
         return defaultValue;
     }
 
-    Property* prop = allProperties.find(name)->second;
-
-    if (((IntProperty*) prop) == NULL)
-    {
-        return defaultValue;
-    }
-
-    return ((IntProperty*) prop)->getValue();
+    return prop->getValue();
 }
 
 
@@ -179,19 +186,14 @@ vector<int> Model::getCollectionIntProperty(string name)
 
 void Model::setIntProperty(string name, int value)
 {
-    if (!propertyNameExists(name))
+    IntProperty* prop = getTypedProperty<IntProperty>(getProperty(name));
+
+    if (prop == NULL)
     {
         return;
     }
 
-    Property* prop = allProperties.find(name)->second;
-
-    if (((IntProperty*) prop) == NULL)
-    {
-        return;
-    }
-
-    ((IntProperty*) prop)->setValue(value);
+    prop->setValue(value);
 }
 
 

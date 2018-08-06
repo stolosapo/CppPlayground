@@ -35,6 +35,8 @@ protected:
 	void registerPropertyName(int index, string name, PropertyType type);
 	void registerPropertyName(int index, string name, PropertyType type, staticFactoryMethod factoryMethod);
 
+    Property* getProperty(string name);
+
 	bool propertyNameExists(string name);
 	bool factoryMethodExists(string name);
 
