@@ -16,7 +16,6 @@ class Model
 private:
 	map<string, Property*> allProperties;
 
-	map<string, int> intProperties;
 	map<string, long> longProperties;
 	map<string, double> doubleProperties;
 	map<string, string> stringProperties;
@@ -39,7 +38,6 @@ protected:
 	bool propertyNameExists(string name);
 	bool factoryMethodExists(string name);
 
-	bool intPropertyExists(string name);
 	bool longPropertyExists(string name);
 	bool doublePropertyExists(string name);
 	bool stringPropertyExists(string name);

@@ -1,6 +1,7 @@
 #include "Model.h"
 
 #include "property/PropertyFactory.h"
+#include "property/IntProperty.h"
 
 Model::Model(staticFactoryMethod staticFactory)
 {
@@ -17,7 +18,6 @@ Model::~Model()
 
 	allProperties.clear();
 
-	intProperties.clear();
 	longProperties.clear();
 	doubleProperties.clear();
 	stringProperties.clear();
@@ -70,12 +70,19 @@ int Model::getIntProperty(string name)
 
 int Model::getIntProperty(string name, int defaultValue)
 {
-	if (!intPropertyExists(name))
-	{
-		return defaultValue;
-	}
+    if (!propertyNameExists(name))
+    {
+        return defaultValue;
+    }
 
-	return intProperties.find(name)->second;
+    Property* prop = allProperties.find(name)->second;
+
+    if (((IntProperty*) prop) == NULL)
+    {
+        return defaultValue;
+    }
+
+    return ((IntProperty*) prop)->getValue();
 }
 
 
@@ -172,12 +179,19 @@ vector<int> Model::getCollectionIntProperty(string name)
 
 void Model::setIntProperty(string name, int value)
 {
-	if (intPropertyExists(name))
-	{
-		intProperties.erase(intProperties.find(name));
-	}
+    if (!propertyNameExists(name))
+    {
+        return;
+    }
 
-	intProperties[name] = value;
+    Property* prop = allProperties.find(name)->second;
+
+    if (((IntProperty*) prop) == NULL)
+    {
+        return;
+    }
+
+    ((IntProperty*) prop)->setValue(value);
 }
 
 
@@ -262,15 +276,6 @@ bool Model::factoryMethodExists(string name)
 	it = propertyFactories.find(name);
 
 	return it != propertyFactories.end();
-}
-
-
-bool Model::intPropertyExists(string name)
-{
-	map<string, int>::iterator it;
-	it = intProperties.find(name);
-
-	return it != intProperties.end();
 }
 
 
