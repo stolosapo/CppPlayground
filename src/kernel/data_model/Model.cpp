@@ -321,7 +321,7 @@ bool Model::objectPropertyExists(string name)
 
 bool Model::collectionIntPropertyExists(string name)
 {
-    map<string, vector<int>>::iterator it;
+    map<string, vector<int> >::iterator it;
     it = collectionIntProperties.find(name);
 
     return it != collectionIntProperties.end();

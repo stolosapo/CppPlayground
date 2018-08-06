@@ -22,7 +22,7 @@ private:
 	map<string, string> stringProperties;
 	map<string, bool> boolProperties;
     map<string, Model*> objectProperties;
-	map<string, vector<int>> collectionIntProperties;
+	map<string, vector<int> > collectionIntProperties;
 
 
 protected:
