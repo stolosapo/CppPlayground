@@ -22,7 +22,7 @@ public:
 template <typename T>
 PropertyPointerValue<T>::PropertyPointerValue()
 {
-
+    value = NULL;
 }
 
 template <typename T>

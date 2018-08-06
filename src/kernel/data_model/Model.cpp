@@ -3,6 +3,12 @@
 #include "property/PropertyFactory.h"
 #include "property/TypedProperty.h"
 #include "property/IntProperty.h"
+#include "property/LongProperty.h"
+#include "property/DoubleProperty.h"
+#include "property/StringProperty.h"
+#include "property/BoolProperty.h"
+#include "property/ObjectProperty.h"
+#include "property/CollectionIntProperty.h"
 
 Model::Model(staticFactoryMethod staticFactory)
 {
@@ -18,12 +24,6 @@ Model::~Model()
 	}
 
 	allProperties.clear();
-
-	longProperties.clear();
-	doubleProperties.clear();
-	stringProperties.clear();
-	boolProperties.clear();
-
 
 	for (map<string, Model*>::iterator it = objectProperties.begin(); it != objectProperties.end(); ++it)
 	{
@@ -82,14 +82,7 @@ int Model::getIntProperty(string name)
 
 int Model::getIntProperty(string name, int defaultValue)
 {
-    IntProperty* prop = getTypedProperty<IntProperty>(getProperty(name));
-
-    if (prop == NULL)
-    {
-        return defaultValue;
-    }
-
-    return prop->getValue();
+    return getTypedPropertyValue<IntProperty, int>(getProperty(name), defaultValue);
 }
 
 
@@ -101,12 +94,7 @@ long Model::getLongProperty(string name)
 
 long Model::getLongProperty(string name, long defaultValue)
 {
-	if (!longPropertyExists(name))
-	{
-		return defaultValue;
-	}
-
-	return longProperties.find(name)->second;
+    return getTypedPropertyValue<LongProperty, long>(getProperty(name), defaultValue);
 }
 
 
@@ -118,12 +106,7 @@ double Model::getDoubleProperty(string name)
 
 double Model::getDoubleProperty(string name, double defaultValue)
 {
-	if (!doublePropertyExists(name))
-	{
-		return defaultValue;
-	}
-
-	return doubleProperties.find(name)->second;
+    return getTypedPropertyValue<DoubleProperty, double>(getProperty(name), defaultValue);
 }
 
 
@@ -135,12 +118,7 @@ string Model::getStringProperty(string name)
 
 string Model::getStringProperty(string name, string defaultValue)
 {
-	if (!stringPropertyExists(name))
-	{
-		return defaultValue;
-	}
-
-	return stringProperties.find(name)->second;
+    return getTypedPropertyValue<StringProperty, string>(getProperty(name), defaultValue);
 }
 
 
@@ -152,23 +130,20 @@ bool Model::getBoolProperty(string name)
 
 bool Model::getBoolProperty(string name, bool defaultValue)
 {
-	if (!boolPropertyExists(name))
-	{
-		return defaultValue;
-	}
-
-	return boolProperties.find(name)->second;
+	return getTypedPropertyValue<BoolProperty, bool>(getProperty(name), defaultValue);
 }
 
 
 Model* Model::getObjectProperty(string name)
 {
-	if (!objectPropertyExists(name))
-	{
-		return NULL;
-	}
+    // return getTypedPropertyPointerValue<ObjectProperty, Model>(getProperty(name));
 
-	return objectProperties.find(name)->second;
+    if (!objectPropertyExists(name))
+    {
+        return NULL;
+    }
+
+    return objectProperties.find(name)->second;
 }
 
 
@@ -186,63 +161,38 @@ vector<int> Model::getCollectionIntProperty(string name)
 
 void Model::setIntProperty(string name, int value)
 {
-    IntProperty* prop = getTypedProperty<IntProperty>(getProperty(name));
-
-    if (prop == NULL)
-    {
-        return;
-    }
-
-    prop->setValue(value);
+    setTypedPropertyValue<IntProperty, int>(getProperty(name), value);
 }
 
 
 void Model::setLongProperty(string name, long value)
 {
-	if (longPropertyExists(name))
-	{
-		longProperties.erase(longProperties.find(name));
-	}
-
-	longProperties[name] = value;
+    setTypedPropertyValue<LongProperty, long>(getProperty(name), value);
 }
 
 
 void Model::setDoubleProperty(string name, double value)
 {
-	if (doublePropertyExists(name))
-	{
-		doubleProperties.erase(doubleProperties.find(name));
-	}
-
-	doubleProperties[name] = value;
+    setTypedPropertyValue<DoubleProperty, double>(getProperty(name), value);
 }
 
 
 void Model::setStringProperty(string name, string value)
 {
-	if (stringPropertyExists(name))
-	{
-		stringProperties.erase(stringProperties.find(name));
-	}
-
-	stringProperties[name] = value;
+    setTypedPropertyValue<StringProperty, string>(getProperty(name), value);
 }
 
 
 void Model::setBoolProperty(string name, bool value)
 {
-	if (boolPropertyExists(name))
-	{
-		boolProperties.erase(boolProperties.find(name));
-	}
-
-	boolProperties[name] = value;
+	setTypedPropertyValue<BoolProperty, bool>(getProperty(name), value);
 }
 
 
 void Model::setObjectProperty(string name, Model *value)
 {
+    // setTypedPropertyPointerValue<ObjectProperty, Model>(getProperty(name), value);
+
 	if (objectPropertyExists(name))
 	{
 		objectProperties.erase(objectProperties.find(name));
@@ -278,42 +228,6 @@ bool Model::factoryMethodExists(string name)
 	it = propertyFactories.find(name);
 
 	return it != propertyFactories.end();
-}
-
-
-bool Model::longPropertyExists(string name)
-{
-	map<string, long>::iterator it;
-	it = longProperties.find(name);
-
-	return it != longProperties.end();
-}
-
-
-bool Model::doublePropertyExists(string name)
-{
-	map<string, double>::iterator it;
-	it = doubleProperties.find(name);
-
-	return it != doubleProperties.end();
-}
-
-
-bool Model::stringPropertyExists(string name)
-{
-	map<string, string>::iterator it;
-	it = stringProperties.find(name);
-
-	return it != stringProperties.end();
-}
-
-
-bool Model::boolPropertyExists(string name)
-{
-	map<string, bool>::iterator it;
-	it = boolProperties.find(name);
-
-	return it != boolProperties.end();
 }
 
 

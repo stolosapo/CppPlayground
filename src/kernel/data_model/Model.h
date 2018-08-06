@@ -16,10 +16,6 @@ class Model
 private:
 	map<string, Property*> allProperties;
 
-	map<string, long> longProperties;
-	map<string, double> doubleProperties;
-	map<string, string> stringProperties;
-	map<string, bool> boolProperties;
     map<string, Model*> objectProperties;
 	map<string, vector<int> > collectionIntProperties;
 
@@ -40,10 +36,6 @@ protected:
 	bool propertyNameExists(string name);
 	bool factoryMethodExists(string name);
 
-	bool longPropertyExists(string name);
-	bool doublePropertyExists(string name);
-	bool stringPropertyExists(string name);
-	bool boolPropertyExists(string name);
 	bool objectPropertyExists(string name);
     bool collectionIntPropertyExists(string name);
 
