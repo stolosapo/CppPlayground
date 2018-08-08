@@ -16,7 +16,6 @@ class Model
 private:
 	map<string, Property*> allProperties;
 
-    map<string, Model*> objectProperties;
 	map<string, vector<int> > collectionIntProperties;
 
 
@@ -36,7 +35,6 @@ protected:
 	bool propertyNameExists(string name);
 	bool factoryMethodExists(string name);
 
-	bool objectPropertyExists(string name);
     bool collectionIntPropertyExists(string name);
 
 

@@ -25,12 +25,6 @@ Model::~Model()
 
 	allProperties.clear();
 
-	for (map<string, Model*>::iterator it = objectProperties.begin(); it != objectProperties.end(); ++it)
-	{
-		delete it->second;
-	}
-
-    objectProperties.clear();
     collectionIntProperties.clear();
 
 	staticFactory = NULL;
@@ -136,14 +130,7 @@ bool Model::getBoolProperty(string name, bool defaultValue)
 
 Model* Model::getObjectProperty(string name)
 {
-    // return getTypedPropertyPointerValue<ObjectProperty, Model>(getProperty(name));
-
-    if (!objectPropertyExists(name))
-    {
-        return NULL;
-    }
-
-    return objectProperties.find(name)->second;
+    return getTypedPropertyPointerValue<ObjectProperty, Model>(getProperty(name));
 }
 
 
@@ -191,14 +178,7 @@ void Model::setBoolProperty(string name, bool value)
 
 void Model::setObjectProperty(string name, Model *value)
 {
-    // setTypedPropertyPointerValue<ObjectProperty, Model>(getProperty(name), value);
-
-	if (objectPropertyExists(name))
-	{
-		objectProperties.erase(objectProperties.find(name));
-	}
-
-	objectProperties[name] = value;
+    setTypedPropertyPointerValue<ObjectProperty, Model>(getProperty(name), value);
 }
 
 
@@ -228,15 +208,6 @@ bool Model::factoryMethodExists(string name)
 	it = propertyFactories.find(name);
 
 	return it != propertyFactories.end();
-}
-
-
-bool Model::objectPropertyExists(string name)
-{
-	map<string, Model*>::iterator it;
-	it = objectProperties.find(name);
-
-	return it != objectProperties.end();
 }
 
 

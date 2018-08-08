@@ -17,6 +17,7 @@ void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
 	string name = prop->getName();
 	PropertyType type = prop->getType();
 
+
 	switch (type)
 	{
 		case INT:
@@ -45,7 +46,7 @@ void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
     			if (subObject != NULL)
     			{
     				Jzon::Node subNode = Jzon::object();
-    				serializeModelToNode(model->getObjectProperty(name), &subNode);
+    				serializeModelToNode(subObject, &subNode);
     				node->add(name, subNode);
     			}
     			else
@@ -67,7 +68,7 @@ void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
                 node->add(name, array);
             }
             break;
-	}
+    }
 }
 
 void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *prop)
@@ -345,9 +346,9 @@ void JzonService::test()
 
 	cout << endl << endl;
 
-	testModels();
+    testModels();
 
-	cout << endl << endl;
+    cout << endl << endl;
 
 	testReadModels();
 
@@ -455,12 +456,14 @@ void JzonService::testModels()
     intArray.push_back(2);
     intArray.push_back(3);
 
+
 	JsonModel *child = new JsonModel;
 	child->setId(2);
 	child->setName("Test child");
 	child->setDescription("This is a test child");
 	child->setValue(111.999);
 	child->setEnable(false);
+
 
 	JsonModel *model = new JsonModel;
 	model->setId(1);
