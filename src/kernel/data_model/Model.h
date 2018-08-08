@@ -35,8 +35,6 @@ protected:
 	bool propertyNameExists(string name);
 	bool factoryMethodExists(string name);
 
-    bool collectionIntPropertyExists(string name);
-
 
 public:
 	Model(staticFactoryMethod staticFactory);

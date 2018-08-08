@@ -18,14 +18,14 @@ Model::Model(staticFactoryMethod staticFactory)
 
 Model::~Model()
 {
-	for (map<string, Property*>::iterator it = allProperties.begin(); it != allProperties.end(); ++it)
+	for (map<string, Property*>::iterator it = allProperties.begin();
+        it != allProperties.end();
+        ++it)
 	{
 		delete it->second;
 	}
 
 	allProperties.clear();
-
-    collectionIntProperties.clear();
 
 	staticFactory = NULL;
 }
@@ -136,13 +136,7 @@ Model* Model::getObjectProperty(string name)
 
 vector<int> Model::getCollectionIntProperty(string name)
 {
-    if (!collectionIntPropertyExists(name))
-    {
-        vector<int> defaultValue;
-        return defaultValue;
-    }
-
-    return collectionIntProperties.find(name)->second;
+    return getTypedPropertyCollectionValue<CollectionIntProperty, int>(getProperty(name));
 }
 
 
@@ -184,12 +178,7 @@ void Model::setObjectProperty(string name, Model *value)
 
 void Model::setCollectionIntProperty(string name, vector<int> value)
 {
-    if (collectionIntPropertyExists(name))
-    {
-        collectionIntProperties.erase(collectionIntProperties.find(name));
-    }
-
-    collectionIntProperties[name] = value;
+    setTypedPropertyCollectionValue<CollectionIntProperty, int>(getProperty(name), value);
 }
 
 
@@ -210,14 +199,6 @@ bool Model::factoryMethodExists(string name)
 	return it != propertyFactories.end();
 }
 
-
-bool Model::collectionIntPropertyExists(string name)
-{
-    map<string, vector<int> >::iterator it;
-    it = collectionIntProperties.find(name);
-
-    return it != collectionIntProperties.end();
-}
 
 
 map<string, Property*> Model::getAllProperties()
