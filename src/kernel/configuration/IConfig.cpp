@@ -2,12 +2,12 @@
 
 using namespace std;
 
-IConfig::IConfig(staticFactoryMethod staticFactory) : Model(staticFactory)
+IConfig::IConfig(ModelFactory modelFactory) : Model(modelFactory)
 {
 
 }
 
 IConfig::~IConfig()
 {
-	
+
 }

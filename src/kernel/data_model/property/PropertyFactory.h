@@ -15,6 +15,7 @@ public:
     virtual ~PropertyFactory();
 
     Property* create(string name, PropertyType type);
+    Property* create(string name, ModelFactory modelFactory);
 
 };
 #endif // PropertyFactory_h__

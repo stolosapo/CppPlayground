@@ -10,9 +10,9 @@
 #include "property/ObjectProperty.h"
 #include "property/CollectionIntProperty.h"
 
-Model::Model(staticFactoryMethod staticFactory)
+Model::Model(ModelFactory modelFactory)
 {
-	this->staticFactory = staticFactory;
+	this->modelFactory = modelFactory;
 }
 
 
@@ -27,33 +27,59 @@ Model::~Model()
 
 	allProperties.clear();
 
-	staticFactory = NULL;
+	modelFactory = NULL;
+}
+
+
+bool Model::propertyNameExists(string name)
+{
+    map<string, Property*>::iterator it;
+    it = allProperties.find(name);
+
+    return it != allProperties.end();
+}
+
+
+map<string, Property*> Model::getAllProperties()
+{
+    return allProperties;
+}
+
+
+Model* Model::createNew()
+{
+    if (this->modelFactory == NULL)
+    {
+        return NULL;
+    }
+
+    return (modelFactory)();
 }
 
 
 void Model::registerPropertyName(int index, string name, PropertyType type)
 {
-	if (propertyNameExists(name))
-	{
-		allProperties.erase(allProperties.find(name));
-	}
+    if (propertyNameExists(name))
+    {
+        allProperties.erase(allProperties.find(name));
+    }
 
     PropertyFactory factory;
 
-	allProperties[name] = factory.create(name, type);
+    allProperties[name] = factory.create(name, type);
 }
 
 
-void Model::registerPropertyName(int index, string name, PropertyType type, staticFactoryMethod factoryMethod)
+void Model::registerPropertyName(int index, string name, PropertyType type, ModelFactory factoryMethod)
 {
-	registerPropertyName(index, name, type);
+    if (propertyNameExists(name))
+    {
+        allProperties.erase(allProperties.find(name));
+    }
 
-	if (factoryMethodExists(name))
-	{
-		propertyFactories.erase(propertyFactories.find(name));
-	}
+    PropertyFactory factory;
 
-	propertyFactories[name] = factoryMethod;
+    allProperties[name] = factory.create(name, factoryMethod);
 }
 
 
@@ -179,54 +205,4 @@ void Model::setObjectProperty(string name, Model *value)
 void Model::setCollectionIntProperty(string name, vector<int> value)
 {
     setTypedPropertyCollectionValue<CollectionIntProperty, int>(getProperty(name), value);
-}
-
-
-bool Model::propertyNameExists(string name)
-{
-	map<string, Property*>::iterator it;
-	it = allProperties.find(name);
-
-	return it != allProperties.end();
-}
-
-
-bool Model::factoryMethodExists(string name)
-{
-	map<string, staticFactoryMethod>::iterator it;
-	it = propertyFactories.find(name);
-
-	return it != propertyFactories.end();
-}
-
-
-
-map<string, Property*> Model::getAllProperties()
-{
-	return allProperties;
-}
-
-
-Model* Model::invokePropertyFactory(string name)
-{
-	if (!factoryMethodExists(name))
-	{
-		return NULL;
-	}
-
-	map<string, staticFactoryMethod>::iterator it;
-	it = propertyFactories.find(name);
-
-	return (*it->second)();
-}
-
-
-Model* Model::createNew()
-{
-	if (this->staticFactory == NULL)
-	{
-		return NULL;
-	}
-
-	return (staticFactory)();
 }

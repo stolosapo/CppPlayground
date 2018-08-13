@@ -7,6 +7,8 @@ class DataModelErrorCode
 {
 public:
     static const DomainErrorCode DTM0001;
+    static const DomainErrorCode DTM0002;
+    static const DomainErrorCode DTM0003;
 
     DataModelErrorCode();
     virtual ~DataModelErrorCode();

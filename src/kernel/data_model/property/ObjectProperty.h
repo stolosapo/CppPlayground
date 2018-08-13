@@ -13,7 +13,7 @@ using namespace std;
 class ObjectProperty : public Property, public PropertyPointerValue<Model>
 {
 public:
-    ObjectProperty(string name);
+    ObjectProperty(string name, ModelFactory modelFactory);
     virtual ~ObjectProperty();
 
 };

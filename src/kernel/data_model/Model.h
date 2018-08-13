@@ -6,6 +6,7 @@
 #include <map>
 #include <vector>
 
+#include "ModelFactory.h"
 #include "property/Property.h"
 #include "property/PropertyType.h"
 
@@ -20,15 +21,11 @@ private:
 
 
 protected:
-	typedef Model* (*staticFactoryMethod)();
-
-	staticFactoryMethod staticFactory;
-	map<string, staticFactoryMethod> propertyFactories;
-
+	ModelFactory modelFactory;
 
 	virtual void registerProperties() = 0;
 	void registerPropertyName(int index, string name, PropertyType type);
-	void registerPropertyName(int index, string name, PropertyType type, staticFactoryMethod factoryMethod);
+	void registerPropertyName(int index, string name, PropertyType type, ModelFactory factoryMethod);
 
     Property* getProperty(string name);
 
@@ -37,13 +34,12 @@ protected:
 
 
 public:
-	Model(staticFactoryMethod staticFactory);
+	Model(ModelFactory modelFactory);
 	virtual ~Model();
 
 	Model* createNew();
 
 	map<string, Property*> getAllProperties();
-	Model* invokePropertyFactory(string name);
 
 	int getIntProperty(string name);
 	int getIntProperty(string name, int defaultValue);

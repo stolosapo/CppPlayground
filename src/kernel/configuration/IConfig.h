@@ -11,7 +11,7 @@ using namespace std;
 class IConfig : public Model
 {
 public:
-	IConfig(staticFactoryMethod staticFactory);
+	IConfig(ModelFactory modelFactory);
 	virtual ~IConfig();
 
 };

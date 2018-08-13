@@ -41,7 +41,7 @@ Property* PropertyFactory::create(string name, PropertyType type)
             return (Property*) new BoolProperty(name);
 
         case OBJECT:
-            return (Property*) new ObjectProperty(name);
+            throw DomainException(DataModelErrorCode::DTM0002);
 
         case COLLECTION_INT:
             return (Property*) new CollectionIntProperty(name);
@@ -49,4 +49,9 @@ Property* PropertyFactory::create(string name, PropertyType type)
         default:
             throw DomainException(DataModelErrorCode::DTM0001);
     }
+}
+
+Property* PropertyFactory::create(string name, ModelFactory modelFactory)
+{
+    return (Property*) new ObjectProperty(name, modelFactory);
 }

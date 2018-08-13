@@ -13,7 +13,7 @@ TcpClientConfig::TcpClientConfig() : IConfig(&factory)
 	this->registerProperties();
 }
 
-TcpClientConfig::TcpClientConfig(staticFactoryMethod staticFactory) : IConfig(staticFactory)
+TcpClientConfig::TcpClientConfig(ModelFactory modelFactory) : IConfig(modelFactory)
 {
 	this->registerProperties();
 }

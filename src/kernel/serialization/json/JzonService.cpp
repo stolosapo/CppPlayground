@@ -2,14 +2,32 @@
 
 #include <vector>
 
+#include "serializer/IntJzonSerializer.h"
+#include "serializer/LongJzonSerializer.h"
+#include "serializer/DoubleJzonSerializer.h"
+#include "serializer/StringJzonSerializer.h"
+#include "serializer/BoolJzonSerializer.h"
+
+
 JzonService::JzonService() : ISerializationService()
 {
+    serializers = new Strategy<PropertyType, JzonSerializer>;
 
+    registerSerializers();
 }
 
 JzonService::~JzonService()
 {
 
+}
+
+void JzonService::registerSerializers()
+{
+    serializers->registerStrategy(INT, new IntJzonSerializer);
+    serializers->registerStrategy(LONG, new LongJzonSerializer);
+    serializers->registerStrategy(DOUBLE, new DoubleJzonSerializer);
+    serializers->registerStrategy(STRING, new StringJzonSerializer);
+    serializers->registerStrategy(BOOL, new BoolJzonSerializer);
 }
 
 void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
@@ -132,7 +150,7 @@ void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *pro
 		case OBJECT:
 			if (currentNode.isObject())
 			{
-				Model *child = model->invokePropertyFactory(name);
+				Model *child = prop->invokeModelFactory();
 				if (child != NULL)
 				{
 					deserializeNodeToModel(&currentNode, child);

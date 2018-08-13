@@ -12,9 +12,9 @@ class TcpClientConfig : public IConfig
 private:
 	static const int DEFAULT_PORT = 51717;
 	static const char* DEFAULT_SERVERNAME;
-	
+
 	static Model* factory();
-	
+
 public:
 	TcpClientConfig();
 	virtual ~TcpClientConfig();
@@ -27,7 +27,7 @@ public:
 	int getServerPort();
 
 protected:
-	TcpClientConfig(staticFactoryMethod staticFactory);
+	TcpClientConfig(ModelFactory modelFactory);
 
 	virtual void registerProperties();
 
