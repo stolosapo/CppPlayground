@@ -18,7 +18,10 @@ JzonService::JzonService() : ISerializationService()
 
 JzonService::~JzonService()
 {
-
+    if (serializers != NULL)
+    {
+        delete serializers;
+    }
 }
 
 void JzonService::registerSerializers()
