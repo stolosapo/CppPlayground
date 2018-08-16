@@ -8,6 +8,7 @@
 #include "serializer/StringJzonSerializer.h"
 #include "serializer/BoolJzonSerializer.h"
 #include "serializer/ObjectJzonSerializer.h"
+#include "serializer/CollectionIntJzonSerializer.h"
 
 
 JzonService::JzonService() : ISerializationService()
@@ -33,6 +34,7 @@ void JzonService::registerSerializers()
     serializers->registerStrategy(STRING, new StringJzonSerializer);
     serializers->registerStrategy(BOOL, new BoolJzonSerializer);
     serializers->registerStrategy(OBJECT, new ObjectJzonSerializer(this));
+    serializers->registerStrategy(COLLECTION_INT, new CollectionIntJzonSerializer);
 }
 
 void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
