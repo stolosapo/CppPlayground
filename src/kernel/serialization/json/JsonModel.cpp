@@ -1,3 +1,6 @@
+#ifndef JsonModel_h__
+#define JsonModel_h__
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -111,3 +114,5 @@ protected:
 	}
 
 };
+
+#endif // JsonModel_h__

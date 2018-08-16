@@ -1,3 +1,6 @@
+#ifndef JzonService_h__
+#define JzonService_h__
+
 #include <iostream>
 
 #include "Jzon.h"
@@ -19,15 +22,18 @@ private:
 
 	void addFieldToNode(Jzon::Node *node, Model *model, Property *prop);
 	void writeNodeToField(Jzon::Node *node, Model *model, Property *prop);
-	void serializeModelToNode(Model *model, Jzon::Node *node);
+
 	Jzon::Node serializeModelToNode(Model *model);
 	Jzon::Node serializeModelsToArrayNode(Model **models, int size);
-	void deserializeNodeToModel(Jzon::Node *node, Model *model);
+
 	Model** deserializeArrayNodeToModels(Jzon::Node *array_node, int &size, Model *model);
 
 public:
 	JzonService();
 	virtual ~JzonService();
+
+    void serializeModelToNode(Model *model, Jzon::Node *node);
+    void deserializeNodeToModel(Jzon::Node *node, Model *model);
 
 	virtual string serializeModel(Model *model);
 	virtual string serializeModels(Model **models, int size);
@@ -46,3 +52,5 @@ public:
 	void testReadModels();
 	void testReadArrayModels();
 };
+
+#endif // JzonService_h__

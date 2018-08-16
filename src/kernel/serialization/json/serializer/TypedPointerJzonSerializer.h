@@ -22,6 +22,7 @@ public:
 
 protected:
     virtual bool isCorrectType(Jzon::Node node) = 0;
+    virtual Jzon::Node propertyPointerValue(V *value) = 0;
     virtual V* nodeValue(Jzon::Node node, Property *prop) = 0;
 };
 
@@ -56,8 +57,8 @@ void TypedPointerJzonSerializer<T, V>::propertyToNode(Property *fromProperty, Jz
         return;
     }
 
-    Jzon::Node subNode = Jzon::object();
-    // serializeModelToNode(value, &subNode);
+    Jzon::Node subNode = propertyPointerValue(value);
+
     toNode->add(fromProperty->getName(), subNode);
 }
 
