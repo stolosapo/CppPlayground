@@ -20,9 +20,9 @@ bool ObjectJzonSerializer::isCorrectType(Jzon::Node node)
 
 Jzon::Node ObjectJzonSerializer::propertyPointerValue(Model *value)
 {
-    Jzon::Node node = Jzon::object();
-
-    service->serializeModelToNode(value, &node);
+    cout << 1 << endl;
+    Jzon::Node node = service->serializeModelToNode(value);
+    cout << 2 << endl;
 
     return node;
 }
@@ -32,6 +32,7 @@ Model* ObjectJzonSerializer::nodeValue(Jzon::Node node, Property *prop)
     Model* value = prop->invokeModelFactory();
 
     service->deserializeNodeToModel(&node, value);
+
 
     return value;
 }

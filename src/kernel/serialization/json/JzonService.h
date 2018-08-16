@@ -23,7 +23,7 @@ private:
 	void addFieldToNode(Jzon::Node *node, Model *model, Property *prop);
 	void writeNodeToField(Jzon::Node *node, Model *model, Property *prop);
 
-	Jzon::Node serializeModelToNode(Model *model);
+    void serializeModelToNode(Model *model, Jzon::Node *node);
 	Jzon::Node serializeModelsToArrayNode(Model **models, int size);
 
 	Model** deserializeArrayNodeToModels(Jzon::Node *array_node, int &size, Model *model);
@@ -32,7 +32,7 @@ public:
 	JzonService();
 	virtual ~JzonService();
 
-    void serializeModelToNode(Model *model, Jzon::Node *node);
+    Jzon::Node serializeModelToNode(Model *model);
     void deserializeNodeToModel(Jzon::Node *node, Model *model);
 
 	virtual string serializeModel(Model *model);
