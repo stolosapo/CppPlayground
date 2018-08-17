@@ -39,10 +39,7 @@ void JzonService::registerSerializers()
 
 void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
 {
-	string name = prop->getName();
-	PropertyType type = prop->getType();
-
-    JzonSerializer* serializer = serializers->get(type);
+    JzonSerializer* serializer = serializers->get(prop->getType());
 
     if (serializer == NULL)
     {
@@ -54,102 +51,20 @@ void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
 
 void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *prop)
 {
-	string name = prop->getName();
-
 	/* Check if this node exists */
-	if (!node->has(name))
+	if (!node->has(prop->getName()))
 	{
 		return;
 	}
 
-	PropertyType type = prop->getType();
+    JzonSerializer* serializer = serializers->get(prop->getType());
 
-	Jzon::Node currentNode;
-	currentNode = node->get(name);
+    if (serializer == NULL)
+    {
+        return;
+    }
 
-	/* Check if current node is valid */
-	if (!currentNode.isValid())
-	{
-		return;
-	}
-
-    // JzonSerializer* serializer = serializers->get(type);
-    //
-    // if (serializer == NULL)
-    // {
-    //     return;
-    // }
-
-    // serializer->nodeToProperty(&currentNode, prop);
-
-	switch (type)
-	{
-		case INT:
-			if (currentNode.isNumber())
-			{
-				model->setIntProperty(name, currentNode.toInt());
-			}
-			break;
-
-		case LONG:
-			if (currentNode.isNumber())
-			{
-				model->setLongProperty(name, (long) currentNode.toInt());
-			}
-			break;
-
-		case DOUBLE:
-			if (currentNode.isNumber())
-			{
-				model->setDoubleProperty(name, currentNode.toDouble());
-			}
-			break;
-
-		case STRING:
-			if (currentNode.isString())
-			{
-				model->setStringProperty(name, currentNode.toString());
-			}
-			break;
-
-		case BOOL:
-			if (currentNode.isBool())
-			{
-				model->setBoolProperty(name, currentNode.toBool());
-			}
-			break;
-
-		case OBJECT:
-			if (currentNode.isObject())
-			{
-				Model *child = prop->invokeModelFactory();
-				if (child != NULL)
-				{
-					deserializeNodeToModel(&currentNode, child);
-				}
-
-				model->setObjectProperty(name, child);
-			}
-			break;
-
-        case COLLECTION_INT:
-            if (currentNode.isArray())
-            {
-                vector<int> collection;
-
-                for (int i = 0; i < currentNode.getCount(); ++i)
-                {
-                    Jzon::Node n = currentNode.get(i);
-                    if (n.isNumber())
-                    {
-                        collection.push_back(n.toInt());
-                    }
-                }
-
-                model->setCollectionIntProperty(name, collection);
-            }
-            break;
-	}
+    serializer->nodeToProperty(node, prop);
 }
 
 void JzonService::serializeModelToNode(Model *model, Jzon::Node *node)
