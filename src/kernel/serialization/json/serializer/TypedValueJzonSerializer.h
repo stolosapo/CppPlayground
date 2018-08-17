@@ -23,6 +23,9 @@ public:
 protected:
     virtual bool isCorrectType(Jzon::Node node) = 0;
     virtual V nodeValue(Jzon::Node node) = 0;
+    virtual V defaultValue() = 0;
+    virtual void setValueToNode(Property *fromProperty, Jzon::Node *toNode, V value) = 0;
+
 };
 
 
@@ -48,9 +51,9 @@ TypedValueJzonSerializer<T, V>::~TypedValueJzonSerializer()
 template <class T, typename V>
 void TypedValueJzonSerializer<T, V>::propertyToNode(Property *fromProperty, Jzon::Node *toNode)
 {
-    V value = getTypedPropertyValue<T, V>(fromProperty, 0);
+    V value = getTypedPropertyValue<T, V>(fromProperty, defaultValue());
 
-    toNode->add(fromProperty->getName(), value);
+    setValueToNode(fromProperty, toNode, value);
 }
 
 template <class T, typename V>

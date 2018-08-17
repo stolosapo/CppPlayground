@@ -2,7 +2,7 @@
 
 #include "../../../data_model/Model.h"
 
-ObjectJzonSerializer::ObjectJzonSerializer(JzonService* )
+ObjectJzonSerializer::ObjectJzonSerializer(JzonService* service)
     : service(service), TypedPointerJzonSerializer()
 {
 
@@ -20,11 +20,7 @@ bool ObjectJzonSerializer::isCorrectType(Jzon::Node node)
 
 Jzon::Node ObjectJzonSerializer::propertyPointerValue(Model *value)
 {
-    cout << 1 << endl;
-    Jzon::Node node = service->serializeModelToNode(value);
-    cout << 2 << endl;
-
-    return node;
+    return service->serializeModelToNode(value);
 }
 
 Model* ObjectJzonSerializer::nodeValue(Jzon::Node node, Property *prop)

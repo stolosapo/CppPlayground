@@ -13,7 +13,10 @@ public:
 
 protected:
     virtual bool isCorrectType(Jzon::Node node);
+    virtual void setValueToNode(Property *fromProperty, Jzon::Node *toNode, bool value);
     virtual bool nodeValue(Jzon::Node node);
+    virtual bool defaultValue();
+
 };
 
 #endif // BoolJzonSerializer_h__

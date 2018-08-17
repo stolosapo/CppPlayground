@@ -18,7 +18,17 @@ bool IntJzonSerializer::isCorrectType(Jzon::Node node)
     return node.isNumber();
 }
 
+void IntJzonSerializer::setValueToNode(Property *fromProperty, Jzon::Node *toNode, int value)
+{
+    toNode->add(fromProperty->getName(), value);
+}
+
 int IntJzonSerializer::nodeValue(Jzon::Node node)
 {
     return node.toInt();
+}
+
+int IntJzonSerializer::defaultValue()
+{
+    return 0;
 }

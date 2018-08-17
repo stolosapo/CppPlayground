@@ -18,7 +18,17 @@ bool BoolJzonSerializer::isCorrectType(Jzon::Node node)
     return node.isBool();
 }
 
+void BoolJzonSerializer::setValueToNode(Property *fromProperty, Jzon::Node *toNode, bool value)
+{
+    toNode->add(fromProperty->getName(), value);
+}
+
 bool BoolJzonSerializer::nodeValue(Jzon::Node node)
 {
     return node.toBool();
+}
+
+bool BoolJzonSerializer::defaultValue()
+{
+    return false;
 }

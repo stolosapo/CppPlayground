@@ -42,58 +42,14 @@ void JzonService::addFieldToNode(Jzon::Node *node, Model *model, Property *prop)
 	string name = prop->getName();
 	PropertyType type = prop->getType();
 
+    JzonSerializer* serializer = serializers->get(type);
 
-	switch (type)
-	{
-		case INT:
-			node->add(name, model->getIntProperty(name));
-			break;
-
-		case LONG:
-			node->add(name, (long long) model->getLongProperty(name));
-			break;
-
-		case DOUBLE:
-			node->add(name, model->getDoubleProperty(name));
-			break;
-
-		case STRING:
-			node->add(name, model->getStringProperty(name));
-			break;
-
-		case BOOL:
-			node->add(name, model->getBoolProperty(name));
-			break;
-
-		case OBJECT:
-            {
-    			Model *subObject = model->getObjectProperty(name);
-    			if (subObject != NULL)
-    			{
-    				Jzon::Node subNode = Jzon::object();
-    				serializeModelToNode(subObject, &subNode);
-    				node->add(name, subNode);
-    			}
-    			else
-    			{
-    				node->add(name, Jzon::null());
-    			}
-            }
-			break;
-
-        case COLLECTION_INT:
-            {
-                vector<int> collection = model->getCollectionIntProperty(name);
-
-                Jzon::Node array = Jzon::array();
-                for (vector<int>::iterator it = collection.begin(); it != collection.end(); ++it)
-                {
-                    array.add(*it);
-                }
-                node->add(name, array);
-            }
-            break;
+    if (serializer == NULL)
+    {
+        return;
     }
+
+    serializer->propertyToNode(prop, node);
 }
 
 void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *prop)
@@ -116,6 +72,15 @@ void JzonService::writeNodeToField(Jzon::Node *node, Model *model, Property *pro
 	{
 		return;
 	}
+
+    // JzonSerializer* serializer = serializers->get(type);
+    //
+    // if (serializer == NULL)
+    // {
+    //     return;
+    // }
+
+    // serializer->nodeToProperty(&currentNode, prop);
 
 	switch (type)
 	{

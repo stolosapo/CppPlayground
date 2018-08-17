@@ -18,7 +18,17 @@ bool LongJzonSerializer::isCorrectType(Jzon::Node node)
     return node.isNumber();
 }
 
-long long LongJzonSerializer::nodeValue(Jzon::Node node)
+void LongJzonSerializer::setValueToNode(Property *fromProperty, Jzon::Node *toNode, long value)
+{
+    toNode->add(fromProperty->getName(), (long long) value);
+}
+
+long LongJzonSerializer::nodeValue(Jzon::Node node)
 {
     return node.toInt();
+}
+
+long LongJzonSerializer::defaultValue()
+{
+    return 0;
 }
