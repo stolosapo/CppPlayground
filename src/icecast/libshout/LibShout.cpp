@@ -13,8 +13,6 @@
 #include "../exception/IcecastDomainErrorCode.h"
 #include "../IcecastClient.h"
 
-#include "../../audio/mp3/Mp3Id3v1.h"
-
 
 LibShout::LibShout(ILogService *logSrv, SignalService* sigSrv)
 	: logSrv(logSrv), sigSrv(sigSrv)
