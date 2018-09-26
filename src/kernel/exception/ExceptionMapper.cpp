@@ -11,7 +11,7 @@ string handle(DomainException& e)
 
 	string fullError = string(e.code()) + ": " + string(message);
 
-	delete message;
+    // delete message;
 
 	return fullError;
 }
