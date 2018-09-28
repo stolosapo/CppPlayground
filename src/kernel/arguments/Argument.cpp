@@ -1,8 +1,14 @@
 #include "Argument.h"
 
-Argument::Argument(const char* argc, const char* argv) : argc(argc), argv(argv)
+Argument::Argument(const string& argc, const string& argv) : argc(argc), argv(argv)
 {
 
+}
+
+Argument::Argument(const Argument& arg)
+{
+    argc = arg.argc;
+    argv = arg.argv;
 }
 
 Argument::~Argument()
@@ -10,12 +16,12 @@ Argument::~Argument()
 
 }
 
-const char* Argument::getArgc() const
+string Argument::getArgc() const
 {
-        return argc;
+    return argc;
 }
 
-const char* Argument::getArgv() const
+string Argument::getArgv() const
 {
-        return argv;
+    return argv;
 }

@@ -1,6 +1,6 @@
 #include "ArgumentList.h"
 
-ArgumentList::ArgumentList(list<Argument> args) : arguments(args)
+ArgumentList::ArgumentList(vector<Argument> args) : arguments(args)
 {
 
 }
@@ -10,7 +10,7 @@ ArgumentList::~ArgumentList()
 
 }
 
-const list<Argument> ArgumentList::getArguments() const
+const vector<Argument> ArgumentList::getArguments() const
 {
-        return arguments;
+    return arguments;
 }

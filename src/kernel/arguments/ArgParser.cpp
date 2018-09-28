@@ -106,12 +106,12 @@ void ArgParser::parse()
 
 	if (count <= 1)
 	{
-		return;	
+		return;
 	}
 
 
 	bool is_command = false;
-	
+
 	string cur_command = "";
 	string command = "";
 	string param = "";
@@ -129,15 +129,70 @@ void ArgParser::parse()
 			{
 				continue;
 			}
-			
+
 			command = cur_command;
-			param = "";	
+			param = "";
 		}
 		else
 		{
 			param = arg;
 		}
 	}
+}
+
+
+ArgumentList ArgParser::parseArgs()
+{
+    vector<Argument> arguments;
+
+    if (count == 0)
+	{
+		return ArgumentList(arguments);
+	}
+
+	string execName = values[0];
+
+	if (count == 1)
+	{
+		return ArgumentList(arguments);
+	}
+
+
+	bool is_command = false;
+
+	string cur_command = "";
+	string command = "";
+	string param = "";
+
+
+	for (int i = 1; i < count; ++i)
+	{
+		string arg(values[i]);
+		is_command = isCommand(arg);
+
+		if (is_command)
+		{
+			cur_command = trimCommand(arg);
+
+			command = cur_command;
+
+			param = "";
+		}
+		else
+		{
+			param = arg;
+
+            cout << i << ") " << command << " = " << param << endl;
+
+            Argument a = Argument(command, param);
+
+            cout << i << ") " << a.getArgc() << " = " << a.getArgv() << endl;
+
+            // arguments.push_back(a);
+		}
+	}
+
+    return ArgumentList(arguments);
 }
 
 
@@ -156,6 +211,16 @@ void ArgParser::printParsed()
 {
 	cout << endl;
 	cout << "Executable Name: " << getExecutableName() << endl;
+
+    ArgumentList arg_list = parseArgs();
+
+    vector<Argument> list = arg_list.getArguments();
+
+    for (int i = 0; i < list.size(); ++i)
+	{
+        Argument a = list.at(i);
+		cout << i << ") " << a.getArgc() << " = " << a.getArgv() << endl;
+	}
 }
 
 
@@ -187,4 +252,3 @@ char** ArgParser::getNamePath()
 {
 	return this->name_path;
 }
-

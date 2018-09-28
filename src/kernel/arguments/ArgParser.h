@@ -4,13 +4,15 @@
 #include <iostream>
 #include <string>
 
+#include "ArgumentList.h"
+
 using namespace std;
 
 class ArgParser
 {
 private:
 	static const char* COMMAND_PREFIX;
-	
+
 	static const char* HELP;
 	static const char* ID_PATH;
 	static const char* NAME_PATH;
@@ -39,6 +41,7 @@ public:
 	string getExecutableName();
 
 	void parse();
+    ArgumentList parseArgs();
 	void printArgs();
 	void printParsed();
 
@@ -47,7 +50,7 @@ public:
 	bool isNamePath();
 	char** getIdPath();
 	char** getNamePath();
-	
+
 };
 
 #endif // ArgParser_h__
