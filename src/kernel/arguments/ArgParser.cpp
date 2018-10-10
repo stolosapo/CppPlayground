@@ -167,13 +167,19 @@ ArgumentList ArgParser::parseArgs()
 
 		if (is_command)
 		{
-            if (is_prev_command || i == (count - 1))
+            if (is_prev_command)
             {
                 Argument a = Argument(prev_command, "");
                 arguments.push_back(a);
             }
 
             prev_command = trimCommand(arg);
+
+            if (i == (count - 1))
+            {
+                Argument a = Argument(prev_command, "");
+                arguments.push_back(a);
+            }
 		}
 		else
 		{
