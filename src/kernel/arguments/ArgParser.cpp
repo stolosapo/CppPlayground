@@ -157,39 +157,31 @@ ArgumentList ArgParser::parseArgs()
 		return ArgumentList(arguments);
 	}
 
-
-	bool is_command = false;
-
-	string cur_command = "";
-	string command = "";
-	string param = "";
-
+	string prev_command = "";
+    bool is_prev_command = false;
 
 	for (int i = 1; i < count; ++i)
 	{
 		string arg(values[i]);
-		is_command = isCommand(arg);
+		bool is_command = isCommand(arg);
 
 		if (is_command)
 		{
-			cur_command = trimCommand(arg);
+            if (is_prev_command || i == (count - 1))
+            {
+                Argument a = Argument(prev_command, "");
+                arguments.push_back(a);
+            }
 
-			command = cur_command;
-
-			param = "";
+            prev_command = trimCommand(arg);
 		}
 		else
 		{
-			param = arg;
-
-            cout << i << ") " << command << " = " << param << endl;
-
-            Argument a = Argument(command, param);
-
-            cout << i << ") " << a.getArgc() << " = " << a.getArgv() << endl;
-
-            // arguments.push_back(a);
+            Argument a = Argument(prev_command, arg);
+            arguments.push_back(a);
 		}
+
+        is_prev_command = is_command;
 	}
 
     return ArgumentList(arguments);
