@@ -16,10 +16,8 @@ int main(int argc, char* argv[])
 		initializeAppContext();
 
 
-		ArgParser args(argc, argv);
-		args.printArgs();
-		args.parse();
-		args.printParsed();
+		ArgParser args;
+		args.print(argc, argv);
 
 
 		MainMenu menu;

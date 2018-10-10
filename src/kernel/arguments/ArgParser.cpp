@@ -8,54 +8,15 @@ using namespace std;
 
 const char* ArgParser::COMMAND_PREFIX = "--";
 
-const char* ArgParser::HELP = "help";
-const char* ArgParser::ID_PATH = "id-path";
-const char* ArgParser::NAME_PATH = "name-path";
-
-const char* const ArgParser::COMMANDS[] = {
-	ArgParser::HELP,
-	ArgParser::ID_PATH,
-	ArgParser::NAME_PATH
-};
-
-
-ArgParser::ArgParser(int argc, char* argv[])
+ArgParser::ArgParser()
 {
-	this->count = argc;
-	this->values = argv;
-}
 
+}
 
 ArgParser::~ArgParser()
 {
 
 }
-
-
-bool ArgParser::exists(const char* const array[], int size, string command)
-{
-	bool exist = false;
-
-	for (int i = 0; i < size; ++i)
-	{
-		const char *current = array[i];
-
-		if ((((string) current) == command))
-		{
-			exist = true;
-			break;
-		}
-	}
-
-	return exist;
-}
-
-
-bool ArgParser::validCommand(string command)
-{
-	return exists(COMMANDS, 3, command);
-}
-
 
 bool ArgParser::isCommand(string arg)
 {
@@ -78,7 +39,6 @@ bool ArgParser::isCommand(string arg)
 	return true;
 }
 
-
 string ArgParser::trimCommand(string command)
 {
 	int size = command.size();
@@ -88,71 +48,18 @@ string ArgParser::trimCommand(string command)
 	return command.substr(pref_size, len);
 }
 
-
-string ArgParser::getExecutableName()
-{
-	return this->executableName;
-}
-
-
-void ArgParser::parse()
-{
-	if (count == 0)
-	{
-		return;
-	}
-
-	executableName = values[0];
-
-	if (count <= 1)
-	{
-		return;
-	}
-
-
-	bool is_command = false;
-
-	string cur_command = "";
-	string command = "";
-	string param = "";
-
-	for (int i = 1; i < count; ++i)
-	{
-		string arg(values[i]);
-		is_command = isCommand(arg);
-
-		if (is_command)
-		{
-			cur_command = trimCommand(arg);
-
-			if (!validCommand(cur_command))
-			{
-				continue;
-			}
-
-			command = cur_command;
-			param = "";
-		}
-		else
-		{
-			param = arg;
-		}
-	}
-}
-
-
-ArgumentList ArgParser::parseArgs()
+ArgumentList ArgParser::parse(int argc, char* argv[])
 {
     vector<Argument> arguments;
 
-    if (count == 0)
+    if (argc == 0)
 	{
 		return ArgumentList(arguments);
 	}
 
-	string execName = values[0];
+	string execName = argv[0];
 
-	if (count == 1)
+	if (argc == 1)
 	{
 		return ArgumentList(arguments);
 	}
@@ -160,9 +67,9 @@ ArgumentList ArgParser::parseArgs()
 	string prev_command = "";
     bool is_prev_command = false;
 
-	for (int i = 1; i < count; ++i)
+	for (int i = 1; i < argc; ++i)
 	{
-		string arg(values[i]);
+		string arg(argv[i]);
 		bool is_command = isCommand(arg);
 
 		if (is_command)
@@ -175,7 +82,7 @@ ArgumentList ArgParser::parseArgs()
 
             prev_command = trimCommand(arg);
 
-            if (i == (count - 1))
+            if (i == (argc - 1))
             {
                 Argument a = Argument(prev_command, "");
                 arguments.push_back(a);
@@ -193,24 +100,9 @@ ArgumentList ArgParser::parseArgs()
     return ArgumentList(arguments);
 }
 
-
-void ArgParser::printArgs()
+void ArgParser::print(int argc, char* argv[])
 {
-	cout << endl << "Arg count: " << count << endl << endl;
-
-	for (int i = 0; i < count; ++i)
-	{
-		cout << i << ") " << values[i] << endl;
-	}
-}
-
-
-void ArgParser::printParsed()
-{
-	cout << endl;
-	cout << "Executable Name: " << getExecutableName() << endl;
-
-    ArgumentList arg_list = parseArgs();
+	ArgumentList arg_list = parse(argc, argv);
 
     vector<Argument> list = arg_list.getArguments();
 
@@ -219,34 +111,4 @@ void ArgParser::printParsed()
         Argument a = list.at(i);
 		cout << i << ") " << a.getArgc() << " = " << a.getArgv() << endl;
 	}
-}
-
-
-bool ArgParser::isHelp()
-{
-	return this->is_help;
-}
-
-
-bool ArgParser::isIdPath()
-{
-	return this->is_idPath;
-}
-
-
-bool ArgParser::isNamePath()
-{
-	return this->is_namePath;
-}
-
-
-char** ArgParser::getIdPath()
-{
-	return this->id_path;
-}
-
-
-char** ArgParser::getNamePath()
-{
-	return this->name_path;
 }
