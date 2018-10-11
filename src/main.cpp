@@ -2,7 +2,7 @@
 #include <exception>
 
 #include "kernel/di/GlobalAppContext.h"
-#include "kernel/arguments/ArgParser.h"
+#include "kernel/arguments/ArgumentService.h"
 
 #include "menu/MainMenu.cpp"
 
@@ -13,11 +13,10 @@ int main(int argc, char* argv[])
 	try
 	{
 		/* Initialize AppContext */
-		initializeAppContext();
+		initializeAppContext(argc, argv);
 
-
-		ArgParser args;
-		args.print(argc, argv);
+        ArgumentService* srv = inject<ArgumentService>("argService");
+        cout << "alek = " << srv->getStringValue("alek") << endl;
 
 
 		MainMenu menu;

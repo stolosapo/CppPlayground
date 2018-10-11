@@ -1,14 +1,18 @@
 #include "GlobalAppContextRegistration.h"
 #include "GlobalAppContext.h"
 
+#include "../arguments/ArgumentServiceFactory.h"
 #include "../log/LogServiceFactory.h"
 #include "../time/TimeServiceFactory.h"
 #include "../serialization/SerializationServiceFactory.h"
 #include "../interruption/SignalServiceFactory.h"
 #include "../audio/AudioTagServiceFactory.h"
 
-void registerServices()
+void registerServices(int argc, char* argv[])
 {
+    /* Argument Service */
+    registerGlobalService<ArgumentServiceFactory>(SINGLETON, "argService", new ArgumentServiceFactory(argc, argv));
+
 	/* Logging Service */
 	registerGlobalService<LogServiceFactory>(SINGLETON, "logService", new LogServiceFactory);
 

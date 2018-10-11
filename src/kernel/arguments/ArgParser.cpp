@@ -109,6 +109,6 @@ void ArgParser::print(int argc, char* argv[])
     for (int i = 0; i < list.size(); ++i)
 	{
         Argument a = list.at(i);
-		cout << i << ") " << a.getArgc() << " = " << a.getArgv() << endl;
+		cout << i << ") " << a.getName() << " = " << a.getValue() << endl;
 	}
 }

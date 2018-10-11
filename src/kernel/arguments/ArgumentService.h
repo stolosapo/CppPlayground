@@ -17,7 +17,7 @@ public:
 	ArgumentService(int argc, char* argv[]);
 	virtual ~ArgumentService();
 
-    bool hasArg(string name);
+    bool hasArg(string name) const;
     string getStringValue(string name) const;
     int getIntValue(string name) const;
     bool getBoolValue(string name) const;

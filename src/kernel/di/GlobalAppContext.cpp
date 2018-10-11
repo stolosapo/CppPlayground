@@ -9,7 +9,7 @@
 AppContext appContext;
 
 
-void initializeAppContext()
+void initializeAppContext(int argc, char* argv[])
 {
 	/* Create context */
 	appContext = AppContext();
@@ -18,7 +18,7 @@ void initializeAppContext()
 
 
 	/* register all services */
-	registerServices();
+	registerServices(argc, argv);
 
 	cout << "* Registered Services" << endl;
 
@@ -35,8 +35,8 @@ void loadStartupServices()
 {
 	map<string, InjectionScope> scopes = appContext.getScopes();
 
-	for (map<string, InjectionScope>::iterator it = scopes.begin(); 
-		it != scopes.end(); 
+	for (map<string, InjectionScope>::iterator it = scopes.begin();
+		it != scopes.end();
 		++it)
 	{
 		string curServiceName = it->first;

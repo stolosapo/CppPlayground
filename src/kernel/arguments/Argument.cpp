@@ -1,14 +1,14 @@
 #include "Argument.h"
 
-Argument::Argument(const string& argc, const string& argv) : argc(argc), argv(argv)
+Argument::Argument(const string& name, const string& value) : name(name), value(value)
 {
 
 }
 
 Argument::Argument(const Argument& arg)
 {
-    argc = arg.argc;
-    argv = arg.argv;
+    name = arg.name;
+    value = arg.value;
 }
 
 Argument::~Argument()
@@ -16,12 +16,12 @@ Argument::~Argument()
 
 }
 
-string Argument::getArgc() const
+string Argument::getName() const
 {
-    return argc;
+    return name;
 }
 
-string Argument::getArgv() const
+string Argument::getValue() const
 {
-    return argv;
+    return value;
 }

@@ -8,16 +8,16 @@ using namespace std;
 class Argument
 {
 private:
-    string argc;
-    string argv;
+    string name;
+    string value;
 
 public:
-	Argument(const string& argc, const string& argv);
+	Argument(const string& name, const string& value);
     Argument(const Argument& arg);
 	virtual ~Argument();
 
-	string getArgc() const;
-    string getArgv() const;
+	string getName() const;
+    string getValue() const;
 };
 
 #endif // Argument_h__

@@ -2,6 +2,7 @@
 #define ArgumentList_h__
 
 #include <vector>
+#include <string>
 
 #include "Argument.h"
 
@@ -17,6 +18,10 @@ public:
 	virtual ~ArgumentList();
 
 	const vector<Argument> getArguments() const;
+
+    int size() const;
+    bool exist(string name) const;
+    string get(string name) const;
 };
 
 #endif // ArgumentList_h__

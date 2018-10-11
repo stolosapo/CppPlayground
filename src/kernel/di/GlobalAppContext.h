@@ -15,7 +15,7 @@ extern AppContext appContext;
 
 
 /* Context initialization */
-void initializeAppContext();
+void initializeAppContext(int argc, char* argv[]);
 void deleteAppContext();
 
 
