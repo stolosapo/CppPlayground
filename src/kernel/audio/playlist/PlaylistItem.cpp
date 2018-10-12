@@ -52,7 +52,14 @@ string PlaylistItem::getTrackTitle()
 		return FileHelper::filename(track.c_str());
 	}
 
-	return metadata->getArtist() + " - " + metadata->getTitle();
+    string delimiter = "";
+
+    if (metadata->getArtist() != "" && metadata->getTitle() != "")
+    {
+        delimiter = " - ";
+    }
+
+	return metadata->getArtist() + delimiter + metadata->getTitle();
 }
 
 AudioTag* PlaylistItem::getMetadata()
