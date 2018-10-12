@@ -26,18 +26,14 @@ int ArgumentList::size() const
 
 bool ArgumentList::exist(string name) const
 {
-    cout << 1.1 << endl;
     for (int i = 0; i < arguments.size(); i++)
     {
-        cout << 1.2 << "." << i << endl;
         cout << arguments.size() << endl;
 
         Argument arg = arguments.at(i);
-        cout << 1.2 << "." << i << endl;
 
         if (arg.getName() == name)
         {
-            cout << 1.2 << "." << i << endl;
             return true;
         }
     }
@@ -47,13 +43,10 @@ bool ArgumentList::exist(string name) const
 
 string ArgumentList::get(string name) const
 {
-    cout << 1 << endl;
     if (!exist(name))
     {
         return "";
     }
-
-    cout << 2 << endl;
 
     for (int i = 0; i < arguments.size(); i++)
     {

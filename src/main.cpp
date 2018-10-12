@@ -15,9 +15,6 @@ int main(int argc, char* argv[])
 		/* Initialize AppContext */
 		initializeAppContext(argc, argv);
 
-        ArgumentService* srv = inject<ArgumentService>("argService");
-        cout << "alek = " << srv->getStringValue("alek") << endl;
-
 
 		MainMenu menu;
 		menu.check();
