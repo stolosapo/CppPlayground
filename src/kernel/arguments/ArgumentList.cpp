@@ -28,8 +28,6 @@ bool ArgumentList::exist(string name) const
 {
     for (int i = 0; i < arguments.size(); i++)
     {
-        cout << arguments.size() << endl;
-
         Argument arg = arguments.at(i);
 
         if (arg.getName() == name)

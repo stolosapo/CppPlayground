@@ -4,6 +4,7 @@
 #include <string>
 
 #include "IcecastClient.h"
+#include "IcecastAgentArgumentAdapter.h"
 #include "protocol/IcecastAgentProtocol.h"
 
 #include "../kernel/tcp/ClientInfo.h"
@@ -14,7 +15,7 @@
 
 using namespace std;
 
-class IcecastAgent : public TcpServer
+class IcecastAgent : public TcpServer, public IcecastAgentArgumentAdapter
 {
 private:
 	Thread* icecastThread;
@@ -24,14 +25,14 @@ protected:
 	IcecastAgentProtocol* agentProtocol();
 
 	virtual ITcpProtocol* createProtocol();
-	virtual const char* configFilename();
+	virtual string configFilename();
 	virtual void initialize();
 	virtual void startIcecast();
 	virtual bool validateCommand(string command);
 	virtual void processCommand(ClientInfo *client, string command);
 
 public:
-	IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv, AudioTagService *tagSrv);
+	IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv, AudioTagService *tagSrv, ArgumentService *argSrv);
 	virtual ~IcecastAgent();
 
 	IcecastClient* getIcecast();

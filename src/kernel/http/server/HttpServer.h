@@ -11,7 +11,7 @@ class HttpServer : public TcpServer
 {
 protected:
 	virtual ITcpProtocol* createProtocol();
-	virtual const char* configFilename();
+	virtual string configFilename();
 
 public:
 	HttpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv);

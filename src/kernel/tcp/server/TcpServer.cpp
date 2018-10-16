@@ -25,7 +25,7 @@ using namespace std;
 *		CONSTRUCTORS
 *
 **********************************/
-TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv) 
+TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv)
 	: ITcpServer(), logSrv(logSrv), sigSrv(sigSrv), timeSrv(timeSrv)
 {
 	startTime = timeSrv->rawNow();
@@ -238,18 +238,20 @@ ITcpProtocol* TcpServer::createProtocol()
 	return new ITcpProtocol(true);
 }
 
-const char* TcpServer::configFilename()
+string TcpServer::configFilename()
 {
 	return "tcpServer.config";
 }
 
 void TcpServer::loadConfig()
 {
-	TcpServerConfigLoader* loader = new TcpServerConfigLoader(configFilename());
+	string config = configFilename();
 
-	this->config = loader->load();
+	TcpServerConfigLoader loader(config.c_str());
 
-	delete loader;
+	this->config = loader.load();
+
+	logSrv->info("Configuration Loaded. '" + string(config) + "'");
 }
 
 void TcpServer::initialize()

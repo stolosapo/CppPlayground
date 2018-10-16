@@ -18,7 +18,7 @@ ITcpProtocol* HttpServer::createProtocol()
 	return (ITcpProtocol*) new HttpProtocol(true);
 }
 
-const char* HttpServer::configFilename()
+string HttpServer::configFilename()
 {
 	return "httpServer.config";
 }

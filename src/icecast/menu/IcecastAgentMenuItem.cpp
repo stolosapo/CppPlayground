@@ -9,6 +9,7 @@
 #include "../../kernel/interruption/SignalService.h"
 #include "../../kernel/audio/AudioTagService.h"
 #include "../../kernel/time/ITimeService.h"
+#include "../../kernel/arguments/ArgumentService.h"
 
 
 IcecastAgentMenuItem::IcecastAgentMenuItem(ILogService *logSrv) : MenuItem()
@@ -38,8 +39,9 @@ void IcecastAgentMenuItem::action()
 	SignalService* sigSrv = inject<SignalService>("signalService");
 	AudioTagService* tagSrv = inject<AudioTagService>("audioTagService");
 	ITimeService* timeSrv = inject<ITimeService>("timeService");
+	ArgumentService* argSrv = inject<ArgumentService>("argService");
 
-	IcecastAgent agent(this->logSrv, sigSrv, timeSrv, tagSrv);
+	IcecastAgent agent(this->logSrv, sigSrv, timeSrv, tagSrv, argSrv);
 
 	agent.action();
 }
