@@ -15,6 +15,7 @@ public:
 	FileHelper();
 	virtual ~FileHelper();
 
+    static bool exists(const char* filepath);
 	static string filenameExt(const char* filepath);
 	static string filename(const char* filepath);
 	static string extension(const char* filename);

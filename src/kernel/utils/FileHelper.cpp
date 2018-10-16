@@ -23,6 +23,12 @@ FileHelper::~FileHelper()
 
 }
 
+bool FileHelper::exists(const char* filepath)
+{
+    ifstream f(filepath);
+    return f.good();
+}
+
 string FileHelper::filenameExt(const char* filepath)
 {
 	vector<string> directories = StringHelper::split(string(filepath), string(FILE_DELIMITTER));
