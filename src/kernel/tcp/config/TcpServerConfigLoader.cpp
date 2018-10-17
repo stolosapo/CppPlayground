@@ -21,7 +21,7 @@ TcpServerConfig* TcpServerConfigLoader::load()
 {
     if (!FileHelper::exists(getFilename().c_str()))
     {
-        throw DomainException(GeneralDomainErrorCode::GNR0001, getFilename().c_str());
+        throw DomainException(GeneralDomainErrorCode::GNR0001, getFilename());
     }
 
 	TcpServerConfig* config = new TcpServerConfig;
