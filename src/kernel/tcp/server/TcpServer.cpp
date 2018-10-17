@@ -29,11 +29,19 @@ TcpServer::TcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* t
 	: ITcpServer(), logSrv(logSrv), sigSrv(sigSrv), timeSrv(timeSrv)
 {
 	startTime = timeSrv->rawNow();
+
+    this->acceptor = NULL;
+    this->pool = NULL;
+    this->config = NULL;
+    this->protocol = NULL;
 }
 
 TcpServer::~TcpServer()
 {
-	delete acceptor;
+    if (this->acceptor != NULL)
+    {
+        delete this->acceptor;
+    }
 
 	if (this->pool != NULL)
 	{
