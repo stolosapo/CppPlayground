@@ -14,11 +14,7 @@ TcpClientConfigLoader::~TcpClientConfigLoader()
 
 }
 
-TcpClientConfig* TcpClientConfigLoader::load()
+TcpClientConfig* TcpClientConfigLoader::createNewConfigInstance()
 {
-	TcpClientConfig* config = new TcpClientConfig;
-
-	this->getSerializer()->loadModelFromFile(config, this->getFilename());
-
-	return config;
+	return new TcpClientConfig;
 }

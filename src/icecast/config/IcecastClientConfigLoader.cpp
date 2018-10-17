@@ -14,11 +14,7 @@ IcecastClientConfigLoader::~IcecastClientConfigLoader()
 
 }
 
-IcecastClientConfig* IcecastClientConfigLoader::load()
+IcecastClientConfig* IcecastClientConfigLoader::createNewConfigInstance()
 {
-	IcecastClientConfig* config = new IcecastClientConfig;
-
-	this->getSerializer()->loadModelFromFile(config, this->getFilename());
-
-	return config;
+	return new IcecastClientConfig;
 }

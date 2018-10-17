@@ -11,11 +11,7 @@ Score4ServerConfigLoader::~Score4ServerConfigLoader()
 
 }
 
-Score4ServerConfig* Score4ServerConfigLoader::load()
+Score4ServerConfig* Score4ServerConfigLoader::createNewConfigInstance()
 {
-	Score4ServerConfig* config = new Score4ServerConfig;
-
-	getSerializer()->loadModelFromFile(config, getFilename());
-
-	return config;
+	return new Score4ServerConfig;
 }

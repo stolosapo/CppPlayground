@@ -14,7 +14,7 @@ public:
 	IcecastClientConfigLoader(string filename);
 	virtual ~IcecastClientConfigLoader();
 
-	virtual IcecastClientConfig* load();
+	virtual IcecastClientConfig* createNewConfigInstance();
 
 };
 

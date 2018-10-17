@@ -14,7 +14,7 @@ public:
 	TcpServerConfigLoader(string filename);
 	virtual ~TcpServerConfigLoader();
 
-	virtual TcpServerConfig* load();
+    virtual TcpServerConfig* createNewConfigInstance();
 
 };
 

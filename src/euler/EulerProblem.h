@@ -28,17 +28,17 @@ protected:
 
 	virtual void beforeSolve();
 	virtual void afterSolve();
-	virtual T example();
+	virtual T example() = 0;
 
 	virtual T solve() = 0;
 	virtual void output(string message);
 
 public:
 	EulerProblem(
-		ILogService *logSrv, 
-		int id, 
-		string name, 
-		string title, 
+		ILogService *logSrv,
+		int id,
+		string name,
+		string title,
 		string description);
 	virtual ~EulerProblem();
 
@@ -67,10 +67,10 @@ public:
 **********************************/
 template <typename T>
 EulerProblem<T>::EulerProblem(
-	ILogService *logSrv, 
-	int id, 
-	string name, 
-	string title, 
+	ILogService *logSrv,
+	int id,
+	string name,
+	string title,
 	string description) : MenuItem()
 {
 	this->logSrv = logSrv;
@@ -170,12 +170,6 @@ template <typename T>
 void EulerProblem<T>::afterSolve()
 {
 
-}
-
-template <typename T>
-T EulerProblem<T>::example()
-{
-	
 }
 
 template <typename T>

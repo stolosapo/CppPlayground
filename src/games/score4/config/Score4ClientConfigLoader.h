@@ -14,7 +14,7 @@ public:
 	Score4ClientConfigLoader(string filename);
 	virtual ~Score4ClientConfigLoader();
 
-	virtual Score4ClientConfig* load();
+	virtual Score4ClientConfig* createNewConfigInstance();
 
 };
 
