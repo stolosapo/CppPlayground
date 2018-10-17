@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string>
 #include "TcpClient.h"
-#include "../config/TcpClientConfigLoader.h"
 #include "../lib/TcpConnector.h"
 #include "../lib/TcpProtocol.h"
 #include "../../converter/Convert.h"
 
 #include "../ClientInfo.h"
 
+#include "../../configuration/ConfigLoader.h"
 #include "../../exception/domain/DomainException.h"
 #include "../../exception/ExceptionMapper.h"
 #include "../exception/TcpClientErrorCode.h"
@@ -136,20 +136,21 @@ ITcpProtocol* TcpClient::createProtocol()
 	return new ITcpProtocol(false);
 }
 
-const char* TcpClient::configFilename()
+string TcpClient::configFilename()
 {
 	return "tcpClient.config";
 }
 
 void TcpClient::loadConfig()
 {
-	TcpClientConfigLoader* loader = new TcpClientConfigLoader(configFilename());
+    string file = configFilename();
 
-	this->config = loader->load();
+	ConfigLoader<TcpClientConfig> loader(file);
 
-	delete loader;
+	this->config = loader.load();
+
+    logSrv->info("Configuration Loaded. '" + file + "'");
 }
-
 
 void TcpClient::initialize()
 {

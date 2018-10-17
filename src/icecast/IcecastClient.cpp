@@ -2,13 +2,13 @@
 
 #include <fstream>
 
-#include "config/IcecastClientConfigLoader.h"
 #include "exception/IcecastDomainErrorCode.h"
 
 #include "../kernel/converter/Convert.h"
 #include "../kernel/utils/FileHelper.h"
 #include "../kernel/exception/domain/DomainException.h"
 #include "../kernel/exception/ExceptionMapper.h"
+#include "../kernel/configuration/ConfigLoader.h"
 
 #include "../kernel/di/GlobalAppContext.h"
 #include "../kernel/interruption/SignalService.h"
@@ -93,7 +93,7 @@ int IcecastClient::getNumberOfPlayedTracks()
 
 void IcecastClient::loadConfig()
 {
-	IcecastClientConfigLoader loader("icecast.config");
+	ConfigLoader<IcecastClientConfig> loader("icecast.config");
 
 	this->config = loader.load();
 }

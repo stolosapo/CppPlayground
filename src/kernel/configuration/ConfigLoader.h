@@ -1,5 +1,5 @@
-#ifndef IConfigLoader_h__
-#define IConfigLoader_h__
+#ifndef ConfigLoader_h__
+#define ConfigLoader_h__
 
 #include <iostream>
 #include <string>
@@ -13,18 +13,17 @@
 using namespace std;
 
 template<class T>
-class IConfigLoader
+class ConfigLoader
 {
 private:
 	ISerializationService* serializer;
 	string filename;
 
 public:
-	IConfigLoader(string filename);
-	virtual ~IConfigLoader();
+	ConfigLoader(string filename);
+	virtual ~ConfigLoader();
 
 	virtual T* load();
-    virtual T* createNewConfigInstance() = 0;
 
 protected:
 	ISerializationService* getSerializer();
@@ -33,7 +32,7 @@ protected:
 
 };
 
-#endif // IConfigLoader_h__
+#endif // ConfigLoader_h__
 
 
 
@@ -41,7 +40,7 @@ protected:
 
 
 template<class T>
-IConfigLoader<T>::IConfigLoader(string filename)
+ConfigLoader<T>::ConfigLoader(string filename)
 {
     this->filename = filename;
 
@@ -49,38 +48,39 @@ IConfigLoader<T>::IConfigLoader(string filename)
 }
 
 template<class T>
-IConfigLoader<T>::~IConfigLoader()
+ConfigLoader<T>::~ConfigLoader()
 {
 
 }
 
 template<class T>
-ISerializationService* IConfigLoader<T>::getSerializer()
+ISerializationService* ConfigLoader<T>::getSerializer()
 {
     return this->serializer;
 }
 
 template<class T>
-string IConfigLoader<T>::getFilename()
+string ConfigLoader<T>::getFilename()
 {
     return this->filename;
 }
 
 template<class T>
-string IConfigLoader<T>::getFilenameWithCheck()
+string ConfigLoader<T>::getFilenameWithCheck()
 {
-    if (!FileHelper::exists(getFilename().c_str()))
+    if (!FileHelper::exists(filename.c_str()))
     {
-        throw DomainException(GeneralDomainErrorCode::GNR0001, getFilename());
+        throw DomainException(GeneralDomainErrorCode::GNR0001, filename);
     }
 
-    return getFilename();
+    return filename;
 }
 
 template<class T>
-T* IConfigLoader<T>::load()
+T* ConfigLoader<T>::load()
 {
-    T* config = createNewConfigInstance();
+    T c;
+    T* config = (T*) c.createNew();
 
 	serializer->loadModelFromFile(config, getFilenameWithCheck());
 

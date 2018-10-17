@@ -31,16 +31,16 @@ protected:
 	ILogService *logSrv;
 
 	ITcpProtocol *protocol;
-	
+
 	virtual ITcpProtocol* createProtocol();
-	virtual const char* configFilename();
+	virtual string configFilename();
 	virtual void loadConfig();
 	virtual void initialize();
 
 	virtual bool cycle(ClientInfo *client);
 
 	virtual void processCommand(ClientInfo *client, string command);
-	
+
 };
 
 #endif // TcpClient_h__

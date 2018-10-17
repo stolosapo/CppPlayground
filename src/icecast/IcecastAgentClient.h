@@ -13,12 +13,12 @@ class IcecastAgentClient : public TcpClient
 {
 protected:
 	virtual ITcpProtocol* createProtocol();
-	virtual const char* configFilename();
+	virtual string configFilename();
 
 public:
 	IcecastAgentClient(ILogService *logSrv, SignalService *sigSrv);
 	virtual ~IcecastAgentClient();
-	
+
 };
 
 #endif // IcecastAgentClient_h__

@@ -4,17 +4,15 @@
 #include <string>
 
 #include "Score4ClientConfig.h"
-#include "../../../kernel/configuration/IConfigLoader.h"
+#include "../../../kernel/configuration/ConfigLoader.h"
 
 using namespace std;
 
-class Score4ClientConfigLoader : public IConfigLoader<Score4ClientConfig>
+class Score4ClientConfigLoader : public ConfigLoader<Score4ClientConfig>
 {
 public:
 	Score4ClientConfigLoader(string filename);
 	virtual ~Score4ClientConfigLoader();
-
-	virtual Score4ClientConfig* createNewConfigInstance();
 
 };
 

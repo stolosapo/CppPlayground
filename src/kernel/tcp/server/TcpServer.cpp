@@ -6,13 +6,13 @@
 #include "../../converter/Convert.h"
 
 #include "TcpServer.h"
-#include "../config/TcpServerConfigLoader.h"
 #include "../lib/TcpAcceptor.h"
 #include "../lib/TcpProtocol.h"
 #include "../ClientInfo.h"
 
 #include "../../task/Thread.h"
 
+#include "../../configuration/ConfigLoader.h"
 #include "../../exception/domain/DomainException.h"
 #include "../../exception/ExceptionMapper.h"
 #include "../exception/TcpServerErrorCode.h"
@@ -106,6 +106,8 @@ void* TcpServer::task(void *context)
 
 
 	finalizeClient(client);
+
+    return NULL;
 }
 
 void* TcpServer::internalClientTask(void *context)
@@ -253,13 +255,12 @@ string TcpServer::configFilename()
 
 void TcpServer::loadConfig()
 {
-	string config = configFilename();
+	string file = configFilename();
 
-	TcpServerConfigLoader loader(config.c_str());
+    ConfigLoader<TcpServerConfig> loader(file);
+    this->config = loader.load();
 
-	this->config = loader.load();
-
-	logSrv->info("Configuration Loaded. '" + string(config) + "'");
+	logSrv->info("Configuration Loaded. '" + file + "'");
 }
 
 void TcpServer::initialize()
