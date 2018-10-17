@@ -21,8 +21,6 @@ private:
 	TcpAcceptor *acceptor;
 	ThreadPool* pool;
 
-	ILogService *logSrv;
-	SignalService* sigSrv;
 	ITimeService* timeSrv;
 
 	time_t startTime;
@@ -46,6 +44,9 @@ public:
 	virtual int numberOfActiveConnections();
 
 protected:
+    SignalService* sigSrv;
+    ILogService *logSrv;
+
 	TcpServerConfig* config;
 
 	ITcpProtocol* getProtocol();

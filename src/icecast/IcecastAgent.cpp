@@ -4,10 +4,10 @@
 
 
 IcecastAgent::IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv, AudioTagService *tagSrv, ArgumentService *argSrv)
-	: TcpServer(logSrv, sigSrv, timeSrv), IcecastAgentArgumentAdapter(argSrv)
+	: TcpServer(logSrv, sigSrv, timeSrv), IcecastAgentArgumentAdapter(argSrv), tagSrv(tagSrv)
 {
 	icecastThread = NULL;
-	icecast = new IcecastClient(logSrv, sigSrv, tagSrv);
+	icecast = NULL;
 }
 
 IcecastAgent::~IcecastAgent()
@@ -19,7 +19,10 @@ IcecastAgent::~IcecastAgent()
 		logger()->trace("Icecast thread finnished!");
 	}
 
-	delete icecast;
+    if (icecast != NULL)
+    {
+        delete icecast;
+    }
 }
 
 IcecastAgentProtocol* IcecastAgent::agentProtocol()
@@ -53,6 +56,13 @@ void IcecastAgent::startIcecast()
 	{
 		delete icecastThread;
 	}
+
+    if (icecast != NULL)
+    {
+        delete icecast;
+    }
+
+    icecast = new IcecastClient(logSrv, sigSrv, tagSrv);
 
 	icecastThread = agentProtocol()->startTask(icecast_start_client, this);
 }

@@ -18,6 +18,8 @@ using namespace std;
 class IcecastAgent : public TcpServer, public IcecastAgentArgumentAdapter
 {
 private:
+    AudioTagService *tagSrv;
+
 	Thread* icecastThread;
 	IcecastClient *icecast;
 
