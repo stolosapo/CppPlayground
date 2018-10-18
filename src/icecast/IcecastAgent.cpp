@@ -12,17 +12,7 @@ IcecastAgent::IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeServ
 
 IcecastAgent::~IcecastAgent()
 {
-	if (icecastThread != NULL)
-	{
-		logger()->trace("Waiting Icecast thread to finnished..");
-		delete icecastThread;
-		logger()->trace("Icecast thread finnished!");
-	}
-
-    if (icecast != NULL)
-    {
-        delete icecast;
-    }
+	disposeIcecast();
 }
 
 IcecastAgentProtocol* IcecastAgent::agentProtocol()
@@ -45,24 +35,31 @@ string IcecastAgent::configFilename()
 	return "icecastAgent.config";
 }
 
-IcecastClient* IcecastAgent::getIcecast()
+IcecastClient* IcecastAgent::createNewIcecast()
 {
-	return icecast;
+    return new IcecastClient(logSrv, sigSrv, tagSrv);
 }
 
-void IcecastAgent::startIcecast()
+void IcecastAgent::disposeIcecast()
 {
-	if (icecastThread != NULL)
-	{
-		delete icecastThread;
-	}
+    if (icecastThread != NULL)
+    {
+        logger()->trace("Waiting Icecast thread to finnished..");
+        delete icecastThread;
+        logger()->trace("Icecast thread finnished!");
+    }
 
     if (icecast != NULL)
     {
         delete icecast;
     }
+}
 
-    icecast = new IcecastClient(logSrv, sigSrv, tagSrv);
+void IcecastAgent::startIcecast()
+{
+	disposeIcecast();
+
+    icecast = createNewIcecast();
 
 	icecastThread = agentProtocol()->startTask(icecast_start_client, this);
 }

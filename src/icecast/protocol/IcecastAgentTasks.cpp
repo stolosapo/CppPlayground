@@ -13,7 +13,7 @@ using namespace std;
 void* icecast_agent_status(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	IcecastClient* client = a->getIcecast();
+	IcecastClient* client = a->icecast;
 
 	double uptimeSec = a->uptime();
 	int connections = a->numberOfActiveConnections();
@@ -43,7 +43,7 @@ void* icecast_agent_status(void* agent)
 void* icecast_now_playing(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	IcecastClient* client = a->getIcecast();
+	IcecastClient* client = a->icecast;
 
 	PlaylistItem track = client->nowPlaying();
 	AudioTag* tag = track.getMetadata();
@@ -74,7 +74,7 @@ void* icecast_start_client(void* agent)
 
 	try
 	{
-		a->getIcecast()->action();
+		a->icecast->action();
 	}
 	catch(DomainException& e)
 	{
@@ -95,7 +95,7 @@ void* icecast_start_client(void* agent)
 void* icecast_start(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	
+
 	return NULL;
 }
 
@@ -103,7 +103,7 @@ void* icecast_stop_playing(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->getIcecast()->stopPlaying();
+	a->icecast->stopPlaying();
 
 	return NULL;
 }
@@ -112,7 +112,7 @@ void* icecast_pause(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->getIcecast()->pause();
+	a->icecast->pause();
 
 	return NULL;
 }
@@ -121,7 +121,7 @@ void* icecast_resume(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->getIcecast()->resume();
+	a->icecast->resume();
 
 	return NULL;
 }
@@ -130,7 +130,7 @@ void* icecast_next_track(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->getIcecast()->next();
+	a->icecast->next();
 
 	return NULL;
 }
@@ -138,7 +138,7 @@ void* icecast_next_track(void* agent)
 void* icecast_stats_genre(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	IcecastClient* client = a->getIcecast();
+	IcecastClient* client = a->icecast;
 
 	string value = "\n";
 
@@ -150,7 +150,7 @@ void* icecast_stats_genre(void* agent)
 void* icecast_stats_artist(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	IcecastClient* client = a->getIcecast();
+	IcecastClient* client = a->icecast;
 
 	string value = "\n";
 
