@@ -46,6 +46,12 @@ OPTS += -DALSA
 LIB += -lasound
 endif
 
+# Lame Feature
+ifeq ($(WITH_LAME), 1)
+OPTS += -DLAME
+LIB += -lmp3lame
+endif
+
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
 	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
