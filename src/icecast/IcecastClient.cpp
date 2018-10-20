@@ -207,7 +207,10 @@ void IcecastClient::streamPlaylist()
 
 void IcecastClient::streamAudioFile(const char* filename, const char* trackMetadata)
 {
-	unsigned char buff[4096];
+    const int AUDIO_SIZE = 4096;
+    // const int AUDIO_SIZE = 8192;
+
+	unsigned char buff[AUDIO_SIZE];
 	long read;
 
 	FILE* mp3file;
