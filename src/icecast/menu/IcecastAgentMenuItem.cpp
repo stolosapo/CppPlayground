@@ -8,6 +8,7 @@
 #include "../../kernel/di/GlobalAppContext.h"
 #include "../../kernel/interruption/SignalService.h"
 #include "../../kernel/audio/AudioTagService.h"
+#include "../../kernel/audio/encoding/AudioEncodingService.h"
 #include "../../kernel/time/ITimeService.h"
 #include "../../kernel/arguments/ArgumentService.h"
 
@@ -38,10 +39,11 @@ void IcecastAgentMenuItem::action()
 {
 	SignalService* sigSrv = inject<SignalService>("signalService");
 	AudioTagService* tagSrv = inject<AudioTagService>("audioTagService");
+	AudioEncodingService* encSrv = inject<AudioEncodingService>("audioEncodingService");
 	ITimeService* timeSrv = inject<ITimeService>("timeService");
 	ArgumentService* argSrv = inject<ArgumentService>("argService");
 
-	IcecastAgent agent(this->logSrv, sigSrv, timeSrv, tagSrv, argSrv);
+	IcecastAgent agent(this->logSrv, sigSrv, timeSrv, tagSrv, argSrv, encSrv);
 
 	agent.action();
 }

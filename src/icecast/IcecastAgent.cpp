@@ -3,8 +3,17 @@
 #include "protocol/IcecastAgentTasks.h"
 
 
-IcecastAgent::IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv, AudioTagService *tagSrv, ArgumentService *argSrv)
-	: TcpServer(logSrv, sigSrv, timeSrv), IcecastAgentArgumentAdapter(argSrv), tagSrv(tagSrv)
+IcecastAgent::IcecastAgent(
+    ILogService *logSrv,
+    SignalService *sigSrv,
+    ITimeService *timeSrv,
+    AudioTagService *tagSrv,
+    ArgumentService *argSrv,
+    AudioEncodingService *encSrv)
+	: TcpServer(logSrv, sigSrv, timeSrv),
+    IcecastAgentArgumentAdapter(argSrv),
+    tagSrv(tagSrv),
+    encSrv(encSrv)
 {
 	icecastThread = NULL;
 	icecast = NULL;
@@ -37,7 +46,7 @@ string IcecastAgent::configFilename()
 
 IcecastClient* IcecastAgent::createNewIcecast()
 {
-    return new IcecastClient(logSrv, sigSrv, tagSrv);
+    return new IcecastClient(logSrv, sigSrv, tagSrv, encSrv);
 }
 
 void IcecastAgent::disposeIcecast()

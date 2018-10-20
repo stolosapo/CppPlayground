@@ -22,12 +22,14 @@ const char* IcecastClient::USER_AGENT = "NoiseStreamer";
 IcecastClient::IcecastClient(
 	ILogService *logSrv,
 	SignalService *sigSrv,
-	AudioTagService *tagSrv)
+	AudioTagService *tagSrv,
+    AudioEncodingService *encSrv)
 	: Version(1, 0, 0),
 	IcecastClientNavigator(logSrv, sigSrv),
 	logSrv(logSrv),
 	sigSrv(sigSrv),
-	tagSrv(tagSrv)
+	tagSrv(tagSrv),
+    encSrv(encSrv)
 {
 	this->config = NULL;
 	this->libShout = NULL;

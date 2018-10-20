@@ -8,6 +8,7 @@
 #include "../../kernel/di/GlobalAppContext.h"
 #include "../../kernel/interruption/SignalService.h"
 #include "../../kernel/audio/AudioTagService.h"
+#include "../../kernel/audio/encoding/AudioEncodingService.h"
 
 
 IcecastClientMenuItem::IcecastClientMenuItem(ILogService *logSrv) : MenuItem()
@@ -36,8 +37,9 @@ void IcecastClientMenuItem::action()
 {
 	SignalService* sigSrv = inject<SignalService>("signalService");
 	AudioTagService* tagSrv = inject<AudioTagService>("audioTagService");
+    AudioEncodingService* encSrv = inject<AudioEncodingService>("audioEncodingService");
 
-	IcecastClient* client = new IcecastClient(this->logSrv, sigSrv, tagSrv);
+	IcecastClient* client = new IcecastClient(this->logSrv, sigSrv, tagSrv, encSrv);
 
 	client->action();
 

@@ -6,6 +6,7 @@
 #include "../kernel/log/ILogService.h"
 #include "../kernel/interruption/SignalService.h"
 #include "../kernel/audio/AudioTagService.h"
+#include "../kernel/audio/encoding/AudioEncodingService.h"
 #include "../kernel/version/Version.h"
 #include "libshout/LibShout.h"
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
@@ -17,6 +18,7 @@ private:
 	ILogService *logSrv;
 	SignalService* sigSrv;
 	AudioTagService *tagSrv;
+    AudioEncodingService *encSrv;
 
 	IcecastClientConfig* config;
 	LibShout* libShout;
@@ -37,7 +39,7 @@ private:
 	static void onLibShoutError(void* sender, EventArgs* e);
 
 public:
-	IcecastClient(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv);
+	IcecastClient(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv, AudioEncodingService *encSrv);
 	virtual ~IcecastClient();
 
 	static const char* USER_AGENT;

@@ -19,6 +19,7 @@ class IcecastAgent : public TcpServer, public IcecastAgentArgumentAdapter
 {
 private:
     AudioTagService *tagSrv;
+    AudioEncodingService *encSrv;
 
 	Thread* icecastThread;
 	IcecastClient *icecast;
@@ -37,7 +38,13 @@ protected:
 	virtual void processCommand(ClientInfo *client, string command);
 
 public:
-	IcecastAgent(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv, AudioTagService *tagSrv, ArgumentService *argSrv);
+	IcecastAgent(
+        ILogService *logSrv,
+        SignalService *sigSrv,
+        ITimeService *timeSrv,
+        AudioTagService *tagSrv,
+        ArgumentService *argSrv,
+        AudioEncodingService *encSrv);
 	virtual ~IcecastAgent();
 
     friend void* icecast_agent_status(void* agent);

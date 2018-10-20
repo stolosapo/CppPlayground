@@ -7,6 +7,7 @@
 #include "../serialization/SerializationServiceFactory.h"
 #include "../interruption/SignalServiceFactory.h"
 #include "../audio/AudioTagServiceFactory.h"
+#include "../audio/encoding/AudioEncodingServiceFactory.h"
 
 void registerServices(int argc, char* argv[])
 {
@@ -27,4 +28,7 @@ void registerServices(int argc, char* argv[])
 
 	/* AudioTag Service */
 	registerGlobalService<AudioTagServiceFactory>(SINGLETON, "audioTagService", new AudioTagServiceFactory);
+
+    /* AudioEncoding Service */
+    registerGlobalService<AudioEncodingServiceFactory>(SINGLETON, "audioEncodingService", new AudioEncodingServiceFactory);
 }
