@@ -59,6 +59,13 @@ string PlaylistItem::getTrackTitle()
         delimiter = " - ";
     }
 
+    string title = metadata->getArtist() + delimiter + metadata->getTitle();
+
+    if (title == "")
+    {
+        return FileHelper::filename(track.c_str());
+    }
+
 	return metadata->getArtist() + delimiter + metadata->getTitle();
 }
 
