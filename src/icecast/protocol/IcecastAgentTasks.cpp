@@ -63,6 +63,9 @@ void* icecast_now_playing(void* agent)
 	value += "Genre: " + tag->getGenre() + "\n";
 	value += "Duration: " + tag->getStrDuration() + "\n";
 	value += "Remaining: " + strRemaining + "\n";
+    value += "Bitrate: " + Convert<int>::NumberToString(tag->getBitrate()) + "\n";
+    value += "Samplerate: " + Convert<int>::NumberToString(tag->getSamplerate()) + "\n";
+    value += "Channels: " + Convert<int>::NumberToString(tag->getChannels()) + "\n";
 
 	return static_cast<void*>(new string(value));
 }
