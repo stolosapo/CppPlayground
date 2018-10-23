@@ -28,6 +28,8 @@ public:
 	int getPoolsize();
 
 protected:
+    TcpServerConfig(ModelFactory modelFactory);
+
 	virtual void registerProperties();
 
 };

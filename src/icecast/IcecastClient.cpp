@@ -23,13 +23,15 @@ IcecastClient::IcecastClient(
 	ILogService *logSrv,
 	SignalService *sigSrv,
 	AudioTagService *tagSrv,
-    AudioEncodingService *encSrv)
+    AudioEncodingService *encSrv,
+    string configFilename)
 	: Version(1, 0, 0),
 	IcecastClientNavigator(logSrv, sigSrv),
 	logSrv(logSrv),
 	sigSrv(sigSrv),
 	tagSrv(tagSrv),
-    encSrv(encSrv)
+    encSrv(encSrv),
+    configFilename(configFilename)
 {
 	this->config = NULL;
 	this->libShout = NULL;
@@ -95,7 +97,7 @@ int IcecastClient::getNumberOfPlayedTracks()
 
 void IcecastClient::loadConfig()
 {
-	ConfigLoader<IcecastClientConfig> loader("icecast.config");
+	ConfigLoader<IcecastClientConfig> loader(configFilename);
 
 	this->config = loader.load();
 }

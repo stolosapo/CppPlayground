@@ -2,6 +2,8 @@
 
 #include "protocol/IcecastAgentTasks.h"
 
+#include "../kernel/configuration/ConfigLoader.h"
+
 
 IcecastAgent::IcecastAgent(
     ILogService *logSrv,
@@ -29,6 +31,11 @@ IcecastAgentProtocol* IcecastAgent::agentProtocol()
 	return (IcecastAgentProtocol*) getProtocol();
 }
 
+IcecastAgentConfig* IcecastAgent::agentConfig()
+{
+    return (IcecastAgentConfig*) this->config;
+}
+
 ITcpProtocol* IcecastAgent::createProtocol()
 {
 	return (ITcpProtocol*) new IcecastAgentProtocol(true);
@@ -44,9 +51,19 @@ string IcecastAgent::configFilename()
 	return "icecastAgent.config";
 }
 
+void IcecastAgent::loadConfig()
+{
+	string file = configFilename();
+
+    ConfigLoader<IcecastAgentConfig> loader(file);
+    this->config = (TcpServerConfig*) loader.load();
+
+	logSrv->info("Configuration Loaded. '" + file + "'");
+}
+
 IcecastClient* IcecastAgent::createNewIcecast()
 {
-    return new IcecastClient(logSrv, sigSrv, tagSrv, encSrv);
+    return new IcecastClient(logSrv, sigSrv, tagSrv, encSrv, "icecast.config");
 }
 
 void IcecastAgent::disposeIcecast()

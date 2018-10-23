@@ -13,6 +13,11 @@ TcpServerConfig::TcpServerConfig() : IConfig(&factory)
 	this->registerProperties();
 }
 
+TcpServerConfig::TcpServerConfig(ModelFactory modelFactory) : IConfig(modelFactory)
+{
+	this->registerProperties();
+}
+
 TcpServerConfig::~TcpServerConfig()
 {
 

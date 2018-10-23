@@ -6,6 +6,7 @@
 #include "IcecastClient.h"
 #include "IcecastAgentArgumentAdapter.h"
 #include "protocol/IcecastAgentProtocol.h"
+#include "config/IcecastAgentConfig.h"
 
 #include "../kernel/tcp/ClientInfo.h"
 #include "../kernel/tcp/server/StatefullTcpServer.h"
@@ -29,9 +30,11 @@ private:
 
 protected:
 	IcecastAgentProtocol* agentProtocol();
+	IcecastAgentConfig* agentConfig();
 
 	virtual ITcpProtocol* createProtocol();
 	virtual string configFilename();
+    virtual void loadConfig();
 	virtual void initialize();
 	virtual void startIcecast();
 	virtual bool validateCommand(string command);

@@ -20,6 +20,8 @@ private:
 	AudioTagService *tagSrv;
     AudioEncodingService *encSrv;
 
+    string configFilename;
+
 	IcecastClientConfig* config;
 	LibShout* libShout;
 	PlaylistHandlerFactory* playlistHandlerFactory;
@@ -39,7 +41,12 @@ private:
 	static void onLibShoutError(void* sender, EventArgs* e);
 
 public:
-	IcecastClient(ILogService *logSrv, SignalService *sigSrv, AudioTagService *tagSrv, AudioEncodingService *encSrv);
+	IcecastClient(
+        ILogService *logSrv,
+        SignalService *sigSrv,
+        AudioTagService *tagSrv,
+        AudioEncodingService *encSrv,
+        string configFilename);
 	virtual ~IcecastClient();
 
 	static const char* USER_AGENT;

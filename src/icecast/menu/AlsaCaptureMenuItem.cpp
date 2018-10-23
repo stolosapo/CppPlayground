@@ -14,7 +14,7 @@ AlsaCaptureMenuItem::AlsaCaptureMenuItem(ILogService *logSrv) : MenuItem()
 {
 	this->logSrv = logSrv;
 
-	this->setId(2);
+	this->setId(1);
 
 	this->setName("Alsa Capture");
 	this->setTitle("Alsa Capture");

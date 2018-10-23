@@ -17,7 +17,7 @@ IcecastAgentMenuItem::IcecastAgentMenuItem(ILogService *logSrv) : MenuItem()
 {
 	this->logSrv = logSrv;
 
-	this->setId(3);
+	this->setId(2);
 
 	this->setName("Icecast Agent");
 	this->setTitle("Icecast Agent");
