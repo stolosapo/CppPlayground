@@ -1,7 +1,5 @@
-#include <iostream>
+#include "MainMenu.h"
 
-#include "MainMenuHeader.cpp"
-#include "../kernel/menu/MenuContainer.h"
 #include "../log/LogServiceMenuContainer.h"
 #include "../euler/EulerProblemContainer.cpp"
 
@@ -11,41 +9,57 @@
 #include "../icecast/menu/IcecastMenuContainer.h"
 #include "../games/GameMenuContainer.h"
 
-using namespace std;
-
-class MainMenu : public MenuContainer
+MainMenu::MainMenu(ArgumentService *argSrv)
+    : MenuContainer(1, "Main Menu", "Main Menu", 7),
+    MainMenuArgumentAdapter(argSrv)
 {
-public:
-	MainMenu() : MenuContainer(
-		1,
-		"Main Menu",
-		"Main Menu",
-		7)
-	{
 
-	}
+}
 
-	virtual ~MainMenu()
-	{
+MainMenu::~MainMenu()
+{
 
-	}
+}
 
-protected:
-	virtual void fillOptions()
-	{
-		this->addMenuItem(0, new LogServiceMenuContainer);
-		this->addMenuItem(1, new EulerProblemContainer);
-		this->addMenuItem(2, new TcpMenuContainer);
-		this->addMenuItem(3, new SerializationMenuContainer);
-		this->addMenuItem(4, new GpioMenuContainer);
-		this->addMenuItem(5, new IcecastMenuContainer);
-		this->addMenuItem(6, new GameMenuContainer);
-	}
+void MainMenu::action()
+{
+    if (!hasMenuItem())
+    {
+        MenuContainer::action();
+        return;
+    }
 
-	virtual string getHeader()
-	{
-		MainMenuHeader header;
-		return header.getRandomHeader();
-	}
+    string name = getMenuItem();
+    MenuItem* foundItem = findMenuItemByName(name);
 
-};
+    if (foundItem == NULL)
+    {
+        cerr << "Not found menu item with name: " << name << endl;
+        return;
+    }
+
+    if (((MenuContainer*) foundItem) != NULL)
+    {
+        cerr << "Menu Item must not be MenuContainer" << endl;
+        return;
+    }
+
+    foundItem->action();
+}
+
+void MainMenu::fillOptions()
+{
+	this->addMenuItem(0, new LogServiceMenuContainer);
+	this->addMenuItem(1, new EulerProblemContainer);
+	this->addMenuItem(2, new TcpMenuContainer);
+	this->addMenuItem(3, new SerializationMenuContainer);
+	this->addMenuItem(4, new GpioMenuContainer);
+	this->addMenuItem(5, new IcecastMenuContainer);
+	this->addMenuItem(6, new GameMenuContainer);
+}
+
+string MainMenu::getHeader()
+{
+	MainMenuHeader header;
+	return header.getRandomHeader();
+}

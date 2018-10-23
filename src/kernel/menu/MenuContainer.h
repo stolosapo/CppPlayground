@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "MenuItem.h"
 #include "../log/ILogService.h"
@@ -24,6 +25,7 @@ private:
 	bool continueQuestion;
 
 	MenuItem **menuItems;
+    vector<MenuItem*> items;
 
 public:
 	MenuContainer(int id, string name, string title, const int size);
@@ -52,6 +54,7 @@ protected:
 	int getMaxDisplaySize();
 
 	virtual MenuItem *findMenuItem();
+    virtual MenuItem* findMenuItemByName(string name);
 	virtual int promptQuestion();
 	virtual bool promptContinueQuestion();
 	virtual void showOptions();

@@ -115,6 +115,8 @@ void MenuContainer::setContinueQuestion(bool continueQuestion)
 void MenuContainer::addMenuItem(int index, MenuItem *menuItem)
 {
 	this->menuItems[index] = menuItem;
+
+    items.push_back(menuItem);
 }
 
 int MenuContainer::getMaxDisplaySize()
@@ -187,6 +189,55 @@ MenuItem *MenuContainer::findMenuItem()
 	}
 
 	return this->findMenuItem();
+}
+
+MenuItem* MenuContainer::findMenuItemByName(string name)
+{
+    if (items.empty())
+    {
+        fillOptions();
+    }
+
+    for (int i = 0; i < items.size(); ++i)
+	{
+        MenuItem* item = items.at(i);
+
+        cout << item->getName() << " ";
+
+        /* If found return it */
+        if (item->getName() == name)
+        {
+            return item;
+        }
+
+        /* If is NOT ManuContainer keep searching */
+        if (!((MenuContainer*) item))
+        {
+            cout << "[ITEM]" << endl;
+            continue;
+        }
+
+        cout << "[MENU] -> ";
+
+        /* If IS MenuContainer search inside menu */
+        MenuContainer* menu = (MenuContainer*) item;
+
+        cout << 1 << endl;
+        cout << menu->getName() << endl;
+
+        MenuItem* found = menu->findMenuItemByName(name);
+        cout << 2 << endl;
+
+        /* If found return it */
+        if (found != NULL)
+        {
+            return found;
+        }
+
+        /* If not found continue searching */
+	}
+
+    return NULL;
 }
 
 int MenuContainer::promptQuestion()
