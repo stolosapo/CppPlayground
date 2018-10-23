@@ -4,5 +4,6 @@
 	"description":"An icecast agent server",
 	"hostname":"localhost",
 	"port":51717,
-	"poolsize":2
+	"poolsize":2,
+    "icecast_config": "icecast.config"
 }

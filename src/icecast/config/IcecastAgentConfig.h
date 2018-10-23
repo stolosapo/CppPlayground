@@ -16,6 +16,8 @@ public:
 	IcecastAgentConfig();
 	virtual ~IcecastAgentConfig();
 
+    string getIcecastConfig();
+
 protected:
 	virtual void registerProperties();
 

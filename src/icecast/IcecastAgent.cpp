@@ -63,7 +63,7 @@ void IcecastAgent::loadConfig()
 
 IcecastClient* IcecastAgent::createNewIcecast()
 {
-    return new IcecastClient(logSrv, sigSrv, tagSrv, encSrv, "icecast.config");
+    return new IcecastClient(logSrv, sigSrv, tagSrv, encSrv, agentConfig()->getIcecastConfig());
 }
 
 void IcecastAgent::disposeIcecast()
