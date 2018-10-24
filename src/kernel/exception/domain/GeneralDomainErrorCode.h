@@ -7,6 +7,8 @@ class GeneralDomainErrorCode
 {
 public:
 	static const DomainErrorCode GNR0001;
+	static const DomainErrorCode GNR0002;
+	static const DomainErrorCode GNR0003;
 
 	GeneralDomainErrorCode();
 	virtual ~GeneralDomainErrorCode();

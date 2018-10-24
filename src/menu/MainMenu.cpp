@@ -9,6 +9,10 @@
 #include "../icecast/menu/IcecastMenuContainer.h"
 #include "../games/GameMenuContainer.h"
 
+#include "../kernel/exception/domain/DomainException.h"
+#include "../kernel/exception/domain/GeneralDomainErrorCode.h"
+
+
 MainMenu::MainMenu(ArgumentService *argSrv)
     : MenuContainer(1, "Main Menu", "Main Menu", 7),
     MainMenuArgumentAdapter(argSrv)
@@ -34,14 +38,12 @@ void MainMenu::action()
 
     if (foundItem == NULL)
     {
-        cerr << "Not found menu item with name: " << name << endl;
-        return;
+        throw DomainException(GeneralDomainErrorCode::GNR0002, name);
     }
 
     if (dynamic_cast<MenuContainer*>(foundItem) != NULL)
     {
-        cerr << "Menu Item must not be MenuContainer" << endl;
-        return;
+        throw DomainException(GeneralDomainErrorCode::GNR0003, name);
     }
 
     foundItem->action();

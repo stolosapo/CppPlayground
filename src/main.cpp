@@ -4,6 +4,8 @@
 #include "kernel/di/GlobalAppContext.h"
 #include "kernel/arguments/ArgumentService.h"
 
+#include "kernel/exception/ExceptionMapper.h"
+
 #include "menu/MainMenu.h"
 
 using namespace std;
@@ -25,6 +27,14 @@ int main(int argc, char* argv[])
 
 		/* Clear AppContext */
 		deleteAppContext();
+	}
+    catch(DomainException& e)
+	{
+        cerr << "Fatal Error: " << handle(e) << endl;
+	}
+	catch(RuntimeException& e)
+	{
+        cerr << "Fatal Error: " << handle(e) << endl;
 	}
 	catch(exception& e)
 	{
