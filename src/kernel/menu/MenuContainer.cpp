@@ -201,8 +201,7 @@ MenuItem* MenuContainer::findMenuItemByName(string name)
     for (int i = 0; i < items.size(); ++i)
 	{
         MenuItem* item = items.at(i);
-
-        cout << item->getName() << " ";
+        MenuContainer* menu = dynamic_cast<MenuContainer*>(item);
 
         /* If found return it */
         if (item->getName() == name)
@@ -211,22 +210,13 @@ MenuItem* MenuContainer::findMenuItemByName(string name)
         }
 
         /* If is NOT ManuContainer keep searching */
-        if (!((MenuContainer*) item))
+        if (menu == NULL)
         {
-            cout << "[ITEM]" << endl;
             continue;
         }
 
-        cout << "[MENU] -> ";
-
         /* If IS MenuContainer search inside menu */
-        MenuContainer* menu = (MenuContainer*) item;
-
-        cout << 1 << endl;
-        cout << menu->getName() << endl;
-
         MenuItem* found = menu->findMenuItemByName(name);
-        cout << 2 << endl;
 
         /* If found return it */
         if (found != NULL)

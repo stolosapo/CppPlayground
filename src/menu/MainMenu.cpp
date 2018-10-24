@@ -38,7 +38,7 @@ void MainMenu::action()
         return;
     }
 
-    if (((MenuContainer*) foundItem) != NULL)
+    if (dynamic_cast<MenuContainer*>(foundItem) != NULL)
     {
         cerr << "Menu Item must not be MenuContainer" << endl;
         return;
