@@ -27,7 +27,7 @@ string IcecastAgentConfig::getIcecastConfig()
 
     if (value == "")
     {
-        return "icecast.config";
+        return "icecast/icecast.config";
     }
 
     return value;

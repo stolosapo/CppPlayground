@@ -20,5 +20,5 @@ ITcpProtocol* HttpServer::createProtocol()
 
 string HttpServer::configFilename()
 {
-	return "httpServer.config";
+	return "http/httpServer.config";
 }

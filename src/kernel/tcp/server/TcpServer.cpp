@@ -250,7 +250,7 @@ ITcpProtocol* TcpServer::createProtocol()
 
 string TcpServer::configFilename()
 {
-	return "tcpServer.config";
+	return "tcp/tcpServer.config";
 }
 
 void TcpServer::loadConfig()

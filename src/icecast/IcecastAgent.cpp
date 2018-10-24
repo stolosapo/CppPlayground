@@ -48,7 +48,7 @@ string IcecastAgent::configFilename()
         return getAgentConfigFilename();
     }
 
-	return "icecastAgent.config";
+	return "icecast/icecastAgent.config";
 }
 
 void IcecastAgent::loadConfig()

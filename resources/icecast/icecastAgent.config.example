@@ -5,5 +5,5 @@
 	"hostname":"localhost",
 	"port":51717,
 	"poolsize":2,
-    "icecast_config": "icecast.config"
+    "icecast_config": "icecast/icecast.config"
 }

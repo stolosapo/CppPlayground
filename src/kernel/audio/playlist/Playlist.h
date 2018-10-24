@@ -12,13 +12,13 @@ class Playlist
 {
 private:
 	Locker _locker;
-	
-	const char* filename;
+
+	string filename;
 
 	vector<string> playlist;
 
 public:
-	Playlist(const char* filename);
+	Playlist(string filename);
 	virtual ~Playlist();
 
 	int size();

@@ -13,9 +13,9 @@
 	"bitrate":"128",
 	"samplerate":"44100",
 	"channels":"2",
-	"playlist":"playlist.pls",
-	"history":"playlist.history.pls",
-	"metadata":"playlist.metadata.json",
+	"playlist":"icecast/playlist.pls",
+	"history":"icecast/playlist.history.pls",
+	"metadata":"icecast/playlist.metadata.json",
 	"repeat":true,
 	"strategy":"RANDOM"
 }

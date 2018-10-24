@@ -3,7 +3,7 @@
 #include "../../di/GlobalAppContext.h"
 
 PlaylistHandlerFactory::PlaylistHandlerFactory(
-	const char* playlistFile,
+	string playlistFile,
 	string historyFile,
 	PlaylistStrategyType strategyType,
 	bool repeat)

@@ -9,7 +9,7 @@ private:
 	ILogService* logService;
 	ISerializationService* serializationSrv;
 	ITimeService* timeSrv;
-	
+
 	PlaylistStrategyType strategyType;
 	bool repeat;
 
@@ -20,7 +20,7 @@ private:
 
 public:
 	PlaylistHandlerFactory(
-		const char* playlistFile,
+		string playlistFile,
 		string historyFile,
 		PlaylistStrategyType strategyType,
 		bool repeat);

@@ -20,5 +20,5 @@ ITcpProtocol* IcecastAgentClient::createProtocol()
 
 string IcecastAgentClient::configFilename()
 {
-	return "icecastAgentClient.config";
+	return "icecast/icecastAgentClient.config";
 }

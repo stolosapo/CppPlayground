@@ -116,7 +116,7 @@ void IcecastClient::initializePlaylist()
 	}
 
 	playlistHandlerFactory =
-		new PlaylistHandlerFactory(playlistFile.c_str(), historyFile, type, repeat);
+		new PlaylistHandlerFactory(playlistFile, historyFile, type, repeat);
 
 	playlistHandler = playlistHandlerFactory->create();
 

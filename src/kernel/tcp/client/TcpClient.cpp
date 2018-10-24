@@ -138,7 +138,7 @@ ITcpProtocol* TcpClient::createProtocol()
 
 string TcpClient::configFilename()
 {
-	return "tcpClient.config";
+	return "tcp/tcpClient.config";
 }
 
 void TcpClient::loadConfig()
