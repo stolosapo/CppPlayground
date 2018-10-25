@@ -20,8 +20,8 @@ TcpMenuContainer::~TcpMenuContainer()
 
 void TcpMenuContainer::fillOptions()
 {
-	this->addMenuItem(0, new TcpServerMenuItem(logSrv));
-	this->addMenuItem(1, new TcpClientMenuItem(logSrv));
+	this->addMenuItem(new TcpServerMenuItem(logSrv));
+	this->addMenuItem(new TcpClientMenuItem(logSrv));
 }
 
 string TcpMenuContainer::getHeader()

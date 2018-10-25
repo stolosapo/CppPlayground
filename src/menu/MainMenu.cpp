@@ -57,13 +57,13 @@ void MainMenu::action()
 
 void MainMenu::fillOptions()
 {
-	this->addMenuItem(0, new LogServiceMenuContainer);
-	this->addMenuItem(1, new EulerProblemContainer);
-	this->addMenuItem(2, new TcpMenuContainer);
-	this->addMenuItem(3, new SerializationMenuContainer);
-	this->addMenuItem(4, new GpioMenuContainer);
-	this->addMenuItem(5, new IcecastMenuContainer);
-	this->addMenuItem(6, new GameMenuContainer);
+	this->addMenuItem(new LogServiceMenuContainer);
+	this->addMenuItem(new EulerProblemContainer);
+	this->addMenuItem(new TcpMenuContainer);
+	this->addMenuItem(new SerializationMenuContainer);
+	this->addMenuItem(new GpioMenuContainer);
+	this->addMenuItem(new IcecastMenuContainer);
+	this->addMenuItem(new GameMenuContainer);
 }
 
 string MainMenu::getHeader()

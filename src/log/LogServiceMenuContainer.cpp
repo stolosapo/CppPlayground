@@ -17,7 +17,7 @@ LogServiceMenuContainer::~LogServiceMenuContainer()
 
 void LogServiceMenuContainer::fillOptions()
 {
-	this->addMenuItem(0, new LogMenuItem(logSrv));
+	this->addMenuItem(new LogMenuItem(logSrv));
 }
 
 string LogServiceMenuContainer::getHeader()

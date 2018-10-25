@@ -111,7 +111,7 @@ void MenuContainer::setContinueQuestion(bool continueQuestion)
 *
 ********************************/
 
-void MenuContainer::addMenuItem(int index, MenuItem *menuItem)
+void MenuContainer::addMenuItem(MenuItem *menuItem)
 {
     items.push_back(menuItem);
 }

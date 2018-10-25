@@ -19,7 +19,7 @@ SerializationMenuContainer::~SerializationMenuContainer()
 
 void SerializationMenuContainer::fillOptions()
 {
-	this->addMenuItem(0, new SerializationMenuItem(logSrv));
+	this->addMenuItem(new SerializationMenuItem(logSrv));
 }
 
 string SerializationMenuContainer::getHeader()

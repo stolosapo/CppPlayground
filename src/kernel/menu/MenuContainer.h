@@ -50,7 +50,7 @@ protected:
 	void setQuestion(string question);
 	void setContinueQuestion(bool continueQuestion);
 
-	void addMenuItem(int index, MenuItem *menuItem);
+	void addMenuItem(MenuItem *menuItem);
     void clear();
 
 	int getMaxDisplaySize();

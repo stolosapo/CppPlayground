@@ -18,8 +18,8 @@ Score4MenuContainer::~Score4MenuContainer()
 
 void Score4MenuContainer::fillOptions()
 {
-	this->addMenuItem(0, new Score4ServerMenuItem(logSrv));
-	this->addMenuItem(1, new Score4ClientMenuItem(logSrv));
+	this->addMenuItem(new Score4ServerMenuItem(logSrv));
+	this->addMenuItem(new Score4ClientMenuItem(logSrv));
 }
 
 string Score4MenuContainer::getHeader()

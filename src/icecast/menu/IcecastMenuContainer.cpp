@@ -18,9 +18,9 @@ IcecastMenuContainer::~IcecastMenuContainer()
 
 void IcecastMenuContainer::fillOptions()
 {
-	this->addMenuItem(0, new AlsaCaptureMenuItem(logSrv));
-	this->addMenuItem(1, new IcecastAgentMenuItem(logSrv));
-	this->addMenuItem(2, new IcecastAgentClientMenuItem(logSrv));
+	this->addMenuItem(new AlsaCaptureMenuItem(logSrv));
+	this->addMenuItem(new IcecastAgentMenuItem(logSrv));
+	this->addMenuItem(new IcecastAgentClientMenuItem(logSrv));
 }
 
 string IcecastMenuContainer::getHeader()

@@ -18,7 +18,7 @@ GameMenuContainer::~GameMenuContainer()
 
 void GameMenuContainer::fillOptions()
 {
-	this->addMenuItem(0, new Score4MenuContainer);
+	this->addMenuItem(new Score4MenuContainer);
 }
 
 string GameMenuContainer::getHeader()

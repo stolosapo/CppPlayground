@@ -19,7 +19,7 @@ GpioMenuContainer::~GpioMenuContainer()
 
 void GpioMenuContainer::fillOptions()
 {
-	this->addMenuItem(0, new GpioMenuItem(logSrv));
+	this->addMenuItem(new GpioMenuItem(logSrv));
 }
 
 string GpioMenuContainer::getHeader()
