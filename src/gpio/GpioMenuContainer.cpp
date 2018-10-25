@@ -7,8 +7,7 @@
 GpioMenuContainer::GpioMenuContainer() : MenuContainer(
 	5,
 	"Gpio",
-	"Gpio",
-	1)
+	"Gpio")
 {
 	this->setContinueQuestion(true);
 }

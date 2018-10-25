@@ -6,8 +6,7 @@
 Score4MenuContainer::Score4MenuContainer() : MenuContainer(
 	1,
 	"Score 4",
-	"Score 4",
-	2)
+	"Score 4")
 {
 
 }

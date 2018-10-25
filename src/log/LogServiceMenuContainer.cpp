@@ -5,8 +5,7 @@
 LogServiceMenuContainer::LogServiceMenuContainer() : MenuContainer(
 	1,
 	"Log Service Test",
-	"Log Service Test",
-	1)
+	"Log Service Test")
 {
 	this->setContinueQuestion(true);
 }

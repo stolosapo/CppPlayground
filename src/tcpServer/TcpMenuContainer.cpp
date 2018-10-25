@@ -8,8 +8,7 @@
 TcpMenuContainer::TcpMenuContainer() : MenuContainer(
 	3,
 	"Tcp Client/Server",
-	"Tcp Client/Server",
-	2)
+	"Tcp Client/Server")
 {
 
 }

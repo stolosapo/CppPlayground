@@ -19,10 +19,9 @@ class EulerProblemContainer : public MenuContainer
 {
 public:
 	EulerProblemContainer() : MenuContainer(
-		2, 
+		2,
 		"Euler Problems",
-		"Euler Problems",
-		10)
+		"Euler Problems")
 	{
 		this->setContinueQuestion(true);
 	}

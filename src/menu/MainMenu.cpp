@@ -14,7 +14,7 @@
 
 
 MainMenu::MainMenu(ArgumentService *argSrv)
-    : MenuContainer(1, "Main Menu", "Main Menu", 7),
+    : MenuContainer(1, "Main Menu", "Main Menu"),
     MainMenuArgumentAdapter(argSrv)
 {
 

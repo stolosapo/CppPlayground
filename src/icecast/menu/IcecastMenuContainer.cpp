@@ -6,8 +6,7 @@
 IcecastMenuContainer::IcecastMenuContainer() : MenuContainer(
 	6,
 	"Icecast",
-	"Icecast",
-	3)
+	"Icecast")
 {
 	this->setContinueQuestion(true);
 }

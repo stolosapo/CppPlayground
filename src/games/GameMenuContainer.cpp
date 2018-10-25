@@ -6,8 +6,7 @@
 GameMenuContainer::GameMenuContainer() : MenuContainer(
 	7,
 	"Games",
-	"Games",
-	1)
+	"Games")
 {
 
 }

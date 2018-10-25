@@ -7,8 +7,7 @@
 SerializationMenuContainer::SerializationMenuContainer() : MenuContainer(
 	4,
 	"Serialization Parser",
-	"Serialization Parser",
-	1)
+	"Serialization Parser")
 {
 	this->setContinueQuestion(true);
 }

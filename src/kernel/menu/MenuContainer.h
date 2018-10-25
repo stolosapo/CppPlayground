@@ -26,7 +26,7 @@ private:
     vector<MenuItem*> items;
 
 public:
-	MenuContainer(int id, string name, string title, const int size);
+	MenuContainer(int id, string name, string title);
 	virtual ~MenuContainer();
 
 	int getSize();

@@ -16,7 +16,7 @@ using namespace std;
 *
 ********************************/
 
-MenuContainer::MenuContainer(int id, string name, string title, const int size) : MenuItem()
+MenuContainer::MenuContainer(int id, string name, string title) : MenuItem()
 {
 	this->setId(id);
 	this->setName(name);
