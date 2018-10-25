@@ -17,14 +17,12 @@ class MenuContainer : public MenuItem
 private:
 	static const int DEFAULT_EXIT_CODE = 0;
 
-	int size;
 	string question;
 	int selection;
 	int exitCode;
 	bool useOptions;
 	bool continueQuestion;
 
-	MenuItem **menuItems;
     vector<MenuItem*> items;
 
 public:
@@ -50,6 +48,7 @@ protected:
 	void setContinueQuestion(bool continueQuestion);
 
 	void addMenuItem(int index, MenuItem *menuItem);
+    void clear();
 
 	int getMaxDisplaySize();
 

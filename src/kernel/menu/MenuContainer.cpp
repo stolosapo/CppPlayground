@@ -28,17 +28,13 @@ MenuContainer::MenuContainer(int id, string name, string title, const int size) 
 	this->question = "Give option: ";
 	this->continueQuestion = false;
 
-	this->size = size;
-	this->menuItems = new MenuItem *[size];
-
 	logSrv = inject<ILogService>("logService");
 	sigSrv = inject<SignalService>("signalService");
 }
 
 MenuContainer::~MenuContainer()
 {
-	this->logSrv = NULL;
-	delete[] this->menuItems;
+    clear();
 }
 
 
@@ -51,7 +47,7 @@ MenuContainer::~MenuContainer()
 
 int MenuContainer::getSize()
 {
-	return this->size;
+	return items.size();
 }
 
 string MenuContainer::getQuestion()
@@ -114,9 +110,22 @@ void MenuContainer::setContinueQuestion(bool continueQuestion)
 
 void MenuContainer::addMenuItem(int index, MenuItem *menuItem)
 {
-	this->menuItems[index] = menuItem;
-
     items.push_back(menuItem);
+}
+
+void MenuContainer::clear()
+{
+    for (int i = 0; i < items.size(); i++)
+    {
+        if (items.at(i) == NULL)
+        {
+            continue;
+        }
+
+        delete items.at(i);
+    }
+
+    vector<MenuItem*>().swap(items);
 }
 
 int MenuContainer::getMaxDisplaySize()
@@ -126,11 +135,11 @@ int MenuContainer::getMaxDisplaySize()
 
 	MenuItem *current;
 
-	for (int i = 0; i < this->size; ++i)
+	for (int i = 0; i < items.size(); ++i)
 	{
-		if (this->menuItems[i] != NULL)
+		if (items.at(i) != NULL)
 		{
-			current = this->menuItems[i];
+			current = items.at(i);
 			curSize = current->getTitle().length();
 
 			if (curSize > max)
@@ -146,15 +155,17 @@ int MenuContainer::getMaxDisplaySize()
 MenuItem *MenuContainer::findMenuItem()
 {
 	if (this->selection == this->exitCode)
+    {
 		return NULL;
+    }
 
 	MenuItem *current;
 
-	for (int i = 0; i < this->size; ++i)
+	for (int i = 0; i < items.size(); ++i)
 	{
-		if (this->menuItems[i] != NULL)
+		if (items.at(i) != NULL)
 		{
-			current = this->menuItems[i];
+			current = items.at(i);
 			if (current->getId() == this->selection)
 			{
 				return current;
@@ -253,9 +264,12 @@ bool MenuContainer::promptContinueQuestion()
 
 void MenuContainer::showOptions()
 {
-	this->fillOptions();
+    if (items.empty())
+    {
+        fillOptions();
+    }
 
-	if (this->useOptions && menuItems != NULL)
+	if (this->useOptions)
 	{
 
 		logSrv->print("\n");
@@ -263,11 +277,11 @@ void MenuContainer::showOptions()
 		logSrv->print(". Exit");
 		logSrv->print("\n\n");
 
-		for (int i = 0; i < this->size; ++i)
+		for (int i = 0; i < items.size(); ++i)
 		{
-			if (this->menuItems[i] != NULL)
+			if (items.at(i) != NULL)
 			{
-				MenuItem *current = this->menuItems[i];
+				MenuItem *current = items.at(i);
 				logSrv->outInt(current->getId());
 				logSrv->outString(". ");
 				logSrv->outString(current->getTitle());
