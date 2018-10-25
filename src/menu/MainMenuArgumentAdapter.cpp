@@ -10,6 +10,11 @@ MainMenuArgumentAdapter::~MainMenuArgumentAdapter()
 
 }
 
+bool MainMenuArgumentAdapter::hasTreeArg() const
+{
+    return hasArg("tree");
+}
+
 bool MainMenuArgumentAdapter::hasMenuItem() const
 {
     return hasArg("menuitem");

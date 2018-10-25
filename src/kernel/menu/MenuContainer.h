@@ -25,6 +25,8 @@ private:
 
     vector<MenuItem*> items;
 
+    void tree(int depth);
+
 public:
 	MenuContainer(int id, string name, string title);
 	virtual ~MenuContainer();
@@ -38,6 +40,7 @@ public:
 
 	virtual void action();
 	virtual string identify();
+    void tree();
 
 protected:
 	ILogService *logSrv;

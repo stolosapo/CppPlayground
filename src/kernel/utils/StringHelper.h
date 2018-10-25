@@ -17,6 +17,7 @@ public:
 	static vector<string> split(const string& str, const string& delimiter);
     // static string format(const string& pattern, int numOfArgs, ...);
     // static string format(const string& pattern, va_list args);
+    static string pad(const string& str, int times);
 
 };
 

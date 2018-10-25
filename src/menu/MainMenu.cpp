@@ -27,6 +27,12 @@ MainMenu::~MainMenu()
 
 void MainMenu::action()
 {
+    if (hasTreeArg())
+    {
+        tree();
+        return;
+    }
+
     if (!hasMenuItem())
     {
         MenuContainer::action();

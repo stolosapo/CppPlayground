@@ -5,6 +5,9 @@
 
 #include "../di/GlobalAppContext.h"
 
+#include "../utils/StringHelper.h"
+#include "../converter/Convert.h"
+
 #include "../exception/domain/DomainException.h"
 #include "../exception/ExceptionMapper.h"
 
@@ -362,4 +365,40 @@ string MenuContainer::identify()
 	this->getDescription();
 
 	return message;
+}
+
+void MenuContainer::tree(int depth)
+{
+    if (items.empty())
+    {
+        fillOptions();
+    }
+
+    for (int i = 0; i < items.size(); ++i)
+    {
+        MenuItem* item = items.at(i);
+        MenuContainer* menu = dynamic_cast<MenuContainer*>(item);
+
+        string padding = StringHelper::pad(" ", depth);
+        string type = menu == NULL ? "[ITEM]" : "[MENU]";
+
+        string itemStr = "* " + type + " " ;
+        itemStr += "id: " + Convert<int>::NumberToString(item->getId());
+        itemStr += ", name: " + item->getName();
+        itemStr += ", title: " + item->getTitle();
+        // itemStr += ", description: " + item->getDescription();
+
+        cout << padding << itemStr << endl;
+
+        /* If is Menu */
+        if (menu != NULL)
+        {
+            menu->tree(depth + 2);
+        }
+    }
+}
+
+void MenuContainer::tree()
+{
+    tree(0);
 }

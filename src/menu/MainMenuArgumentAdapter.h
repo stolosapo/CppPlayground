@@ -14,6 +14,8 @@ public:
 	virtual ~MainMenuArgumentAdapter();
 
 protected:
+    bool hasTreeArg() const;
+
     bool hasMenuItem() const;
     string getMenuItem() const;
 

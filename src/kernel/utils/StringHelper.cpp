@@ -60,3 +60,15 @@ vector<string> StringHelper::split(const string& str, const string& delimiter)
 //
 //     return res;
 // }
+
+string StringHelper::pad(const string& str, int times)
+{
+    string mess = "";
+
+    for (int i = 0; i < times; i++)
+    {
+        mess += str;
+    }
+
+    return mess;
+}
