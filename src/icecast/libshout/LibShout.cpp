@@ -7,6 +7,7 @@
 #include "../../kernel/interruption/SignalService.h"
 
 #include "../../kernel/converter/Convert.h"
+#include "../../kernel/utils/StringHelper.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../../kernel/exception/ExceptionMapper.h"
@@ -110,7 +111,9 @@ void LibShout::startShout()
 	}
 	else
 	{
-		logSrv->info("Connected to server...");
+        string server_url = "http://" + getHost() + ":" + getPort() + getMount();
+
+		logSrv->info("Connected to server: " + server_url);
 	}
 #endif
 }
