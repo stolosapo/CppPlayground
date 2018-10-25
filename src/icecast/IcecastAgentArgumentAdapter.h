@@ -13,6 +13,8 @@ public:
 	IcecastAgentArgumentAdapter(ArgumentService* argService);
 	virtual ~IcecastAgentArgumentAdapter();
 
+    virtual string help();
+
 protected:
     bool hasAgentConfigFilename() const;
     string getAgentConfigFilename() const;

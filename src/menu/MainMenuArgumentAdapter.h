@@ -13,6 +13,8 @@ public:
 	MainMenuArgumentAdapter(ArgumentService* argService);
 	virtual ~MainMenuArgumentAdapter();
 
+    virtual string help();
+
 protected:
     bool hasTreeArg() const;
 

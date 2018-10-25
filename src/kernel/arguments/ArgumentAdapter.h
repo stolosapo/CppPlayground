@@ -16,6 +16,8 @@ public:
 	ArgumentAdapter(ArgumentService* argService);
 	virtual ~ArgumentAdapter();
 
+    virtual string help() = 0;
+
 protected:
     bool hasArg(string name) const;
     string getStringValue(string name) const;

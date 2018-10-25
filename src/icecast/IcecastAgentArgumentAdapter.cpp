@@ -10,6 +10,11 @@ IcecastAgentArgumentAdapter::~IcecastAgentArgumentAdapter()
 
 }
 
+string IcecastAgentArgumentAdapter::help()
+{
+    return "";
+}
+
 bool IcecastAgentArgumentAdapter::hasAgentConfigFilename() const
 {
     return hasArg("icecastagent.config");
