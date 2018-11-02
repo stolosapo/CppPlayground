@@ -102,6 +102,16 @@ int PlaylistHandler::playlistSize()
 	return playlist->size();
 }
 
+int PlaylistHandler::historySize()
+{
+    if (history == NULL)
+	{
+		return -1;
+	}
+
+	return history->size();
+}
+
 bool PlaylistHandler::hasNext()
 {
 	if (strategy == NULL)

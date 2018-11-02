@@ -126,10 +126,13 @@ void IcecastClient::initializePlaylist()
 void IcecastClient::loadPlaylist()
 {
 	string playlistFile = config->getPlaylist();
+	string historyFile = config->getHistory();
 	playlistHandler->load();
 	int size = playlistHandler->playlistSize();
+	int historySize = playlistHandler->historySize();
 
 	logSrv->info("Playlist: '" + playlistFile + "' loaded, with '" + Convert<int>::NumberToString(size) + "' tracks");
+	logSrv->info("History: '" + historyFile + "' loaded, with '" + Convert<int>::NumberToString(historySize) + "' tracks");
 }
 
 void IcecastClient::initializeShout()

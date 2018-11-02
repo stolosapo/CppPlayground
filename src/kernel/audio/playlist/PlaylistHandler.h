@@ -19,7 +19,7 @@ private:
 	ILogService* logSrv;
 	ISerializationService* serializationSrv;
 	ITimeService* timeSrv;
-	
+
 	Playlist* playlist;
 	PlaylistHistory* history;
 	PlaylistMetadata* metadata;
@@ -56,6 +56,7 @@ public:
 
 	void load();
 	int playlistSize();
+	int historySize();
 
 	bool hasNext();
 	PlaylistItem nextTrack();
