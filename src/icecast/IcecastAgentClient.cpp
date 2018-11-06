@@ -2,8 +2,12 @@
 
 #include "protocol/IcecastAgentProtocol.h"
 
-IcecastAgentClient::IcecastAgentClient(ILogService *logSrv, SignalService *sigSrv)
-	: TcpClient(logSrv, sigSrv)
+IcecastAgentClient::IcecastAgentClient(
+    ILogService *logSrv,
+    SignalService *sigSrv,
+    ArgumentService *argSrv)
+	: TcpClient(logSrv, sigSrv),
+    IcecastAgentClientArgumentAdapter(argSrv)
 {
 
 }
@@ -20,5 +24,10 @@ ITcpProtocol* IcecastAgentClient::createProtocol()
 
 string IcecastAgentClient::configFilename()
 {
+    if (hasAgentClientConfigFilename())
+    {
+        return getAgentClientConfigFilename();
+    }
+
 	return "icecast/icecastAgentClient.config";
 }
