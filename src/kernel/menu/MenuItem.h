@@ -36,6 +36,7 @@ public:
 	virtual void action();
 	virtual void check();
 	virtual string identify();
+    virtual string help();
 
 };
 

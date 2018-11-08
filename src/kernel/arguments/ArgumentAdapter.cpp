@@ -7,12 +7,27 @@ ArgumentAdapter::ArgumentAdapter(ArgumentService* argService) : argService(argSe
 
 ArgumentAdapter::~ArgumentAdapter()
 {
+    registeredArgs.clear();
+}
 
+bool ArgumentAdapter::argExist(const string& name) const
+{
+	return registeredArgs.find(name) != registeredArgs.end();
+}
+
+void ArgumentAdapter::registerArg(string name, string description)
+{
+    if (argExist(name))
+    {
+        return;
+    }
+
+    registeredArgs[name] = description;
 }
 
 bool ArgumentAdapter::hasArg(string name) const
 {
-    return argService->hasArg(name);
+    return argService->hasArg(name) && argExist(name);
 }
 
 string ArgumentAdapter::getStringValue(string name) const
@@ -28,4 +43,16 @@ int ArgumentAdapter::getIntValue(string name) const
 bool ArgumentAdapter::getBoolValue(string name) const
 {
     return argService->getBoolValue(name);
+}
+
+string ArgumentAdapter::title()
+{
+    return "Title";
+}
+
+string ArgumentAdapter::help()
+{
+    string strTitle = title();
+
+    return "";
 }

@@ -85,3 +85,8 @@ string MenuItem::identify()
 
 	return message;
 }
+
+string MenuItem::help()
+{
+    return "";
+}
