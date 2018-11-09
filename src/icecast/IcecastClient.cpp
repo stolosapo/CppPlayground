@@ -250,7 +250,7 @@ void IcecastClient::streamAudioFile(const char* filename, const char* trackMetad
                 string qlc = Convert<int>::NumberToString(queueLenCnt);
 
                 logSrv->warn("Queue Length: " + ql + " for at least " + qlc + " times. Go to next track");
-                break;
+                // break;
             }
         }
 
