@@ -27,7 +27,7 @@ void ArgumentAdapter::registerArg(string name, string description)
 
 bool ArgumentAdapter::hasArg(string name) const
 {
-    return argService->hasArg(name) && argExist(name);
+    return argService->hasArg(name);
 }
 
 string ArgumentAdapter::getStringValue(string name) const
