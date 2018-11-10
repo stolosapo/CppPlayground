@@ -218,9 +218,6 @@ void IcecastClient::streamAudioFile(const char* filename, const char* trackMetad
 	unsigned char buff[AUDIO_SIZE];
 	long read;
 
-	const long QUEUE_LEN_THRESHOLD = 10000;
-	int queueLenCnt = 0;
-
 	FILE* mp3file;
 	mp3file = fopen(filename , "rb");
 
@@ -240,18 +237,11 @@ void IcecastClient::streamAudioFile(const char* filename, const char* trackMetad
 
 		libShout->shoutSend(buff, read);
 
-        if (libShout->shoutQueuelen() >= QUEUE_LEN_THRESHOLD)
+        if (libShout->shoutQueuelen() >= 0)
         {
-            queueLenCnt++;
+            string ql = Convert<int>::NumberToString(libShout->shoutQueuelen());
 
-            if (queueLenCnt >= 50)
-            {
-                string ql = Convert<int>::NumberToString(libShout->shoutQueuelen());
-                string qlc = Convert<int>::NumberToString(queueLenCnt);
-
-                logSrv->warn("Queue Length: " + ql + " for at least " + qlc + " times. Go to next track");
-                // break;
-            }
+            // logSrv->warn("Queue Length: " + ql);
         }
 
 		libShout->shoutSync();
