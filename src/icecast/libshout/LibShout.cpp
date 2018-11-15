@@ -86,6 +86,8 @@ void LibShout::initializeShout()
 void LibShout::startShout()
 {
 #ifdef ICECAST
+	string server_url = "http://" + getHost() + ":" + getPort() + getMount();
+
 	long ret = shoutOpen();
 	if (ret == SHOUTERR_SUCCESS)
 	{
@@ -94,7 +96,7 @@ void LibShout::startShout()
 
 	if (ret == SHOUTERR_BUSY)
 	{
-		logSrv->info("Connection pending...");
+		logSrv->info("Connection to [" + server_url + "] is pending...");
 	}
 
 	while (ret == SHOUTERR_BUSY && !sigSrv->gotSigInt())
@@ -111,8 +113,6 @@ void LibShout::startShout()
 	}
 	else
 	{
-        string server_url = "http://" + getHost() + ":" + getPort() + getMount();
-
 		logSrv->info("Connected to server: " + server_url);
 	}
 #endif
