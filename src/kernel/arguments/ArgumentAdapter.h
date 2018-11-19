@@ -27,7 +27,7 @@ protected:
     virtual string title();
     void registerArg(string name, string description);
 
-    virtual void registerArguments() const = 0;
+    virtual void registerArguments() = 0;
 
     bool hasArg(string name) const;
     string getStringValue(string name) const;

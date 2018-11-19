@@ -15,7 +15,7 @@ string MainMenuArgumentAdapter::help()
     return "";
 }
 
-void MainMenuArgumentAdapter::registerArguments() const
+void MainMenuArgumentAdapter::registerArguments()
 {
 
 }

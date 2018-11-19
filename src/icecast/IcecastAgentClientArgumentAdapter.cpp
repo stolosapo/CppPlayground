@@ -15,7 +15,7 @@ string IcecastAgentClientArgumentAdapter::help()
     return "";
 }
 
-void IcecastAgentClientArgumentAdapter::registerArguments() const
+void IcecastAgentClientArgumentAdapter::registerArguments()
 {
 
 }
