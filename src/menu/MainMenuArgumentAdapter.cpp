@@ -14,11 +14,6 @@ MainMenuArgumentAdapter::~MainMenuArgumentAdapter()
 
 }
 
-string MainMenuArgumentAdapter::help()
-{
-    return "";
-}
-
 string MainMenuArgumentAdapter::title()
 {
     return "MainMenu";

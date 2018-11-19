@@ -16,8 +16,6 @@ public:
 	IcecastAgentArgumentAdapter(ArgumentService* argService);
 	virtual ~IcecastAgentArgumentAdapter();
 
-    virtual string help();
-
     virtual void registerArguments();
 
 protected:

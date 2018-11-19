@@ -17,7 +17,6 @@ public:
 	MainMenuArgumentAdapter(ArgumentService* argService);
 	virtual ~MainMenuArgumentAdapter();
 
-    virtual string help();
     virtual void registerArguments();
 
 protected:

@@ -13,11 +13,6 @@ IcecastAgentClientArgumentAdapter::~IcecastAgentClientArgumentAdapter()
 
 }
 
-string IcecastAgentClientArgumentAdapter::help()
-{
-    return "";
-}
-
 string IcecastAgentClientArgumentAdapter::title()
 {
     return "NoiseStreamer Agent Client";
