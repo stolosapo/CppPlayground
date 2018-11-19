@@ -15,6 +15,8 @@ public:
 
     virtual string help();
 
+    virtual void registerArguments() const;
+
 protected:
     bool hasAgentConfigFilename() const;
     string getAgentConfigFilename() const;

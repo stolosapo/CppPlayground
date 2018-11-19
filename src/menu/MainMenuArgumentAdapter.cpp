@@ -15,6 +15,11 @@ string MainMenuArgumentAdapter::help()
     return "";
 }
 
+void MainMenuArgumentAdapter::registerArguments() const
+{
+
+}
+
 bool MainMenuArgumentAdapter::hasTreeArg() const
 {
     return hasArg("tree");

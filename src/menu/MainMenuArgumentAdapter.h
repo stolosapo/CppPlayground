@@ -14,6 +14,7 @@ public:
 	virtual ~MainMenuArgumentAdapter();
 
     virtual string help();
+    virtual void registerArguments() const;
 
 protected:
     bool hasTreeArg() const;

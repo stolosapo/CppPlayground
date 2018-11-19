@@ -14,6 +14,7 @@ public:
 	virtual ~IcecastAgentClientArgumentAdapter();
 
     virtual string help();
+    virtual void registerArguments() const;
 
 protected:
     bool hasAgentClientConfigFilename() const;
