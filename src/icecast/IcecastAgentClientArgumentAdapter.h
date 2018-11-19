@@ -20,6 +20,8 @@ public:
     virtual void registerArguments();
 
 protected:
+    virtual string title();
+
     bool hasAgentClientConfigFilename() const;
     string getAgentClientConfigFilename() const;
 

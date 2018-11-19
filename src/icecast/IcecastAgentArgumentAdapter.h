@@ -21,6 +21,8 @@ public:
     virtual void registerArguments();
 
 protected:
+    virtual string title();
+
     bool hasAgentConfigFilename() const;
     string getAgentConfigFilename() const;
 

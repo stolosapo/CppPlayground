@@ -24,7 +24,7 @@ public:
     virtual string help();
 
 protected:
-    virtual string title();
+    virtual string title() = 0;
     void registerArg(string name, string description);
 
     virtual void registerArguments() = 0;

@@ -18,6 +18,11 @@ string IcecastAgentClientArgumentAdapter::help()
     return "";
 }
 
+string IcecastAgentClientArgumentAdapter::title()
+{
+    return "NoiseStreamer Agent Client";
+}
+
 void IcecastAgentClientArgumentAdapter::registerArguments()
 {
     registerArg(CONFIG_FILE, "The config file, for the NoiseStreamer Agent Client");

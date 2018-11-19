@@ -19,6 +19,11 @@ string MainMenuArgumentAdapter::help()
     return "";
 }
 
+string MainMenuArgumentAdapter::title()
+{
+    return "MainMenu";
+}
+
 void MainMenuArgumentAdapter::registerArguments()
 {
     registerArg(TREE, "Display the complete menu items tree view");

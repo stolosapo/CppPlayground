@@ -21,6 +21,8 @@ public:
     virtual void registerArguments();
 
 protected:
+    virtual string title();
+
     bool hasTreeArg() const;
 
     bool hasMenuItem() const;

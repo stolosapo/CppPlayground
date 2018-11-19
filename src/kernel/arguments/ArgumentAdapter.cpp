@@ -45,11 +45,6 @@ bool ArgumentAdapter::getBoolValue(string name) const
     return argService->getBoolValue(name);
 }
 
-string ArgumentAdapter::title()
-{
-    return "Title";
-}
-
 string ArgumentAdapter::help()
 {
     string strTitle = title();
