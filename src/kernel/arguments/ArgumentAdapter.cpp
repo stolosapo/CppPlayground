@@ -60,7 +60,7 @@ string ArgumentAdapter::help()
 		it != registeredArgs.end();
 		++it)
     {
-        h += it->first + "\t\t" + it->second + "\n";
+        h += "  --" + it->first + "\t\t" + it->second + "\n";
     }
 
     h += "\n";
