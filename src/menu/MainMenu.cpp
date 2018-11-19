@@ -27,6 +27,18 @@ MainMenu::~MainMenu()
 
 void MainMenu::action()
 {
+    if (hasHelpArg())
+    {
+        registerArguments();
+
+        string h = MainMenuArgumentAdapter::help();
+        h += MenuContainer::help();
+
+        cout << endl << h << endl;
+
+        return;
+    }
+
     if (hasTreeArg())
     {
         tree();

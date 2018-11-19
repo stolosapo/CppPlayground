@@ -402,3 +402,22 @@ void MenuContainer::tree()
 {
     tree(0);
 }
+
+string MenuContainer::help()
+{
+    string h = "";
+
+    if (items.empty())
+    {
+        fillOptions();
+    }
+
+    for (int i = 0; i < items.size(); ++i)
+    {
+        MenuItem* item = items.at(i);
+
+        h += item->help();
+    }
+
+    return h;
+}

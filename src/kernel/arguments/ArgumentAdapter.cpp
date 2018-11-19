@@ -1,5 +1,7 @@
 #include "ArgumentAdapter.h"
 
+#include "../utils/StringHelper.h"
+
 ArgumentAdapter::ArgumentAdapter(ArgumentService* argService) : argService(argService)
 {
 
@@ -48,6 +50,20 @@ bool ArgumentAdapter::getBoolValue(string name) const
 string ArgumentAdapter::help()
 {
     string strTitle = title();
+    int titleSize = strTitle.size();
 
-    return "";
+    string h = strTitle + "\n";
+
+    h += StringHelper::pad("=", titleSize) + "\n\n";
+
+    for (map<string, string>::iterator it = registeredArgs.begin();
+		it != registeredArgs.end();
+		++it)
+    {
+        h += it->first + "\t\t" + it->second + "\n";
+    }
+
+    h += "\n";
+
+    return h;
 }

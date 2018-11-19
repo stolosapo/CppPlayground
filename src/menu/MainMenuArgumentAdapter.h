@@ -10,6 +10,7 @@ using namespace std;
 class MainMenuArgumentAdapter: public ArgumentAdapter
 {
 private:
+    static const string HELP;
     static const string TREE;
     static const string MENU_ITEM;
 
@@ -22,6 +23,7 @@ public:
 protected:
     virtual string title();
 
+    bool hasHelpArg() const;
     bool hasTreeArg() const;
 
     bool hasMenuItem() const;

@@ -38,6 +38,7 @@ public:
 	int getExitCode();
 	bool getUseOptions();
 
+    virtual string help();
 	virtual void action();
 	virtual string identify();
     void tree();
