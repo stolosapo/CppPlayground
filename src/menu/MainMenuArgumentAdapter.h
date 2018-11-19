@@ -9,6 +9,10 @@ using namespace std;
 
 class MainMenuArgumentAdapter: public ArgumentAdapter
 {
+private:
+    static const string TREE;
+    static const string MENU_ITEM;
+
 public:
 	MainMenuArgumentAdapter(ArgumentService* argService);
 	virtual ~MainMenuArgumentAdapter();

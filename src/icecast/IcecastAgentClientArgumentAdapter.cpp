@@ -1,5 +1,8 @@
 #include "IcecastAgentClientArgumentAdapter.h"
 
+
+const string IcecastAgentClientArgumentAdapter::CONFIG_FILE = "icecastagentclient.config";
+
 IcecastAgentClientArgumentAdapter::IcecastAgentClientArgumentAdapter(ArgumentService* argService) : ArgumentAdapter(argService)
 {
 
@@ -17,15 +20,15 @@ string IcecastAgentClientArgumentAdapter::help()
 
 void IcecastAgentClientArgumentAdapter::registerArguments()
 {
-
+    registerArg(CONFIG_FILE, "The config file, for the NoiseStreamer Agent Client");
 }
 
 bool IcecastAgentClientArgumentAdapter::hasAgentClientConfigFilename() const
 {
-    return hasArg("icecastagentclient.config");
+    return hasArg(CONFIG_FILE);
 }
 
 string IcecastAgentClientArgumentAdapter::getAgentClientConfigFilename() const
 {
-    return getStringValue("icecastagentclient.config");
+    return getStringValue(CONFIG_FILE);
 }

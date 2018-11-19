@@ -9,6 +9,9 @@ using namespace std;
 
 class IcecastAgentArgumentAdapter: public ArgumentAdapter
 {
+private:
+    static const string CONFIG_FILE;
+
 public:
 	IcecastAgentArgumentAdapter(ArgumentService* argService);
 	virtual ~IcecastAgentArgumentAdapter();
