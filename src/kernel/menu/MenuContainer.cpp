@@ -414,9 +414,11 @@ string MenuContainer::help()
 
     for (int i = 0; i < items.size(); ++i)
     {
-        MenuItem* item = items.at(i);
+		MenuItem* item = items.at(i);
 
-        h += item->help();
+		cout << item->getName() << endl;
+
+		h += item->help();
     }
 
     return h;

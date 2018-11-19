@@ -19,6 +19,7 @@ public:
 
 	virtual void check();
 	virtual void action();
+    virtual string help();
 };
 
 #endif // IcecastAgentClientMenuItem_h__

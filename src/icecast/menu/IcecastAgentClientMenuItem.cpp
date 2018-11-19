@@ -41,3 +41,14 @@ void IcecastAgentClientMenuItem::action()
 
 	client.action();
 }
+
+string IcecastAgentClientMenuItem::help()
+{
+    SignalService* sigSrv = inject<SignalService>("signalService");
+    ArgumentService* argSrv = inject<ArgumentService>("argService");
+
+    IcecastAgentClient client(this->logSrv, sigSrv, argSrv);
+
+    client.registerArguments();
+    return client.help();
+}
