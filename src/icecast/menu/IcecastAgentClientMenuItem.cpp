@@ -50,5 +50,6 @@ string IcecastAgentClientMenuItem::help()
     IcecastAgentClient client(this->logSrv, sigSrv, argSrv);
 
     client.registerArguments();
+
     return client.help();
 }

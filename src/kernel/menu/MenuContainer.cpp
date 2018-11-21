@@ -416,8 +416,6 @@ string MenuContainer::help()
     {
 		MenuItem* item = items.at(i);
 
-		cout << item->getName() << endl;
-
 		h += item->help();
     }
 

@@ -24,6 +24,10 @@ using namespace std;
 TcpClient::TcpClient(ILogService *logSrv, SignalService *sigSrv) : ITcpClient(), logSrv(logSrv), sigSrv(sigSrv)
 {
 	this->in = new InOut;
+
+	this->connector = NULL;
+	this->config = NULL;
+	this->protocol = NULL;
 }
 
 TcpClient::~TcpClient()
