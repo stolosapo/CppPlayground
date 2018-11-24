@@ -12,10 +12,10 @@ NoiseStreamerAgentClientMenuItem::NoiseStreamerAgentClientMenuItem(ILogService *
 {
 	this->logSrv = logSrv;
 
-	this->setId(3);
+	this->setId(2);
 
-	this->setName("Icecast Agent Client");
-	this->setTitle("Icecast Agent Client");
+	this->setName("nss.agent.client");
+	this->setTitle("Client");
 }
 
 NoiseStreamerAgentClientMenuItem::~NoiseStreamerAgentClientMenuItem()

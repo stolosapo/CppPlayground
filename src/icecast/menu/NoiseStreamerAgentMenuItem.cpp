@@ -15,10 +15,10 @@ NoiseStreamerAgentMenuItem::NoiseStreamerAgentMenuItem(ILogService *logSrv) : Me
 {
 	this->logSrv = logSrv;
 
-	this->setId(2);
+	this->setId(1);
 
-	this->setName("Icecast Agent");
-	this->setTitle("Icecast Agent");
+	this->setName("nss.agent");
+	this->setTitle("Agent");
 }
 
 NoiseStreamerAgentMenuItem::~NoiseStreamerAgentMenuItem()
