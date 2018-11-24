@@ -1,12 +1,12 @@
-#include "IcecastAgent.h"
+#include "NoiseStreamerAgent.h"
 
-#include "../protocol/IcecastAgentTasks.h"
-#include "../exception/IcecastDomainErrorCode.h"
+#include "../protocol/NoiseStreamerAgentTasks.h"
+#include "../exception/NoiseStreamerDomainErrorCode.h"
 
 #include "../../kernel/configuration/ConfigLoader.h"
 
 
-IcecastAgent::IcecastAgent(
+NoiseStreamerAgent::NoiseStreamerAgent(
     ILogService *logSrv,
     SignalService *sigSrv,
     ITimeService *timeSrv,
@@ -14,7 +14,7 @@ IcecastAgent::IcecastAgent(
     ArgumentService *argSrv,
     AudioEncodingService *encSrv)
 	: TcpServer(logSrv, sigSrv, timeSrv),
-    IcecastAgentArgumentAdapter(argSrv),
+    NoiseStreamerAgentArgumentAdapter(argSrv),
     tagSrv(tagSrv),
     encSrv(encSrv)
 {
@@ -22,37 +22,37 @@ IcecastAgent::IcecastAgent(
 	icecast = NULL;
 }
 
-IcecastAgent::~IcecastAgent()
+NoiseStreamerAgent::~NoiseStreamerAgent()
 {
 	disposeIcecast();
 }
 
-IcecastAgentProtocol* IcecastAgent::agentProtocol()
+NoiseStreamerAgentProtocol* NoiseStreamerAgent::agentProtocol()
 {
-	return (IcecastAgentProtocol*) getProtocol();
+	return (NoiseStreamerAgentProtocol*) getProtocol();
 }
 
-IcecastAgentConfig* IcecastAgent::agentConfig()
+NoiseStreamerAgentConfig* NoiseStreamerAgent::agentConfig()
 {
-    return (IcecastAgentConfig*) this->config;
+    return (NoiseStreamerAgentConfig*) this->config;
 }
 
-IcecastClient* IcecastAgent::icecastClient()
+NoiseStreamer* NoiseStreamerAgent::icecastClient()
 {
     if (icecast == NULL)
     {
-        throw DomainException(IcecastDomainErrorCode::ICS0025);
+        throw DomainException(NoiseStreamerDomainErrorCode::ICS0025);
     }
 
     return icecast;
 }
 
-ITcpProtocol* IcecastAgent::createProtocol()
+ITcpProtocol* NoiseStreamerAgent::createProtocol()
 {
-	return (ITcpProtocol*) new IcecastAgentProtocol(true);
+	return (ITcpProtocol*) new NoiseStreamerAgentProtocol(true);
 }
 
-string IcecastAgent::configFilename()
+string NoiseStreamerAgent::configFilename()
 {
     if (hasAgentConfigFilename())
     {
@@ -62,22 +62,22 @@ string IcecastAgent::configFilename()
 	return "icecast/icecastAgent.config";
 }
 
-void IcecastAgent::loadConfig()
+void NoiseStreamerAgent::loadConfig()
 {
 	string file = configFilename();
 
-    ConfigLoader<IcecastAgentConfig> loader(file);
+    ConfigLoader<NoiseStreamerAgentConfig> loader(file);
     this->config = (TcpServerConfig*) loader.load();
 
 	logSrv->info("Configuration Loaded. '" + file + "'");
 }
 
-IcecastClient* IcecastAgent::createNewIcecast()
+NoiseStreamer* NoiseStreamerAgent::createNewIcecast()
 {
-    return new IcecastClient(logSrv, sigSrv, tagSrv, encSrv, agentConfig()->getIcecastConfig());
+    return new NoiseStreamer(logSrv, sigSrv, tagSrv, encSrv, agentConfig()->getIcecastConfig());
 }
 
-void IcecastAgent::disposeIcecast()
+void NoiseStreamerAgent::disposeIcecast()
 {
     if (icecastThread != NULL)
     {
@@ -89,7 +89,7 @@ void IcecastAgent::disposeIcecast()
     disposeIcecastClient();
 }
 
-void IcecastAgent::disposeIcecastClient()
+void NoiseStreamerAgent::disposeIcecastClient()
 {
     if (icecast != NULL)
     {
@@ -98,7 +98,7 @@ void IcecastAgent::disposeIcecastClient()
     }
 }
 
-void IcecastAgent::startIcecast()
+void NoiseStreamerAgent::startIcecast()
 {
 	disposeIcecast();
 
@@ -107,14 +107,14 @@ void IcecastAgent::startIcecast()
 	icecastThread = agentProtocol()->startTask(icecast_start_client, this);
 }
 
-void IcecastAgent::initialize()
+void NoiseStreamerAgent::initialize()
 {
 	TcpServer::initialize();
 
 	startIcecast();
 }
 
-bool IcecastAgent::validateCommand(string command)
+bool NoiseStreamerAgent::validateCommand(string command)
 {
 	if (TcpServer::validateCommand(command))
 	{
@@ -124,7 +124,7 @@ bool IcecastAgent::validateCommand(string command)
 	return agentProtocol()->taskExist(command);
 }
 
-void IcecastAgent::processCommand(ClientInfo *client, string command)
+void NoiseStreamerAgent::processCommand(ClientInfo *client, string command)
 {
 	TcpStream *stream = client->getStream();
 

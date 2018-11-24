@@ -1,12 +1,12 @@
-#ifndef IcecastAgent_h__
-#define IcecastAgent_h__
+#ifndef NoiseStreamerAgent_h__
+#define NoiseStreamerAgent_h__
 
 #include <string>
 
-#include "../IcecastClient.h"
-#include "IcecastAgentArgumentAdapter.h"
-#include "../protocol/IcecastAgentProtocol.h"
-#include "../config/IcecastAgentConfig.h"
+#include "../NoiseStreamer.h"
+#include "NoiseStreamerAgentArgumentAdapter.h"
+#include "../protocol/NoiseStreamerAgentProtocol.h"
+#include "../config/NoiseStreamerAgentConfig.h"
 
 #include "../../kernel/tcp/ClientInfo.h"
 #include "../../kernel/tcp/server/StatefullTcpServer.h"
@@ -16,23 +16,23 @@
 
 using namespace std;
 
-class IcecastAgent : public TcpServer, public IcecastAgentArgumentAdapter
+class NoiseStreamerAgent : public TcpServer, public NoiseStreamerAgentArgumentAdapter
 {
 private:
     AudioTagService *tagSrv;
     AudioEncodingService *encSrv;
 
 	Thread* icecastThread;
-	IcecastClient *icecast;
+	NoiseStreamer *icecast;
 
-    IcecastClient* icecastClient();
-    IcecastClient* createNewIcecast();
+    NoiseStreamer* icecastClient();
+    NoiseStreamer* createNewIcecast();
     void disposeIcecast();
     void disposeIcecastClient();
 
 protected:
-	IcecastAgentProtocol* agentProtocol();
-	IcecastAgentConfig* agentConfig();
+	NoiseStreamerAgentProtocol* agentProtocol();
+	NoiseStreamerAgentConfig* agentConfig();
 
 	virtual ITcpProtocol* createProtocol();
 	virtual string configFilename();
@@ -43,14 +43,14 @@ protected:
 	virtual void processCommand(ClientInfo *client, string command);
 
 public:
-	IcecastAgent(
+	NoiseStreamerAgent(
         ILogService *logSrv,
         SignalService *sigSrv,
         ITimeService *timeSrv,
         AudioTagService *tagSrv,
         ArgumentService *argSrv,
         AudioEncodingService *encSrv);
-	virtual ~IcecastAgent();
+	virtual ~NoiseStreamerAgent();
 
     friend void* icecast_agent_status(void* agent);
     friend void* icecast_now_playing(void* agent);
@@ -65,4 +65,4 @@ public:
 
 };
 
-#endif // IcecastAgent_h__
+#endif // NoiseStreamerAgent_h__

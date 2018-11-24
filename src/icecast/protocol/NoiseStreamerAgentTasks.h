@@ -1,5 +1,5 @@
-#ifndef IcecastAgentTasks_h__
-#define IcecastAgentTasks_h__
+#ifndef NoiseStreamerAgentTasks_h__
+#define NoiseStreamerAgentTasks_h__
 
 
 /*
@@ -57,4 +57,4 @@ void* icecast_stats_genre(void* agent);
 void* icecast_stats_artist(void* agent);
 
 
-#endif // IcecastAgentTasks_h__
+#endif // NoiseStreamerAgentTasks_h__

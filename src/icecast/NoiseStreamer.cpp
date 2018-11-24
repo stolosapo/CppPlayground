@@ -1,8 +1,8 @@
-#include "IcecastClient.h"
+#include "NoiseStreamer.h"
 
 #include <fstream>
 
-#include "exception/IcecastDomainErrorCode.h"
+#include "exception/NoiseStreamerDomainErrorCode.h"
 
 #include "../kernel/converter/Convert.h"
 #include "../kernel/utils/FileHelper.h"
@@ -16,17 +16,17 @@
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
 
 
-const char* IcecastClient::USER_AGENT = "NoiseStreamer";
+const char* NoiseStreamer::USER_AGENT = "NoiseStreamer";
 
 
-IcecastClient::IcecastClient(
+NoiseStreamer::NoiseStreamer(
 	ILogService *logSrv,
 	SignalService *sigSrv,
 	AudioTagService *tagSrv,
     AudioEncodingService *encSrv,
     string configFilename)
 	: Version(1, 0, 0),
-	IcecastClientNavigator(logSrv, sigSrv),
+	NoiseStreamerNavigator(logSrv, sigSrv),
 	logSrv(logSrv),
 	sigSrv(sigSrv),
 	tagSrv(tagSrv),
@@ -41,7 +41,7 @@ IcecastClient::IcecastClient(
 	numberOfPlayedTracks = 0;
 }
 
-IcecastClient::~IcecastClient()
+NoiseStreamer::~NoiseStreamer()
 {
 	if (config != NULL)
 	{
@@ -64,12 +64,12 @@ IcecastClient::~IcecastClient()
 	}
 }
 
-string IcecastClient::agentVersion()
+string NoiseStreamer::agentVersion()
 {
 	return string(USER_AGENT) + "/" + string(version());
 }
 
-void IcecastClient::logNowPlaying(PlaylistItem item)
+void NoiseStreamer::logNowPlaying(PlaylistItem item)
 {
 	string i = Convert<int>::NumberToString(item.getTrackIndex());
 
@@ -78,7 +78,7 @@ void IcecastClient::logNowPlaying(PlaylistItem item)
 	logSrv->info("-- Track: " + item.getTrackTitle());
 }
 
-void IcecastClient::onLibShoutError(void* sender, EventArgs* e)
+void NoiseStreamer::onLibShoutError(void* sender, EventArgs* e)
 {
 	LibShout* shout = (LibShout*) sender;
 
@@ -87,22 +87,22 @@ void IcecastClient::onLibShoutError(void* sender, EventArgs* e)
 		shout->restartShout();
 	}
 
-	throw DomainException(IcecastDomainErrorCode::ICS0024);
+	throw DomainException(NoiseStreamerDomainErrorCode::ICS0024);
 }
 
-int IcecastClient::getNumberOfPlayedTracks()
+int NoiseStreamer::getNumberOfPlayedTracks()
 {
 	return numberOfPlayedTracks;
 }
 
-void IcecastClient::loadConfig()
+void NoiseStreamer::loadConfig()
 {
-	ConfigLoader<IcecastClientConfig> loader(configFilename);
+	ConfigLoader<NoiseStreamerConfig> loader(configFilename);
 
 	this->config = loader.load();
 }
 
-void IcecastClient::initializePlaylist()
+void NoiseStreamer::initializePlaylist()
 {
 	string playlistFile = config->getPlaylist();
 	string historyFile = config->getHistory();
@@ -112,7 +112,7 @@ void IcecastClient::initializePlaylist()
 
 	if (type == NONE)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0022);
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0022);
 	}
 
 	playlistHandlerFactory =
@@ -123,7 +123,7 @@ void IcecastClient::initializePlaylist()
 	logSrv->info("Icecast playlist initialized!");
 }
 
-void IcecastClient::loadPlaylist()
+void NoiseStreamer::loadPlaylist()
 {
 	string playlistFile = config->getPlaylist();
 	string historyFile = config->getHistory();
@@ -135,7 +135,7 @@ void IcecastClient::loadPlaylist()
 	logSrv->info("History: '" + historyFile + "' loaded, with '" + Convert<int>::NumberToString(historySize) + "' tracks");
 }
 
-void IcecastClient::initializeShout()
+void NoiseStreamer::initializeShout()
 {
 	libShout = new LibShout(logSrv, sigSrv);
 	libShout->errorEvent += onLibShoutError;
@@ -170,17 +170,17 @@ void IcecastClient::initializeShout()
 	logSrv->info("LibShout initialized: " + shoutVersion);
 }
 
-void IcecastClient::connectShout()
+void NoiseStreamer::connectShout()
 {
 	libShout->startShout();
 }
 
-void IcecastClient::finilizeShout()
+void NoiseStreamer::finilizeShout()
 {
 	libShout->finilizeShout();
 }
 
-void IcecastClient::streamPlaylist()
+void NoiseStreamer::streamPlaylist()
 {
 	try
 	{
@@ -210,7 +210,7 @@ void IcecastClient::streamPlaylist()
 	}
 }
 
-void IcecastClient::streamAudioFile(const char* filename, const char* trackMetadata)
+void NoiseStreamer::streamAudioFile(const char* filename, const char* trackMetadata)
 {
     const int AUDIO_SIZE = 4096;
     // const int AUDIO_SIZE = 8192;
@@ -252,7 +252,7 @@ void IcecastClient::streamAudioFile(const char* filename, const char* trackMetad
 	fclose(mp3file);
 }
 
-void IcecastClient::action()
+void NoiseStreamer::action()
 {
 	loadConfig();
 
@@ -269,27 +269,27 @@ void IcecastClient::action()
 	finilizeShout();
 }
 
-void IcecastClient::stopPlaying()
+void NoiseStreamer::stopPlaying()
 {
 	logSrv->debug("Stop Playing");
 }
 
-PlaylistItem IcecastClient::nowPlaying()
+PlaylistItem NoiseStreamer::nowPlaying()
 {
 	return playlistHandler->getCurrentTrack();
 }
 
-int IcecastClient::remainingTrackTime()
+int NoiseStreamer::remainingTrackTime()
 {
 	return playlistHandler->getRemainingTrackDuration();
 }
 
-string IcecastClient::getGenreStats()
+string NoiseStreamer::getGenreStats()
 {
 	return playlistHandler->getGenrePercentages();
 }
 
-string IcecastClient::getArtistStats()
+string NoiseStreamer::getArtistStats()
 {
 	return playlistHandler->getArtistPercentages();
 }

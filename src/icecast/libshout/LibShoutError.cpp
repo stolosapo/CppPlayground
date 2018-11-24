@@ -1,7 +1,7 @@
 #include "LibShout.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
-#include "../exception/IcecastDomainErrorCode.h"
+#include "../exception/NoiseStreamerDomainErrorCode.h"
 #include "../../kernel/converter/Convert.h"
 
 const char* LibShout::getError()

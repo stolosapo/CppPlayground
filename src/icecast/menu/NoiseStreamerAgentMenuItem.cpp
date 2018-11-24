@@ -1,7 +1,7 @@
-#include "IcecastAgentMenuItem.h"
+#include "NoiseStreamerAgentMenuItem.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
-#include "../exception/IcecastDomainErrorCode.h"
+#include "../exception/NoiseStreamerDomainErrorCode.h"
 
 #include "../../kernel/di/GlobalAppContext.h"
 #include "../../kernel/interruption/SignalService.h"
@@ -11,7 +11,7 @@
 #include "../../kernel/arguments/ArgumentService.h"
 
 
-IcecastAgentMenuItem::IcecastAgentMenuItem(ILogService *logSrv) : MenuItem()
+NoiseStreamerAgentMenuItem::NoiseStreamerAgentMenuItem(ILogService *logSrv) : MenuItem()
 {
 	this->logSrv = logSrv;
 
@@ -21,19 +21,19 @@ IcecastAgentMenuItem::IcecastAgentMenuItem(ILogService *logSrv) : MenuItem()
 	this->setTitle("Icecast Agent");
 }
 
-IcecastAgentMenuItem::~IcecastAgentMenuItem()
+NoiseStreamerAgentMenuItem::~NoiseStreamerAgentMenuItem()
 {
 
 }
 
-void IcecastAgentMenuItem::check()
+void NoiseStreamerAgentMenuItem::check()
 {
 #ifndef ICECAST
-	throw DomainException(IcecastDomainErrorCode::ICS0001);
+	throw DomainException(NoiseStreamerDomainErrorCode::ICS0001);
 #endif
 }
 
-IcecastAgent* IcecastAgentMenuItem::agentFactory()
+NoiseStreamerAgent* NoiseStreamerAgentMenuItem::agentFactory()
 {
     SignalService* sigSrv = inject<SignalService>("signalService");
 	AudioTagService* tagSrv = inject<AudioTagService>("audioTagService");
@@ -41,23 +41,23 @@ IcecastAgent* IcecastAgentMenuItem::agentFactory()
 	ITimeService* timeSrv = inject<ITimeService>("timeService");
 	ArgumentService* argSrv = inject<ArgumentService>("argService");
 
-	IcecastAgent* agent = new IcecastAgent(this->logSrv, sigSrv, timeSrv, tagSrv, argSrv, encSrv);
+	NoiseStreamerAgent* agent = new NoiseStreamerAgent(this->logSrv, sigSrv, timeSrv, tagSrv, argSrv, encSrv);
 
     return agent;
 }
 
-void IcecastAgentMenuItem::action()
+void NoiseStreamerAgentMenuItem::action()
 {
-	IcecastAgent* agent = agentFactory();
+	NoiseStreamerAgent* agent = agentFactory();
 
 	agent->action();
 
     delete agent;
 }
 
-string IcecastAgentMenuItem::help()
+string NoiseStreamerAgentMenuItem::help()
 {
-    IcecastAgent* agent = agentFactory();
+    NoiseStreamerAgent* agent = agentFactory();
 
     agent->registerArguments();
     string hh = agent->help();

@@ -6,7 +6,7 @@
 #include "../tcpServer/TcpMenuContainer.h"
 #include "../serialization/SerializationMenuContainer.h"
 #include "../gpio/GpioMenuContainer.h"
-#include "../icecast/menu/IcecastMenuContainer.h"
+#include "../icecast/menu/NoiseStreamerMenuContainer.h"
 #include "../games/GameMenuContainer.h"
 
 #include "../kernel/exception/domain/DomainException.h"
@@ -74,7 +74,7 @@ void MainMenu::fillOptions()
 	this->addMenuItem(new TcpMenuContainer);
 	this->addMenuItem(new SerializationMenuContainer);
 	this->addMenuItem(new GpioMenuContainer);
-	this->addMenuItem(new IcecastMenuContainer);
+	this->addMenuItem(new NoiseStreamerMenuContainer);
 	this->addMenuItem(new GameMenuContainer);
 }
 

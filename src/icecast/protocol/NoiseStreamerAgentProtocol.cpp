@@ -1,25 +1,25 @@
-#include "IcecastAgentProtocol.h"
+#include "NoiseStreamerAgentProtocol.h"
 
-#include "IcecastAgentTasks.h"
+#include "NoiseStreamerAgentTasks.h"
 
 
-IcecastAgentProtocol::IcecastAgentProtocol(bool isServer)
+NoiseStreamerAgentProtocol::NoiseStreamerAgentProtocol(bool isServer)
 	: ITcpProtocol(isServer), TaskRunner()
 {
 	registerTasks();
 }
 
-IcecastAgentProtocol::~IcecastAgentProtocol()
+NoiseStreamerAgentProtocol::~NoiseStreamerAgentProtocol()
 {
 
 }
 
-string IcecastAgentProtocol::prompt()
+string NoiseStreamerAgentProtocol::prompt()
 {
 	return "streamer> ";
 }
 
-void IcecastAgentProtocol::registerTasks()
+void NoiseStreamerAgentProtocol::registerTasks()
 {
 	/* Status tasks */
 	registerTask("agent-status", &icecast_agent_status);
@@ -39,7 +39,7 @@ void IcecastAgentProtocol::registerTasks()
 	registerTask("stats-artist", &icecast_stats_artist);
 }
 
-string IcecastAgentProtocol::help()
+string NoiseStreamerAgentProtocol::help()
 {
 	string result = "\n";
 

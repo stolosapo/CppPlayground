@@ -1,17 +1,17 @@
-#include "IcecastClientConfig.h"
+#include "NoiseStreamerConfig.h"
 
 
-IcecastClientConfig::IcecastClientConfig() : IConfig(&factory)
+NoiseStreamerConfig::NoiseStreamerConfig() : IConfig(&factory)
 {
 	this->registerProperties();
 }
 
-IcecastClientConfig::~IcecastClientConfig()
+NoiseStreamerConfig::~NoiseStreamerConfig()
 {
 
 }
 
-void IcecastClientConfig::registerProperties()
+void NoiseStreamerConfig::registerProperties()
 {
 	registerPropertyName(1, "hostname", STRING);
 	registerPropertyName(2, "port", STRING);
@@ -34,106 +34,106 @@ void IcecastClientConfig::registerProperties()
 	registerPropertyName(19, "strategy", STRING);
 }
 
-Model* IcecastClientConfig::factory()
+Model* NoiseStreamerConfig::factory()
 {
-	return (Model*) new IcecastClientConfig;
+	return (Model*) new NoiseStreamerConfig;
 }
 
-string IcecastClientConfig::getHostname()
+string NoiseStreamerConfig::getHostname()
 {
 	return getStringProperty("hostname");
 }
 
-string IcecastClientConfig::getPort()
+string NoiseStreamerConfig::getPort()
 {
 	return getStringProperty("port");
 }
 
-string IcecastClientConfig::getUsername()
+string NoiseStreamerConfig::getUsername()
 {
 	return getStringProperty("username");
 }
 
-string IcecastClientConfig::getPassword()
+string NoiseStreamerConfig::getPassword()
 {
 	return getStringProperty("password");
 }
 
-string IcecastClientConfig::getProtocol()
+string NoiseStreamerConfig::getProtocol()
 {
 	return getStringProperty("protocol");
 }
 
-string IcecastClientConfig::getMountpoint()
+string NoiseStreamerConfig::getMountpoint()
 {
 	return getStringProperty("mountpoint");
 }
 
-string IcecastClientConfig::getName()
+string NoiseStreamerConfig::getName()
 {
 	return getStringProperty("name");
 }
 
-string IcecastClientConfig::getGenre()
+string NoiseStreamerConfig::getGenre()
 {
 	return getStringProperty("genre");
 }
 
-string IcecastClientConfig::getDescription()
+string NoiseStreamerConfig::getDescription()
 {
 	return getStringProperty("description");
 }
 
-string IcecastClientConfig::getUrl()
+string NoiseStreamerConfig::getUrl()
 {
 	return getStringProperty("url");
 }
 
-string IcecastClientConfig::getPublic()
+string NoiseStreamerConfig::getPublic()
 {
 	return getStringProperty("public");
 }
 
-string IcecastClientConfig::getBitrate()
+string NoiseStreamerConfig::getBitrate()
 {
 	return getStringProperty("bitrate");
 }
 
-string IcecastClientConfig::getSamplerate()
+string NoiseStreamerConfig::getSamplerate()
 {
 	return getStringProperty("samplerate");
 }
 
-string IcecastClientConfig::getChannels()
+string NoiseStreamerConfig::getChannels()
 {
 	return getStringProperty("channels");
 }
 
-string IcecastClientConfig::getPlaylist()
+string NoiseStreamerConfig::getPlaylist()
 {
 	return getStringProperty("playlist");
 }
 
-string IcecastClientConfig::getHistory()
+string NoiseStreamerConfig::getHistory()
 {
 	return getStringProperty("history", "playlist.history.pls");
 }
-string IcecastClientConfig::getMetadata()
+string NoiseStreamerConfig::getMetadata()
 {
 	return getStringProperty("metadata", "playlist.metadata.json");
 }
 
-bool IcecastClientConfig::getRepeat()
+bool NoiseStreamerConfig::getRepeat()
 {
 	return getBoolProperty("repeat");
 }
 
-string IcecastClientConfig::getStrategy()
+string NoiseStreamerConfig::getStrategy()
 {
 	return getStringProperty("strategy", "");
 }
 
-PlaylistStrategyType IcecastClientConfig::getStrategyType()
+PlaylistStrategyType NoiseStreamerConfig::getStrategyType()
 {
 	string strategy = getStrategy();
 

@@ -1,7 +1,7 @@
 #include "LibShout.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
-#include "../exception/IcecastDomainErrorCode.h"
+#include "../exception/NoiseStreamerDomainErrorCode.h"
 #include "../../kernel/converter/Convert.h"
 
 void LibShout::setFormat(unsigned int format)
@@ -9,7 +9,7 @@ void LibShout::setFormat(unsigned int format)
 #ifdef ICECAST
 	if (shout_set_format(shout, format) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0017, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0017, getError());
 	}
 #endif
 }

@@ -1,5 +1,5 @@
-#ifndef IcecastClientNavigator_h__
-#define IcecastClientNavigator_h__
+#ifndef NoiseStreamerNavigator_h__
+#define NoiseStreamerNavigator_h__
 
 #include <signal.h>
 
@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class IcecastClientNavigator
+class NoiseStreamerNavigator
 {
 private:
 	volatile sig_atomic_t _pause;
@@ -22,8 +22,8 @@ protected:
 	void waitForResume();
 
 public:
-	IcecastClientNavigator(ILogService* logSrv, SignalService* sigSrv);
-	virtual ~IcecastClientNavigator();
+	NoiseStreamerNavigator(ILogService* logSrv, SignalService* sigSrv);
+	virtual ~NoiseStreamerNavigator();
 
 	void pause();
 	void resume();
@@ -35,7 +35,7 @@ public:
 	bool isPaused();
 	bool isStoped();
 	bool isGoToNext();
-	
+
 };
 
-#endif // IcecastClientNavigator_h__
+#endif // NoiseStreamerNavigator_h__

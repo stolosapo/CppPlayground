@@ -1,7 +1,7 @@
 #include "LibShout.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
-#include "../exception/IcecastDomainErrorCode.h"
+#include "../exception/NoiseStreamerDomainErrorCode.h"
 #include "../../kernel/converter/Convert.h"
 
 void LibShout::shoutInit()
@@ -42,7 +42,7 @@ void LibShout::shoutNew()
 #ifdef ICECAST
 	if (!(shout = shout_new()))
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0002);
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0002);
 	}
 #endif
 }

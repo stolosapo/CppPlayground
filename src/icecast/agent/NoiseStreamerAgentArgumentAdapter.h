@@ -1,5 +1,5 @@
-#ifndef IcecastAgentArgumentAdapter_h__
-#define IcecastAgentArgumentAdapter_h__
+#ifndef NoiseStreamerAgentArgumentAdapter_h__
+#define NoiseStreamerAgentArgumentAdapter_h__
 
 #include <string>
 
@@ -7,14 +7,14 @@
 
 using namespace std;
 
-class IcecastAgentArgumentAdapter: public ArgumentAdapter
+class NoiseStreamerAgentArgumentAdapter: public ArgumentAdapter
 {
 private:
     static const string CONFIG_FILE;
 
 public:
-	IcecastAgentArgumentAdapter(ArgumentService* argService);
-	virtual ~IcecastAgentArgumentAdapter();
+	NoiseStreamerAgentArgumentAdapter(ArgumentService* argService);
+	virtual ~NoiseStreamerAgentArgumentAdapter();
 
     virtual void registerArguments();
 
@@ -26,4 +26,4 @@ protected:
 
 };
 
-#endif // IcecastAgentArgumentAdapter_h__
+#endif // NoiseStreamerAgentArgumentAdapter_h__

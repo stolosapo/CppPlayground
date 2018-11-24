@@ -1,5 +1,5 @@
-#ifndef IcecastClientConfig_h__
-#define IcecastClientConfig_h__
+#ifndef NoiseStreamerConfig_h__
+#define NoiseStreamerConfig_h__
 
 #include <string>
 
@@ -8,11 +8,11 @@
 
 using namespace std;
 
-class IcecastClientConfig : public IConfig
+class NoiseStreamerConfig : public IConfig
 {
 public:
-	IcecastClientConfig();
-	virtual ~IcecastClientConfig();
+	NoiseStreamerConfig();
+	virtual ~NoiseStreamerConfig();
 
 	static Model* factory();
 
@@ -44,4 +44,4 @@ protected:
 
 };
 
-#endif // IcecastClientConfig_h__
+#endif // NoiseStreamerConfig_h__

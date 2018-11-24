@@ -1,8 +1,8 @@
-#include "IcecastClientNavigator.h"
+#include "NoiseStreamerNavigator.h"
 
 #include <unistd.h>
 
-IcecastClientNavigator::IcecastClientNavigator(ILogService *logSrv, SignalService* sigSrv) 
+NoiseStreamerNavigator::NoiseStreamerNavigator(ILogService *logSrv, SignalService* sigSrv) 
 	: logSrv(logSrv), sigSrv(sigSrv)
 {
 	_pause = 0;
@@ -10,62 +10,62 @@ IcecastClientNavigator::IcecastClientNavigator(ILogService *logSrv, SignalServic
 	_next = 0;
 }
 
-IcecastClientNavigator::~IcecastClientNavigator()
+NoiseStreamerNavigator::~NoiseStreamerNavigator()
 {
 
 }
 
-void IcecastClientNavigator::pause()
+void NoiseStreamerNavigator::pause()
 {
 	_pause = 1;
 	logSrv->info("Playlist paused");
 }
 
-void IcecastClientNavigator::resume()
+void NoiseStreamerNavigator::resume()
 {
 	_pause = 0;
 	logSrv->info("Playlist resumed");
 }
 
-void IcecastClientNavigator::stop()
+void NoiseStreamerNavigator::stop()
 {
 	_stop = 1;
 	logSrv->info("Playlist stop playing");
 }
 
-void IcecastClientNavigator::play()
+void NoiseStreamerNavigator::play()
 {
 	_stop = 0;
 	logSrv->info("Playlist start playing");
 }
 
-void IcecastClientNavigator::next()
+void NoiseStreamerNavigator::next()
 {
 	_next = 1;
 	logSrv->info("Playlist go to the next track");
 }
 
-void IcecastClientNavigator::normal()
+void NoiseStreamerNavigator::normal()
 {
 	_next = 0;
 }
 
-bool IcecastClientNavigator::isPaused()
+bool NoiseStreamerNavigator::isPaused()
 {
 	return _pause == 1;
 }
 
-bool IcecastClientNavigator::isStoped()
+bool NoiseStreamerNavigator::isStoped()
 {
 	return _stop == 1;
 }
 
-bool IcecastClientNavigator::isGoToNext()
+bool NoiseStreamerNavigator::isGoToNext()
 {
 	return _next == 1;
 }
 
-void IcecastClientNavigator::waitForResume()
+void NoiseStreamerNavigator::waitForResume()
 {
 	int ms = 500;
 	int us = ms * 1000;

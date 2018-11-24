@@ -1,9 +1,9 @@
-#ifndef IcecastDomainErrorCode_h__
-#define IcecastDomainErrorCode_h__
+#ifndef NoiseStreamerDomainErrorCode_h__
+#define NoiseStreamerDomainErrorCode_h__
 
 #include "../../kernel/exception/domain/DomainErrorCode.h"
 
-class IcecastDomainErrorCode
+class NoiseStreamerDomainErrorCode
 {
 public:
     static const DomainErrorCode ICS0001;
@@ -38,9 +38,9 @@ public:
 
     static const DomainErrorCode ICS0025;
 
-	IcecastDomainErrorCode();
-	virtual ~IcecastDomainErrorCode();
+	NoiseStreamerDomainErrorCode();
+	virtual ~NoiseStreamerDomainErrorCode();
 
 };
 
-#endif // IcecastDomainErrorCode_h__
+#endif // NoiseStreamerDomainErrorCode_h__

@@ -1,8 +1,8 @@
-#ifndef IcecastClient_h__
-#define IcecastClient_h__
+#ifndef NoiseStreamer_h__
+#define NoiseStreamer_h__
 
-#include "IcecastClientNavigator.h"
-#include "config/IcecastClientConfig.h"
+#include "NoiseStreamerNavigator.h"
+#include "config/NoiseStreamerConfig.h"
 #include "../kernel/log/ILogService.h"
 #include "../kernel/interruption/SignalService.h"
 #include "../kernel/audio/AudioTagService.h"
@@ -12,7 +12,7 @@
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
 
 
-class IcecastClient : public Version, public IcecastClientNavigator
+class NoiseStreamer : public Version, public NoiseStreamerNavigator
 {
 private:
 	ILogService *logSrv;
@@ -22,7 +22,7 @@ private:
 
     string configFilename;
 
-	IcecastClientConfig* config;
+	NoiseStreamerConfig* config;
 	LibShout* libShout;
 	PlaylistHandlerFactory* playlistHandlerFactory;
 	PlaylistHandler* playlistHandler;
@@ -41,13 +41,13 @@ private:
 	static void onLibShoutError(void* sender, EventArgs* e);
 
 public:
-	IcecastClient(
+	NoiseStreamer(
         ILogService *logSrv,
         SignalService *sigSrv,
         AudioTagService *tagSrv,
         AudioEncodingService *encSrv,
         string configFilename);
-	virtual ~IcecastClient();
+	virtual ~NoiseStreamer();
 
 	static const char* USER_AGENT;
 
@@ -70,4 +70,4 @@ public:
 
 };
 
-#endif // IcecastClient_h__
+#endif // NoiseStreamer_h__

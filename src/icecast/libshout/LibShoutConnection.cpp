@@ -1,7 +1,7 @@
 #include "LibShout.h"
 
 #include "../../kernel/exception/domain/DomainException.h"
-#include "../exception/IcecastDomainErrorCode.h"
+#include "../exception/NoiseStreamerDomainErrorCode.h"
 #include "../../kernel/converter/Convert.h"
 
 int LibShout::shoutOpen()
@@ -46,7 +46,7 @@ void LibShout::setHost(string host)
 #ifdef ICECAST
 	if (shout_set_host(shout, host.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0003, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0003, getError());
 	}
 #endif
 }
@@ -65,7 +65,7 @@ void LibShout::setPort(unsigned short port)
 #ifdef ICECAST
 	if (shout_set_port(shout, port) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0004, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0004, getError());
 	}
 #endif
 }
@@ -84,7 +84,7 @@ void LibShout::setUser(string username)
 #ifdef ICECAST
 	if (shout_set_user(shout, username.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0006, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0006, getError());
 	}
 #endif
 }
@@ -94,7 +94,7 @@ void LibShout::setPassword(string password)
 #ifdef ICECAST
 	if (shout_set_password(shout, password.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0007, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0007, getError());
 	}
 #endif
 }
@@ -104,7 +104,7 @@ void LibShout::setMount(string mount)
 #ifdef ICECAST
 	if (shout_set_mount(shout, mount.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(IcecastDomainErrorCode::ICS0008, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0008, getError());
 	}
 #endif
 }

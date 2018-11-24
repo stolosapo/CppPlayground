@@ -11,8 +11,8 @@
 
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../../kernel/exception/ExceptionMapper.h"
-#include "../exception/IcecastDomainErrorCode.h"
-#include "../IcecastClient.h"
+#include "../exception/NoiseStreamerDomainErrorCode.h"
+#include "../NoiseStreamer.h"
 
 
 LibShout::LibShout(ILogService *logSrv, SignalService* sigSrv)
@@ -107,7 +107,7 @@ void LibShout::startShout()
 
 	if (ret != SHOUTERR_CONNECTED)
 	{
-		DomainException err(IcecastDomainErrorCode::ICS0020, getError());
+		DomainException err(NoiseStreamerDomainErrorCode::ICS0020, getError());
 		logSrv->warn(handle(err));
 		restartShout();
 	}
@@ -142,7 +142,7 @@ void LibShout::restartShout()
 	if (maxTriesReached())
 	{
 		clearTries();
-		throw DomainException(IcecastDomainErrorCode::ICS0023);
+		throw DomainException(NoiseStreamerDomainErrorCode::ICS0023);
 	}
 }
 
