@@ -28,6 +28,7 @@ private:
     IcecastClient* icecastClient();
     IcecastClient* createNewIcecast();
     void disposeIcecast();
+    void disposeIcecastClient();
 
 protected:
 	IcecastAgentProtocol* agentProtocol();

@@ -77,7 +77,7 @@ void* icecast_start_client(void* agent)
 
 	try
 	{
-		a->icecast->action();
+		a->icecastClient()->action();
 	}
 	catch(DomainException& e)
 	{
@@ -92,8 +92,7 @@ void* icecast_start_client(void* agent)
 		logSrv->error(e.what());
 	}
 
-    delete a->icecast;
-    a->icecast = NULL;
+    a->disposeIcecastClient();
 
 	return NULL;
 }

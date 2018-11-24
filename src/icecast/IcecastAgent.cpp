@@ -86,6 +86,11 @@ void IcecastAgent::disposeIcecast()
         logger()->trace("Icecast thread finnished!");
     }
 
+    disposeIcecastClient();
+}
+
+void IcecastAgent::disposeIcecastClient()
+{
     if (icecast != NULL)
     {
         delete icecast;
