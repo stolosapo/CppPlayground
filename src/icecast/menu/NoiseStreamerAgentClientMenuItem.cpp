@@ -26,7 +26,7 @@ NoiseStreamerAgentClientMenuItem::~NoiseStreamerAgentClientMenuItem()
 void NoiseStreamerAgentClientMenuItem::check()
 {
 #ifndef ICECAST
-	throw DomainException(NoiseStreamerDomainErrorCode::ICS0001);
+	throw DomainException(NoiseStreamerDomainErrorCode::NSS0001);
 #endif
 }
 

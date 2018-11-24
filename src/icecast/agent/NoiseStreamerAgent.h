@@ -22,13 +22,13 @@ private:
     AudioTagService *tagSrv;
     AudioEncodingService *encSrv;
 
-	Thread* icecastThread;
-	NoiseStreamer *icecast;
+	Thread* streamerThread;
+	NoiseStreamer *nss;
 
-    NoiseStreamer* icecastClient();
-    NoiseStreamer* createNewIcecast();
-    void disposeIcecast();
-    void disposeIcecastClient();
+    NoiseStreamer* noiseStreamer();
+    NoiseStreamer* createNewStreamer();
+    void disposeStreamerThread();
+    void disposeNoiseStreamer();
 
 protected:
 	NoiseStreamerAgentProtocol* agentProtocol();
@@ -38,7 +38,7 @@ protected:
 	virtual string configFilename();
     virtual void loadConfig();
 	virtual void initialize();
-	virtual void startIcecast();
+	virtual void startStreamer();
 	virtual bool validateCommand(string command);
 	virtual void processCommand(ClientInfo *client, string command);
 
@@ -52,16 +52,16 @@ public:
         AudioEncodingService *encSrv);
 	virtual ~NoiseStreamerAgent();
 
-    friend void* icecast_agent_status(void* agent);
-    friend void* icecast_now_playing(void* agent);
-    friend void* icecast_start_client(void* agent);
-    friend void* icecast_start(void* agent);
-    friend void* icecast_stop_playing(void* agent);
-    friend void* icecast_pause(void* agent);
-    friend void* icecast_resume(void* agent);
-    friend void* icecast_next_track(void* agent);
-    friend void* icecast_stats_genre(void* agent);
-    friend void* icecast_stats_artist(void* agent);
+    friend void* nss_agent_status(void* agent);
+    friend void* nss_now_playing(void* agent);
+    friend void* nss_start_client(void* agent);
+    friend void* nss_start(void* agent);
+    friend void* nss_stop_playing(void* agent);
+    friend void* nss_pause(void* agent);
+    friend void* nss_resume(void* agent);
+    friend void* nss_next_track(void* agent);
+    friend void* nss_stats_genre(void* agent);
+    friend void* nss_stats_artist(void* agent);
 
 };
 

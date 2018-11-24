@@ -42,7 +42,7 @@ void LibShout::shoutNew()
 #ifdef ICECAST
 	if (!(shout = shout_new()))
 	{
-		throw DomainException(NoiseStreamerDomainErrorCode::ICS0002);
+		throw DomainException(NoiseStreamerDomainErrorCode::NSS0002);
 	}
 #endif
 }

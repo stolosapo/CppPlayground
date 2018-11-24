@@ -10,10 +10,10 @@
 using namespace std;
 
 
-void* icecast_agent_status(void* agent)
+void* nss_agent_status(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
-	NoiseStreamer* client = a->icecastClient();
+	NoiseStreamer* client = a->noiseStreamer();
 
 	double uptimeSec = a->uptime();
 	int connections = a->numberOfActiveConnections();
@@ -40,10 +40,10 @@ void* icecast_agent_status(void* agent)
 	return static_cast<void*>(new string(value));
 }
 
-void* icecast_now_playing(void* agent)
+void* nss_now_playing(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
-	NoiseStreamer* client = a->icecastClient();
+	NoiseStreamer* client = a->noiseStreamer();
 
 	PlaylistItem track = client->nowPlaying();
 	AudioTag* tag = track.getMetadata();
@@ -70,14 +70,14 @@ void* icecast_now_playing(void* agent)
 	return static_cast<void*>(new string(value));
 }
 
-void* icecast_start_client(void* agent)
+void* nss_start_client(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
 	ILogService* logSrv = a->logger();
 
 	try
 	{
-		a->icecastClient()->action();
+		a->noiseStreamer()->action();
 	}
 	catch(DomainException& e)
 	{
@@ -92,58 +92,58 @@ void* icecast_start_client(void* agent)
 		logSrv->error(e.what());
 	}
 
-    a->disposeIcecastClient();
+    a->disposeNoiseStreamer();
 
 	return NULL;
 }
 
-void* icecast_start(void* agent)
+void* nss_start(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
 
 	return NULL;
 }
 
-void* icecast_stop_playing(void* agent)
+void* nss_stop_playing(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
 
-	a->icecastClient()->stopPlaying();
+	a->noiseStreamer()->stopPlaying();
 
 	return NULL;
 }
 
-void* icecast_pause(void* agent)
+void* nss_pause(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
 
-	a->icecastClient()->pause();
+	a->noiseStreamer()->pause();
 
 	return NULL;
 }
 
-void* icecast_resume(void* agent)
+void* nss_resume(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
 
-	a->icecastClient()->resume();
+	a->noiseStreamer()->resume();
 
 	return NULL;
 }
 
-void* icecast_next_track(void* agent)
+void* nss_next_track(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
 
-	a->icecastClient()->next();
+	a->noiseStreamer()->next();
 
 	return NULL;
 }
 
-void* icecast_stats_genre(void* agent)
+void* nss_stats_genre(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
-	NoiseStreamer* client = a->icecastClient();
+	NoiseStreamer* client = a->noiseStreamer();
 
 	string value = "\n";
 
@@ -152,10 +152,10 @@ void* icecast_stats_genre(void* agent)
 	return static_cast<void*>(new string(value));
 }
 
-void* icecast_stats_artist(void* agent)
+void* nss_stats_artist(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
-	NoiseStreamer* client = a->icecastClient();
+	NoiseStreamer* client = a->noiseStreamer();
 
 	string value = "\n";
 

@@ -107,7 +107,7 @@ void LibShout::startShout()
 
 	if (ret != SHOUTERR_CONNECTED)
 	{
-		DomainException err(NoiseStreamerDomainErrorCode::ICS0020, getError());
+		DomainException err(NoiseStreamerDomainErrorCode::NSS0020, getError());
 		logSrv->warn(handle(err));
 		restartShout();
 	}
@@ -142,7 +142,7 @@ void LibShout::restartShout()
 	if (maxTriesReached())
 	{
 		clearTries();
-		throw DomainException(NoiseStreamerDomainErrorCode::ICS0023);
+		throw DomainException(NoiseStreamerDomainErrorCode::NSS0023);
 	}
 }
 

@@ -18,13 +18,13 @@ NoiseStreamerAgent::NoiseStreamerAgent(
     tagSrv(tagSrv),
     encSrv(encSrv)
 {
-	icecastThread = NULL;
-	icecast = NULL;
+	streamerThread = NULL;
+	nss = NULL;
 }
 
 NoiseStreamerAgent::~NoiseStreamerAgent()
 {
-	disposeIcecast();
+	disposeStreamerThread();
 }
 
 NoiseStreamerAgentProtocol* NoiseStreamerAgent::agentProtocol()
@@ -37,14 +37,14 @@ NoiseStreamerAgentConfig* NoiseStreamerAgent::agentConfig()
     return (NoiseStreamerAgentConfig*) this->config;
 }
 
-NoiseStreamer* NoiseStreamerAgent::icecastClient()
+NoiseStreamer* NoiseStreamerAgent::noiseStreamer()
 {
-    if (icecast == NULL)
+    if (nss == NULL)
     {
-        throw DomainException(NoiseStreamerDomainErrorCode::ICS0025);
+        throw DomainException(NoiseStreamerDomainErrorCode::NSS0025);
     }
 
-    return icecast;
+    return nss;
 }
 
 ITcpProtocol* NoiseStreamerAgent::createProtocol()
@@ -72,46 +72,46 @@ void NoiseStreamerAgent::loadConfig()
 	logSrv->info("Configuration Loaded. '" + file + "'");
 }
 
-NoiseStreamer* NoiseStreamerAgent::createNewIcecast()
+NoiseStreamer* NoiseStreamerAgent::createNewStreamer()
 {
     return new NoiseStreamer(logSrv, sigSrv, tagSrv, encSrv, agentConfig()->getIcecastConfig());
 }
 
-void NoiseStreamerAgent::disposeIcecast()
+void NoiseStreamerAgent::disposeStreamerThread()
 {
-    if (icecastThread != NULL)
+    if (streamerThread != NULL)
     {
         logger()->trace("Waiting Icecast thread to finnished..");
-        delete icecastThread;
+        delete streamerThread;
         logger()->trace("Icecast thread finnished!");
     }
 
-    disposeIcecastClient();
+    disposeNoiseStreamer();
 }
 
-void NoiseStreamerAgent::disposeIcecastClient()
+void NoiseStreamerAgent::disposeNoiseStreamer()
 {
-    if (icecast != NULL)
+    if (nss != NULL)
     {
-        delete icecast;
-        icecast = NULL;
+        delete nss;
+        nss = NULL;
     }
 }
 
-void NoiseStreamerAgent::startIcecast()
+void NoiseStreamerAgent::startStreamer()
 {
-	disposeIcecast();
+	disposeStreamerThread();
 
-    icecast = createNewIcecast();
+    nss = createNewStreamer();
 
-	icecastThread = agentProtocol()->startTask(icecast_start_client, this);
+	streamerThread = agentProtocol()->startTask(nss_start_client, this);
 }
 
 void NoiseStreamerAgent::initialize()
 {
 	TcpServer::initialize();
 
-	startIcecast();
+	startStreamer();
 }
 
 bool NoiseStreamerAgent::validateCommand(string command)

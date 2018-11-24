@@ -11,7 +11,7 @@ shout_metadata_t* LibShout::createNewMetadata()
 
 	if (!(newMetadata = shout_metadata_new()))
 	{
-		throw DomainException(NoiseStreamerDomainErrorCode::ICS0015, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::NSS0015, getError());
 	}
 
 	return newMetadata;
@@ -37,7 +37,7 @@ void LibShout::addMeta(shout_metadata_t* metadata, string name, string value)
 {
 	if (shout_metadata_add(metadata, name.c_str(), value.c_str()) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(NoiseStreamerDomainErrorCode::ICS0015, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::NSS0015, getError());
 	}
 }
 

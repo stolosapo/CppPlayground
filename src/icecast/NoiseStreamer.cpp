@@ -87,7 +87,7 @@ void NoiseStreamer::onLibShoutError(void* sender, EventArgs* e)
 		shout->restartShout();
 	}
 
-	throw DomainException(NoiseStreamerDomainErrorCode::ICS0024);
+	throw DomainException(NoiseStreamerDomainErrorCode::NSS0024);
 }
 
 int NoiseStreamer::getNumberOfPlayedTracks()
@@ -112,7 +112,7 @@ void NoiseStreamer::initializePlaylist()
 
 	if (type == NONE)
 	{
-		throw DomainException(NoiseStreamerDomainErrorCode::ICS0022);
+		throw DomainException(NoiseStreamerDomainErrorCode::NSS0022);
 	}
 
 	playlistHandlerFactory =

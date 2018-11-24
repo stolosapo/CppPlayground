@@ -9,7 +9,7 @@ void LibShout::setFormat(unsigned int format)
 #ifdef ICECAST
 	if (shout_set_format(shout, format) != SHOUTERR_SUCCESS)
 	{
-		throw DomainException(NoiseStreamerDomainErrorCode::ICS0017, getError());
+		throw DomainException(NoiseStreamerDomainErrorCode::NSS0017, getError());
 	}
 #endif
 }

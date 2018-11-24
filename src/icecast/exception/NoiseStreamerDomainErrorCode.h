@@ -6,37 +6,37 @@
 class NoiseStreamerDomainErrorCode
 {
 public:
-    static const DomainErrorCode ICS0001;
+    static const DomainErrorCode NSS0001;
 
-    static const DomainErrorCode ICS0002;
-    static const DomainErrorCode ICS0003;
-    static const DomainErrorCode ICS0004;
-    static const DomainErrorCode ICS0005;
-    static const DomainErrorCode ICS0006;
-    static const DomainErrorCode ICS0007;
-    static const DomainErrorCode ICS0008;
-    static const DomainErrorCode ICS0009;
-    static const DomainErrorCode ICS0010;
-    static const DomainErrorCode ICS0011;
-    static const DomainErrorCode ICS0012;
-    static const DomainErrorCode ICS0013;
-    static const DomainErrorCode ICS0014;
-    static const DomainErrorCode ICS0015;
-    static const DomainErrorCode ICS0016;
-    static const DomainErrorCode ICS0017;
-    static const DomainErrorCode ICS0018;
-    static const DomainErrorCode ICS0019;
+    static const DomainErrorCode NSS0002;
+    static const DomainErrorCode NSS0003;
+    static const DomainErrorCode NSS0004;
+    static const DomainErrorCode NSS0005;
+    static const DomainErrorCode NSS0006;
+    static const DomainErrorCode NSS0007;
+    static const DomainErrorCode NSS0008;
+    static const DomainErrorCode NSS0009;
+    static const DomainErrorCode NSS0010;
+    static const DomainErrorCode NSS0011;
+    static const DomainErrorCode NSS0012;
+    static const DomainErrorCode NSS0013;
+    static const DomainErrorCode NSS0014;
+    static const DomainErrorCode NSS0015;
+    static const DomainErrorCode NSS0016;
+    static const DomainErrorCode NSS0017;
+    static const DomainErrorCode NSS0018;
+    static const DomainErrorCode NSS0019;
 
-    static const DomainErrorCode ICS0020;
+    static const DomainErrorCode NSS0020;
 
-    static const DomainErrorCode ICS0021;
+    static const DomainErrorCode NSS0021;
 
-    static const DomainErrorCode ICS0022;
+    static const DomainErrorCode NSS0022;
 
-    static const DomainErrorCode ICS0023;
-    static const DomainErrorCode ICS0024;
+    static const DomainErrorCode NSS0023;
+    static const DomainErrorCode NSS0024;
 
-    static const DomainErrorCode ICS0025;
+    static const DomainErrorCode NSS0025;
 
 	NoiseStreamerDomainErrorCode();
 	virtual ~NoiseStreamerDomainErrorCode();
