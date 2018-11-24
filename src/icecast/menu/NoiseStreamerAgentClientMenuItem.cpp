@@ -14,7 +14,7 @@ NoiseStreamerAgentClientMenuItem::NoiseStreamerAgentClientMenuItem(ILogService *
 
 	this->setId(2);
 
-	this->setName("nss.agent.client");
+	this->setName("nss.client");
 	this->setTitle("Client");
 }
 
