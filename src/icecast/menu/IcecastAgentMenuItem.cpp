@@ -35,15 +35,36 @@ void IcecastAgentMenuItem::check()
 #endif
 }
 
-void IcecastAgentMenuItem::action()
+IcecastAgent* IcecastAgentMenuItem::agentFactory()
 {
-	SignalService* sigSrv = inject<SignalService>("signalService");
+    SignalService* sigSrv = inject<SignalService>("signalService");
 	AudioTagService* tagSrv = inject<AudioTagService>("audioTagService");
 	AudioEncodingService* encSrv = inject<AudioEncodingService>("audioEncodingService");
 	ITimeService* timeSrv = inject<ITimeService>("timeService");
 	ArgumentService* argSrv = inject<ArgumentService>("argService");
 
-	IcecastAgent agent(this->logSrv, sigSrv, timeSrv, tagSrv, argSrv, encSrv);
+	IcecastAgent* agent = new IcecastAgent(this->logSrv, sigSrv, timeSrv, tagSrv, argSrv, encSrv);
 
-	agent.action();
+    return agent;
+}
+
+void IcecastAgentMenuItem::action()
+{
+	IcecastAgent* agent = agentFactory();
+
+	agent->action();
+
+    delete agent;
+}
+
+string IcecastAgentMenuItem::help()
+{
+    IcecastAgent* agent = agentFactory();
+
+    agent->registerArguments();
+    string hh = agent->help();
+
+    delete agent;
+
+    return hh;
 }

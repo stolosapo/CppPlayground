@@ -5,6 +5,7 @@
 
 #include "../../kernel/menu/MenuItem.h"
 #include "../../kernel/log/ILogService.h"
+#include "../IcecastAgentClient.h"
 
 using namespace std;
 
@@ -12,6 +13,8 @@ class IcecastAgentClientMenuItem : public MenuItem
 {
 private:
 	ILogService *logSrv;
+
+    IcecastAgentClient* clientFactory();
 
 public:
 	IcecastAgentClientMenuItem(ILogService *logSrv);

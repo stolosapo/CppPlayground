@@ -32,24 +32,33 @@ void IcecastAgentClientMenuItem::check()
 #endif
 }
 
-void IcecastAgentClientMenuItem::action()
-{
-	SignalService* sigSrv = inject<SignalService>("signalService");
-    ArgumentService* argSrv = inject<ArgumentService>("argService");
-
-	IcecastAgentClient client(this->logSrv, sigSrv, argSrv);
-
-	client.action();
-}
-
-string IcecastAgentClientMenuItem::help()
+IcecastAgentClient* IcecastAgentClientMenuItem::clientFactory()
 {
     SignalService* sigSrv = inject<SignalService>("signalService");
     ArgumentService* argSrv = inject<ArgumentService>("argService");
 
-    IcecastAgentClient client(this->logSrv, sigSrv, argSrv);
+	IcecastAgentClient* client = new IcecastAgentClient(this->logSrv, sigSrv, argSrv);
 
-    client.registerArguments();
+    return client;
+}
 
-    return client.help();
+void IcecastAgentClientMenuItem::action()
+{
+	IcecastAgentClient* client = clientFactory();
+
+	client->action();
+
+    delete client;
+}
+
+string IcecastAgentClientMenuItem::help()
+{
+    IcecastAgentClient* client = clientFactory();
+
+    client->registerArguments();
+    string hh = client->help();
+
+    delete client;
+
+    return hh;
 }
