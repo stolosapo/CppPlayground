@@ -5,7 +5,7 @@
 
 #include "../../kernel/menu/MenuItem.h"
 #include "../../kernel/log/ILogService.h"
-#include "../IcecastAgent.h"
+#include "../agent/IcecastAgent.h"
 
 using namespace std;
 

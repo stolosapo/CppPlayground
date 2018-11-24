@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "../IcecastClient.h"
-#include "../IcecastAgent.h"
+#include "../agent/IcecastAgent.h"
 #include "../../kernel/converter/Convert.h"
 #include "../../kernel/exception/ExceptionMapper.h"
 

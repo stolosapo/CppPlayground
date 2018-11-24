@@ -3,16 +3,16 @@
 
 #include <string>
 
-#include "IcecastClient.h"
+#include "../IcecastClient.h"
 #include "IcecastAgentArgumentAdapter.h"
-#include "protocol/IcecastAgentProtocol.h"
-#include "config/IcecastAgentConfig.h"
+#include "../protocol/IcecastAgentProtocol.h"
+#include "../config/IcecastAgentConfig.h"
 
-#include "../kernel/tcp/ClientInfo.h"
-#include "../kernel/tcp/server/StatefullTcpServer.h"
-#include "../kernel/interruption/SignalService.h"
-#include "../kernel/time/ITimeService.h"
-#include "../kernel/audio/AudioTagService.h"
+#include "../../kernel/tcp/ClientInfo.h"
+#include "../../kernel/tcp/server/StatefullTcpServer.h"
+#include "../../kernel/interruption/SignalService.h"
+#include "../../kernel/time/ITimeService.h"
+#include "../../kernel/audio/AudioTagService.h"
 
 using namespace std;
 

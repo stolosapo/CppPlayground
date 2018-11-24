@@ -1,9 +1,9 @@
 #include "IcecastAgent.h"
 
-#include "protocol/IcecastAgentTasks.h"
-#include "exception/IcecastDomainErrorCode.h"
+#include "../protocol/IcecastAgentTasks.h"
+#include "../exception/IcecastDomainErrorCode.h"
 
-#include "../kernel/configuration/ConfigLoader.h"
+#include "../../kernel/configuration/ConfigLoader.h"
 
 
 IcecastAgent::IcecastAgent(
