@@ -1,6 +1,7 @@
 #include "IcecastAgent.h"
 
 #include "protocol/IcecastAgentTasks.h"
+#include "exception/IcecastDomainErrorCode.h"
 
 #include "../kernel/configuration/ConfigLoader.h"
 
@@ -34,6 +35,16 @@ IcecastAgentProtocol* IcecastAgent::agentProtocol()
 IcecastAgentConfig* IcecastAgent::agentConfig()
 {
     return (IcecastAgentConfig*) this->config;
+}
+
+IcecastClient* IcecastAgent::icecastClient()
+{
+    if (icecast == NULL)
+    {
+        throw DomainException(IcecastDomainErrorCode::ICS0025);
+    }
+
+    return icecast;
 }
 
 ITcpProtocol* IcecastAgent::createProtocol()
@@ -78,6 +89,7 @@ void IcecastAgent::disposeIcecast()
     if (icecast != NULL)
     {
         delete icecast;
+        icecast = NULL;
     }
 }
 
@@ -111,17 +123,35 @@ void IcecastAgent::processCommand(ClientInfo *client, string command)
 {
 	TcpStream *stream = client->getStream();
 
-	void* retval = agentProtocol()->runTask(command, this);
+    string strValue = command;
 
-	string strValue = command;
+    try
+    {
+    	void* retval = agentProtocol()->runTask(command, this);
 
-	if (retval != NULL)
-	{
-		string *str = static_cast<string*>(retval);
-		strValue = *str;
+    	if (retval != NULL)
+    	{
+    		string *str = static_cast<string*>(retval);
+    		strValue = *str;
 
-		delete str;
-	}
+    		delete str;
+    	}
+    }
+    catch(DomainException& e)
+    {
+        strValue = handle(e);
+        logSrv->error(strValue);
+    }
+    catch(RuntimeException& e)
+    {
+        strValue = handle(e);
+        logSrv->error(strValue);
+    }
+    catch(exception& e)
+    {
+        strValue = e.what();
+        logSrv->error(strValue);
+    }
 
 	stream->send(strValue);
 }

@@ -31,6 +31,8 @@ const DomainErrorCode IcecastDomainErrorCode::ICS0022 = DomainErrorCode("ICS0022
 const DomainErrorCode IcecastDomainErrorCode::ICS0023 = DomainErrorCode("ICS0023", "Maximum of retries reached. Give up..");
 const DomainErrorCode IcecastDomainErrorCode::ICS0024 = DomainErrorCode("ICS0024", "Libshout error occured. Playlist stopped");
 
+const DomainErrorCode IcecastDomainErrorCode::ICS0025 = DomainErrorCode("ICS0025", "NoiseStreamer is not running!");
+
 
 IcecastDomainErrorCode::IcecastDomainErrorCode()
 {

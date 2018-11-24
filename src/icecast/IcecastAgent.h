@@ -25,6 +25,7 @@ private:
 	Thread* icecastThread;
 	IcecastClient *icecast;
 
+    IcecastClient* icecastClient();
     IcecastClient* createNewIcecast();
     void disposeIcecast();
 

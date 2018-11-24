@@ -13,7 +13,7 @@ using namespace std;
 void* icecast_agent_status(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	IcecastClient* client = a->icecast;
+	IcecastClient* client = a->icecastClient();
 
 	double uptimeSec = a->uptime();
 	int connections = a->numberOfActiveConnections();
@@ -43,7 +43,7 @@ void* icecast_agent_status(void* agent)
 void* icecast_now_playing(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	IcecastClient* client = a->icecast;
+	IcecastClient* client = a->icecastClient();
 
 	PlaylistItem track = client->nowPlaying();
 	AudioTag* tag = track.getMetadata();
@@ -92,6 +92,9 @@ void* icecast_start_client(void* agent)
 		logSrv->error(e.what());
 	}
 
+    delete a->icecast;
+    a->icecast = NULL;
+
 	return NULL;
 }
 
@@ -106,7 +109,7 @@ void* icecast_stop_playing(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->icecast->stopPlaying();
+	a->icecastClient()->stopPlaying();
 
 	return NULL;
 }
@@ -115,7 +118,7 @@ void* icecast_pause(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->icecast->pause();
+	a->icecastClient()->pause();
 
 	return NULL;
 }
@@ -124,7 +127,7 @@ void* icecast_resume(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->icecast->resume();
+	a->icecastClient()->resume();
 
 	return NULL;
 }
@@ -133,7 +136,7 @@ void* icecast_next_track(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
 
-	a->icecast->next();
+	a->icecastClient()->next();
 
 	return NULL;
 }
@@ -141,7 +144,7 @@ void* icecast_next_track(void* agent)
 void* icecast_stats_genre(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	IcecastClient* client = a->icecast;
+	IcecastClient* client = a->icecastClient();
 
 	string value = "\n";
 
@@ -153,7 +156,7 @@ void* icecast_stats_genre(void* agent)
 void* icecast_stats_artist(void* agent)
 {
 	IcecastAgent* a = (IcecastAgent*) agent;
-	IcecastClient* client = a->icecast;
+	IcecastClient* client = a->icecastClient();
 
 	string value = "\n";
 
