@@ -5,9 +5,9 @@
 
 #include "IcecastAgentClientArgumentAdapter.h"
 
-#include "../kernel/tcp/ClientInfo.h"
-#include "../kernel/tcp/client/TcpClient.h"
-#include "../kernel/interruption/SignalService.h"
+#include "../../kernel/tcp/ClientInfo.h"
+#include "../../kernel/tcp/client/TcpClient.h"
+#include "../../kernel/interruption/SignalService.h"
 
 using namespace std;
 

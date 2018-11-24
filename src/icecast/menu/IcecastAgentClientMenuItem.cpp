@@ -1,7 +1,5 @@
 #include "IcecastAgentClientMenuItem.h"
 
-#include "../IcecastAgentClient.h"
-
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../exception/IcecastDomainErrorCode.h"
 

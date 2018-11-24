@@ -1,6 +1,6 @@
 #include "IcecastAgentClient.h"
 
-#include "protocol/IcecastAgentProtocol.h"
+#include "../protocol/IcecastAgentProtocol.h"
 
 IcecastAgentClient::IcecastAgentClient(
     ILogService *logSrv,
