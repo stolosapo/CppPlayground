@@ -214,6 +214,8 @@ void TcpServer::start()
 		ClientInfo* client = new ClientInfo(this, stream, th, clientCount);
 
 		th->start(client);
+        string name = "TcpClient" + Convert<int>::NumberToString(clientCount);
+		// th->setName(name.c_str());
 
 		clients.push_back(client);
 

@@ -52,7 +52,7 @@ void* Thread::delegateInterceptor(void* interceptionData)
 
 	th->setSelfId();
 	th->setMustDispose(true);
-	
+
 	void* retval = NULL;
 
 
@@ -161,6 +161,11 @@ void* Thread::exit()
 long long Thread::self()
 {
 	return pthread_self();
+}
+
+void Thread::setName(const char* name)
+{
+    pthread_setname_np(_thread, name);
 }
 
 long long Thread::getId()

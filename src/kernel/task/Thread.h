@@ -40,6 +40,8 @@ public:
 
 	virtual long long self();
 
+    void setName(const char* name);
+
 	long long getId();
 	string getStringId();
 	bool mustDispose();
