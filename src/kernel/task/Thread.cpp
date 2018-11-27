@@ -91,6 +91,18 @@ bool Thread::start(void* data)
 	return (status == 0);
 }
 
+bool Thread::start(void* data, const char* name)
+{
+    bool status = start(data);
+
+    if (status)
+    {
+        setName(name);
+    }
+
+    return status;
+}
+
 void Thread::wait()
 {
 	if (_thread == 0)

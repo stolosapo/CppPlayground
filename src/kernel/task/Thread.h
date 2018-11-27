@@ -22,6 +22,7 @@ private:
 
 	void setId(long long id);
 	void setSelfId();
+    void setName(const char* name);
 	void setMustDispose(bool dispose);
 
 public:
@@ -32,6 +33,7 @@ public:
 	virtual void detachDelegate(ThreadDelegate delegate);
 
 	virtual bool start(void* data);
+    virtual bool start(void* data, const char* name);
 	virtual void wait();
 	virtual void* result();
 	virtual bool cancel();
@@ -39,8 +41,6 @@ public:
 	virtual void* exit();
 
 	virtual long long self();
-
-    void setName(const char* name);
 
 	long long getId();
 	string getStringId();
