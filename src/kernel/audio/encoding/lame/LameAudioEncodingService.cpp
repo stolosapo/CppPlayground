@@ -3,6 +3,8 @@
 /*
 Example
 https://stackoverflow.com/questions/2495420/is-there-any-lame-c-wraper-simplifier-working-on-linux-mac-and-win-from-pure/2496831#2496831
+
+https://www.codeproject.com/Articles/656543/The-LAME-wrapper-An-audio-converter
 */
 
 LameAudioEncodingService::LameAudioEncodingService() : AudioEncodingService()
