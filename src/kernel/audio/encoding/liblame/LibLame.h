@@ -17,9 +17,9 @@ private:
     lame_global_flags* lame;
 
     hip_t hipDecodeInit();
-    void hipDecodeExit(hip_t gfp);
+    void hipDecodeExit(hip_t hip);
 
-    int hipDecode1Headers(hip_t gfp, unsigned char*  mp3buf, size_t len, short pcm_l[], short pcm_r[], mp3data_struct* mp3data);
+    int hipDecode1Headers(hip_t hip, unsigned char*  mp3buf, size_t len, short pcm_l[], short pcm_r[], mp3data_struct* mp3data);
 #endif
 
 public:
@@ -27,8 +27,8 @@ public:
 	virtual ~LibLame();
 
     void init();
-
     int initParams();
+    void close();
 
     void id3tagInit();
     void id3tagV2Only();
@@ -46,10 +46,10 @@ public:
     int getLameTagFrame(unsigned char* buffer, int size);
 
     void setDecodeOnly(bool enabled);
-
     void setInSamplerate(int samplerate);
-    void setBWriteVbrTag();
+    void setBWriteVbrTag(bool enabled);
     void setVBR(int vbr_mode);
+    void setVBRq(int quality);
     void setVBRMeanBitrateKbps(int abr_bitrate);
     void setQuality(int quality);
     void setBrate(int cbr_bitrate);
@@ -59,8 +59,6 @@ public:
 
     int encodeFlush(unsigned char* mp3_buffer, int size);
     int encodeBufferInterleaved(short int* pcm_buffer, int num_samples, unsigned char* mp3_buffer, int mp3_buffer_size);
-
-    void close();
 
 };
 
