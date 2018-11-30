@@ -8,7 +8,6 @@
 #include "../../exception/domain/DomainException.h"
 #include "../../exception/domain/GeneralDomainErrorCode.h"
 
-#include "Mp3Id3v1Parser.h"
 #include "FilenameTagParser.h"
 
 using namespace std;
@@ -33,12 +32,13 @@ SimpleAudioTagService::~SimpleAudioTagService()
 
 void SimpleAudioTagService::registerParsers()
 {
-	// tagParsers.push_back(new Mp3Id3v1Parser);
 	tagParsers.push_back(new FilenameTagParser);
 }
 
 AudioTag* SimpleAudioTagService::read(const char* filename)
 {
+    registerParsers();
+
 	FILE *file;
 
 	try
@@ -57,11 +57,6 @@ AudioTag* SimpleAudioTagService::read(const char* filename)
 			++it)
 		{
 			parser = (AudioTagParser*) *it;
-
-			if (parser->isCorrectVersion(filename, file))
-			{
-				break;
-			}
 		}
 
 		if (parser == NULL)

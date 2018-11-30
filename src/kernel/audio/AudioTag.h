@@ -38,6 +38,9 @@ public:
 
 	virtual ~AudioTag();
 
+    static AudioTag* empty();
+    static AudioTag* emptyWithTitle(string title);
+
 	virtual string getTitle();
 	virtual string getArtist();
 	virtual string getAlbum();

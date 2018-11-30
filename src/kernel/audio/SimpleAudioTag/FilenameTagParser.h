@@ -17,7 +17,6 @@ public:
 	virtual ~FilenameTagParser();
 
 	virtual AudioTag* parse(const char* filepath, FILE* file);
-	virtual bool isCorrectVersion(const char* filepath, FILE* file);
 };
 
 #endif // FilenameTagParser_h__

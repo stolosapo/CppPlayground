@@ -33,6 +33,32 @@ AudioTag::~AudioTag()
 
 }
 
+AudioTag* AudioTag::empty()
+{
+    return new AudioTag(
+        "",
+		"",
+		"",
+		"",
+		"",
+		0,
+		0,
+		0,
+		"--:--",
+		0,
+		0,
+		0);
+}
+
+AudioTag* AudioTag::emptyWithTitle(string title)
+{
+    AudioTag* tag = AudioTag::empty();
+
+    tag->title = title;
+
+    return tag;
+}
+
 string AudioTag::getTitle()
 {
         return title;
