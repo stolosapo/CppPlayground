@@ -29,14 +29,14 @@ private:
 
 	int numberOfPlayedTracks;
 
-	void logNowPlaying(PlaylistItem item);
+	void logNowPlaying(const PlaylistItem& item);
 
 	void initializePlaylist();
 	void initializeShout();
 
 	void loadConfig();
 	void loadPlaylist();
-	void streamAudioFile(const char* filename, const char* trackMetadata);
+	void streamAudioFile(const PlaylistItem& item);
 
 	static void onLibShoutError(void* sender, EventArgs* e);
 

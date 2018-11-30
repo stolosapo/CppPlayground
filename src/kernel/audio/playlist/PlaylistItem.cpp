@@ -30,7 +30,7 @@ PlaylistItem::~PlaylistItem()
 
 }
 
-int PlaylistItem::getTrackIndex()
+int PlaylistItem::getTrackIndex() const
 {
 	return trackIndex;
 }
@@ -40,12 +40,12 @@ time_t PlaylistItem::getStartTime()
 	return startTime;
 }
 
-string PlaylistItem::getTrack()
+string PlaylistItem::getTrack() const
 {
 	return track;
 }
 
-string PlaylistItem::getTrackTitle()
+string PlaylistItem::getTrackTitle() const
 {
 	if (metadata == NULL)
 	{

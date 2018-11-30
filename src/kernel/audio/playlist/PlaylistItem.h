@@ -23,10 +23,10 @@ public:
 	PlaylistItem(const PlaylistItem &item);
 	virtual ~PlaylistItem();
 
-	int getTrackIndex();
+	int getTrackIndex() const;
 	time_t getStartTime();
-	string getTrack();
-	string getTrackTitle();
+	string getTrack() const;
+	string getTrackTitle() const;
 	AudioTag* getMetadata();
 
 };

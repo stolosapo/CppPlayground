@@ -69,7 +69,7 @@ string NoiseStreamer::agentVersion()
 	return string(USER_AGENT) + "/" + string(version());
 }
 
-void NoiseStreamer::logNowPlaying(PlaylistItem item)
+void NoiseStreamer::logNowPlaying(const PlaylistItem& item)
 {
 	string i = Convert<int>::NumberToString(item.getTrackIndex());
 
@@ -192,12 +192,9 @@ void NoiseStreamer::streamPlaylist()
 
 			PlaylistItem item = playlistHandler->nextTrack();
 
-			string track = item.getTrack();
-			string trackTitle = item.getTrackTitle();
-
 			logNowPlaying(item);
 
-			streamAudioFile(track.c_str(), trackTitle.c_str());
+			streamAudioFile(item);
 
 			numberOfPlayedTracks++;
 		}
@@ -210,19 +207,18 @@ void NoiseStreamer::streamPlaylist()
 	}
 }
 
-void NoiseStreamer::streamAudioFile(const char* filename, const char* trackMetadata)
+void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
 {
     const int AUDIO_SIZE = 4096;
-    // const int AUDIO_SIZE = 8192;
 
 	unsigned char buff[AUDIO_SIZE];
 	long read;
 
 	FILE* mp3file;
-	mp3file = fopen(filename , "rb");
+	mp3file = fopen(item.getTrack().c_str() , "rb");
 
 	/* Update metadata */
-	libShout->updateMetadata(string(trackMetadata));
+	libShout->updateMetadata(item.getTrackTitle());
 
 	while (!sigSrv->gotSigInt() && !isGoToNext())
 	{
