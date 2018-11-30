@@ -6,17 +6,11 @@
 #include <vector>
 
 #include "../AudioTagService.h"
-#include "AudioTagParser.h"
 
 using namespace std;
 
 class SimpleAudioTagService: public AudioTagService
 {
-private:
-	vector<AudioTagParser*> tagParsers;
-
-	void registerParsers();
-
 public:
 	SimpleAudioTagService();
 	virtual ~SimpleAudioTagService();
