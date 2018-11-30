@@ -5,6 +5,14 @@ Example
 https://stackoverflow.com/questions/2495420/is-there-any-lame-c-wraper-simplifier-working-on-linux-mac-and-win-from-pure/2496831#2496831
 
 https://www.codeproject.com/Articles/656543/The-LAME-wrapper-An-audio-converter
+
+https://codereview.stackexchange.com/questions/83504/basic-c-tone-generator
+
+https://stackoverflow.com/questions/9137297/generating-sounds-without-a-library
+
+https://medium.com/@audiowaves/lets-write-a-simple-sine-wave-generator-with-c-and-juce-c8ab42d1f54f
+
+https://github.com/pbohun/sound-gen/blob/master/lesson2/sound.h
 */
 
 LameAudioEncodingService::LameAudioEncodingService() : AudioEncodingService()
