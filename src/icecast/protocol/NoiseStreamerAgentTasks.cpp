@@ -47,6 +47,7 @@ void* nss_now_playing(void* agent)
 
 	PlaylistItem track = client->nowPlaying();
 	AudioTag* tag = track.getMetadata();
+    int index = track.getTrackIndex();
 	int remaining = client->remainingTrackTime();
 	int minutes = (remaining / 60) % 60;
 	int seconds = remaining % 60;
@@ -57,6 +58,7 @@ void* nss_now_playing(void* agent)
 
 	string value = "\n";
 
+    value += "Index: " + Convert<int>::NumberToString(index) + "\n";
 	value += "Title: " + tag->getTitle() + "\n";
 	value += "Artist: " + tag->getArtist() + "\n";
 	value += "Album: " + tag->getAlbum() + "\n";
