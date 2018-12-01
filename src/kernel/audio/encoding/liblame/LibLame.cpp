@@ -28,7 +28,14 @@ void LibLame::init()
 int LibLame::initParams()
 {
 #ifdef LAME
-    return lame_init_params(lame);
+    int r = lame_init_params(lame);
+
+    if (r == -1)
+    {
+        // throw exception: parameters failed to initialize properly in lame
+    }
+
+    return r;
 #endif
 
     return -1;
@@ -152,6 +159,27 @@ void LibLame::setInSamplerate(int samplerate)
 #endif
 }
 
+void LibLame::setModeMono()
+{
+#ifdef LAME
+    lame_set_mode(lame, MONO);
+#endif
+}
+
+void LibLame::setModeJointStereo()
+{
+#ifdef LAME
+    lame_set_mode(lame, JOINT_STEREO);
+#endif
+}
+
+void LibLame::setNumChannels(int channels)
+{
+#ifdef LAME
+    lame_set_num_channels(lame, channels);
+#endif
+}
+
 void LibLame::setBWriteVbrTag(bool enabled)
 {
 #ifdef LAME
@@ -159,10 +187,24 @@ void LibLame::setBWriteVbrTag(bool enabled)
 #endif
 }
 
-void LibLame::setVBR(int vbr_mode)
+void LibLame::setVBR_ABR()
 {
 #ifdef LAME
-    // lame_set_VBR(lame, vbr_mode);
+    lame_set_VBR(lame, vbr_abr);
+#endif
+}
+
+void LibLame::setVBR_OFF()
+{
+#ifdef LAME
+    lame_set_VBR(lame, vbr_off);
+#endif
+}
+
+void LibLame::setVBR_MTRH()
+{
+#ifdef LAME
+    lame_set_VBR(lame, vbr_mtrh);
 #endif
 }
 

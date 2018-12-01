@@ -3,6 +3,9 @@
 
 #include <string>
 
+#include "encoding/AudioEncodeMode.h"
+#include "AudioBitrate.h"
+
 using namespace std;
 
 class AudioTag
@@ -21,6 +24,11 @@ private:
 	int bitrate;
 	int samplerate;
 	int channels;
+
+    AudioEncodeMode encodeMode;
+    AudioBitrate audioBitrate;
+    int reSamplerate;
+    int quality;
 
 public:
 	AudioTag(string title,
@@ -54,6 +62,11 @@ public:
 	virtual int getBitrate();
 	virtual int getSamplerate();
 	virtual int getChannels();
+
+    virtual AudioEncodeMode getEncodeMode();
+    virtual AudioBitrate getAudioBitrate();
+    virtual int getReSamplerate();
+    virtual int getQuality();
 };
 
 #endif // AudioTag_h__

@@ -47,8 +47,13 @@ public:
 
     void setDecodeOnly(bool enabled);
     void setInSamplerate(int samplerate);
+    void setModeMono();
+    void setModeJointStereo();
+    void setNumChannels(int channels);
     void setBWriteVbrTag(bool enabled);
-    void setVBR(int vbr_mode);
+    void setVBR_ABR();
+    void setVBR_OFF();
+    void setVBR_MTRH();
     void setVBRq(int quality);
     void setVBRMeanBitrateKbps(int abr_bitrate);
     void setQuality(int quality);

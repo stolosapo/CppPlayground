@@ -1,29 +1,33 @@
 #include "AudioTag.h"
 
 AudioTag::AudioTag(string title,
-        string artist,
-        string album,
-        string comments,
-        string genre,
-        int year,
-        int track,
-        int duration,
-        string strDuration,
-        int bitrate,
-        int samplerate,
-        int channels) :
-        title(title),
-        artist(artist),
-        album(album),
-        comments(comments),
-        genre(genre),
-        year(year),
-        track(track),
-        duration(duration),
-        strDuration(strDuration),
-        bitrate(bitrate),
-        samplerate(samplerate),
-        channels(channels)
+    string artist,
+    string album,
+    string comments,
+    string genre,
+    int year,
+    int track,
+    int duration,
+    string strDuration,
+    int bitrate,
+    int samplerate,
+    int channels) :
+    title(title),
+    artist(artist),
+    album(album),
+    comments(comments),
+    genre(genre),
+    year(year),
+    track(track),
+    duration(duration),
+    strDuration(strDuration),
+    bitrate(bitrate),
+    samplerate(samplerate),
+    channels(channels),
+    encodeMode(NO_ENCODE_MODE),
+    audioBitrate(NO_BR),
+    reSamplerate(0),
+    quality(0)
 {
 
 }
@@ -61,60 +65,80 @@ AudioTag* AudioTag::emptyWithTitle(string title)
 
 string AudioTag::getTitle()
 {
-        return title;
+    return title;
 }
 
 string AudioTag::getArtist()
 {
-        return artist;
+    return artist;
 }
 
 string AudioTag::getAlbum()
 {
-        return album;
+    return album;
 }
 
 string AudioTag::getComments()
 {
-        return comments;
+    return comments;
 }
 
 string AudioTag::getGenre()
 {
-        return genre;
+    return genre;
 }
 
 int AudioTag::getYear()
 {
-        return year;
+    return year;
 }
 
 int AudioTag::getTrack()
 {
-        return track;
+    return track;
 }
 
 int AudioTag::getDuration()
 {
-        return duration;
+    return duration;
 }
 
 string AudioTag::getStrDuration()
 {
-        return strDuration;
+    return strDuration;
 }
 
 int AudioTag::getBitrate()
 {
-        return bitrate;
+    return bitrate;
 }
 
 int AudioTag::getSamplerate()
 {
-        return samplerate;
+    return samplerate;
 }
 
 int AudioTag::getChannels()
 {
-        return channels;
+    return channels;
+}
+
+AudioEncodeMode AudioTag::getEncodeMode()
+{
+    return encodeMode;
+}
+
+AudioBitrate AudioTag::getAudioBitrate()
+{
+    return audioBitrate;
+}
+
+int AudioTag::getReSamplerate()
+{
+    return reSamplerate;
+}
+
+int AudioTag::getQuality()
+{
+    return quality;
 }
