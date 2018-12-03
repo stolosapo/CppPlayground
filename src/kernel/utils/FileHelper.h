@@ -4,16 +4,23 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
 class FileHelper
 {
+private:
+    static FILE* openFile(string filename, const char* mode);
+
 public:
 	static const char* FILE_DELIMITTER;
 
 	FileHelper();
 	virtual ~FileHelper();
+
+    static FILE* openReadBinary(string filename);
+    static FILE* openWriteBinary(string filename);
 
     static bool exists(const char* filepath);
 	static string filenameExt(const char* filepath);

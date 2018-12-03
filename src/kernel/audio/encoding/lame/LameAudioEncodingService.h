@@ -13,6 +13,9 @@ using namespace std;
 class LameAudioEncodingService: public AudioEncodingService
 {
 private:
+    static const int PCM_SIZE = 4096;
+	static const int MP3_SIZE = 4096;
+
     void initialize(LibLame& lame, AudioTag* settings);
     void setId3Tag(LibLame& lame, AudioTag* settings);
     void setChannels(LibLame& lame, AudioTag* settings);
@@ -21,16 +24,18 @@ private:
     void setEncodeModeCBR(LibLame& lame, AudioTag* settings);
     void setEncodeModeVBR(LibLame& lame, AudioTag* settings);
 
+    void write16BitsLowHigh(FILE* file, int value);
+    void write32BitsLowHigh(FILE* file, int value);
+    void writeWaveHeader(FILE* const file, int pcm_bytes, int frequency, int channels, int bits);
+
 public:
 	LameAudioEncodingService();
 	virtual ~LameAudioEncodingService();
 
 	virtual void encode(const char* filename);
 
-    virtual int encode(
-        string pcm_in_file,
-        string mp3_out_file,
-        AudioTag* settings);
+    virtual void encode(string pcm_in_file, string mp3_out_file, AudioTag* settings);
+    virtual void decode(string mp3_in_file, string pcm_out_file);
 };
 
 #endif // LameAudioEncodingService_h__

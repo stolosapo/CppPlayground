@@ -23,6 +23,26 @@ FileHelper::~FileHelper()
 
 }
 
+FILE* FileHelper::openFile(string filename, const char* mode)
+{
+    if (!exists(filename.c_str()))
+    {
+        throw DomainException(GeneralDomainErrorCode::GNR0001, filename);
+    }
+
+    return fopen(filename.c_str(), mode);
+}
+
+FILE* FileHelper::openReadBinary(string filename)
+{
+    return openFile(filename, "rb");
+}
+
+FILE* FileHelper::openWriteBinary(string filename)
+{
+    return openFile(filename, "wb");
+}
+
 bool FileHelper::exists(const char* filepath)
 {
     ifstream f(filepath);

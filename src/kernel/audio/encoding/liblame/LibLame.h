@@ -23,6 +23,13 @@ private:
 #endif
 
 public:
+
+#ifdef LAME
+    static const int MAX_MP3_BUFFER = LAME_MAXMP3BUFFER;
+#else
+    static const int MAX_MP3_BUFFER = 0;
+#endif
+
 	LibLame();
 	virtual ~LibLame();
 

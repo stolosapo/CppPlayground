@@ -1,5 +1,8 @@
 #include "LibLame.h"
 
+#include "../../../exception/domain/DomainException.h"
+#include "../exception/EncodingDomainErrorCode.h"
+
 LibLame::LibLame()
 {
 #ifdef LAME
@@ -32,7 +35,7 @@ int LibLame::initParams()
 
     if (r == -1)
     {
-        // throw exception: parameters failed to initialize properly in lame
+        throw DomainException(EncodingDomainErrorCode::ENC0002);
     }
 
     return r;
