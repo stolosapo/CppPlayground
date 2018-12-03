@@ -1,5 +1,8 @@
 #include "LameAudioEncodingService.h"
 
+#include <stdio.h>
+#include <cstring>
+
 #include "../../../converter/Convert.h"
 #include "../../../utils/FileHelper.h"
 
@@ -285,6 +288,7 @@ void LameAudioEncodingService::encode(
 
 void LameAudioEncodingService::decode(string mp3_in_file, string pcm_out_file)
 {
+#ifdef LAME
     int read;
     int i;
     int samples;
@@ -311,4 +315,43 @@ void LameAudioEncodingService::decode(string mp3_in_file, string pcm_out_file)
     lame.setDecodeOnly(true);
     lame.initParams();
 
+    hip_t hip = lame.hipDecodeInit();
+
+    mp3data_struct mp3data;
+    memset(&mp3data, 0, sizeof(mp3data));
+
+    int nChannels = -1;
+    int nSampleRate = -1;
+    int mp3_len;
+
+    /* Progress Log: STARTED */
+
+    while ((read = fread(mp3_buffer, sizeof(char), MP3_SIZE, mp3)) > 0)
+    {
+        mp3_len = read;
+        cumulative_read += read * sizeof(char);
+
+        do
+        {
+            samples = lame.hipDecode1Headers(hip, mp3_buffer, mp3_len, pcm_l, pcm_r, &mp3data);
+            wav_size += samples;
+
+            // Header is gotten
+            if (mp3data.header_parsed == 1)
+            {
+                // Reading for the first time
+                if (nChannels < 0)
+                {
+                    // Write the header
+                    // unknown size, so write maximum 32 bit signed value
+                    writeWaveHeader(pcm, 0x7FFFFFFF, mp3data.samplerate, mp3data.stereo, 16);
+                }
+                nChannels = mp3data.stereo;
+				nSampleRate = mp3data.samplerate;
+            }
+
+        } while (samples > 0);
+    }
+
+#endif
 }

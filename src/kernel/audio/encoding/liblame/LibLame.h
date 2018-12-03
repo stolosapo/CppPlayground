@@ -15,11 +15,6 @@ private:
 
 #ifdef LAME
     lame_global_flags* lame;
-
-    hip_t hipDecodeInit();
-    void hipDecodeExit(hip_t hip);
-
-    int hipDecode1Headers(hip_t hip, unsigned char*  mp3buf, size_t len, short pcm_l[], short pcm_r[], mp3data_struct* mp3data);
 #endif
 
 public:
@@ -36,6 +31,13 @@ public:
     void init();
     int initParams();
     void close();
+
+#ifdef LAME
+    hip_t hipDecodeInit();
+    void hipDecodeExit(hip_t hip);
+
+    int hipDecode1Headers(hip_t hip, unsigned char*  mp3buf, size_t len, short pcm_l[], short pcm_r[], mp3data_struct* mp3data);
+#endif
 
     void id3tagInit();
     void id3tagV2Only();
