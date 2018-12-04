@@ -10,7 +10,12 @@ SimpleAudioEncodingService::~SimpleAudioEncodingService()
 
 }
 
-void SimpleAudioEncodingService::encode(const char* filename)
+void SimpleAudioEncodingService::encode(string pcm_in_file, string mp3_out_file, AudioTag* settings)
+{
+
+}
+
+void SimpleAudioEncodingService::decode(string mp3_in_file, string pcm_out_file)
 {
 
 }

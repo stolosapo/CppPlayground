@@ -199,11 +199,6 @@ void LameAudioEncodingService::writeWaveHeader(FILE* const file, int pcm_bytes, 
     write32BitsLowHigh(file, pcm_bytes);
 }
 
-void LameAudioEncodingService::encode(const char* filename)
-{
-
-}
-
 void LameAudioEncodingService::encode(
     string pcm_in_file,
     string mp3_out_file,

@@ -5,7 +5,6 @@
 #include <string>
 
 #include "../AudioEncodingService.h"
-#include "../../AudioTag.h"
 #include "../liblame/LibLame.h"
 
 using namespace std;
@@ -31,8 +30,6 @@ private:
 public:
 	LameAudioEncodingService();
 	virtual ~LameAudioEncodingService();
-
-	virtual void encode(const char* filename);
 
     virtual void encode(string pcm_in_file, string mp3_out_file, AudioTag* settings);
     virtual void decode(string mp3_in_file, string pcm_out_file);
