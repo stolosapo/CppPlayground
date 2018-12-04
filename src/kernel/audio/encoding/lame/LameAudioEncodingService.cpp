@@ -350,8 +350,65 @@ void LameAudioEncodingService::decode(string mp3_in_file, string pcm_out_file)
 				nSampleRate = mp3data.samplerate;
             }
 
+            if (samples > 0 && mp3data.header_parsed != 1)
+            {
+                //WARNING: lame decode error occured!
+                break;
+            }
+
+            if (samples > 0)
+            {
+                for (i = 0; i < samples; i++)
+                {
+                    fwrite((char*) &pcm_l[i], sizeof(char), sizeof(pcm_l[i]), pcm);
+
+                    if (nChannels == 2)
+                    {
+                        fwrite((char*) &pcm_r[i], sizeof(char), sizeof(pcm_r[i]), pcm);
+                    }
+                }
+            }
+
+            mp3_len = 0;
+
+            int percentage = ((float) cumulative_read / MP3_total_size) * 100;
+            // Progress Log: COMPUTED
+
         } while (samples > 0);
     }
+
+    i = (16 / 8) * mp3data.stereo;
+
+    if (wav_size <= 0)
+    {
+        wav_size = 0;
+    }
+    else if (wav_size > 0xFFFFFFD0 / i)
+    {
+        wav_size = 0xFFFFFFD0;
+    }
+    else
+    {
+        wav_size *= i;
+    }
+
+    // Seek back and adjust length
+    if (!fseek(pcm, 0l, SEEK_SET))
+    {
+        writeWaveHeader(pcm, (int) wav_size, mp3data.samplerate, mp3data.stereo, 16);
+    }
+    else
+    {
+        // Waening: Can't seek back to adjust length in wave header!
+    }
+
+    lame.hipDecodeExit(hip);
+    lame.close();
+
+    fclose(mp3);
+    fclose(pcm);
+
+    // Progress Log: DONE
 
 #endif
 }
