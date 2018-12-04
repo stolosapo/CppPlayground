@@ -214,6 +214,10 @@ void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
 	unsigned char buff[AUDIO_SIZE];
 	long read;
 
+    // cout << 1 << endl;
+	// encSrv->decode(item.getTrack(), "audio.wav");
+    // cout << 2 << endl;
+
 	FILE* mp3file;
 	mp3file = fopen(item.getTrack().c_str() , "rb");
 
