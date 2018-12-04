@@ -67,6 +67,8 @@ public:
     virtual AudioBitrate getAudioBitrate();
     virtual int getReSamplerate();
     virtual int getQuality();
+
+    virtual void setReencodeData(AudioEncodeMode encodeMode, AudioBitrate audioBitrate, int reSamplerate, int quality);
 };
 
 #endif // AudioTag_h__

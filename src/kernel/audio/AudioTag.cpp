@@ -142,3 +142,11 @@ int AudioTag::getQuality()
 {
     return quality;
 }
+
+void AudioTag::setReencodeData(AudioEncodeMode encodeMode, AudioBitrate audioBitrate, int reSamplerate, int quality)
+{
+    this->encodeMode = encodeMode;
+    this->audioBitrate = audioBitrate;
+    this->reSamplerate = reSamplerate;
+    this->quality = quality;
+}
