@@ -214,12 +214,11 @@ void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
 	unsigned char buff[AUDIO_SIZE];
 	long read;
 
-    // cout << 1 << endl;
-	// encSrv->decode(item.getTrack(), "audio.wav");
-    // cout << 2 << endl;
+    // reEncodeAudioFile(item);
 
 	FILE* mp3file;
 	mp3file = fopen(item.getTrack().c_str() , "rb");
+	// mp3file = fopen("audio.mp3" , "rb");
 
 	/* Update metadata */
 	libShout->updateMetadata(item.getTrackTitle());
@@ -250,6 +249,21 @@ void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
 	normal();
 
 	fclose(mp3file);
+}
+
+void NoiseStreamer::reEncodeAudioFile(PlaylistItem item)
+{
+    cout << "Start Decoding.." << endl;
+	encSrv->decode(item.getTrack(), "audio.wav");
+    cout << "End Decoding.." << endl;
+
+    int samplerate = Convert<int>::StringToNumber(config->getSamplerate());
+    AudioTag* metadata = item.getMetadata();
+    metadata->setReencodeData(VBR, BR_16kbps, samplerate, 3);
+
+    cout << "Start Re-Encoding.." << endl;
+	encSrv->encode("audio.wav", "audio.mp3", metadata);
+    cout << "End Re-Encoding.." << endl;
 }
 
 void NoiseStreamer::action()

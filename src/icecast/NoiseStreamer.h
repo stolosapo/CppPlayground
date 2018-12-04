@@ -37,6 +37,7 @@ private:
 	void loadConfig();
 	void loadPlaylist();
 	void streamAudioFile(const PlaylistItem& item);
+    void reEncodeAudioFile(PlaylistItem item);
 
 	static void onLibShoutError(void* sender, EventArgs* e);
 
