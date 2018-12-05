@@ -188,8 +188,6 @@ void NoiseStreamer::streamPlaylist()
 
 		while (playlistHandler->hasNext() && !sigSrv->gotSigInt())
 		{
-			waitForResume();
-
 			PlaylistItem item = playlistHandler->nextTrack();
 
 			logNowPlaying(item);
@@ -217,8 +215,8 @@ void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
     // reEncodeAudioFile(item);
 
 	FILE* mp3file;
-	mp3file = fopen(item.getTrack().c_str() , "rb");
-	// mp3file = fopen("audio.mp3" , "rb");
+    mp3file = FileHelper::openReadBinary(item.getTrack());
+    // mp3file = FileHelper::openReadBinary("audio.mp3");
 
 	/* Update metadata */
 	libShout->updateMetadata(item.getTrackTitle());
@@ -249,6 +247,19 @@ void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
 	normal();
 
 	fclose(mp3file);
+}
+
+bool NoiseStreamer::needReEncode(PlaylistItem& item)
+{
+    AudioTag* metadata = item.getMetadata();
+
+    int itemSamplerate = metadata->getSamplerate();
+    int itemChannels = metadata->getChannels();
+
+    int confSamplerate = Convert<int>::StringToNumber(config->getSamplerate());
+    int confChannels = Convert<int>::StringToNumber(config->getChannels());
+
+    return (itemSamplerate != confSamplerate) || (itemChannels != confChannels);
 }
 
 void NoiseStreamer::reEncodeAudioFile(PlaylistItem item)
