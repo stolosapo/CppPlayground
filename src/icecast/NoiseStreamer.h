@@ -25,18 +25,14 @@ private:
 
 	NoiseStreamerConfig* config;
 	LibShout* libShout;
-	PlaylistHandlerFactory* playlistHandlerFactory;
-	PlaylistHandler* playlistHandler;
 
 	int numberOfPlayedTracks;
 
 	void logNowPlaying(const PlaylistItem& item);
 
-	void initializePlaylist();
 	void initializeShout();
 
 	void loadConfig();
-	void loadPlaylist();
 	void streamAudioFile(const PlaylistItem& item);
 	bool needReEncode(PlaylistItem& item);
     void reEncodeAudioFile(PlaylistItem item);
@@ -65,11 +61,6 @@ public:
 
 	void streamPlaylist();
 	void stopPlaying();
-	PlaylistItem nowPlaying();
-	int remainingTrackTime();
-
-	string getGenreStats();
-	string getArtistStats();
 
 };
 

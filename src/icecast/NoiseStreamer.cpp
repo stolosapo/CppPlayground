@@ -36,8 +36,6 @@ NoiseStreamer::NoiseStreamer(
 {
 	this->config = NULL;
 	this->libShout = NULL;
-	playlistHandlerFactory = NULL;
-	playlistHandler = NULL;
 
 	numberOfPlayedTracks = 0;
 }
@@ -52,16 +50,6 @@ NoiseStreamer::~NoiseStreamer()
 	if (libShout != NULL)
 	{
 		delete libShout;
-	}
-
-	if (playlistHandler != NULL)
-	{
-		delete playlistHandler;
-	}
-
-	if (playlistHandlerFactory != NULL)
-	{
-		delete playlistHandlerFactory;
 	}
 }
 
@@ -101,39 +89,6 @@ void NoiseStreamer::loadConfig()
 	ConfigLoader<NoiseStreamerConfig> loader(configFilename);
 
 	this->config = loader.load();
-}
-
-void NoiseStreamer::initializePlaylist()
-{
-	string playlistFile = config->getPlaylist();
-	string historyFile = config->getHistory();
-	const char* metadataFile = config->getMetadata().c_str();
-	PlaylistStrategyType type = config->getStrategyType();
-	bool repeat = config->getRepeat();
-
-	if (type == NONE)
-	{
-		throw DomainException(NoiseStreamerDomainErrorCode::NSS0022);
-	}
-
-	playlistHandlerFactory =
-		new PlaylistHandlerFactory(playlistFile, historyFile, type, repeat);
-
-	playlistHandler = playlistHandlerFactory->create();
-
-	logSrv->info("Icecast playlist initialized!");
-}
-
-void NoiseStreamer::loadPlaylist()
-{
-	string playlistFile = config->getPlaylist();
-	string historyFile = config->getHistory();
-	playlistHandler->load();
-	int size = playlistHandler->playlistSize();
-	int historySize = playlistHandler->historySize();
-
-	logSrv->info("Playlist: '" + playlistFile + "' loaded, with '" + Convert<int>::NumberToString(size) + "' tracks");
-	logSrv->info("History: '" + historyFile + "' loaded, with '" + Convert<int>::NumberToString(historySize) + "' tracks");
 }
 
 void NoiseStreamer::initializeShout()
@@ -187,9 +142,9 @@ void NoiseStreamer::streamPlaylist()
 	{
 		numberOfPlayedTracks = 0;
 
-		while (playlistHandler->hasNext() && !sigSrv->gotSigInt())
+		while (hasNext() && !sigSrv->gotSigInt())
 		{
-			PlaylistItem item = playlistHandler->nextTrack();
+			PlaylistItem item = nextTrack();
 
 			logNowPlaying(item);
 
@@ -282,9 +237,9 @@ void NoiseStreamer::action()
 {
 	loadConfig();
 
-	initializePlaylist();
+	initializePlaylist(config);
 
-	loadPlaylist();
+	loadPlaylist(config);
 
 	initializeShout();
 
@@ -298,24 +253,4 @@ void NoiseStreamer::action()
 void NoiseStreamer::stopPlaying()
 {
 	logSrv->debug("Stop Playing");
-}
-
-PlaylistItem NoiseStreamer::nowPlaying()
-{
-	return playlistHandler->getCurrentTrack();
-}
-
-int NoiseStreamer::remainingTrackTime()
-{
-	return playlistHandler->getRemainingTrackDuration();
-}
-
-string NoiseStreamer::getGenreStats()
-{
-	return playlistHandler->getGenrePercentages();
-}
-
-string NoiseStreamer::getArtistStats()
-{
-	return playlistHandler->getArtistPercentages();
 }
