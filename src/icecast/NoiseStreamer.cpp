@@ -27,6 +27,7 @@ NoiseStreamer::NoiseStreamer(
     string configFilename)
 	: Version(1, 0, 0),
 	NoiseStreamerNavigator(logSrv, sigSrv),
+    NoiseStreamerPlaylist(logSrv),
 	logSrv(logSrv),
 	sigSrv(sigSrv),
 	tagSrv(tagSrv),

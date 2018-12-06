@@ -3,6 +3,7 @@
 
 #include "NoiseStreamerNavigator.h"
 #include "config/NoiseStreamerConfig.h"
+#include "playlist/NoiseStreamerPlaylist.h"
 #include "../kernel/log/ILogService.h"
 #include "../kernel/interruption/SignalService.h"
 #include "../kernel/audio/AudioTagService.h"
@@ -12,7 +13,7 @@
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
 
 
-class NoiseStreamer : public Version, public NoiseStreamerNavigator
+class NoiseStreamer : public Version, public NoiseStreamerNavigator, public NoiseStreamerPlaylist
 {
 private:
 	ILogService *logSrv;
