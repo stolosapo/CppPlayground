@@ -62,28 +62,32 @@ void NoiseStreamerPlaylist::loadPlaylist(NoiseStreamerConfig* config)
 
 bool NoiseStreamerPlaylist::hasNext()
 {
-    return requestedTrackIndex.hasNext() || playlistHandler->hasNext();
+    return mainQueue.hasNext();
 }
 
 PlaylistItem NoiseStreamerPlaylist::nextTrack()
 {
-    if (requestedTrackIndex.hasNext())
-    {
-        int trackIndex = requestedTrackIndex.getNext();
-
-        currentTrack = playlistHandler->getTrack(trackIndex);
-    }
-    else
-    {
-        currentTrack = playlistHandler->nextTrack();
-    }
+    currentTrack = mainQueue.getNext();
 
     return currentTrack;
 }
 
 void NoiseStreamerPlaylist::prepateNextTrack()
 {
+    PlaylistItem nextTrack;
 
+    if (requestedTrackIndex.hasNext())
+    {
+        int trackIndex = requestedTrackIndex.getNext();
+
+        nextTrack = playlistHandler->getTrack(trackIndex);
+    }
+    else
+    {
+        nextTrack = playlistHandler->nextTrack();
+    }
+
+    mainQueue.putBack(nextTrack);
 }
 
 void NoiseStreamerPlaylist::archiveCurrentTrack()
@@ -98,9 +102,19 @@ int NoiseStreamerPlaylist::getNumberOfPlayedTracks()
 	return numberOfPlayedTracks;
 }
 
+int NoiseStreamerPlaylist::queueSize()
+{
+    return mainQueue.size();
+}
+
 PlaylistItem NoiseStreamerPlaylist::nowPlaying()
 {
 	return currentTrack;
+}
+
+PlaylistItem NoiseStreamerPlaylist::previewNext()
+{
+    return mainQueue.front();
 }
 
 int NoiseStreamerPlaylist::remainingTrackTime()

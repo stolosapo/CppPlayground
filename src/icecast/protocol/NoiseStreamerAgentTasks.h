@@ -44,6 +44,7 @@ void* nss_agent_status(void* agent);
 
 /* Navigation tasks */
 void* nss_now_playing(void* agent);
+void* nss_preview_next(void* agent);
 void* nss_start_client(void* agent);
 void* nss_start(void* agent);
 void* nss_stop_playing(void* agent);

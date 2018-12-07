@@ -22,6 +22,8 @@ public:
     bool hasNext();
     int size();
     T getNext();
+    T front();
+    const T& front() const;
     void putBack(T item);
     void clear();
 
@@ -71,6 +73,18 @@ T SynchronizedQueue<T>::getNext()
 	locker.unlock();
 
 	return item;
+}
+
+template <typename T>
+T SynchronizedQueue<T>::front()
+{
+    return pool.front();
+}
+
+template <typename T>
+const T& SynchronizedQueue<T>::front() const
+{
+    return pool.front();
 }
 
 template <typename T>

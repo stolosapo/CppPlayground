@@ -29,6 +29,8 @@ public:
 	string getTrackTitle() const;
 	AudioTag* getMetadata();
 
+    void setStartTime(time_t startTime);
+
 };
 
 #endif // PlaylistItem_h__

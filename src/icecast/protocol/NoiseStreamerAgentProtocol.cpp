@@ -27,6 +27,7 @@ void NoiseStreamerAgentProtocol::registerTasks()
 
 	/* Navigation tasks */
 	registerTask("now", &nss_now_playing);
+	registerTask("preview", &nss_preview_next);
 	registerTask("start", &nss_start);
 	registerTask("stop", &nss_stop_playing);
 	registerTask("pause", &nss_pause);
@@ -53,6 +54,7 @@ string NoiseStreamerAgentProtocol::help()
 	result += "agent-status       See the status of the NoiseStreamer server\n";
 	result += "\n";
 	result += "now                See the current playing track\n";
+    result += "preview            Preview next track\n";
 	result += "\n";
 	result += "next               Navigate to the next track\n";
 	result += "\n";

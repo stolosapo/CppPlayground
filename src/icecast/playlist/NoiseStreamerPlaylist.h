@@ -40,8 +40,10 @@ public:
 	virtual ~NoiseStreamerPlaylist();
 
     int getNumberOfPlayedTracks();
+    int queueSize();
 
     PlaylistItem nowPlaying();
+    PlaylistItem previewNext();
 	int remainingTrackTime();
 	string getGenreStats();
 	string getArtistStats();

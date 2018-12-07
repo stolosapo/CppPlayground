@@ -18,6 +18,7 @@ void* nss_agent_status(void* agent)
 	double uptimeSec = a->uptime();
 	int connections = a->numberOfActiveConnections();
 	int numOfTracks = client->getNumberOfPlayedTracks();
+	int queueSize = client->queueSize();
 
 	int sec = uptimeSec;
 
@@ -36,6 +37,7 @@ void* nss_agent_status(void* agent)
 	value += "Uptime: " + str + "\n";
 	value += "Active connections: " + Convert<int>::NumberToString(connections) + "\n";
 	value += "Number of played tracks: " + Convert<int>::NumberToString(numOfTracks) + "\n";
+	value += "Queue Size: " + Convert<int>::NumberToString(queueSize) + "\n";
 
 	return static_cast<void*>(new string(value));
 }
@@ -70,6 +72,30 @@ void* nss_now_playing(void* agent)
     value += "Channels: " + Convert<int>::NumberToString(tag->getChannels()) + "\n";
 
 	return static_cast<void*>(new string(value));
+}
+
+void* nss_preview_next(void* agent)
+{
+    NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+	NoiseStreamer* client = a->noiseStreamer();
+
+	PlaylistItem track = client->previewNext();
+    AudioTag* tag = track.getMetadata();
+    int index = track.getTrackIndex();
+
+    string value = "\n";
+
+    value += "Index: " + Convert<int>::NumberToString(index) + "\n";
+    value += "Title: " + tag->getTitle() + "\n";
+    value += "Artist: " + tag->getArtist() + "\n";
+    value += "Album: " + tag->getAlbum() + "\n";
+    value += "Genre: " + tag->getGenre() + "\n";
+    value += "Duration: " + tag->getStrDuration() + "\n";
+    value += "Bitrate: " + Convert<int>::NumberToString(tag->getBitrate()) + "\n";
+    value += "Samplerate: " + Convert<int>::NumberToString(tag->getSamplerate()) + "\n";
+    value += "Channels: " + Convert<int>::NumberToString(tag->getChannels()) + "\n";
+
+    return static_cast<void*>(new string(value));
 }
 
 void* nss_start_client(void* agent)

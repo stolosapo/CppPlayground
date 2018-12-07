@@ -73,3 +73,8 @@ AudioTag* PlaylistItem::getMetadata()
 {
 	return metadata;
 }
+
+void PlaylistItem::setStartTime(time_t startTime)
+{
+    this->startTime = startTime;
+}

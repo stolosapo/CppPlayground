@@ -54,6 +54,7 @@ public:
 
     friend void* nss_agent_status(void* agent);
     friend void* nss_now_playing(void* agent);
+    friend void* nss_preview_next(void* agent);
     friend void* nss_start_client(void* agent);
     friend void* nss_start(void* agent);
     friend void* nss_stop_playing(void* agent);
