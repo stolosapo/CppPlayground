@@ -62,6 +62,18 @@ PlaylistItem PlaylistHandler::getCurrentTrack()
 	return currentTrack;
 }
 
+PlaylistItem PlaylistHandler::getTrack(int trackIndex)
+{
+    if (strategy == NULL)
+	{
+		throw DomainException(PlaylistErrorCode::PLS0006);
+	}
+
+	currentTrack = strategy->getTrack(trackIndex);
+
+	return currentTrack;
+}
+
 ISerializationService* PlaylistHandler::getSerializationService()
 {
 	return serializationSrv;
@@ -131,10 +143,6 @@ PlaylistItem PlaylistHandler::nextTrack()
 
 	currentTrack = strategy->nextTrack(currentTrack);
 
-	history->add(currentTrack.getTrack());
-
-	stats->add(currentTrack.getMetadata());
-
 	return currentTrack;
 }
 
@@ -154,6 +162,13 @@ int PlaylistHandler::getRemainingTrackDuration()
 	int remaining = duration - progress;
 
 	return remaining;
+}
+
+void PlaylistHandler::archiveTrack(PlaylistItem track)
+{
+    history->add(track.getTrack());
+
+	stats->add(track.getMetadata());
 }
 
 string PlaylistHandler::getGenrePercentages()

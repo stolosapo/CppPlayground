@@ -53,7 +53,6 @@ public:
 	ILogService* getLogService();
 	ISerializationService* getSerializationService();
 
-
 	void load();
 	int playlistSize();
 	int historySize();
@@ -61,8 +60,11 @@ public:
 	bool hasNext();
 	PlaylistItem nextTrack();
 	PlaylistItem getCurrentTrack();
+    PlaylistItem getTrack(int trackIndex);
 	int getTrackProgress();
 	int getRemainingTrackDuration();
+
+	void archiveTrack(PlaylistItem track);
 
 	string getGenrePercentages();
 	string getArtistPercentages();

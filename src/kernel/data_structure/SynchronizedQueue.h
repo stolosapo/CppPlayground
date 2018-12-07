@@ -11,19 +11,19 @@ template <typename T>
 class SynchronizedQueue
 {
 private:
-        Locker locker;
+    Locker locker;
 
-	queue<T*> pool;
+	queue<T> pool;
 
 public:
-        SynchronizedQueue();
-        virtual ~SynchronizedQueue();
+    SynchronizedQueue();
+    virtual ~SynchronizedQueue();
 
-        bool hasNext();
-        int size();
-        T* getNext();
-        void putBack(T* item);
-        void clear();
+    bool hasNext();
+    int size();
+    T getNext();
+    void putBack(T item);
+    void clear();
 
 };
 
@@ -33,13 +33,14 @@ public:
 template <typename T>
 SynchronizedQueue<T>::SynchronizedQueue()
 {
-        locker.init();
+    locker.init();
 }
 
 template <typename T>
 SynchronizedQueue<T>::~SynchronizedQueue()
 {
-        locker.destroy();
+    clear();
+    locker.destroy();
 }
 
 template <typename T>
@@ -55,22 +56,17 @@ int SynchronizedQueue<T>::size()
 }
 
 template <typename T>
-T* SynchronizedQueue<T>::getNext()
+T SynchronizedQueue<T>::getNext()
 {
 	locker.lock();
 
-	T* item;
+	T item;
 
 	if (hasNext())
 	{
 		item = pool.front();
 		pool.pop();
 	}
-	else
-	{
-		item = NULL;
-	}
-
 
 	locker.unlock();
 
@@ -78,7 +74,7 @@ T* SynchronizedQueue<T>::getNext()
 }
 
 template <typename T>
-void SynchronizedQueue<T>::putBack(T* item)
+void SynchronizedQueue<T>::putBack(T item)
 {
 	locker.lock();
 
@@ -90,10 +86,12 @@ void SynchronizedQueue<T>::putBack(T* item)
 template <typename T>
 void SynchronizedQueue<T>::clear()
 {
-        while (!pool.empty())
-	{
-		delete getNext();
-	}
+    locker.lock();
+
+    queue<T> empty;
+    swap(pool, empty);
+
+    locker.unlock();
 }
 
 #endif // SynchronizedQueue_h__

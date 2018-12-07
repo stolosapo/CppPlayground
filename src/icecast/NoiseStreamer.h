@@ -26,8 +26,6 @@ private:
 	NoiseStreamerConfig* config;
 	LibShout* libShout;
 
-	int numberOfPlayedTracks;
-
 	void logNowPlaying(const PlaylistItem& item);
 
 	void initializeShout();
@@ -51,8 +49,6 @@ public:
 	static const char* USER_AGENT;
 
 	string agentVersion();
-
-	int getNumberOfPlayedTracks();
 
 	void action();
 

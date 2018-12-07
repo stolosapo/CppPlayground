@@ -36,8 +36,6 @@ NoiseStreamer::NoiseStreamer(
 {
 	this->config = NULL;
 	this->libShout = NULL;
-
-	numberOfPlayedTracks = 0;
 }
 
 NoiseStreamer::~NoiseStreamer()
@@ -77,11 +75,6 @@ void NoiseStreamer::onLibShoutError(void* sender, EventArgs* e)
 	}
 
 	throw DomainException(NoiseStreamerDomainErrorCode::NSS0024);
-}
-
-int NoiseStreamer::getNumberOfPlayedTracks()
-{
-	return numberOfPlayedTracks;
 }
 
 void NoiseStreamer::loadConfig()
@@ -140,17 +133,17 @@ void NoiseStreamer::streamPlaylist()
 {
 	try
 	{
-		numberOfPlayedTracks = 0;
-
 		while (hasNext() && !sigSrv->gotSigInt())
 		{
 			PlaylistItem item = nextTrack();
+
+            prepateNextTrack();
 
 			logNowPlaying(item);
 
 			streamAudioFile(item);
 
-			numberOfPlayedTracks++;
+            archiveCurrentTrack();
 		}
 
 		logSrv->info("Playlist finished!");
