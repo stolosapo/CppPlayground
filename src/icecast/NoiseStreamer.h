@@ -5,6 +5,7 @@
 #include "config/NoiseStreamerConfig.h"
 #include "playlist/NoiseStreamerPlaylist.h"
 #include "../kernel/log/ILogService.h"
+#include "../kernel/time/ITimeService.h"
 #include "../kernel/interruption/SignalService.h"
 #include "../kernel/audio/AudioTagService.h"
 #include "../kernel/audio/encoding/AudioEncodingService.h"
@@ -41,6 +42,7 @@ public:
 	NoiseStreamer(
         ILogService *logSrv,
         SignalService *sigSrv,
+        ITimeService *timeSrv,
         AudioTagService *tagSrv,
         AudioEncodingService *encSrv,
         string configFilename);

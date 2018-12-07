@@ -74,7 +74,12 @@ void NoiseStreamerAgent::loadConfig()
 
 NoiseStreamer* NoiseStreamerAgent::createNewStreamer()
 {
-    return new NoiseStreamer(logSrv, sigSrv, tagSrv, encSrv, agentConfig()->getIcecastConfig());
+    return new NoiseStreamer(logSrv,
+        sigSrv,
+        timeSrv,
+        tagSrv,
+        encSrv,
+        agentConfig()->getIcecastConfig());
 }
 
 void NoiseStreamerAgent::disposeStreamerThread()

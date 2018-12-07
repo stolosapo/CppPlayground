@@ -15,7 +15,6 @@
 PlaylistHandler::PlaylistHandler(
 	ILogService* logSrv,
 	ISerializationService* serializationSrv,
-	ITimeService* timeSrv,
 	Playlist* playlist,
 	PlaylistHistory* history,
 	PlaylistMetadata* metadata,
@@ -24,7 +23,6 @@ PlaylistHandler::PlaylistHandler(
 	bool repeat)
 	: logSrv(logSrv),
 	serializationSrv(serializationSrv),
-	timeSrv(timeSrv),
 	playlist(playlist),
 	history(history),
 	metadata(metadata),
@@ -81,9 +79,9 @@ ISerializationService* PlaylistHandler::getSerializationService()
 
 void PlaylistHandler::registerStrategies()
 {
-	pattern->registerStrategy(SIMPLE, new SimplePlaylistStrategy(logSrv, timeSrv, playlist, history, metadata, repeat));
-	pattern->registerStrategy(RANDOM, new RandomPlaylistStrategy(logSrv, timeSrv, playlist, history, metadata, repeat));
-	pattern->registerStrategy(RANDOM_ONCE, new RandomOncePlaylistStrategy(logSrv, timeSrv, playlist, history, metadata, repeat));
+	pattern->registerStrategy(SIMPLE, new SimplePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
+	pattern->registerStrategy(RANDOM, new RandomPlaylistStrategy(logSrv, playlist, history, metadata, repeat));
+	pattern->registerStrategy(RANDOM_ONCE, new RandomOncePlaylistStrategy(logSrv, playlist, history, metadata, repeat));
 }
 
 void PlaylistHandler::load()
@@ -144,24 +142,6 @@ PlaylistItem PlaylistHandler::nextTrack()
 	currentTrack = strategy->nextTrack(currentTrack);
 
 	return currentTrack;
-}
-
-int PlaylistHandler::getTrackProgress()
-{
-	time_t startTime = currentTrack.getStartTime();
-	time_t now = timeSrv->rawNow();
-
-	return difftime(now, startTime);
-}
-
-int PlaylistHandler::getRemainingTrackDuration()
-{
-	int progress = getTrackProgress();
-	int duration = currentTrack.getMetadata()->getDuration();
-
-	int remaining = duration - progress;
-
-	return remaining;
 }
 
 void PlaylistHandler::archiveTrack(PlaylistItem track)

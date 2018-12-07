@@ -21,8 +21,6 @@ private:
 	TcpAcceptor *acceptor;
 	ThreadPool* pool;
 
-	ITimeService* timeSrv;
-
 	time_t startTime;
 
 	void* task(void*);
@@ -32,6 +30,8 @@ private:
 	void finalizeClient(ClientInfo *client);
 
 public:
+    ITimeService* timeSrv;
+
 	TcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv);
 	virtual ~TcpServer();
 

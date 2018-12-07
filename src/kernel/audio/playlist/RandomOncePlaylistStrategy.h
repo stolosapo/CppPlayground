@@ -31,7 +31,6 @@ protected:
 public:
 	RandomOncePlaylistStrategy(
 		ILogService* logSrv,
-		ITimeService* timeSrv,
 		Playlist* playlist,
 		PlaylistHistory* history,
 		PlaylistMetadata* metadata,

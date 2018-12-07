@@ -5,6 +5,7 @@
 
 #include "../config/NoiseStreamerConfig.h"
 #include "../../kernel/log/ILogService.h"
+#include "../../kernel/time/ITimeService.h"
 #include "../../kernel/audio/playlist/PlaylistHandlerFactory.h"
 #include "../../kernel/data_structure/SynchronizedQueue.h"
 #include "../../kernel/converter/Convert.h"
@@ -15,9 +16,11 @@ class NoiseStreamerPlaylist
 {
 private:
     ILogService *logSrv;
+    ITimeService* timeSrv;
 
     int numberOfPlayedTracks;
     PlaylistItem currentTrack;
+    time_t currentTrackStartTime;
 
     PlaylistHandlerFactory* playlistHandlerFactory;
 	PlaylistHandler* playlistHandler;
@@ -25,6 +28,9 @@ private:
     SynchronizedQueue<int> requestedTrackIndex;
 
     SynchronizedQueue<PlaylistItem> mainQueue;
+
+    void startTime();
+    int getTrackProgress();
 
 protected:
     void initializePlaylist(NoiseStreamerConfig* config);
@@ -36,7 +42,7 @@ protected:
     void archiveCurrentTrack();
 
 public:
-	NoiseStreamerPlaylist(ILogService* logSrv);
+	NoiseStreamerPlaylist(ILogService* logSrv, ITimeService* timeSrv);
 	virtual ~NoiseStreamerPlaylist();
 
     int getNumberOfPlayedTracks();

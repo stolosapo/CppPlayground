@@ -18,7 +18,6 @@ class PlaylistHandler
 private:
 	ILogService* logSrv;
 	ISerializationService* serializationSrv;
-	ITimeService* timeSrv;
 
 	Playlist* playlist;
 	PlaylistHistory* history;
@@ -40,7 +39,6 @@ public:
 	PlaylistHandler(
 		ILogService* logSrv,
 		ISerializationService* serializationSrv,
-		ITimeService* timeSrv,
 		Playlist* playlist,
 		PlaylistHistory* history,
 		PlaylistMetadata* metadata,
@@ -61,8 +59,6 @@ public:
 	PlaylistItem nextTrack();
 	PlaylistItem getCurrentTrack();
     PlaylistItem getTrack(int trackIndex);
-	int getTrackProgress();
-	int getRemainingTrackDuration();
 
 	void archiveTrack(PlaylistItem track);
 

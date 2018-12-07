@@ -8,7 +8,6 @@ class PlaylistHandlerFactory
 private:
 	ILogService* logService;
 	ISerializationService* serializationSrv;
-	ITimeService* timeSrv;
 
 	PlaylistStrategyType strategyType;
 	bool repeat;

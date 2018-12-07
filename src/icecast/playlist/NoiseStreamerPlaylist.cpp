@@ -4,8 +4,8 @@
 #include "../../kernel/exception/domain/DomainException.h"
 
 
-NoiseStreamerPlaylist::NoiseStreamerPlaylist(ILogService* logSrv)
-    : logSrv(logSrv)
+NoiseStreamerPlaylist::NoiseStreamerPlaylist(ILogService* logSrv, ITimeService* timeSrv)
+    : logSrv(logSrv), timeSrv(timeSrv)
 {
     playlistHandlerFactory = NULL;
 	playlistHandler = NULL;
@@ -23,6 +23,11 @@ NoiseStreamerPlaylist::~NoiseStreamerPlaylist()
 	{
 		delete playlistHandlerFactory;
 	}
+}
+
+void NoiseStreamerPlaylist::startTime()
+{
+    currentTrackStartTime = timeSrv->rawNow();
 }
 
 void NoiseStreamerPlaylist::initializePlaylist(NoiseStreamerConfig* config)
@@ -68,6 +73,8 @@ bool NoiseStreamerPlaylist::hasNext()
 PlaylistItem NoiseStreamerPlaylist::nextTrack()
 {
     currentTrack = mainQueue.getNext();
+
+    startTime();
 
     return currentTrack;
 }
@@ -117,9 +124,21 @@ PlaylistItem NoiseStreamerPlaylist::previewNext()
     return mainQueue.front();
 }
 
+int NoiseStreamerPlaylist::getTrackProgress()
+{
+	time_t now = timeSrv->rawNow();
+
+	return difftime(now, currentTrackStartTime);
+}
+
 int NoiseStreamerPlaylist::remainingTrackTime()
 {
-	return playlistHandler->getRemainingTrackDuration();
+    int progress = getTrackProgress();
+	int duration = currentTrack.getMetadata()->getDuration();
+
+	int remaining = duration - progress;
+
+	return remaining;
 }
 
 string NoiseStreamerPlaylist::getGenreStats()

@@ -11,8 +11,8 @@ PlaylistItem::PlaylistItem()
 
 }
 
-PlaylistItem::PlaylistItem(int trackIndex, time_t startTime, string track, AudioTag* metadata)
-	: trackIndex(trackIndex), startTime(startTime), track(track), metadata(metadata)
+PlaylistItem::PlaylistItem(int trackIndex, string track, AudioTag* metadata)
+	: trackIndex(trackIndex), track(track), metadata(metadata)
 {
 
 }
@@ -20,7 +20,6 @@ PlaylistItem::PlaylistItem(int trackIndex, time_t startTime, string track, Audio
 PlaylistItem::PlaylistItem(const PlaylistItem &item)
 {
 	trackIndex = item.trackIndex;
-	startTime = item.startTime;
 	track = item.track;
 	metadata = item.metadata;
 }
@@ -33,11 +32,6 @@ PlaylistItem::~PlaylistItem()
 int PlaylistItem::getTrackIndex() const
 {
 	return trackIndex;
-}
-
-time_t PlaylistItem::getStartTime()
-{
-	return startTime;
 }
 
 string PlaylistItem::getTrack() const
@@ -72,9 +66,4 @@ string PlaylistItem::getTrackTitle() const
 AudioTag* PlaylistItem::getMetadata()
 {
 	return metadata;
-}
-
-void PlaylistItem::setStartTime(time_t startTime)
-{
-    this->startTime = startTime;
 }

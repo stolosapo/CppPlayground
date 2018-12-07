@@ -22,12 +22,13 @@ const char* NoiseStreamer::USER_AGENT = "NoiseStreamer";
 NoiseStreamer::NoiseStreamer(
 	ILogService *logSrv,
 	SignalService *sigSrv,
+    ITimeService *timeSrv,
 	AudioTagService *tagSrv,
     AudioEncodingService *encSrv,
     string configFilename)
 	: Version(1, 0, 0),
 	NoiseStreamerNavigator(logSrv, sigSrv),
-    NoiseStreamerPlaylist(logSrv),
+    NoiseStreamerPlaylist(logSrv, timeSrv),
 	logSrv(logSrv),
 	sigSrv(sigSrv),
 	tagSrv(tagSrv),
