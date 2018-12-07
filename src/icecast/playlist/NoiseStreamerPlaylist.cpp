@@ -4,11 +4,12 @@
 #include "../../kernel/exception/domain/DomainException.h"
 
 
-NoiseStreamerPlaylist::NoiseStreamerPlaylist(ILogService* logSrv, ITimeService* timeSrv)
-    : logSrv(logSrv), timeSrv(timeSrv)
+NoiseStreamerPlaylist::NoiseStreamerPlaylist(ILogService* logSrv, ITimeService* timeSrv, AudioEncodingService *encSrv)
+    : logSrv(logSrv), timeSrv(timeSrv), encSrv(encSrv)
 {
     playlistHandlerFactory = NULL;
 	playlistHandler = NULL;
+    encodePool = new ThreadPool(5);
     numberOfPlayedTracks = 0;
 }
 
@@ -23,6 +24,11 @@ NoiseStreamerPlaylist::~NoiseStreamerPlaylist()
 	{
 		delete playlistHandlerFactory;
 	}
+
+    if (encodePool != NULL)
+    {
+        delete encodePool;
+    }
 }
 
 void NoiseStreamerPlaylist::startTime()
@@ -32,6 +38,8 @@ void NoiseStreamerPlaylist::startTime()
 
 void NoiseStreamerPlaylist::initializePlaylist(NoiseStreamerConfig* config)
 {
+    this->config = config;
+
 	string playlistFile = config->getPlaylist();
 	string historyFile = config->getHistory();
 	const char* metadataFile = config->getMetadata().c_str();
@@ -51,7 +59,7 @@ void NoiseStreamerPlaylist::initializePlaylist(NoiseStreamerConfig* config)
 	logSrv->info("NoiseStreamer playlist initialized!");
 }
 
-void NoiseStreamerPlaylist::loadPlaylist(NoiseStreamerConfig* config)
+void NoiseStreamerPlaylist::loadPlaylist()
 {
 	string playlistFile = config->getPlaylist();
 	string historyFile = config->getHistory();
@@ -59,7 +67,7 @@ void NoiseStreamerPlaylist::loadPlaylist(NoiseStreamerConfig* config)
 	int size = playlistHandler->playlistSize();
 	int historySize = playlistHandler->historySize();
 
-    prepateNextTrack();
+    prepareNextTrack();
 
 	logSrv->info("Playlist: '" + playlistFile + "' loaded, with '" + Convert<int>::NumberToString(size) + "' tracks");
 	logSrv->info("History: '" + historyFile + "' loaded, with '" + Convert<int>::NumberToString(historySize) + "' tracks");
@@ -72,29 +80,56 @@ bool NoiseStreamerPlaylist::hasNext()
 
 PlaylistItem NoiseStreamerPlaylist::nextTrack()
 {
-    currentTrack = mainQueue.getNext();
+    NoiseStreamerPlaylistItem nssItem = mainQueue.getNext();
+
+    currentTrack = nssItem.getTrack();
 
     startTime();
 
     return currentTrack;
 }
 
-void NoiseStreamerPlaylist::prepateNextTrack()
+void NoiseStreamerPlaylist::prepareNextTrack()
 {
-    PlaylistItem nextTrack;
-
     if (requestedTrackIndex.hasNext())
     {
         int trackIndex = requestedTrackIndex.getNext();
-
-        nextTrack = playlistHandler->getTrack(trackIndex);
+        PlaylistItem nextTrack = playlistHandler->getTrack(trackIndex);
+        mainQueue.putBack(createNssPlaylistItem(nextTrack));
     }
-    else
+    else if (playlistHandler->hasNext())
     {
-        nextTrack = playlistHandler->nextTrack();
+        PlaylistItem nextTrack = playlistHandler->nextTrack();
+        mainQueue.putBack(createNssPlaylistItem(nextTrack));
+    }
+}
+
+bool NoiseStreamerPlaylist::needReEncode(PlaylistItem& item)
+{
+    AudioTag* metadata = item.getMetadata();
+
+    int itemSamplerate = metadata->getSamplerate();
+    int itemChannels = metadata->getChannels();
+
+    int confSamplerate = Convert<int>::StringToNumber(config->getSamplerate());
+    int confChannels = Convert<int>::StringToNumber(config->getChannels());
+
+    return (itemSamplerate != confSamplerate) || (itemChannels != confChannels);
+}
+
+NoiseStreamerPlaylistItem NoiseStreamerPlaylist::createNssPlaylistItem(PlaylistItem item)
+{
+    if (!needReEncode(item))
+    {
+        NoiseStreamerPlaylistItem nssItem(item);
+        nssItem.prepare();
+        return nssItem;
     }
 
-    mainQueue.putBack(nextTrack);
+    NoiseStreamerPlaylistItem nssItem(item);
+    nssItem.prepare();
+
+    return nssItem;
 }
 
 void NoiseStreamerPlaylist::archiveCurrentTrack()
@@ -121,19 +156,15 @@ PlaylistItem NoiseStreamerPlaylist::nowPlaying()
 
 PlaylistItem NoiseStreamerPlaylist::previewNext()
 {
-    return mainQueue.front();
-}
-
-int NoiseStreamerPlaylist::getTrackProgress()
-{
-	time_t now = timeSrv->rawNow();
-
-	return difftime(now, currentTrackStartTime);
+    NoiseStreamerPlaylistItem nssItem = mainQueue.front();
+    return nssItem.getTrack();
 }
 
 int NoiseStreamerPlaylist::remainingTrackTime()
 {
-    int progress = getTrackProgress();
+    time_t now = timeSrv->rawNow();
+
+    int progress = difftime(now, currentTrackStartTime);
 	int duration = currentTrack.getMetadata()->getDuration();
 
 	int remaining = duration - progress;

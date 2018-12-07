@@ -33,7 +33,6 @@ private:
 
 	void loadConfig();
 	void streamAudioFile(const PlaylistItem& item);
-	bool needReEncode(PlaylistItem& item);
     void reEncodeAudioFile(PlaylistItem item);
 
 	static void onLibShoutError(void* sender, EventArgs* e);

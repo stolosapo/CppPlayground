@@ -28,7 +28,7 @@ NoiseStreamer::NoiseStreamer(
     string configFilename)
 	: Version(1, 0, 0),
 	NoiseStreamerNavigator(logSrv, sigSrv),
-    NoiseStreamerPlaylist(logSrv, timeSrv),
+    NoiseStreamerPlaylist(logSrv, timeSrv, encSrv),
 	logSrv(logSrv),
 	sigSrv(sigSrv),
 	tagSrv(tagSrv),
@@ -138,7 +138,7 @@ void NoiseStreamer::streamPlaylist()
 		{
 			PlaylistItem item = nextTrack();
 
-            prepateNextTrack();
+            prepareNextTrack();
 
 			logNowPlaying(item);
 
@@ -199,19 +199,6 @@ void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
 	fclose(mp3file);
 }
 
-bool NoiseStreamer::needReEncode(PlaylistItem& item)
-{
-    AudioTag* metadata = item.getMetadata();
-
-    int itemSamplerate = metadata->getSamplerate();
-    int itemChannels = metadata->getChannels();
-
-    int confSamplerate = Convert<int>::StringToNumber(config->getSamplerate());
-    int confChannels = Convert<int>::StringToNumber(config->getChannels());
-
-    return (itemSamplerate != confSamplerate) || (itemChannels != confChannels);
-}
-
 void NoiseStreamer::reEncodeAudioFile(PlaylistItem item)
 {
     cout << "Start Decoding.." << endl;
@@ -233,7 +220,7 @@ void NoiseStreamer::action()
 
 	initializePlaylist(config);
 
-	loadPlaylist(config);
+	loadPlaylist();
 
 	initializeShout();
 
