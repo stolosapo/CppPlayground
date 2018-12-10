@@ -37,6 +37,11 @@ PlaylistItem NoiseStreamerPlaylistItem::getTrack()
     return track;
 }
 
+Thread* NoiseStreamerPlaylistItem::getEncodeThread()
+{
+    return encodeThread;
+}
+
 string NoiseStreamerPlaylistItem::getTrackFile()
 {
     if (needEncode)

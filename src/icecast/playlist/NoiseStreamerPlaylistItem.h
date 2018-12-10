@@ -27,6 +27,7 @@ public:
 	virtual ~NoiseStreamerPlaylistItem();
 
     PlaylistItem getTrack();
+    Thread* getEncodeThread();
     string getTrackFile();
     bool readyToPlay();
     void prepare();

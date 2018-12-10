@@ -143,7 +143,7 @@ void NoiseStreamer::streamPlaylist()
                 PlaylistItem item = nssItem->getTrack();
                 logNowPlaying(item);
                 streamAudioFile(item);
-                archiveCurrentTrack();
+                archiveTrack(nssItem);
             // }
 		}
 

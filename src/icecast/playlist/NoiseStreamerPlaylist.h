@@ -44,7 +44,7 @@ protected:
     bool hasNext();
     NoiseStreamerPlaylistItem* nextTrack();
     void prepareNextTrack();
-    void archiveCurrentTrack();
+    void archiveTrack(NoiseStreamerPlaylistItem* track);
 
 public:
 	NoiseStreamerPlaylist(ILogService* logSrv, ITimeService* timeSrv, AudioEncodingService *encSrv);

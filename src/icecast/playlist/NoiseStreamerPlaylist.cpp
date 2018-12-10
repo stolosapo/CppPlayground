@@ -156,9 +156,18 @@ NoiseStreamerPlaylistItem* NoiseStreamerPlaylist::createNssPlaylistItem(Playlist
     return nssItem;
 }
 
-void NoiseStreamerPlaylist::archiveCurrentTrack()
+void NoiseStreamerPlaylist::archiveTrack(NoiseStreamerPlaylistItem* track)
 {
-    playlistHandler->archiveTrack(currentTrack);
+    playlistHandler->archiveTrack(track->getTrack());
+
+    /* Return the encode thread back to pool */
+    if (track->getEncodeThread() != NULL)
+    {
+        encodePool->putBack(track->getEncodeThread());
+    }
+
+    /* Dispose track reference */
+    delete track;
 
     numberOfPlayedTracks++;
 }
