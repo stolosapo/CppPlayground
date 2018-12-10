@@ -136,15 +136,15 @@ void NoiseStreamer::streamPlaylist()
 	{
 		while (hasNext() && !sigSrv->gotSigInt())
 		{
-			PlaylistItem item = nextTrack();
+			NoiseStreamerPlaylistItem* nssItem = nextTrack();
 
-            prepareNextTrack();
-
-			logNowPlaying(item);
-
-			streamAudioFile(item);
-
-            archiveCurrentTrack();
+            // if (nssItem.readyToPlay())
+            // {
+                PlaylistItem item = nssItem->getTrack();
+                logNowPlaying(item);
+                streamAudioFile(item);
+                archiveCurrentTrack();
+            // }
 		}
 
 		logSrv->info("Playlist finished!");

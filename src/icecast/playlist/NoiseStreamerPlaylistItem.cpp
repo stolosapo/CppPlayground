@@ -1,5 +1,6 @@
 #include "NoiseStreamerPlaylistItem.h"
 
+
 NoiseStreamerPlaylistItem::NoiseStreamerPlaylistItem()
     : track(PlaylistItem()), needEncode(false), encodeThread(NULL)
 {
@@ -24,7 +25,6 @@ NoiseStreamerPlaylistItem::NoiseStreamerPlaylistItem(const NoiseStreamerPlaylist
     needEncode = item.needEncode;
     encodedTrackFile = item.encodedTrackFile;
     encodeThread = item.encodeThread;
-    encSrv = item.encSrv;
 }
 
 NoiseStreamerPlaylistItem::~NoiseStreamerPlaylistItem()

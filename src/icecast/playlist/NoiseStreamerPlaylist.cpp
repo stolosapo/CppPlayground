@@ -78,15 +78,19 @@ bool NoiseStreamerPlaylist::hasNext()
     return mainQueue.hasNext();
 }
 
-PlaylistItem NoiseStreamerPlaylist::nextTrack()
+NoiseStreamerPlaylistItem* NoiseStreamerPlaylist::nextTrack()
 {
-    NoiseStreamerPlaylistItem nssItem = mainQueue.getNext();
+    NoiseStreamerPlaylistItem* nssItem = mainQueue.getNext();
 
-    currentTrack = nssItem.getTrack();
+    prepareNextTrack();
+
+    /* TODO: What happen if nssItem is NULL !!! */
+
+    currentTrack = nssItem->getTrack();
 
     startTime();
 
-    return currentTrack;
+    return nssItem;
 }
 
 void NoiseStreamerPlaylist::prepareNextTrack()
@@ -117,17 +121,37 @@ bool NoiseStreamerPlaylist::needReEncode(PlaylistItem& item)
     return (itemSamplerate != confSamplerate) || (itemChannels != confChannels);
 }
 
-NoiseStreamerPlaylistItem NoiseStreamerPlaylist::createNssPlaylistItem(PlaylistItem item)
+NoiseStreamerPlaylistItem* NoiseStreamerPlaylist::createNssPlaylistItem(PlaylistItem item)
 {
+    NoiseStreamerPlaylistItem* nssItem = NULL;
+
     if (!needReEncode(item))
     {
-        NoiseStreamerPlaylistItem nssItem(item);
-        nssItem.prepare();
-        return nssItem;
+        nssItem = new NoiseStreamerPlaylistItem(item);
+    }
+    else
+    {
+        nssItem = new NoiseStreamerPlaylistItem(item);
     }
 
-    NoiseStreamerPlaylistItem nssItem(item);
-    nssItem.prepare();
+
+    // if (encodePool->hasNext())
+    // {
+    //     Thread* encTask = encodePool->getNext();
+    //     nssItem = new NoiseStreamerPlaylistItem(item, encTask);
+    //     logSrv->info("Track start to be re-encoded");
+    // }
+    // else
+    // {
+    //     logSrv->warn("Encode Pool has no more free threads, so encoding of track will be bypassed");
+    //     nssItem = new NoiseStreamerPlaylistItem(item);
+    // }
+
+
+    if (nssItem != NULL)
+    {
+        nssItem->prepare();
+    }
 
     return nssItem;
 }
@@ -156,8 +180,8 @@ PlaylistItem NoiseStreamerPlaylist::nowPlaying()
 
 PlaylistItem NoiseStreamerPlaylist::previewNext()
 {
-    NoiseStreamerPlaylistItem nssItem = mainQueue.front();
-    return nssItem.getTrack();
+    NoiseStreamerPlaylistItem* nssItem = mainQueue.front();
+    return nssItem->getTrack();
 }
 
 int NoiseStreamerPlaylist::remainingTrackTime()

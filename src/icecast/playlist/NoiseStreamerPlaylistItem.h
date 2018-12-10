@@ -16,7 +16,6 @@ private:
     bool needEncode;
     string encodedTrackFile;
     Thread* encodeThread;
-    AudioEncodingService *encSrv;
 
     static void* encodeTrack(void* context);
 

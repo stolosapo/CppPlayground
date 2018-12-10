@@ -7,6 +7,7 @@
 #include "../../kernel/time/ITimeService.h"
 #include "../../kernel/audio/playlist/PlaylistHandlerFactory.h"
 #include "../../kernel/data_structure/SynchronizedQueue.h"
+#include "../../kernel/data_structure/SynchronizedPQueue.h"
 #include "../../kernel/task/ThreadPool.h"
 #include "../../kernel/converter/Convert.h"
 
@@ -28,20 +29,20 @@ private:
     PlaylistHandlerFactory* playlistHandlerFactory;
 	PlaylistHandler* playlistHandler;
     SynchronizedQueue<int> requestedTrackIndex;
-    SynchronizedQueue<NoiseStreamerPlaylistItem> mainQueue;
+    SynchronizedPQueue<NoiseStreamerPlaylistItem> mainQueue;
     ThreadPool* encodePool;
 
     void startTime();
     bool needReEncode(PlaylistItem& item);
 
-    NoiseStreamerPlaylistItem createNssPlaylistItem(PlaylistItem item);
+    NoiseStreamerPlaylistItem* createNssPlaylistItem(PlaylistItem item);
 
 protected:
     void initializePlaylist(NoiseStreamerConfig* config);
     void loadPlaylist();
 
     bool hasNext();
-    PlaylistItem nextTrack();
+    NoiseStreamerPlaylistItem* nextTrack();
     void prepareNextTrack();
     void archiveCurrentTrack();
 
