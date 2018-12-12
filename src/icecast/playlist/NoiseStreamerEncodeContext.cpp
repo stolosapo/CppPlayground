@@ -3,6 +3,7 @@
 NoiseStreamerEncodeContext::NoiseStreamerEncodeContext(
     Thread* encodeThread,
     AudioEncodingService* encSrv,
+    ILogService* logSrv,
     string pcmOutPath,
     string mp3OutPath,
     AudioEncodeMode encodeMode,
@@ -11,6 +12,7 @@ NoiseStreamerEncodeContext::NoiseStreamerEncodeContext(
     int quality)
     : encodeThread(encodeThread),
     encSrv(encSrv),
+    logSrv(logSrv),
     pcmOutPath(pcmOutPath),
     mp3OutPath(mp3OutPath),
     encodeMode(encodeMode),
@@ -34,6 +36,11 @@ Thread* NoiseStreamerEncodeContext::getEncodeThread()
 AudioEncodingService* NoiseStreamerEncodeContext::getEncSrv()
 {
     return encSrv;
+}
+
+ILogService* NoiseStreamerEncodeContext::getLogSrv()
+{
+    return logSrv;
 }
 
 string NoiseStreamerEncodeContext::getPcmOutPath()

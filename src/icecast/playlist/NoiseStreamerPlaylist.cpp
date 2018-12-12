@@ -3,7 +3,6 @@
 #include "../exception/NoiseStreamerDomainErrorCode.h"
 #include "../../kernel/exception/domain/DomainException.h"
 
-
 NoiseStreamerPlaylist::NoiseStreamerPlaylist(ILogService* logSrv, ITimeService* timeSrv, AudioEncodingService *encSrv)
     : logSrv(logSrv), timeSrv(timeSrv), encSrv(encSrv)
 {
@@ -137,6 +136,7 @@ NoiseStreamerEncodeContext* NoiseStreamerPlaylist::createEncodeContext(Thread* t
     return new NoiseStreamerEncodeContext(
         th,
         encSrv,
+        logSrv,
         config->getPcmOutPath(),
         config->getMp3OutPath(),
         encodeMode,
