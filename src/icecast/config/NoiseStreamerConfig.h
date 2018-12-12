@@ -5,6 +5,7 @@
 
 #include "../../kernel/configuration/IConfig.h"
 #include "../../kernel/audio/playlist/PlaylistStrategyType.h"
+#include "../../kernel/audio/AudioBitrate.h"
 
 using namespace std;
 
@@ -28,6 +29,7 @@ public:
 	string getUrl();
 	string getPublic();
 	string getBitrate();
+	AudioBitrate getTypedBitrate();
 	string getSamplerate();
 	string getChannels();
 
@@ -38,6 +40,10 @@ public:
 	bool getRepeat();
 	string getStrategy();
 	PlaylistStrategyType getStrategyType();
+
+    bool getReencode();
+    string getPcmOutPath();
+    string getMp3OutPath();
 
 protected:
 	virtual void registerProperties();

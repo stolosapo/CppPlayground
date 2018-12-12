@@ -18,7 +18,7 @@ private:
 
     NoiseStreamerEncodeContext* context;
 
-    void reencode();
+    string reencode();
 
     static void* encodeTrack(void* context);
 

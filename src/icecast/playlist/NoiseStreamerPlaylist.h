@@ -2,6 +2,7 @@
 #define NoiseStreamerPlaylist_h__
 
 #include "NoiseStreamerPlaylistItem.h"
+#include "NoiseStreamerEncodeContext.h"
 #include "../config/NoiseStreamerConfig.h"
 #include "../../kernel/log/ILogService.h"
 #include "../../kernel/time/ITimeService.h"
@@ -34,6 +35,7 @@ private:
 
     void startTime();
     bool needReEncode(PlaylistItem& item);
+    NoiseStreamerEncodeContext* createEncodeContext(Thread* th);
 
     NoiseStreamerPlaylistItem* createNssPlaylistItem(PlaylistItem item);
 

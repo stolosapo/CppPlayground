@@ -1,5 +1,7 @@
 #include "NoiseStreamerPlaylistItem.h"
 
+#include "../../kernel/utils/FileHelper.h"
+
 
 NoiseStreamerPlaylistItem::NoiseStreamerPlaylistItem(PlaylistItem track)
     : track(track), needEncode(false), context(NULL)
@@ -73,29 +75,51 @@ void NoiseStreamerPlaylistItem::prepare()
     th->start(this, "runner: NoiseStreamerPlaylist, re-encode track");
 }
 
-void NoiseStreamerPlaylistItem::reencode()
+string NoiseStreamerPlaylistItem::reencode()
 {
-    // cout << "Start Decoding.." << endl;
-	// encSrv->decode(item.getTrack(), "audio.wav");
-    // cout << "End Decoding.." << endl;
-    //
-    // int samplerate = Convert<int>::StringToNumber(config->getSamplerate());
-    // AudioTag* metadata = item.getMetadata();
-    // metadata->setReencodeData(VBR, BR_16kbps, samplerate, 3);
-    //
-    // cout << "Start Re-Encoding.." << endl;
-	// encSrv->encode("audio.wav", "audio.mp3", metadata);
-    // cout << "End Re-Encoding.." << endl;
+    if (context == NULL)
+    {
+        /* TODO: Log Warning!!! */
+        return "";
+    }
+
+    string pcmOutPath = context->getPcmOutPath();
+    string mp3OutPath = context->getMp3OutPath();
+    string threadId = context->getEncodeThread()->getStringId();
+
+    string pcmAudioFile = pcmOutPath + "pcm_audio_" + threadId + ".wav";
+    string mp3AudioFile = mp3OutPath + "mp3_audio_" + threadId + ".mp3";
+
+    cout << "Start Decoding.." << endl;
+	context->getEncSrv()->decode(track.getTrack(), pcmAudioFile);
+    cout << "End Decoding.." << endl;
+
+    AudioEncodeMode encodeMode = context->getEncodeMode();
+    AudioBitrate audioBitrate = context->getAudioBitrate();
+    int samplerate = context->getSamplerate();
+    int quality = context->getQuality();
+
+    AudioTag* metadata = track.getMetadata();
+    metadata->setReencodeData(encodeMode, audioBitrate, samplerate, quality);
+
+    cout << "Start Re-Encoding.." << endl;
+	context->getEncSrv()->encode(pcmAudioFile, mp3AudioFile, metadata);
+    cout << "End Re-Encoding.." << endl;
+
+    return mp3AudioFile;
 }
 
 void* NoiseStreamerPlaylistItem::encodeTrack(void* context)
 {
     NoiseStreamerPlaylistItem* item = (NoiseStreamerPlaylistItem*) context;
-    NoiseStreamerEncodeContext* encContext = item->context;
-    string pcmOutPath = encContext->getPcmOutPath();
-    string mp3OutPath = encContext->getMp3OutPath();
 
-    item->encodedTrackFile = "alek moi";
+    string encodedFile = item->reencode();
+
+    // Check if file is valid
+    if (FileHelper::exists(encodedFile.c_str()))
+    {
+        item->encodedTrackFile = encodedFile;
+    }
 
     return NULL;
 }

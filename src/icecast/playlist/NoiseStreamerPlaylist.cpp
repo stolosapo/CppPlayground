@@ -110,6 +110,11 @@ void NoiseStreamerPlaylist::prepareNextTrack()
 
 bool NoiseStreamerPlaylist::needReEncode(PlaylistItem& item)
 {
+    if (!config->getReencode())
+    {
+        return false;
+    }
+
     AudioTag* metadata = item.getMetadata();
 
     int itemSamplerate = metadata->getSamplerate();
@@ -121,6 +126,25 @@ bool NoiseStreamerPlaylist::needReEncode(PlaylistItem& item)
     return (itemSamplerate != confSamplerate) || (itemChannels != confChannels);
 }
 
+NoiseStreamerEncodeContext* NoiseStreamerPlaylist::createEncodeContext(Thread* th)
+{
+    AudioEncodeMode encodeMode = VBR;
+    // AudioBitrate audioBitrate = BR_128kbps;
+    AudioBitrate audioBitrate = config->getTypedBitrate();
+    int samplerate = Convert<int>::StringToNumber(config->getSamplerate());
+    int quality = 3;
+
+    return new NoiseStreamerEncodeContext(
+        th,
+        encSrv,
+        config->getPcmOutPath(),
+        config->getMp3OutPath(),
+        encodeMode,
+        audioBitrate,
+        samplerate,
+        quality);
+}
+
 NoiseStreamerPlaylistItem* NoiseStreamerPlaylist::createNssPlaylistItem(PlaylistItem item)
 {
     NoiseStreamerPlaylistItem* nssItem = NULL;
@@ -129,24 +153,17 @@ NoiseStreamerPlaylistItem* NoiseStreamerPlaylist::createNssPlaylistItem(Playlist
     {
         nssItem = new NoiseStreamerPlaylistItem(item);
     }
+    else if (encodePool->hasNext())
+    {
+        NoiseStreamerEncodeContext* context = createEncodeContext(encodePool->getNext());
+        nssItem = new NoiseStreamerPlaylistItem(item, context);
+        logSrv->info("Track starts to be re-encoded");
+    }
     else
     {
+        logSrv->warn("Encode Pool has no more free threads, so encoding of track will be bypassed");
         nssItem = new NoiseStreamerPlaylistItem(item);
     }
-
-
-    // if (encodePool->hasNext())
-    // {
-    //     Thread* encTask = encodePool->getNext();
-    //     nssItem = new NoiseStreamerPlaylistItem(item, encTask);
-    //     logSrv->info("Track start to be re-encoded");
-    // }
-    // else
-    // {
-    //     logSrv->warn("Encode Pool has no more free threads, so encoding of track will be bypassed");
-    //     nssItem = new NoiseStreamerPlaylistItem(item);
-    // }
-
 
     if (nssItem != NULL)
     {

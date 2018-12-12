@@ -17,5 +17,8 @@
 	"history":"icecast/playlist.history.pls",
 	"metadata":"icecast/playlist.metadata.json",
 	"repeat":true,
-	"strategy":"RANDOM"
+	"strategy":"RANDOM",
+    "reencode":true,
+    "pcm_out_path":"icecast/",
+    "mp3_out_path":"icecast/"
 }

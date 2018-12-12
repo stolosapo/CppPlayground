@@ -1,5 +1,8 @@
 #include "NoiseStreamerConfig.h"
 
+#include "../../kernel/audio/AudioBitrateConverter.h"
+#include "../../kernel/converter/Convert.h"
+
 
 NoiseStreamerConfig::NoiseStreamerConfig() : IConfig(&factory)
 {
@@ -32,6 +35,9 @@ void NoiseStreamerConfig::registerProperties()
 	registerPropertyName(17, "metadata", STRING);
 	registerPropertyName(18, "repeat", BOOL);
 	registerPropertyName(19, "strategy", STRING);
+    registerPropertyName(20, "reencode", BOOL);
+    registerPropertyName(21, "pcm_out_path", STRING);
+    registerPropertyName(22, "mp3_out_path", STRING);
 }
 
 Model* NoiseStreamerConfig::factory()
@@ -99,6 +105,12 @@ string NoiseStreamerConfig::getBitrate()
 	return getStringProperty("bitrate");
 }
 
+AudioBitrate NoiseStreamerConfig::getTypedBitrate()
+{
+    int br = Convert<int>::StringToNumber(getBitrate());
+    return AudioBitrateConverter::convert(br);
+}
+
 string NoiseStreamerConfig::getSamplerate()
 {
 	return getStringProperty("samplerate");
@@ -153,4 +165,19 @@ PlaylistStrategyType NoiseStreamerConfig::getStrategyType()
 	}
 
 	return NONE;
+}
+
+bool NoiseStreamerConfig::getReencode()
+{
+    return getBoolProperty("reencode");
+}
+
+string NoiseStreamerConfig::getPcmOutPath()
+{
+    return getStringProperty("pcm_out_path", "");
+}
+
+string NoiseStreamerConfig::getMp3OutPath()
+{
+    return getStringProperty("mp3_out_path", "");
 }
