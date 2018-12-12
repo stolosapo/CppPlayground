@@ -128,7 +128,6 @@ bool NoiseStreamerPlaylist::needReEncode(PlaylistItem& item)
 NoiseStreamerEncodeContext* NoiseStreamerPlaylist::createEncodeContext(Thread* th)
 {
     AudioEncodeMode encodeMode = VBR;
-    // AudioBitrate audioBitrate = BR_128kbps;
     AudioBitrate audioBitrate = config->getTypedBitrate();
     int samplerate = Convert<int>::StringToNumber(config->getSamplerate());
     int quality = 3;

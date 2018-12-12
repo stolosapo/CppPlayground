@@ -22,6 +22,8 @@ public:
     static FILE* openReadBinary(string filename);
     static FILE* openWriteBinary(string filename);
 
+    static void createFile(string filename);
+
     static bool exists(const char* filepath);
 	static string filenameExt(const char* filepath);
 	static string filename(const char* filepath);

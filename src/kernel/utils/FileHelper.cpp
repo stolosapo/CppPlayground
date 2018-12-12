@@ -40,7 +40,18 @@ FILE* FileHelper::openReadBinary(string filename)
 
 FILE* FileHelper::openWriteBinary(string filename)
 {
+    if (!exists(filename.c_str()))
+    {
+        createFile(filename);
+    }
+
     return openFile(filename, "wb");
+}
+
+void FileHelper::createFile(string filename)
+{
+    ofstream outfile(filename.c_str());
+    outfile.close();
 }
 
 bool FileHelper::exists(const char* filepath)
