@@ -138,13 +138,15 @@ void NoiseStreamer::streamPlaylist()
 		{
 			NoiseStreamerPlaylistItem* nssItem = nextTrack();
 
-            // if (nssItem.readyToPlay())
+            // if (!nssItem->readyToPlay())
             // {
-                PlaylistItem item = nssItem->getTrack();
-                logNowPlaying(item);
-                streamAudioFile(item);
-                archiveTrack(nssItem);
             // }
+            nssItem->waitToFinishEncode();
+
+            PlaylistItem item = nssItem->getTrack();
+            logNowPlaying(item);
+            streamAudioFile(item);
+            archiveTrack(nssItem);
 		}
 
 		logSrv->info("Playlist finished!");
@@ -162,11 +164,8 @@ void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
 	unsigned char buff[AUDIO_SIZE];
 	long read;
 
-    // reEncodeAudioFile(item);
-
 	FILE* mp3file;
     mp3file = FileHelper::openReadBinary(item.getTrack());
-    // mp3file = FileHelper::openReadBinary("audio.mp3");
 
 	/* Update metadata */
 	libShout->updateMetadata(item.getTrackTitle());

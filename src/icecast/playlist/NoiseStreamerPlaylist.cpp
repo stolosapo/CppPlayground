@@ -26,6 +26,7 @@ NoiseStreamerPlaylist::~NoiseStreamerPlaylist()
 
     if (encodePool != NULL)
     {
+        cout << "Dispose encodePool, has " << encodePool->numberOfActiveThreads() << " active threads" << endl;
         delete encodePool;
     }
 }
@@ -66,10 +67,10 @@ void NoiseStreamerPlaylist::loadPlaylist()
 	int size = playlistHandler->playlistSize();
 	int historySize = playlistHandler->historySize();
 
-    prepareNextTrack();
-
 	logSrv->info("Playlist: '" + playlistFile + "' loaded, with '" + Convert<int>::NumberToString(size) + "' tracks");
 	logSrv->info("History: '" + historyFile + "' loaded, with '" + Convert<int>::NumberToString(historySize) + "' tracks");
+
+    prepareNextTrack();
 }
 
 bool NoiseStreamerPlaylist::hasNext()
@@ -156,7 +157,6 @@ NoiseStreamerPlaylistItem* NoiseStreamerPlaylist::createNssPlaylistItem(Playlist
     {
         NoiseStreamerEncodeContext* context = createEncodeContext(encodePool->getNext());
         nssItem = new NoiseStreamerPlaylistItem(item, context);
-        logSrv->info("Track starts to be re-encoded");
     }
     else
     {
@@ -180,6 +180,12 @@ void NoiseStreamerPlaylist::archiveTrack(NoiseStreamerPlaylistItem* track)
     if (track->getEncodeThread() != NULL)
     {
         encodePool->putBack(track->getEncodeThread());
+    }
+
+    /* Dispose the encode context */
+    if (track->getContext() != NULL)
+    {
+        delete track->getContext();
     }
 
     /* Dispose track reference */

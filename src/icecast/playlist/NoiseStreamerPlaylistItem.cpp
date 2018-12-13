@@ -47,6 +47,11 @@ string NoiseStreamerPlaylistItem::getTrackFile()
     return track.getTrack();
 }
 
+NoiseStreamerEncodeContext* NoiseStreamerPlaylistItem::getContext()
+{
+    return context;
+}
+
 bool NoiseStreamerPlaylistItem::readyToPlay()
 {
     Thread* th = getEncodeThread();
@@ -77,15 +82,22 @@ void NoiseStreamerPlaylistItem::prepare()
     th->start(this, "runner: NoiseStreamerPlaylist, re-encode track");
 }
 
-string NoiseStreamerPlaylistItem::reencode()
+void NoiseStreamerPlaylistItem::waitToFinishEncode()
 {
-    if (context == NULL)
+    Thread* th = getEncodeThread();
+
+    if (th == NULL)
     {
-        /* TODO: Log Warning!!! */
-        return "";
+        return;
     }
 
+    th->wait();
+}
+
+string NoiseStreamerPlaylistItem::reencode()
+{
     ILogService* logSrv = context->getLogSrv();
+    AudioEncodingService* encSrv = context->getEncSrv();
 
     string mp3InPath = track.getTrack();
     string pcmOutPath = context->getPcmOutPath();
@@ -96,7 +108,7 @@ string NoiseStreamerPlaylistItem::reencode()
     string mp3AudioFile = mp3OutPath + "mp3_audio_" + threadId + ".mp3";
 
     logSrv->info("Start Decoding.. '" + mp3InPath + "' into '" + pcmAudioFile + "' file");
-	context->getEncSrv()->decode(mp3InPath, pcmAudioFile);
+	encSrv->decode(mp3InPath, pcmAudioFile);
     logSrv->info("End Decoding..");
 
     AudioEncodeMode encodeMode = context->getEncodeMode();
@@ -108,7 +120,7 @@ string NoiseStreamerPlaylistItem::reencode()
     metadata->setReencodeData(encodeMode, audioBitrate, samplerate, quality);
 
     logSrv->info("Start Re-Encoding.. '" + pcmAudioFile + "' into '" + mp3AudioFile + "' file");
-	context->getEncSrv()->encode(pcmAudioFile, mp3AudioFile, metadata);
+	encSrv->encode(pcmAudioFile, mp3AudioFile, metadata);
     logSrv->info("End Re-Encoding..");
 
     return mp3AudioFile;

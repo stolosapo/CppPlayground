@@ -29,9 +29,12 @@ public:
 
     PlaylistItem getTrack();
     Thread* getEncodeThread();
+    NoiseStreamerEncodeContext* getContext();
     string getTrackFile();
+
     bool readyToPlay();
     void prepare();
+    void waitToFinishEncode();
 
 };
 
