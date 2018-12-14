@@ -28,6 +28,8 @@ public:
 	LibLame();
 	virtual ~LibLame();
 
+    static const char* version();
+
     void init();
     int initParams();
     void close();

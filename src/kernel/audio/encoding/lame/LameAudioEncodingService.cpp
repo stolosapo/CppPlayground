@@ -31,6 +31,11 @@ LameAudioEncodingService::~LameAudioEncodingService()
 
 }
 
+string LameAudioEncodingService::version()
+{
+    return "lame/" +  string(LibLame::version());
+}
+
 void LameAudioEncodingService::initialize(LibLame& lame, AudioTag* settings)
 {
     lame.init();

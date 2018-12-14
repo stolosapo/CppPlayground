@@ -93,7 +93,8 @@ void NoiseStreamer::initializeShout()
 
 	string shoutVersion = libShout->shoutFullVersion();
 	string clientVersion = agentVersion();
-	string fullVersion = clientVersion + " " + shoutVersion;
+    string lameVersion = encSrv->version();
+	string fullVersion = clientVersion + " " + shoutVersion + " " + lameVersion;
 
 	libShout->setAgent(fullVersion);
 	libShout->setProtocolHttp();

@@ -21,6 +21,15 @@ LibLame::~LibLame()
 #endif
 }
 
+const char* LibLame::version()
+{
+#ifdef LAME
+    return get_lame_version();
+#endif
+
+    return "";
+}
+
 void LibLame::init()
 {
 #ifdef LAME

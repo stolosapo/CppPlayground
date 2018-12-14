@@ -10,6 +10,11 @@ SimpleAudioEncodingService::~SimpleAudioEncodingService()
 
 }
 
+string SimpleAudioEncodingService::version()
+{
+    return "";
+}
+
 void SimpleAudioEncodingService::encode(string pcm_in_file, string mp3_out_file, AudioTag* settings)
 {
 
