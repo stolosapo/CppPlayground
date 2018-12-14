@@ -13,6 +13,19 @@ Thread::Thread()
 	delegate = NULL;
 
 	id = 0;
+	poolIndex = -1;
+	dispose = false;
+	running = false;
+}
+
+Thread::Thread(int poolIndex)
+{
+    _thread = 0;
+
+	delegate = NULL;
+
+	id = 0;
+	this->poolIndex = poolIndex;
 	dispose = false;
 	running = false;
 }
@@ -183,6 +196,11 @@ void Thread::setName(const char* name)
 long long Thread::getId()
 {
 	return id;
+}
+
+int Thread::getPoolIndex()
+{
+	return poolIndex;
 }
 
 string Thread::getStringId()

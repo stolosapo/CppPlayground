@@ -1,5 +1,6 @@
 #include "NoiseStreamerPlaylistItem.h"
 
+#include "../../kernel/converter/Convert.h"
 #include "../../kernel/utils/FileHelper.h"
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../../kernel/exception/ExceptionMapper.h"
@@ -102,10 +103,11 @@ string NoiseStreamerPlaylistItem::reencode()
     string mp3InPath = track.getTrack();
     string pcmOutPath = context->getPcmOutPath();
     string mp3OutPath = context->getMp3OutPath();
-    string threadId = context->getEncodeThread()->getStringId();
+    int threadPoolIndex = context->getEncodeThread()->getPoolIndex();
+    string poolIndex = Convert<int>::NumberToString(threadPoolIndex);
 
-    string pcmAudioFile = pcmOutPath + "pcm_audio_" + threadId + ".wav";
-    string mp3AudioFile = mp3OutPath + "mp3_audio_" + threadId + ".mp3";
+    string pcmAudioFile = pcmOutPath + "pcm_audio_" + poolIndex + ".wav";
+    string mp3AudioFile = mp3OutPath + "mp3_audio_" + poolIndex + ".mp3";
 
     logSrv->info("Start Re-Encoding.. '" + mp3InPath + "'");
 

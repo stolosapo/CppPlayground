@@ -19,7 +19,7 @@ void ThreadPool::init()
 {
 	for (int i = 0; i < poolSize; ++i)
 	{
-		putBack(new Thread);
+		putBack(new Thread(i));
 	}
 }
 

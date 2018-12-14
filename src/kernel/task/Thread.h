@@ -15,6 +15,7 @@ private:
 	ThreadDelegate delegate;
 
 	long long id;
+    int poolIndex;
 	bool dispose;
 	bool running;
 
@@ -27,6 +28,7 @@ private:
 
 public:
 	Thread();
+	Thread(int poolIndex);
 	virtual ~Thread();
 
 	virtual void attachDelegate(ThreadDelegate delegate);
@@ -43,6 +45,7 @@ public:
 	virtual long long self();
 
 	long long getId();
+    int getPoolIndex();
 	string getStringId();
 	bool mustDispose();
 	bool isRunning();
