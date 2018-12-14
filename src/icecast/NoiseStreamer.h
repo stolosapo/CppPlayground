@@ -27,12 +27,12 @@ private:
 	NoiseStreamerConfig* config;
 	LibShout* libShout;
 
-	void logNowPlaying(const PlaylistItem& item);
+	void logNowPlaying(NoiseStreamerPlaylistItem* nssItem);
 
 	void initializeShout();
 
 	void loadConfig();
-	void streamAudioFile(const PlaylistItem& item);
+	void streamAudioFile(NoiseStreamerPlaylistItem* nssItem);
     void reEncodeAudioFile(PlaylistItem item);
 
 	static void onLibShoutError(void* sender, EventArgs* e);

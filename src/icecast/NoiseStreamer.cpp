@@ -57,12 +57,14 @@ string NoiseStreamer::agentVersion()
 	return string(USER_AGENT) + "/" + string(version());
 }
 
-void NoiseStreamer::logNowPlaying(const PlaylistItem& item)
+void NoiseStreamer::logNowPlaying(NoiseStreamerPlaylistItem* nssItem)
 {
+    PlaylistItem item = nssItem->getTrack();
 	string i = Convert<int>::NumberToString(item.getTrackIndex());
 
 	logSrv->info("Index: " + i);
-	logSrv->info("-- Playing: " + item.getTrack());
+	// logSrv->info("-- Playing: " + item.getTrack());
+	logSrv->info("-- Playing: " + nssItem->getTrackFile());
 	logSrv->info("-- Track: " + item.getTrackTitle());
 }
 
@@ -144,9 +146,8 @@ void NoiseStreamer::streamPlaylist()
                 nssItem->waitToFinishEncode();
             }
 
-            PlaylistItem item = nssItem->getTrack();
-            logNowPlaying(item);
-            streamAudioFile(item);
+            logNowPlaying(nssItem);
+            streamAudioFile(nssItem);
             archiveTrack(nssItem);
 		}
 
@@ -158,15 +159,17 @@ void NoiseStreamer::streamPlaylist()
 	}
 }
 
-void NoiseStreamer::streamAudioFile(const PlaylistItem& item)
+void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
 {
     const int AUDIO_SIZE = 4096;
 
 	unsigned char buff[AUDIO_SIZE];
 	long read;
+    PlaylistItem item = nssItem->getTrack();
 
 	FILE* mp3file;
-    mp3file = FileHelper::openReadBinary(item.getTrack());
+    // mp3file = FileHelper::openReadBinary(item.getTrack());
+    mp3file = FileHelper::openReadBinary(nssItem->getTrackFile());
 
 	/* Update metadata */
 	libShout->updateMetadata(item.getTrackTitle());
