@@ -23,7 +23,7 @@ https://github.com/pbohun/sound-gen/blob/master/lesson2/sound.h
 
 LameAudioEncodingService::LameAudioEncodingService() : AudioEncodingService()
 {
-    cout << "Lame Implementation" << endl;
+
 }
 
 LameAudioEncodingService::~LameAudioEncodingService()

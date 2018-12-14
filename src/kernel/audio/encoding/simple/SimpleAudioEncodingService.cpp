@@ -2,7 +2,7 @@
 
 SimpleAudioEncodingService::SimpleAudioEncodingService() : AudioEncodingService()
 {
-    cout << "Simple Implementation" << endl;
+
 }
 
 SimpleAudioEncodingService::~SimpleAudioEncodingService()

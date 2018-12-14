@@ -26,7 +26,6 @@ NoiseStreamerPlaylist::~NoiseStreamerPlaylist()
 
     if (encodePool != NULL)
     {
-        cout << "Dispose encodePool, has " << encodePool->numberOfActiveThreads() << " active threads" << endl;
         delete encodePool;
     }
 }
