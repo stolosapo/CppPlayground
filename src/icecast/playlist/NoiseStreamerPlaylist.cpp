@@ -70,7 +70,15 @@ void NoiseStreamerPlaylist::loadPlaylist()
 	logSrv->info("Playlist: '" + playlistFile + "' loaded, with '" + Convert<int>::NumberToString(size) + "' tracks");
 	logSrv->info("History: '" + historyFile + "' loaded, with '" + Convert<int>::NumberToString(historySize) + "' tracks");
 
+    /* Put the first track into the queue */
     prepareNextTrack();
+
+    /* Wait track to be encoded if needed */
+    NoiseStreamerPlaylistItem* firstTrack = mainQueue.front();
+    if (firstTrack != NULL)
+    {
+        firstTrack->waitToFinishEncode();
+    }
 }
 
 bool NoiseStreamerPlaylist::hasNext()

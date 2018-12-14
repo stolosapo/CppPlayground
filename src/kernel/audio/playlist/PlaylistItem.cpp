@@ -6,7 +6,7 @@
 using namespace std;
 
 PlaylistItem::PlaylistItem()
-	: trackIndex(-1), track("")
+	: trackIndex(-1), track(""), metadata(NULL)
 {
 
 }

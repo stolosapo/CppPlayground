@@ -107,9 +107,9 @@ string NoiseStreamerPlaylistItem::reencode()
     string pcmAudioFile = pcmOutPath + "pcm_audio_" + threadId + ".wav";
     string mp3AudioFile = mp3OutPath + "mp3_audio_" + threadId + ".mp3";
 
-    logSrv->info("Start Decoding.. '" + mp3InPath + "' into '" + pcmAudioFile + "' file");
+    logSrv->info("Start Re-Encoding.. '" + mp3InPath + "'");
+
 	encSrv->decode(mp3InPath, pcmAudioFile);
-    logSrv->info("End Decoding..");
 
     AudioEncodeMode encodeMode = context->getEncodeMode();
     AudioBitrate audioBitrate = context->getAudioBitrate();
@@ -119,9 +119,9 @@ string NoiseStreamerPlaylistItem::reencode()
     AudioTag* metadata = track.getMetadata();
     metadata->setReencodeData(encodeMode, audioBitrate, samplerate, quality);
 
-    logSrv->info("Start Re-Encoding.. '" + pcmAudioFile + "' into '" + mp3AudioFile + "' file");
 	encSrv->encode(pcmAudioFile, mp3AudioFile, metadata);
-    logSrv->info("End Re-Encoding..");
+
+    logSrv->info("End Re-Encoding.. '" + mp3InPath + "'");
 
     return mp3AudioFile;
 }

@@ -138,10 +138,10 @@ void NoiseStreamer::streamPlaylist()
 		{
 			NoiseStreamerPlaylistItem* nssItem = nextTrack();
 
-            // if (!nssItem->readyToPlay())
-            // {
-            // }
-            nssItem->waitToFinishEncode();
+            if (!nssItem->readyToPlay())
+            {
+                nssItem->waitToFinishEncode();
+            }
 
             PlaylistItem item = nssItem->getTrack();
             logNowPlaying(item);
