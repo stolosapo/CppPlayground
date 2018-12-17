@@ -32,6 +32,7 @@ public:
 	virtual Thread* startTask(ThreadDelegate delegate, void* data);
 	virtual void startTaskDetached(string task, void* data);
 	virtual void* runTask(string task, void* data);
+	virtual void* runParametrizedTask(string task, void* data);
 
 	virtual string list();
 

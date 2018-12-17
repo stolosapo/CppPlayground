@@ -39,23 +39,23 @@ next
 
 
 /* Status tasks */
-void* nss_agent_status(void* agent);
+void* nss_agent_status(void* context);
 
 
 /* Navigation tasks */
-void* nss_now_playing(void* agent);
-void* nss_preview_next(void* agent);
+void* nss_now_playing(void* context);
+void* nss_preview_next(void* context);
 void* nss_start_client(void* agent);
-void* nss_start(void* agent);
-void* nss_stop_playing(void* agent);
-void* nss_pause(void* agent);
-void* nss_resume(void* agent);
-void* nss_next_track(void* agent);
+void* nss_start(void* context);
+void* nss_stop_playing(void* context);
+void* nss_pause(void* context);
+void* nss_resume(void* context);
+void* nss_next_track(void* context);
 
 
 /* Statistic tasks */
-void* nss_stats_genre(void* agent);
-void* nss_stats_artist(void* agent);
+void* nss_stats_genre(void* context);
+void* nss_stats_artist(void* context);
 
 
 #endif // NoiseStreamerAgentTasks_h__

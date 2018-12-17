@@ -137,7 +137,8 @@ void NoiseStreamerAgent::processCommand(ClientInfo *client, string command)
 
     try
     {
-    	void* retval = agentProtocol()->runTask(command, this);
+    	// void* retval = agentProtocol()->runTask(command, this);
+    	void* retval = agentProtocol()->runParametrizedTask(command, this);
 
     	if (retval != NULL)
     	{

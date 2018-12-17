@@ -4,15 +4,17 @@
 
 #include "../NoiseStreamer.h"
 #include "../agent/NoiseStreamerAgent.h"
+#include "../../kernel/task/TaskContext.h"
 #include "../../kernel/converter/Convert.h"
 #include "../../kernel/exception/ExceptionMapper.h"
 
 using namespace std;
 
 
-void* nss_agent_status(void* agent)
+void* nss_agent_status(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
 
 	double uptimeSec = a->uptime();
@@ -42,9 +44,10 @@ void* nss_agent_status(void* agent)
 	return static_cast<void*>(new string(value));
 }
 
-void* nss_now_playing(void* agent)
+void* nss_now_playing(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
 
 	PlaylistItem track = client->nowPlaying();
@@ -74,9 +77,10 @@ void* nss_now_playing(void* agent)
 	return static_cast<void*>(new string(value));
 }
 
-void* nss_preview_next(void* agent)
+void* nss_preview_next(void* context)
 {
-    NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
 
 	PlaylistItem track = client->previewNext();
@@ -125,52 +129,58 @@ void* nss_start_client(void* agent)
 	return NULL;
 }
 
-void* nss_start(void* agent)
+void* nss_start(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 
 	return NULL;
 }
 
-void* nss_stop_playing(void* agent)
+void* nss_stop_playing(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 
 	a->noiseStreamer()->stopPlaying();
 
 	return NULL;
 }
 
-void* nss_pause(void* agent)
+void* nss_pause(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 
 	a->noiseStreamer()->pause();
 
 	return NULL;
 }
 
-void* nss_resume(void* agent)
+void* nss_resume(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 
 	a->noiseStreamer()->resume();
 
 	return NULL;
 }
 
-void* nss_next_track(void* agent)
+void* nss_next_track(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 
 	a->noiseStreamer()->next();
 
 	return NULL;
 }
 
-void* nss_stats_genre(void* agent)
+void* nss_stats_genre(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
 
 	string value = "\n";
@@ -180,9 +190,10 @@ void* nss_stats_genre(void* agent)
 	return static_cast<void*>(new string(value));
 }
 
-void* nss_stats_artist(void* agent)
+void* nss_stats_artist(void* context)
 {
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
 
 	string value = "\n";
