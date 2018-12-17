@@ -126,7 +126,7 @@ bool NoiseStreamerAgent::validateCommand(string command)
 		return true;
 	}
 
-	return agentProtocol()->taskExist(command);
+	return agentProtocol()->parametrizedTaskExist(command);
 }
 
 void NoiseStreamerAgent::processCommand(ClientInfo *client, string command)
