@@ -48,7 +48,7 @@ string NoiseStreamerAgentProtocol::help()
 	result += "NoiseStreamer :: Client\n";
 	result += "=======================\n";
 	result += "\n";
-	result += "usage: <command> [<args>]\n";
+	result += "usage: <command>[?<arg1>&<arg2>&<argn>]\n";
 	result += "\n";
 	result += "These are the common NoiseStreamer commands:\n";
 	result += "\n";

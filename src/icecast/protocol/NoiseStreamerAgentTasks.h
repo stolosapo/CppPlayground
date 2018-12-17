@@ -51,6 +51,9 @@ void* nss_stop_playing(void* context);
 void* nss_pause(void* context);
 void* nss_resume(void* context);
 void* nss_next_track(void* context);
+
+
+/* Request Tasks */
 void* nss_request_track(void* context);
 
 
