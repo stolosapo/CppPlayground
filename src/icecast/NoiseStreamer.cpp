@@ -168,7 +168,6 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
     PlaylistItem item = nssItem->getTrack();
 
 	FILE* mp3file;
-    // mp3file = FileHelper::openReadBinary(item.getTrack());
     mp3file = FileHelper::openReadBinary(nssItem->getTrackFile());
 
 	/* Update metadata */

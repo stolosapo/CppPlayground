@@ -91,8 +91,6 @@ NoiseStreamerPlaylistItem* NoiseStreamerPlaylist::nextTrack()
 
     prepareNextTrack();
 
-    /* TODO: What happen if nssItem is NULL !!! */
-
     currentTrack = nssItem->getTrack();
 
     startTime();

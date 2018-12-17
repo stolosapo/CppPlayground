@@ -32,6 +32,7 @@ const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0023 = DomainErrorCode("N
 const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0024 = DomainErrorCode("NSS0024", "Libshout error occured. Playlist stopped");
 
 const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0025 = DomainErrorCode("NSS0025", "NoiseStreamer is not running!");
+const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0026 = DomainErrorCode("NSS0026", "Failed to reencode track '%s', no encode context found");
 
 
 NoiseStreamerDomainErrorCode::NoiseStreamerDomainErrorCode()

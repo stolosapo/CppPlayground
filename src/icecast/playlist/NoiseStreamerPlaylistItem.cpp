@@ -1,5 +1,6 @@
 #include "NoiseStreamerPlaylistItem.h"
 
+#include "../exception/NoiseStreamerDomainErrorCode.h"
 #include "../../kernel/converter/Convert.h"
 #include "../../kernel/utils/FileHelper.h"
 #include "../../kernel/exception/domain/DomainException.h"
@@ -97,10 +98,16 @@ void NoiseStreamerPlaylistItem::waitToFinishEncode()
 
 string NoiseStreamerPlaylistItem::reencode()
 {
+    string mp3InPath = track.getTrack();
+
+    if (context == NULL)
+    {
+        throw DomainException(NoiseStreamerDomainErrorCode::NSS0026, mp3InPath);
+    }
+
     ILogService* logSrv = context->getLogSrv();
     AudioEncodingService* encSrv = context->getEncSrv();
 
-    string mp3InPath = track.getTrack();
     string pcmOutPath = context->getPcmOutPath();
     string mp3OutPath = context->getMp3OutPath();
     int threadPoolIndex = context->getEncodeThread()->getPoolIndex();
@@ -131,11 +138,16 @@ string NoiseStreamerPlaylistItem::reencode()
 void* NoiseStreamerPlaylistItem::encodeTrack(void* context)
 {
     NoiseStreamerPlaylistItem* item = (NoiseStreamerPlaylistItem*) context;
+
+    if (item->context == NULL)
+    {
+        throw DomainException(NoiseStreamerDomainErrorCode::NSS0026, item->track.getTrack());
+    }
+
     ILogService* logSrv = item->context->getLogSrv();
 
     try
     {
-
         string encodedFile = item->reencode();
 
         // Check if file is valid
