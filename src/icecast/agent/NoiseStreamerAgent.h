@@ -61,6 +61,7 @@ public:
     friend void* nss_pause(void* context);
     friend void* nss_resume(void* context);
     friend void* nss_next_track(void* context);
+    friend void* nss_request_track(void* context);
     friend void* nss_stats_genre(void* context);
     friend void* nss_stats_artist(void* context);
 

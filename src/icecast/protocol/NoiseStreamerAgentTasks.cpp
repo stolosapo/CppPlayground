@@ -177,6 +177,24 @@ void* nss_next_track(void* context)
 	return NULL;
 }
 
+void* nss_request_track(void* context)
+{
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+    string indexParam = ctx->getParam(0);
+
+    if (indexParam == "")
+    {
+        return NULL;
+    }
+
+    int index = Convert<int>::StringToNumber(indexParam);
+
+    a->noiseStreamer()->requestTrack(index);
+
+    return NULL;
+}
+
 void* nss_stats_genre(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;

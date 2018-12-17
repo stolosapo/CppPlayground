@@ -33,6 +33,7 @@ void NoiseStreamerAgentProtocol::registerTasks()
 	registerTask("pause", &nss_pause);
 	registerTask("resume", &nss_resume);
 	registerTask("next", &nss_next_track);
+	registerTask("request", &nss_request_track);
 
 
 	/* Statistic tasks */
@@ -51,15 +52,16 @@ string NoiseStreamerAgentProtocol::help()
 	result += "\n";
 	result += "These are the common NoiseStreamer commands:\n";
 	result += "\n";
-	result += "agent-status       See the status of the NoiseStreamer server\n";
+	result += "agent-status            See the status of the NoiseStreamer server\n";
 	result += "\n";
-	result += "now                See the current playing track\n";
-    result += "preview            Preview next track\n";
+	result += "now                     See the current playing track\n";
+    result += "preview                 Preview next track\n";
 	result += "\n";
-	result += "next               Navigate to the next track\n";
+	result += "next                    Navigate to the next track\n";
+	result += "request?[track_index]   Create a track request based on track index\n";
 	result += "\n";
-	result += "stats-genre        See statistics of played genres\n";
-	result += "stats-artist       See statistics of played artists\n";
+	result += "stats-genre             See statistics of played genres\n";
+	result += "stats-artist            See statistics of played artists\n";
 
 	result += "\n";
 
