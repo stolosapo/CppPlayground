@@ -29,6 +29,7 @@ NoiseStreamer::NoiseStreamer(
 	: Version(1, 0, 0),
 	NoiseStreamerNavigator(logSrv, sigSrv),
     NoiseStreamerPlaylist(logSrv, timeSrv, encSrv),
+    NoiseStreamerHealth(),
 	logSrv(logSrv),
 	sigSrv(sigSrv),
 	tagSrv(tagSrv),
@@ -186,12 +187,14 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
 
 		libShout->shoutSend(buff, read);
 
-        if (libShout->shoutQueuelen() >= 0)
-        {
-            string ql = Convert<int>::NumberToString(libShout->shoutQueuelen());
+        setShoutQueueLenth(libShout->shoutQueuelen());
 
-            // logSrv->warn("Queue Length: " + ql);
-        }
+        // if (libShout->shoutQueuelen() >= 0)
+        // {
+        //     string ql = Convert<int>::NumberToString(libShout->shoutQueuelen());
+        //
+        //     logSrv->warn("Queue Length: " + ql);
+        // }
 
 		libShout->shoutSync();
 	}

@@ -21,6 +21,7 @@ void* nss_agent_status(void* context)
 	int connections = a->numberOfActiveConnections();
 	int numOfTracks = client->getNumberOfPlayedTracks();
 	int queueSize = client->queueSize();
+	int shoutQueueLength = client->getShoutQueueLength();
 
 	int sec = uptimeSec;
 
@@ -39,7 +40,8 @@ void* nss_agent_status(void* context)
 	value += "Uptime: " + str + "\n";
 	value += "Active connections: " + Convert<int>::NumberToString(connections) + "\n";
 	value += "Number of played tracks: " + Convert<int>::NumberToString(numOfTracks) + "\n";
-	value += "Queue Size: " + Convert<int>::NumberToString(queueSize) + "\n";
+	value += "Playlist Queue Size: " + Convert<int>::NumberToString(queueSize) + "\n";
+	value += "Shout Queue Length: " + Convert<int>::NumberToString(shoutQueueLength) + "\n";
 
 	return static_cast<void*>(new string(value));
 }

@@ -4,6 +4,7 @@
 #include "NoiseStreamerNavigator.h"
 #include "config/NoiseStreamerConfig.h"
 #include "playlist/NoiseStreamerPlaylist.h"
+#include "health/NoiseStreamerHealth.h"
 #include "../kernel/log/ILogService.h"
 #include "../kernel/time/ITimeService.h"
 #include "../kernel/interruption/SignalService.h"
@@ -14,7 +15,7 @@
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
 
 
-class NoiseStreamer : public Version, public NoiseStreamerNavigator, public NoiseStreamerPlaylist
+class NoiseStreamer : public Version, public NoiseStreamerNavigator, public NoiseStreamerPlaylist, public NoiseStreamerHealth
 {
 private:
 	ILogService *logSrv;
