@@ -209,6 +209,11 @@ int NoiseStreamerPlaylist::queueSize()
     return mainQueue.size();
 }
 
+int NoiseStreamerPlaylist::requestQueueSize()
+{
+    return requestedTrackIndex.size();
+}
+
 PlaylistItem NoiseStreamerPlaylist::nowPlaying()
 {
 	return currentTrack;
@@ -218,6 +223,16 @@ PlaylistItem NoiseStreamerPlaylist::previewNext()
 {
     NoiseStreamerPlaylistItem* nssItem = mainQueue.front();
     return nssItem->getTrack();
+}
+
+PlaylistItem NoiseStreamerPlaylist::previewTrack(int index)
+{
+    if (index >= playlistHandler->playlistSize() || index < 0)
+    {
+        throw DomainException(NoiseStreamerDomainErrorCode::NSS0027);
+    }
+
+    return playlistHandler->getTrack(index);
 }
 
 int NoiseStreamerPlaylist::remainingTrackTime()
@@ -244,9 +259,7 @@ string NoiseStreamerPlaylist::getArtistStats()
 
 void NoiseStreamerPlaylist::requestTrack(int index)
 {
-    int plSize = playlistHandler->playlistSize();
-
-    if (index >= plSize || index < 0)
+    if (index >= playlistHandler->playlistSize() || index < 0)
     {
         throw DomainException(NoiseStreamerDomainErrorCode::NSS0027);
     }

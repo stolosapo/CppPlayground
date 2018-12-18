@@ -29,6 +29,10 @@ request-list
 stats-genre
 stats-artist
 
+now
+preview (next)
+preview-track X
+
 stop
 start
 pause
@@ -43,14 +47,18 @@ void* nss_agent_status(void* context);
 
 
 /* Navigation tasks */
-void* nss_now_playing(void* context);
-void* nss_preview_next(void* context);
 void* nss_start_client(void* agent);
 void* nss_start(void* context);
 void* nss_stop_playing(void* context);
 void* nss_pause(void* context);
 void* nss_resume(void* context);
 void* nss_next_track(void* context);
+
+
+/* Playlist Tasks */
+void* nss_now_playing(void* context);
+void* nss_preview_next(void* context);
+void* nss_preview_track(void* context);
 
 
 /* Request Tasks */

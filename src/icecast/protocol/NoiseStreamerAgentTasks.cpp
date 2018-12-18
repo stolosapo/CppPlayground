@@ -21,6 +21,7 @@ void* nss_agent_status(void* context)
 	int connections = a->numberOfActiveConnections();
 	int numOfTracks = client->getNumberOfPlayedTracks();
 	int queueSize = client->queueSize();
+	int requestQueueSize = client->requestQueueSize();
 	int shoutQueueLength = client->getShoutQueueLength();
 
 	int sec = uptimeSec;
@@ -41,6 +42,7 @@ void* nss_agent_status(void* context)
 	value += "Active connections: " + Convert<int>::NumberToString(connections) + "\n";
 	value += "Number of played tracks: " + Convert<int>::NumberToString(numOfTracks) + "\n";
 	value += "Playlist Queue Size: " + Convert<int>::NumberToString(queueSize) + "\n";
+	value += "Request Queue Size: " + Convert<int>::NumberToString(requestQueueSize) + "\n";
 	value += "Shout Queue Length: " + Convert<int>::NumberToString(shoutQueueLength) + "\n";
 
 	return static_cast<void*>(new string(value));
@@ -86,6 +88,38 @@ void* nss_preview_next(void* context)
 	NoiseStreamer* client = a->noiseStreamer();
 
 	PlaylistItem track = client->previewNext();
+    AudioTag* tag = track.getMetadata();
+    int index = track.getTrackIndex();
+
+    string value = "\n";
+
+    value += "Index: " + Convert<int>::NumberToString(index) + "\n";
+    value += "Title: " + tag->getTitle() + "\n";
+    value += "Artist: " + tag->getArtist() + "\n";
+    value += "Album: " + tag->getAlbum() + "\n";
+    value += "Genre: " + tag->getGenre() + "\n";
+    value += "Duration: " + tag->getStrDuration() + "\n";
+    value += "Bitrate: " + Convert<int>::NumberToString(tag->getBitrate()) + "\n";
+    value += "Samplerate: " + Convert<int>::NumberToString(tag->getSamplerate()) + "\n";
+    value += "Channels: " + Convert<int>::NumberToString(tag->getChannels()) + "\n";
+
+    return static_cast<void*>(new string(value));
+}
+
+void* nss_preview_track(void* context)
+{
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+	NoiseStreamer* client = a->noiseStreamer();
+    string indexParam = ctx->getParam(0);
+
+    if (indexParam == "")
+    {
+        return NULL;
+    }
+
+    int trackIndex = Convert<int>::StringToNumber(indexParam);
+	PlaylistItem track = client->previewTrack(trackIndex);
     AudioTag* tag = track.getMetadata();
     int index = track.getTrackIndex();
 

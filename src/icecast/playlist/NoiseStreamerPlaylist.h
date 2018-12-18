@@ -54,9 +54,11 @@ public:
 
     int getNumberOfPlayedTracks();
     int queueSize();
+    int requestQueueSize();
 
     PlaylistItem nowPlaying();
     PlaylistItem previewNext();
+    PlaylistItem previewTrack(int index);
 	int remainingTrackTime();
 	string getGenreStats();
 	string getArtistStats();
