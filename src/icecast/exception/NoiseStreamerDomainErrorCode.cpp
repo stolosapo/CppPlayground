@@ -33,6 +33,7 @@ const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0024 = DomainErrorCode("N
 
 const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0025 = DomainErrorCode("NSS0025", "NoiseStreamer is not running!");
 const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0026 = DomainErrorCode("NSS0026", "Failed to reencode track '%s', no encode context found");
+const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0027 = DomainErrorCode("NSS0027", "Incorrect requested track index");
 
 
 NoiseStreamerDomainErrorCode::NoiseStreamerDomainErrorCode()

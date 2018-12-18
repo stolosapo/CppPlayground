@@ -244,5 +244,12 @@ string NoiseStreamerPlaylist::getArtistStats()
 
 void NoiseStreamerPlaylist::requestTrack(int index)
 {
+    int plSize = playlistHandler->playlistSize();
+
+    if (index >= plSize || index < 0)
+    {
+        throw DomainException(NoiseStreamerDomainErrorCode::NSS0027);
+    }
+
     requestedTrackIndex.putBack(index);
 }
