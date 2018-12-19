@@ -44,6 +44,7 @@ next
 
 /* Status tasks */
 void* nss_agent_status(void* context);
+void* nss_shout_status(void* context);
 
 
 /* Navigation tasks */

@@ -58,6 +58,11 @@ string NoiseStreamer::agentVersion()
 	return string(USER_AGENT) + "/" + string(version());
 }
 
+NoiseStreamerConfig* NoiseStreamer::getConfig()
+{
+    return config;
+}
+
 void NoiseStreamer::logNowPlaying(NoiseStreamerPlaylistItem* nssItem)
 {
     PlaylistItem item = nssItem->getTrack();
@@ -132,6 +137,26 @@ void NoiseStreamer::connectShout()
 void NoiseStreamer::finilizeShout()
 {
 	libShout->finilizeShout();
+}
+
+string NoiseStreamer::shoutVersion()
+{
+    if (libShout == NULL)
+    {
+        throw DomainException(NoiseStreamerDomainErrorCode::NSS0025);
+    }
+
+    return libShout->shoutFullVersion();
+}
+
+string NoiseStreamer::shoutError()
+{
+    if (libShout == NULL)
+    {
+        throw DomainException(NoiseStreamerDomainErrorCode::NSS0025);
+    }
+
+    return string(libShout->getError());
 }
 
 void NoiseStreamer::streamPlaylist()

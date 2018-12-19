@@ -23,6 +23,7 @@ void NoiseStreamerAgentProtocol::registerTasks()
 {
 	/* Status tasks */
 	registerTask("agent-status", &nss_agent_status);
+	registerTask("shout-status", &nss_shout_status);
 
 
 	/* Navigation tasks */
@@ -57,6 +58,7 @@ string NoiseStreamerAgentProtocol::help()
 	result += "These are the common NoiseStreamer commands:\n";
 	result += "\n";
 	result += "agent-status                 See the status of the NoiseStreamer server\n";
+	result += "shout-status                 See the status of the Shout library of the NoiseStreamer server\n";
 	result += "\n";
 	result += "now                          See the current playing track\n";
     result += "preview                      Preview next track\n";

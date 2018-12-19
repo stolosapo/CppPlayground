@@ -51,11 +51,14 @@ public:
 	static const char* USER_AGENT;
 
 	string agentVersion();
+    NoiseStreamerConfig* getConfig();
 
 	void action();
 
 	void connectShout();
 	void finilizeShout();
+    string shoutVersion();
+    string shoutError();
 
 	void streamPlaylist();
 	void stopPlaying();

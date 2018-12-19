@@ -48,6 +48,34 @@ void* nss_agent_status(void* context)
 	return static_cast<void*>(new string(value));
 }
 
+void* nss_shout_status(void* context)
+{
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+	NoiseStreamer* client = a->noiseStreamer();
+    NoiseStreamerConfig* config = client->getConfig();
+
+    string value = "\n";
+
+    value += "Version: " + client->shoutVersion() + "\n";
+    value += "Error: " + client->shoutError() + "\n";
+
+    value += "Hostname: " + config->getHostname() + "\n";
+	value += "Port: " + config->getPort() + "\n";
+	value += "Username: " + config->getUsername() + "\n";
+	value += "Mountpoint: " + config->getMountpoint() + "\n";
+	value += "Name: " + config->getName() + "\n";
+	value += "Genre: " + config->getGenre() + "\n";
+	value += "Description: " + config->getDescription() + "\n";
+	value += "Url: " + config->getUrl() + "\n";
+	value += "Bitrate: " + config->getBitrate() + "\n";
+	value += "Samplerate: " + config->getSamplerate() + "\n";
+	value += "Channels: " + config->getChannels() + "\n";
+	value += "Strategy: " + config->getStrategy() + "\n";
+
+    return static_cast<void*>(new string(value));
+}
+
 void* nss_now_playing(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;
