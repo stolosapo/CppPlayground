@@ -3,12 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-CircuitBreaker::CircuitBreaker(CircuitBreakerHealthPolicy* policy)
-    : policy(policy)
+CircuitBreaker::CircuitBreaker(CircuitBreakerHealthPolicy* policy, ITimeService* timeSrv)
+    : policy(policy), timeSrv(timeSrv)
 {
     _locker.init();
 
-    // Should initialized to Closed
     state = NULL;
 
     /* initialize random seed: */
@@ -23,6 +22,11 @@ CircuitBreaker::~CircuitBreaker()
     {
         delete state;
     }
+}
+
+void CircuitBreaker::initialize()
+{
+    state = new CircuitBreakerClosedState(this, timeSrv);
 }
 
 void CircuitBreaker::changeState(CircuitBreakerState* newState)

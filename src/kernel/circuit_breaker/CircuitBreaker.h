@@ -14,6 +14,7 @@ private:
 
     CircuitBreakerHealthPolicy* policy;
     CircuitBreakerState* state;
+    ITimeService* timeSrv;
 
     void changeState(CircuitBreakerState* newState);
 
@@ -22,9 +23,10 @@ private:
     friend class CircuitBreakerHalfOpenState;
 
 public:
-	CircuitBreaker(CircuitBreakerHealthPolicy* policy);
+	CircuitBreaker(CircuitBreakerHealthPolicy* policy, ITimeService* timeSrv);
 	virtual ~CircuitBreaker();
 
+    void initialize();
     bool isRequestAllowed();
 };
 
