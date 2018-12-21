@@ -9,7 +9,7 @@ private:
     static const double chance = 0.02;
 
 public:
-	CircuitBreakerHalfOpenState(CircuitBreaker* cb);
+	CircuitBreakerHalfOpenState(CircuitBreaker* cb, ITimeService* timeSrv);
 	virtual ~CircuitBreakerHalfOpenState();
 
     virtual bool isRequestAllowed();

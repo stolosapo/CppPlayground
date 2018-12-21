@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-CircuitBreakerHalfOpenState::CircuitBreakerHalfOpenState(CircuitBreaker* cb)
-    : CircuitBreakerState(cb, CB_HALFOPEN)
+CircuitBreakerHalfOpenState::CircuitBreakerHalfOpenState(CircuitBreaker* cb, ITimeService* timeSrv)
+    : CircuitBreakerState(cb, timeSrv, CB_HALFOPEN)
 {
 
 }
@@ -22,8 +22,8 @@ bool CircuitBreakerHalfOpenState::isRequestAllowed()
         return (double) rand() <= chance;
     }
 
-    /* Change state to OPEN */
-    cb->changeState(new CircuitBreakerClosedState(cb));
+    /* Change state to CLOSED */
+    cb->changeState(new CircuitBreakerClosedState(cb, timeSrv));
 
     /* And check again */
     return cb->isRequestAllowed();

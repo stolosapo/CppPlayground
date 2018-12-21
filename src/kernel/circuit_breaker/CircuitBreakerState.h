@@ -3,6 +3,7 @@
 
 #include "CircuitBreakerStatus.h"
 #include "CircuitBreaker_t.h"
+#include "../time/ITimeService.h"
 
 class CircuitBreakerState
 {
@@ -11,9 +12,10 @@ private:
 
 protected:
     CircuitBreaker* cb;
+    ITimeService* timeSrv;
 
 public:
-	CircuitBreakerState(CircuitBreaker* cb, CircuitBreakerStatus status);
+	CircuitBreakerState(CircuitBreaker* cb, ITimeService* timeSrv, CircuitBreakerStatus status);
 	virtual ~CircuitBreakerState();
 
     CircuitBreakerStatus getStatus();
