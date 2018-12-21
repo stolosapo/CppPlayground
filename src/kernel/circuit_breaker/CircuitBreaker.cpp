@@ -1,5 +1,8 @@
 #include "CircuitBreaker.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 CircuitBreaker::CircuitBreaker(CircuitBreakerHealthPolicy* policy)
     : policy(policy)
 {
@@ -7,6 +10,9 @@ CircuitBreaker::CircuitBreaker(CircuitBreakerHealthPolicy* policy)
 
     // Should initialized to Closed
     state = NULL;
+
+    /* initialize random seed: */
+  	srand(time(NULL));
 }
 
 CircuitBreaker::~CircuitBreaker()

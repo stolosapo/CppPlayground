@@ -2,14 +2,18 @@
 #define CircuitBreakerState_h__
 
 #include "CircuitBreakerStatus.h"
+#include "CircuitBreaker_t.h"
 
 class CircuitBreakerState
 {
 private:
     CircuitBreakerStatus status;
 
+protected:
+    CircuitBreaker* cb;
+
 public:
-	CircuitBreakerState(CircuitBreakerStatus status);
+	CircuitBreakerState(CircuitBreaker* cb, CircuitBreakerStatus status);
 	virtual ~CircuitBreakerState();
 
     CircuitBreakerStatus getStatus();

@@ -6,7 +6,7 @@
 class CircuitBreakerClosedState : public CircuitBreakerState
 {
 public:
-	CircuitBreakerClosedState();
+	CircuitBreakerClosedState(CircuitBreaker* cb);
 	virtual ~CircuitBreakerClosedState();
 
     virtual bool isRequestAllowed();

@@ -2,7 +2,9 @@
 #define CircuitBreaker_h__
 
 #include "CircuitBreakerHealthPolicy.h"
-#include "CircuitBreakerState.h"
+#include "CircuitBreakerClosedState.h"
+#include "CircuitBreakerOpenState.h"
+#include "CircuitBreakerHalfOpenState.h"
 #include "../task/Locker.h"
 
 class CircuitBreaker
@@ -14,6 +16,10 @@ private:
     CircuitBreakerState* state;
 
     void changeState(CircuitBreakerState* newState);
+
+    friend class CircuitBreakerClosedState;
+    friend class CircuitBreakerOpenState;
+    friend class CircuitBreakerHalfOpenState;
 
 public:
 	CircuitBreaker(CircuitBreakerHealthPolicy* policy);

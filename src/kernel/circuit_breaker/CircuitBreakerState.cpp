@@ -1,7 +1,7 @@
 #include "CircuitBreakerState.h"
 
-CircuitBreakerState::CircuitBreakerState(CircuitBreakerStatus status)
-    : status(status)
+CircuitBreakerState::CircuitBreakerState(CircuitBreaker* cb, CircuitBreakerStatus status)
+    : cb(cb), status(status)
 {
 
 }
