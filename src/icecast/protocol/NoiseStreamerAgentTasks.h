@@ -62,6 +62,10 @@ void* nss_preview_next(void* context);
 void* nss_preview_track(void* context);
 
 
+/* History Tasks */
+void* nss_history_info(void* context);
+
+
 /* Request Tasks */
 void* nss_request_track(void* context);
 

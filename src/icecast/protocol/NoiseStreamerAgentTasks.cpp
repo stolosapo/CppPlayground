@@ -166,6 +166,19 @@ void* nss_preview_track(void* context)
     return static_cast<void*>(new string(value));
 }
 
+void* nss_history_info(void* context)
+{
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+	NoiseStreamer* client = a->noiseStreamer();
+
+    string value = "\n";
+
+    value += "History Size: " + Convert<int>::NumberToString(client->historySize()) + "\n";
+
+    return static_cast<void*>(new string(value));
+}
+
 void* nss_start_client(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;

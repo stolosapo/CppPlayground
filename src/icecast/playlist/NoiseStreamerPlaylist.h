@@ -55,6 +55,7 @@ public:
     int getNumberOfPlayedTracks();
     int queueSize();
     int requestQueueSize();
+    int historySize();
 
     PlaylistItem nowPlaying();
     PlaylistItem previewNext();

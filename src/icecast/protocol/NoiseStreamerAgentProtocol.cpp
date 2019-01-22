@@ -41,6 +41,10 @@ void NoiseStreamerAgentProtocol::registerTasks()
     registerTask("preview-track", &nss_preview_track);
 
 
+    /* History Tasks */
+    registerTask("history-info", &nss_history_info);
+
+
 	/* Statistic tasks */
 	registerTask("stats-genre", &nss_stats_genre);
 	registerTask("stats-artist", &nss_stats_artist);
@@ -62,11 +66,13 @@ string NoiseStreamerAgentProtocol::help()
 	result += "\n";
 	result += "now                          See the current playing track\n";
     result += "preview                      Preview next track\n";
-    result += "preview-track?[track_index]  Preview next track\n";
+    result += "preview-track?[track_index]  Preview track bu index\n";
 	result += "\n";
 	result += "next                         Navigate to the next track\n";
 	result += "request?[track_index]        Create a track request based on track index\n";
 	result += "\n";
+    result += "history-info                 Return the history size\n";
+    result += "\n";
 	result += "stats-genre                  See statistics of played genres\n";
 	result += "stats-artist                 See statistics of played artists\n";
 

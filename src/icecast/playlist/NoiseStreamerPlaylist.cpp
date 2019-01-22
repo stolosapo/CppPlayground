@@ -214,6 +214,11 @@ int NoiseStreamerPlaylist::requestQueueSize()
     return requestedTrackIndex.size();
 }
 
+int NoiseStreamerPlaylist::historySize()
+{
+    return playlistHandler->historySize();
+}
+
 PlaylistItem NoiseStreamerPlaylist::nowPlaying()
 {
 	return currentTrack;
