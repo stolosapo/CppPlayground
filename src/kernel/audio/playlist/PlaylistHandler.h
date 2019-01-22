@@ -59,6 +59,8 @@ public:
 	PlaylistItem nextTrack();
 	PlaylistItem getCurrentTrack();
     PlaylistItem getTrack(int trackIndex);
+    int getTrackIndex(string track);
+    string getHistoryTrack(int historyIndex);
 
 	void archiveTrack(PlaylistItem track);
 

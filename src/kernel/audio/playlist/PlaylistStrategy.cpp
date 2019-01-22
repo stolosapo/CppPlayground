@@ -28,6 +28,11 @@ PlaylistItem PlaylistStrategy::getTrack(int trackIndex)
 	return PlaylistItem(trackIndex, track, meta);
 }
 
+int PlaylistStrategy::getTrackIndex(string track)
+{
+    return playlist->read(track);
+}
+
 void PlaylistStrategy::load()
 {
 

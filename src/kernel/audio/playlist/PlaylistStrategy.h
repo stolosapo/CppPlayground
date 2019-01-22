@@ -31,6 +31,7 @@ public:
 	virtual ~PlaylistStrategy();
 
 	virtual PlaylistItem getTrack(int trackIndex);
+    virtual int getTrackIndex(string track);
 	virtual void load();
 	virtual bool hasNext(PlaylistItem currentTrack) = 0;
 	virtual PlaylistItem nextTrack(PlaylistItem currentTrack) = 0;

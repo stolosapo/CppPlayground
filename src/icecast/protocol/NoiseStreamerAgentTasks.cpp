@@ -179,6 +179,45 @@ void* nss_history_info(void* context)
     return static_cast<void*>(new string(value));
 }
 
+void* nss_history(void* context)
+{
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+	NoiseStreamer* client = a->noiseStreamer();
+
+    string lengthParam = ctx->getParam(0);
+    int historySize = client->historySize();
+    int historyLength = 10;
+
+    if (lengthParam != "")
+    {
+        int l = Convert<int>::StringToNumber(lengthParam);
+
+        if (l < historySize)
+        {
+            historyLength = l;
+        }
+    }
+
+    if (historyLength >= historySize)
+    {
+        historyLength = historySize;
+    }
+
+    string value = lengthParam + "\n";
+
+    for (int i = 0; i < historyLength; i++)
+    {
+        string track = client->history(i);
+        int plsIndex = client->trackPlaylistIndex(track);
+        string index = Convert<int>::NumberToString(plsIndex);
+
+        value += index + ": " + client->history(i) + "\n";
+    }
+
+    return static_cast<void*>(new string(value));
+}
+
 void* nss_start_client(void* agent)
 {
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) agent;

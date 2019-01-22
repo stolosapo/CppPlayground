@@ -43,6 +43,7 @@ void NoiseStreamerAgentProtocol::registerTasks()
 
     /* History Tasks */
     registerTask("history-info", &nss_history_info);
+    registerTask("history", &nss_history);
 
 
 	/* Statistic tasks */
@@ -72,6 +73,7 @@ string NoiseStreamerAgentProtocol::help()
 	result += "request?[track_index]        Create a track request based on track index\n";
 	result += "\n";
     result += "history-info                 Return the history size\n";
+    result += "history?[length=10]          Return the history of given length. Default is the last 10 tracks.\n";
     result += "\n";
 	result += "stats-genre                  See statistics of played genres\n";
 	result += "stats-artist                 See statistics of played artists\n";

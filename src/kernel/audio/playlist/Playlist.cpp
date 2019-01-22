@@ -72,3 +72,16 @@ string Playlist::read(int trackIndex)
 
 	return playlist[trackIndex];
 }
+
+int Playlist::read(string track)
+{
+    for (int i = 0; i < size(); i++)
+    {
+        if (playlist[i] == track)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}

@@ -28,6 +28,7 @@ public:
 	void reload();
 
 	string read(int trackIndex);
+    int read(string track);
 
 };
 

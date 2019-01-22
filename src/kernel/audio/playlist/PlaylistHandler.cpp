@@ -72,6 +72,21 @@ PlaylistItem PlaylistHandler::getTrack(int trackIndex)
 	return currentTrack;
 }
 
+int PlaylistHandler::getTrackIndex(string track)
+{
+    if (strategy == NULL)
+	{
+		throw DomainException(PlaylistErrorCode::PLS0006);
+	}
+
+    return strategy->getTrackIndex(track);
+}
+
+string PlaylistHandler::getHistoryTrack(int historyIndex)
+{
+    return history->read(historyIndex);
+}
+
 ISerializationService* PlaylistHandler::getSerializationService()
 {
 	return serializationSrv;

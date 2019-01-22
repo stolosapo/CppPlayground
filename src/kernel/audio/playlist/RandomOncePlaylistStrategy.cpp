@@ -104,6 +104,19 @@ bool RandomOncePlaylistStrategy::hasNext(PlaylistItem currentTrack)
 	return repeat || !isEmpty;
 }
 
+int RandomOncePlaylistStrategy::getTrackIndex(string track)
+{
+    if (!trackExist(track))
+    {
+        return -1;
+    }
+
+    map<string, int>::iterator it;
+	it = trackToOriginalIndex.find(track);
+
+    return it->second;
+}
+
 PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 {
 	_locker.lock();

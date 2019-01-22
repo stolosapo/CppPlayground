@@ -56,6 +56,8 @@ public:
     int queueSize();
     int requestQueueSize();
     int historySize();
+    string history(int historyIndex);
+    int trackPlaylistIndex(string track);
 
     PlaylistItem nowPlaying();
     PlaylistItem previewNext();

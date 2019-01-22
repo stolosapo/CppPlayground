@@ -39,6 +39,7 @@ public:
 
 	virtual void load();
 	virtual bool hasNext(PlaylistItem currentTrack);
+    virtual int getTrackIndex(string track);
 	virtual PlaylistItem nextTrack(PlaylistItem currentTrack);
 };
 

@@ -219,6 +219,16 @@ int NoiseStreamerPlaylist::historySize()
     return playlistHandler->historySize();
 }
 
+string NoiseStreamerPlaylist::history(int historyIndex)
+{
+    return playlistHandler->getHistoryTrack(historyIndex);
+}
+
+int NoiseStreamerPlaylist::trackPlaylistIndex(string track)
+{
+    return playlistHandler->getTrackIndex(track);
+}
+
 PlaylistItem NoiseStreamerPlaylist::nowPlaying()
 {
 	return currentTrack;
