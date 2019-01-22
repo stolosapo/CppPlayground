@@ -187,6 +187,12 @@ void* nss_history(void* context)
 
     string lengthParam = ctx->getParam(0);
     int historySize = client->historySize();
+
+    if (historySize == 0)
+    {
+        return static_cast<void*>(new string(""));
+    }
+
     int historyLength = 10;
 
     if (lengthParam != "")
@@ -208,11 +214,13 @@ void* nss_history(void* context)
 
     for (int i = 0; i < historyLength; i++)
     {
-        string track = client->history(i);
+        int inverseIndex = (historySize - 1) - i;
+
+        string track = client->history(inverseIndex);
         int plsIndex = client->trackPlaylistIndex(track);
         string index = Convert<int>::NumberToString(plsIndex);
 
-        value += index + ": " + client->history(i) + "\n";
+        value += index + ": " + track + "\n";
     }
 
     return static_cast<void*>(new string(value));
