@@ -204,7 +204,7 @@ void* nss_history(void* context)
         historyLength = historySize;
     }
 
-    string value = lengthParam + "\n";
+    string value = "\n";
 
     for (int i = 0; i < historyLength; i++)
     {
