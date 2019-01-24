@@ -20,6 +20,7 @@ void* nss_agent_status(void* context)
 	double uptimeSec = a->uptime();
 	int connections = a->numberOfActiveConnections();
 	int numOfTracks = client->getNumberOfPlayedTracks();
+    int historySize = client->historySize();
 	int queueSize = client->queueSize();
 	int requestQueueSize = client->requestQueueSize();
 	int shoutQueueLength = client->getShoutQueueLength();
@@ -41,6 +42,7 @@ void* nss_agent_status(void* context)
 	value += "Uptime: " + str + "\n";
 	value += "Active connections: " + Convert<int>::NumberToString(connections) + "\n";
 	value += "Number of played tracks: " + Convert<int>::NumberToString(numOfTracks) + "\n";
+    value += "History Size: " + Convert<int>::NumberToString(historySize) + "\n";
 	value += "Playlist Queue Size: " + Convert<int>::NumberToString(queueSize) + "\n";
 	value += "Request Queue Size: " + Convert<int>::NumberToString(requestQueueSize) + "\n";
 	value += "Shout Queue Length: " + Convert<int>::NumberToString(shoutQueueLength) + "\n";
@@ -162,19 +164,6 @@ void* nss_preview_track(void* context)
     value += "Bitrate: " + Convert<int>::NumberToString(tag->getBitrate()) + "\n";
     value += "Samplerate: " + Convert<int>::NumberToString(tag->getSamplerate()) + "\n";
     value += "Channels: " + Convert<int>::NumberToString(tag->getChannels()) + "\n";
-
-    return static_cast<void*>(new string(value));
-}
-
-void* nss_history_info(void* context)
-{
-    TaskContext* ctx = (TaskContext*) context;
-	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
-	NoiseStreamer* client = a->noiseStreamer();
-
-    string value = "\n";
-
-    value += "History Size: " + Convert<int>::NumberToString(client->historySize()) + "\n";
 
     return static_cast<void*>(new string(value));
 }
