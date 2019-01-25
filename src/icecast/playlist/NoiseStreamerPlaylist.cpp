@@ -214,6 +214,11 @@ int NoiseStreamerPlaylist::requestQueueSize()
     return requestedTrackIndex.size();
 }
 
+int NoiseStreamerPlaylist::playlistSize()
+{
+    return playlistHandler->playlistSize();
+}
+
 int NoiseStreamerPlaylist::historySize()
 {
     return playlistHandler->historySize();

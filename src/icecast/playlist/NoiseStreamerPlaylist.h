@@ -55,6 +55,7 @@ public:
     int getNumberOfPlayedTracks();
     int queueSize();
     int requestQueueSize();
+    int playlistSize();
     int historySize();
     string history(int historyIndex);
     int trackPlaylistIndex(string track);
