@@ -17,9 +17,16 @@ private:
 
 	vector<string> playlist;
 
+    int fromWindow(int limit, int offset);
+    int toWindow(int limit, int offset);
+    bool inSearchWindow(int found_count, int limit, int offset);
+    bool afterSearchWindow(int found_count, int limit, int offset);
+
 public:
 	Playlist(string filename);
 	virtual ~Playlist();
+
+    static string itemDescription(int index, string track);
 
 	int size();
 
@@ -29,6 +36,7 @@ public:
 
 	string read(int trackIndex);
     int read(string track);
+    vector<string> search(string query, int limit, int offset);
 
 };
 

@@ -166,6 +166,11 @@ void PlaylistHandler::archiveTrack(PlaylistItem track)
 	stats->add(track.getMetadata());
 }
 
+vector<string> PlaylistHandler::searchTracks(string query, int limit, int offset)
+{
+    return playlist->search(query, limit, offset);
+}
+
 string PlaylistHandler::getGenrePercentages()
 {
 	return stats->getGenrePercentages();

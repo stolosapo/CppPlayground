@@ -209,9 +209,8 @@ void* nss_history(void* context)
 
         string track = client->history(inverseIndex);
         int plsIndex = client->trackPlaylistIndex(track);
-        string index = Convert<int>::NumberToString(plsIndex);
 
-        value += index + ": " + track + "\n";
+        value += Playlist::itemDescription(plsIndex, track) + "\n";
     }
 
     return static_cast<void*>(new string(value));

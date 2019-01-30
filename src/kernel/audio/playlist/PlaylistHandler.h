@@ -63,6 +63,7 @@ public:
     string getHistoryTrack(int historyIndex);
 
 	void archiveTrack(PlaylistItem track);
+    vector<string> searchTracks(string query, int limit, int offset);
 
 	string getGenrePercentages();
 	string getArtistPercentages();
