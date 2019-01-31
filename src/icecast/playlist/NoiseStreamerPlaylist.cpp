@@ -255,6 +255,11 @@ PlaylistItem NoiseStreamerPlaylist::previewTrack(int index)
     return playlistHandler->getTrack(index);
 }
 
+vector<string> NoiseStreamerPlaylist::searchTracks(string query, int limit, int offset)
+{
+    return playlistHandler->searchTracks(query, limit, offset);
+}
+
 int NoiseStreamerPlaylist::remainingTrackTime()
 {
     time_t now = timeSrv->rawNow();

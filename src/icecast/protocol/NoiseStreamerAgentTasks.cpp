@@ -170,6 +170,41 @@ void* nss_preview_track(void* context)
     return static_cast<void*>(new string(value));
 }
 
+void* nss_search(void* context)
+{
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+	NoiseStreamer* client = a->noiseStreamer();
+
+    string query = ctx->getParam(0);
+    string strLimit = ctx->getParam(1);
+    string strOffset = ctx->getParam(2);
+
+    int limit = 5;
+    int offset = 1;
+
+    if (strLimit != "")
+    {
+        limit = Convert<int>::StringToNumber(strLimit);
+    }
+
+    if (strOffset != "")
+    {
+        offset = Convert<int>::StringToNumber(strOffset);
+    }
+
+    vector<string> results = client->searchTracks(query, limit, offset);
+
+    string value = "\n";
+
+    for (size_t i = 0; i < results.size(); i++)
+    {
+        value += results.at(i) + "\n";
+    }
+
+    return static_cast<void*>(new string(value));
+}
+
 void* nss_history(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;

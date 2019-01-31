@@ -63,6 +63,8 @@ public:
     PlaylistItem nowPlaying();
     PlaylistItem previewNext();
     PlaylistItem previewTrack(int index);
+    vector<string> searchTracks(string query, int limit, int offset);
+
 	int remainingTrackTime();
 	string getGenreStats();
 	string getArtistStats();

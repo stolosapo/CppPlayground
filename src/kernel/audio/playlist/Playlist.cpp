@@ -129,11 +129,14 @@ vector<string> Playlist::search(string query, int limit, int offset)
         {
             found_count++;
 
-            if (inSearchWindow(found_count, limit, offset))
+            bool inWindow = inSearchWindow(found_count, limit, offset);
+            bool afterWindow = afterSearchWindow(found_count, limit, offset);
+
+            if (inWindow)
             {
                 result.push_back(Playlist::itemDescription(i, track));
             }
-            else if (afterSearchWindow(found_count, limit, offset))
+            else if (afterWindow)
             {
                 break;
             }

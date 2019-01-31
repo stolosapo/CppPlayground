@@ -60,6 +60,7 @@ void* nss_next_track(void* context);
 void* nss_now_playing(void* context);
 void* nss_preview_next(void* context);
 void* nss_preview_track(void* context);
+void* nss_search(void* context);
 
 
 /* History Tasks */

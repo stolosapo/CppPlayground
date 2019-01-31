@@ -39,6 +39,7 @@ void NoiseStreamerAgentProtocol::registerTasks()
     registerTask("now", &nss_now_playing);
     registerTask("preview", &nss_preview_next);
     registerTask("preview-track", &nss_preview_track);
+    registerTask("search", &nss_search);
 
 
     /* History Tasks */
@@ -61,20 +62,21 @@ string NoiseStreamerAgentProtocol::help()
 	result += "\n";
 	result += "These are the common NoiseStreamer commands:\n";
 	result += "\n";
-	result += "agent-status                 See the status of the NoiseStreamer server\n";
-	result += "shout-status                 See the status of the Shout library of the NoiseStreamer server\n";
+	result += "agent-status                 	See the status of the NoiseStreamer server\n";
+	result += "shout-status                 	See the status of the Shout library of the NoiseStreamer server\n";
 	result += "\n";
-	result += "now                          See the current playing track\n";
-    result += "preview                      Preview next track\n";
-    result += "preview-track?[track_index]  Preview track bu index\n";
+	result += "now                          	See the current playing track\n";
+    result += "preview                      	Preview next track\n";
+    result += "preview-track?[track_index]  	Preview track by index\n";
+    result += "search?[query&limit=5&offset=1]	Search track titles useng searching keyword, limit and offset as window parameters\n";
 	result += "\n";
-	result += "next                         Navigate to the next track\n";
-	result += "request?[track_index]        Create a track request based on track index\n";
+	result += "next                         	Navigate to the next track\n";
+	result += "request?[track_index]        	Create a track request based on track index\n";
 	result += "\n";
-    result += "history?[length=10]          Return the history of given length. Default is the last 10 tracks.\n";
+    result += "history?[length=10]          	Return the history of given length. Default is the last 10 tracks.\n";
     result += "\n";
-	result += "stats-genre                  See statistics of played genres\n";
-	result += "stats-artist                 See statistics of played artists\n";
+	result += "stats-genre                  	See statistics of played genres\n";
+	result += "stats-artist                 	See statistics of played artists\n";
 
 	result += "\n";
 
