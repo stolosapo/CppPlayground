@@ -117,7 +117,9 @@ int Playlist::read(string track)
 vector<string> Playlist::search(string query, int limit, int offset)
 {
     vector<string> result;
+
     int found_count = 0;
+    bool hasNextWindow = false;
 
     for (size_t i = 0; i < size(); i++)
     {
@@ -138,10 +140,20 @@ vector<string> Playlist::search(string query, int limit, int offset)
             }
             else if (afterWindow)
             {
-                break;
+                hasNextWindow = true;
+                // break;
             }
         }
     }
+
+    int totalPages = found_count / limit;
+    int curr = (found_count % limit) > 0 ? 1 : 0;
+
+    totalPages += curr;
+
+    string s = "Found: " + Convert<int>::NumberToString(found_count) + "\n" + "Page: " + Convert<int>::NumberToString(offset) + " of " + Convert<int>::NumberToString(totalPages);
+
+    result.push_back(s);
 
     return result;
 }
