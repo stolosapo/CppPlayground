@@ -29,6 +29,8 @@ public:
 	static string filename(const char* filepath);
 	static string extension(const char* filename);
 
+    static int lineCount(const char* filename);
+
 	static void appendLineFileToFile(const char* filename, string line);
 	static vector<string> readLastLines(const char* filename, int lineCount);
 };

@@ -31,6 +31,13 @@ void PlaylistHistory::loadAll()
 	load(100);
 }
 
+void PlaylistHistory::loadRestOfPlaylistCount(int playlistCount)
+{
+    int historyFileSize = FileHelper::lineCount(filename.c_str());
+    int rest = historyFileSize % playlistCount;
+    load(rest);
+}
+
 void PlaylistHistory::load(int lastLines)
 {
 	vector<string> fileContent =

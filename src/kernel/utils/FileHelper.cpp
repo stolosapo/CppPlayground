@@ -99,6 +99,26 @@ string FileHelper::extension(const char* filename)
 	return file.back();
 }
 
+int FileHelper::lineCount(const char* filename)
+{
+    ifstream file(filename);
+
+    if(file.fail())
+    {
+        // throw DomainException(GeneralDomainErrorCode::GNR0001, filename);
+        return 0;
+    }
+
+    int lineNumber = 0;
+    string line;
+	while (getline(file, line))
+	{
+		lineNumber++;
+	}
+
+    return lineNumber;
+}
+
 void FileHelper::appendLineFileToFile(const char* filename, string line)
 {
 	ofstream file;

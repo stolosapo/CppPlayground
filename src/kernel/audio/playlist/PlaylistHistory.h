@@ -26,6 +26,7 @@ public:
 
 	void loadAll();
 	void load(int lastLines);
+	void loadRestOfPlaylistCount(int playlistCount);
 	void clear();
 	void reloadAll();
 	void reload(int lastLines);

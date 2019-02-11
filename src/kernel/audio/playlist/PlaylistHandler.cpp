@@ -106,9 +106,10 @@ void PlaylistHandler::load()
 		playlist->load();
 	}
 
-	if (history != NULL)
+	if (history != NULL && playlist != NULL)
 	{
-		history->loadAll();
+		// history->loadAll();
+		history->loadRestOfPlaylistCount(playlist->size());
 	}
 
 	if (strategy != NULL)
