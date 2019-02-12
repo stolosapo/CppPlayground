@@ -26,6 +26,7 @@ void FileHelperTest::registerTests()
 	registerCoveredMethod("extension");
 	registerCoveredMethod("lineCount");
 	registerCoveredMethod("appendLineFileToFile");
+	registerCoveredMethod("readLastLines");
 
     registerTest("Test createFile return correct result", &test__createFile__return_correct_result__success);
 
@@ -46,6 +47,10 @@ void FileHelperTest::registerTests()
 
     registerTest("Test appendLineFileToFile add line to the end when file exist", &test__appendLineFileToFile__file_exist__success);
 	registerTest("Test appendLineFileToFile creates file and append when file not exist", &test__appendLineFileToFile__file_not_exist__failure);
+
+    registerTest("Test readLastLines return the correct lines when file exist", &test__readLastLines__file_exist__success);
+    registerTest("Test readLastLines return the correct lines when ask more lines then file contains", &test__readLastLines__ask_more_than_count__success);
+	registerTest("Test readLastLines return 0 lines when file not exist", &test__readLastLines__file_not_exist__failure);
 }
 
 void test__createFile__return_correct_result__success()
@@ -169,4 +174,41 @@ void test__appendLineFileToFile__file_not_exist__failure()
     string lastLine = lines.at(lines.size() - 1);
 
     assertEqual(lastLine, "something_else");
+}
+
+void test__readLastLines__file_exist__success()
+{
+    createFile("test__readLastLines__file_exist__success.txt");
+
+    addLineToFile("test__readLastLines__file_exist__success.txt", "ena");
+    addLineToFile("test__readLastLines__file_exist__success.txt", "dyo");
+    addLineToFile("test__readLastLines__file_exist__success.txt", "tria");
+
+    vector<string> results = FileHelper::readLastLines("test__readLastLines__file_exist__success.txt", 2);
+
+    assertEqual(results.size(), 2);
+    assertEqual(results.at(0), "dyo");
+    assertEqual(results.at(1), "tria");
+}
+
+void test__readLastLines__ask_more_than_count__success()
+{
+    createFile("test__readLastLines__ask_more_than_count__success.txt");
+
+    addLineToFile("test__readLastLines__ask_more_than_count__success.txt", "ena");
+    addLineToFile("test__readLastLines__ask_more_than_count__success.txt", "dyo");
+    addLineToFile("test__readLastLines__ask_more_than_count__success.txt", "tria");
+
+    vector<string> results = FileHelper::readLastLines("test__readLastLines__ask_more_than_count__success.txt", 10);
+
+    assertEqual(results.size(), 3);
+    assertEqual(results.at(0), "ena");
+    assertEqual(results.at(1), "dyo");
+    assertEqual(results.at(2), "tria");
+}
+
+void test__readLastLines__file_not_exist__failure()
+{
+    vector<string> results = FileHelper::readLastLines("test__readLastLines__file_not_exist__failure.txt", 10);
+    assertEqual(results.size(), 0);
 }

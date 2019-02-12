@@ -26,6 +26,10 @@ void test__lineCount__return_correct_result__failure();
 void test__appendLineFileToFile__file_exist__success();
 void test__appendLineFileToFile__file_not_exist__failure();
 
+void test__readLastLines__file_exist__success();
+void test__readLastLines__ask_more_than_count__success();
+void test__readLastLines__file_not_exist__failure();
+
 class FileHelperTest: public UnitTestSuite
 {
 protected:
