@@ -148,7 +148,7 @@
 #### `utils`
 - `StringHelper.cpp`
 - `FigletHeader.cpp`
-- `FileHelper.cpp`
+- ~~`FileHelper.cpp`~~
 
 #### `version`
 - `Version.cpp`
