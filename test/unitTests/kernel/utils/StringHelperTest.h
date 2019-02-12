@@ -9,6 +9,10 @@ using namespace std;
 void test_split_return_correct_result_count();
 void test_split_return_correct_results();
 
+void test__pad__return_correct_result__possitive();
+void test__pad__return_correct_result__zero();
+void test__pad__return_correct_result__negative();
+
 class StringHelperTest: public UnitTestSuite
 {
 protected:
