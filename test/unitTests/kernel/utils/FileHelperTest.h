@@ -23,6 +23,9 @@ void test_extension_return_correct_result__failure();
 void test__lineCount__return_correct_result__success();
 void test__lineCount__return_correct_result__failure();
 
+void test__appendLineFileToFile__file_exist__success();
+void test__appendLineFileToFile__file_not_exist__failure();
+
 class FileHelperTest: public UnitTestSuite
 {
 protected:

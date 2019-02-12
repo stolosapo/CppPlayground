@@ -1,5 +1,6 @@
 #include "FileUtils.h"
 
+#include <iostream>
 #include <errno.h>
 #include <fstream>
 #include <cstring>
@@ -35,4 +36,25 @@ void addLineToFile(const char* filepath, string line)
 	file << line << endl;
 
 	file.close();
+}
+
+vector<string> readLinesFromFile(const char* filepath)
+{
+    vector<string> output;
+    ifstream file(filepath);
+
+    if(file.fail())
+    {
+        return output;
+    }
+
+    string line;
+    while (getline(file, line))
+    {
+        output.push_back(line);
+    }
+
+    file.close();
+
+    return output;
 }

@@ -25,6 +25,7 @@ void FileHelperTest::registerTests()
 	registerCoveredMethod("filename");
 	registerCoveredMethod("extension");
 	registerCoveredMethod("lineCount");
+	registerCoveredMethod("appendLineFileToFile");
 
     registerTest("Test createFile return correct result", &test__createFile__return_correct_result__success);
 
@@ -42,6 +43,9 @@ void FileHelperTest::registerTests()
 
     registerTest("Test lineCount return correct result", &test__lineCount__return_correct_result__success);
 	registerTest("Test lineCount return correct result", &test__lineCount__return_correct_result__failure);
+
+    registerTest("Test appendLineFileToFile add line to the end when file exist", &test__appendLineFileToFile__file_exist__success);
+	registerTest("Test appendLineFileToFile creates file and append when file not exist", &test__appendLineFileToFile__file_not_exist__failure);
 }
 
 void test__createFile__return_correct_result__success()
@@ -137,4 +141,32 @@ void test__lineCount__return_correct_result__failure()
     int cnt = FileHelper::lineCount("non_test_file.txt");
 
     assertEqual(cnt, 0);
+}
+
+void test__appendLineFileToFile__file_exist__success()
+{
+    createFile("test__appendLineFileToFile__file_exist__success.txt");
+
+    FileHelper::appendLineFileToFile("test__appendLineFileToFile__file_exist__success.txt", "something");
+
+    vector<string> lines = readLinesFromFile("test__appendLineFileToFile__file_exist__success.txt");
+
+    assertTrue(lines.size() != 0);
+
+    string lastLine = lines.at(lines.size() - 1);
+
+    assertEqual(lastLine, "something");
+}
+
+void test__appendLineFileToFile__file_not_exist__failure()
+{
+    FileHelper::appendLineFileToFile("test__appendLineFileToFile__file_not_exist__failure.txt", "something_else");
+
+    vector<string> lines = readLinesFromFile("test__appendLineFileToFile__file_not_exist__failure.txt");
+
+    assertTrue(lines.size() != 0);
+
+    string lastLine = lines.at(lines.size() - 1);
+
+    assertEqual(lastLine, "something_else");
 }
