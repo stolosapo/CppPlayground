@@ -15,6 +15,9 @@ void test_filename_return_correct_result__failure();
 void test_extension_return_correct_result__success();
 void test_extension_return_correct_result__failure();
 
+void test__lineCount__return_correct_result__success();
+void test__lineCount__return_correct_result__failure();
+
 class FileHelperTest: public UnitTestSuite
 {
 protected:
