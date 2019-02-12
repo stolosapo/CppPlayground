@@ -12,6 +12,12 @@ void createFile(const char* filepath)
     outfile.close();
 }
 
+// bool fileExists(const char* filepath)
+// {
+//     ifstream f(filepath);
+//     return f.good();
+// }
+
 void addLineToFile(const char* filepath, string line)
 {
     ofstream file;
