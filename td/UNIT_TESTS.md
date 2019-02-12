@@ -146,7 +146,7 @@
 - `TimeService.cpp`
 
 #### `utils`
-- `StringHelper.cpp`
+- ~~`StringHelper.cpp`~~
 - `FigletHeader.cpp`
 - ~~`FileHelper.cpp`~~
 
