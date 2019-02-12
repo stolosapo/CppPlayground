@@ -6,6 +6,8 @@
 
 using namespace std;
 
+void test__createFile__return_correct_result__success();
+
 void test__exists__return_correct_result__success();
 void test__exists__return_correct_result__failure();
 

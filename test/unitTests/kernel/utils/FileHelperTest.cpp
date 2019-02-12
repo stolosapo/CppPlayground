@@ -19,11 +19,14 @@ FileHelperTest::~FileHelperTest()
 
 void FileHelperTest::registerTests()
 {
+	registerCoveredMethod("createFile");
 	registerCoveredMethod("exists");
 	registerCoveredMethod("filenameExt");
 	registerCoveredMethod("filename");
 	registerCoveredMethod("extension");
 	registerCoveredMethod("lineCount");
+
+    registerTest("Test createFile return correct result", &test__createFile__return_correct_result__success);
 
     registerTest("Test exists return correct result", &test__exists__return_correct_result__success);
 	registerTest("Test exists return correct result", &test__exists__return_correct_result__failure);
@@ -41,20 +44,26 @@ void FileHelperTest::registerTests()
 	registerTest("Test lineCount return correct result", &test__lineCount__return_correct_result__failure);
 }
 
+void test__createFile__return_correct_result__success()
+{
+    FileHelper::createFile("test__createFile__return_correct_result__success.txt");
+    assertTrue(fileExists("test__createFile__return_correct_result__success.txt"));
+}
+
 void test__exists__return_correct_result__success()
 {
-    // createFile("test__exists__return_correct_result__success.txt");
-    //
-    // bool result = FileHelper::exists("test__exists__return_correct_result__success.txt");
-    //
-    // assertTrue(result);
+    createFile("test__exists__return_correct_result__success.txt");
+
+    bool result = FileHelper::exists("test__exists__return_correct_result__success.txt");
+
+    assertTrue(result);
 }
 
 void test__exists__return_correct_result__failure()
 {
-    // bool result = FileHelper::exists("test__exists__return_correct_result__failure.txt");
-    //
-    // assertFalse(result);
+    bool result = FileHelper::exists("test__exists__return_correct_result__failure.txt");
+
+    assertFalse(result);
 }
 
 void test_filenameExt_return_correct_result__success()
