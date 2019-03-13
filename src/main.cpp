@@ -1,10 +1,12 @@
 #include <iostream>
 #include <exception>
 
-#include "lib/di/GlobalAppContext.h"
+#include "kernel/di/GlobalAppContext.h"
+#include "kernel/arguments/ArgumentService.h"
 
-#include "menu/MainMenu.cpp"
-#include "arguments/ArgParser.h"
+#include "kernel/exception/ExceptionMapper.h"
+
+#include "menu/MainMenu.h"
 
 using namespace std;
 
@@ -13,21 +15,26 @@ int main(int argc, char* argv[])
 	try
 	{
 		/* Initialize AppContext */
-		initializeAppContext();
+		initializeAppContext(argc, argv);
 
 
-		ArgParser *args = new ArgParser(argc, argv);
-		args->printArgs();
-		args->parse();
-		args->printParsed();
+        ArgumentService* argSrv = inject<ArgumentService>("argService");
 
-		MainMenu *menu = new MainMenu;
-		menu->check();
-		menu->action();
+		MainMenu menu(argSrv);
+		menu.check();
+		menu.action();
 
 
 		/* Clear AppContext */
 		deleteAppContext();
+	}
+    catch(DomainException& e)
+	{
+        cerr << "Fatal Error: " << handle(e) << endl;
+	}
+	catch(RuntimeException& e)
+	{
+        cerr << "Fatal Error: " << handle(e) << endl;
 	}
 	catch(exception& e)
 	{
