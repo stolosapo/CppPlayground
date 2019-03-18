@@ -2,8 +2,8 @@
 #define TestKubeNotationMenuItem_h__
 
 #include <string>
-#include "../../log/ILogService.h"
-#include "../../menu/MenuItem.h"
+#include "../../kernel/log/ILogService.h"
+#include "../../kernel/menu/MenuItem.h"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ private:
 public:
 	TestKubeNotationMenuItem(ILogService *logSrv);
 	virtual ~TestKubeNotationMenuItem();
-	
+
 	virtual void action();
 };
 #endif // TestKubeNotationMenuItem_h__

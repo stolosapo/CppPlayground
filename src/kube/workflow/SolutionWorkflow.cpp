@@ -1,4 +1,4 @@
-#include "../../lib/workflow/IWorkflow.h"
+#include "../../kernel/workflow/IWorkflow.h"
 #include "../lib/IKubeSolverWorkflow.h"
 #include "../action/KubeNavigator.h"
 
@@ -35,5 +35,5 @@ public:
 		stages.push_back(new Step6(this));
 		stages.push_back(new Step7(this));
 	}
-	
+
 };

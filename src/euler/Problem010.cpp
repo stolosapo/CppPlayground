@@ -2,9 +2,9 @@
 #include <string>
 #include <vector>
 #include "EulerProblem.h"
-#include "../log/ILogService.h"
-#include "../lib/converter/Convert.h"
-#include "../lib/math/PrimeFactor.h"
+#include "../kernel/log/ILogService.h"
+#include "../kernel/converter/Convert.h"
+#include "../kernel/math/PrimeFactor.h"
 
 using namespace std;
 

@@ -4,18 +4,18 @@
 #include <vector>
 #include "KubeLoader.h"
 #include "KubeColorMapper.h"
-#include "../../shared/FileReader.h"
+#include "../../kernel/utils/FileReader.h"
 
 using namespace std;
 
 KubeLoader::KubeLoader()
 {
-	
+
 }
 
 KubeLoader::~KubeLoader()
 {
-	
+
 }
 
 void KubeLoader::mapColor(Kube *kube, int sideIndex, char colorChar)
@@ -81,7 +81,7 @@ void KubeLoader::setKubeSide(Kube *kube, int sideIndex, int lineIndex, string li
 }
 
 KubeSide* KubeLoader::setKubeSideTiles(Kube *kube, KubeSide *side, int sideIndex, int lineIndex, string line)
-{	
+{
 	if (side == NULL)
 	{
 		side = new KubeSide;
@@ -92,7 +92,7 @@ KubeSide* KubeLoader::setKubeSideTiles(Kube *kube, KubeSide *side, int sideIndex
 		char colorChar = line[col];
 
 		KubeSide::Color color = kube->getColor(colorChar);
-		
+
 		side->setTile(lineIndex, col, color);
 	}
 
@@ -137,7 +137,7 @@ Kube* KubeLoader::load()
 	int index = 0;
 
 	FileReader* reader = new FileReader(filePath.c_str());
-	
+
 	reader->read();
 	vector<string> lines = reader->getLines();
 

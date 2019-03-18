@@ -2,7 +2,7 @@
 #define IKubeSolverWorkflow_h__
 
 #include "../action/KubeNavigator.h"
-#include "../../lib/workflow/IWorkflow.h"
+#include "../../kernel/workflow/IWorkflow.h"
 
 class IKubeSolverWorkflow : public IWorkflow<IKubeSolverWorkflow>
 {
@@ -15,7 +15,7 @@ public:
 		this->nav = nav;
 	};
 
-	virtual ~IKubeSolverWorkflow() 
+	virtual ~IKubeSolverWorkflow()
 	{
 		nav = NULL;
 	};
@@ -24,7 +24,7 @@ public:
 	{
 		return this->nav;
 	}
-	
+
 };
 
 #endif // IKubeSolverWorkflow_h__

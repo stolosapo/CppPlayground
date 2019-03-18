@@ -2,8 +2,8 @@
 #define ShuffleKubeMenuItem_h__
 
 #include <string>
-#include "../../log/ILogService.h"
-#include "../../menu/MenuItem.h"
+#include "../../kernel/log/ILogService.h"
+#include "../../kernel/menu/MenuItem.h"
 #include "../action/KubeLoader.h"
 #include "../action/KubeNavigator.h"
 #include "../action/KubePrinter.h"
@@ -31,7 +31,7 @@ public:
 	{
 
 	}
-	
+
 	virtual void action()
 	{
 		KubeLoader *loader = new KubeLoader;
@@ -43,7 +43,7 @@ public:
 
 		nav->setPrinter(printer);
 		nav->setPrintMove(true);
-		
+
 		printer->printKube();
 
 		solver->shuffle();

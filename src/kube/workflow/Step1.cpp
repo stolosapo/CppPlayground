@@ -2,7 +2,7 @@
 
 #include "../lib/IKubeSolverWorkflow.h"
 #include "../action/KubeNavigator.h"
-#include "../../lib/workflow/IWorkflowStage.h"
+#include "../../kernel/workflow/IWorkflowStage.h"
 
 using namespace std;
 
@@ -108,7 +108,7 @@ private:
 	bool isBottomSide(KubeSide* side)
 	{
 		return side->getMainColor() == KubeSide::MAIN_DOWN;
-	}	
+	}
 
 	bool proccedUpperSide(KubeSide* side)
 	{
@@ -208,7 +208,7 @@ public:
 		{
 			return false;
 		}
-		
+
 		/* 3nd row, 2nd tile */
 		if (!isTileCorrect(bottomTile(kube->getUpper()), kube->getFront()))
 		{
@@ -255,5 +255,5 @@ public:
 		}
 
 	}
-	
+
 };

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../../menu/MenuContainer.h"
+#include "../../kernel/menu/MenuContainer.h"
 #include "TestKubeNotationMenuItem.h"
 #include "ShuffleKubeMenuItem.cpp"
 #include "SolveKubeMenuItem.cpp"
@@ -12,10 +12,9 @@ class KubeContainer : public MenuContainer
 {
 public:
     KubeContainer() : MenuContainer(
-        6,
+        8,
         "The Kube Solver",
-        "The Kube Solver",
-        3)
+        "The Kube Solver")
     {
         this->setContinueQuestion(true);
     }
@@ -28,9 +27,9 @@ public:
 protected:
     virtual void fillOptions()
     {
-        this->addMenuItem(0, new TestKubeNotationMenuItem(logSrv));
-        this->addMenuItem(1, new ShuffleKubeMenuItem(logSrv));
-        this->addMenuItem(2, new SolveKubeMenuItem(logSrv));
+        this->addMenuItem(new TestKubeNotationMenuItem(logSrv));
+        this->addMenuItem(new ShuffleKubeMenuItem(logSrv));
+        this->addMenuItem(new SolveKubeMenuItem(logSrv));
     }
 
     virtual string getHeader()

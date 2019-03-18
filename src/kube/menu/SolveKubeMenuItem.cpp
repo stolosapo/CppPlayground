@@ -1,6 +1,6 @@
 #include <string>
-#include "../../log/ILogService.h"
-#include "../../menu/MenuItem.h"
+#include "../../kernel/log/ILogService.h"
+#include "../../kernel/menu/MenuItem.h"
 #include "../action/KubeLoader.h"
 #include "../action/KubeNavigator.h"
 #include "../action/KubePrinter.h"
@@ -28,7 +28,7 @@ public:
 	{
 
 	}
-	
+
 	virtual void action()
 	{
 		KubeLoader *loader = new KubeLoader;
@@ -36,7 +36,7 @@ public:
 		KubePrinter *printer = new KubePrinter(logSrv, kube);
 		KubeTracer *tracer = new KubeTracer;
 		KubeNavigator *nav = new KubeNavigator(kube, tracer, printer);
-		
+
 		// nav->setPrintMove(true);
 
 		printer->printKube();
@@ -46,7 +46,7 @@ public:
 		solver->solve();
 
 		printer->printKube();
-				
+
 
 		logSrv->printl("Trace: " + tracer->convertToString());
 		logSrv->printl("");

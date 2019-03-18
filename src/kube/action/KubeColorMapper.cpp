@@ -1,5 +1,5 @@
 #include "KubeColorMapper.h"
-#include "../../lib/definitions/Colors.h"
+#include "../../kernel/definitions/Colors.h"
 
 using namespace std;
 

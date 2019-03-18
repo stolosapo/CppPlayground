@@ -4,7 +4,7 @@
 #include "../action/KubeColorMapper.h"
 #include "../action/KubeNavigator.h"
 #include "../action/KubeTracer.h"
-#include "../../lib/io/InOut.h"
+#include "../../kernel/io/InOut.h"
 
 
 void makeCross(KubeNavigator *nav, KubePrinter *printer);

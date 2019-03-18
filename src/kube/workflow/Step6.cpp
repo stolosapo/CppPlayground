@@ -1,5 +1,5 @@
 #include "../lib/IKubeSolverWorkflow.h"
-#include "../../lib/workflow/IWorkflowStage.h"
+#include "../../kernel/workflow/IWorkflowStage.h"
 
 using namespace std;
 
@@ -30,5 +30,5 @@ public:
 	{
 		return 3;
 	}
-	
+
 };

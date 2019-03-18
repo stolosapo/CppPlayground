@@ -1,7 +1,7 @@
 #ifndef KubePrinter_h__
 #define KubePrinter_h__
 
-#include "../../log/ILogService.h"
+#include "../../kernel/log/ILogService.h"
 #include "../model/Kube.h"
 
 class KubePrinter

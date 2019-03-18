@@ -30,13 +30,37 @@ CFLAGS := -g # -Wall
 LIB := -pthread -L lib
 INC := -I include
 
+# ICECASTE feature
+ifeq ($(WITH_ICECAST), 1)
+OPTS += -DICECAST
+LIB += -lshout
+endif
+
+# TagLib feature
+ifeq ($(WITH_TAGLIB), 1)
+OPTS += -DTAGLIB
+LIB += -ltag -lz
+endif
+
+# ALSA feature
+ifeq ($(WITH_ALSA), 1)
+OPTS += -DALSA
+LIB += -lasound
+endif
+
+# Lame Feature
+ifeq ($(WITH_LAME), 1)
+OPTS += -DLAME
+LIB += -lmp3lame
+endif
+
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
 	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
-	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
+	@echo " $(CC) $(OPTS) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(OPTS) $(CFLAGS) $(INC) -c -o $@ $<
 
 # @echo " $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET) "; $(RM) -r $(CLEANDIR) $(CLEANSUBDIR) $(TARGET) $(TESTTARGET) $(TICKETTARGET)
 clean:
