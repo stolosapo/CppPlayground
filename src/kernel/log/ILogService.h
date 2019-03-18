@@ -24,6 +24,7 @@ public:
 	virtual void clearScreen() = 0;
 	
 	virtual void print(string message) = 0;
+	virtual void print(string message, string COLOR) = 0;
 	virtual void printl(string message) = 0;
 	virtual void printColor(string message) = 0;
 

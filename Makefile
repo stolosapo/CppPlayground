@@ -8,7 +8,9 @@ SRCDIR := src
 TESTDIR := test
 BUILDDIR := build
 CLEANDIR := build/*.o
-CLEANSUBDIR := build/**/*.o
+CLEANSUBDIR := build/**/
+INITIALIZE := initialize.sh
+BASH := /bin/bash
 
 TARGET := bin/runner
 TESTTARGET := bin/tester
