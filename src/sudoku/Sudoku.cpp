@@ -5,8 +5,8 @@
 #include "Cell.h"
 #include "Sudoku.h"
 #include "CellFactory.h"
-#include "../shared/FileReader.h"
-#include "../lib/converter/Convert.h"
+#include "../kernel/utils/FileReader.h"
+#include "../kernel/converter/Convert.h"
 
 using namespace std;
 

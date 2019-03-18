@@ -1,49 +1,87 @@
-#include <iostream>
+#include "MainMenu.h"
 
-#include "MainMenuHeader.cpp"
-#include "../menu/MenuContainer.h"
-#include "../log/menu/LogServiceMenuContainer.h"
+#include "../log/LogServiceMenuContainer.h"
 #include "../euler/EulerProblemContainer.cpp"
-#include "../tcpServer/menu/TcpMenuContainer.h"
-#include "../serialization/menu/SerializationMenuContainer.h"
-#include "../gpio/menu/GpioMenuContainer.h"
+
+#include "../tcpServer/TcpMenuContainer.h"
+#include "../serialization/SerializationMenuContainer.h"
+#include "../gpio/GpioMenuContainer.h"
+#include "../icecast/menu/NoiseStreamerMenuContainer.h"
+#include "../games/GameMenuContainer.h"
 #include "../sudoku/SudokuContainer.cpp"
 
-using namespace std;
+#include "../kernel/exception/domain/DomainException.h"
+#include "../kernel/exception/domain/GeneralDomainErrorCode.h"
 
-class MainMenu : public MenuContainer
+
+MainMenu::MainMenu(ArgumentService *argSrv)
+    : MenuContainer(1, "Main Menu", "Main Menu"),
+    MainMenuArgumentAdapter(argSrv)
 {
-public:
-	MainMenu() : MenuContainer(
-		1,
-		"Main Menu",
-		"Main Menu",
-		6)
-	{
 
-	}
+}
 
-	virtual ~MainMenu()
-	{
+MainMenu::~MainMenu()
+{
 
-	}
+}
 
-protected:
-	virtual void fillOptions()
-	{
-		this->addMenuItem(0, new LogServiceMenuContainer);
-		this->addMenuItem(1, new EulerProblemContainer);
-		this->addMenuItem(2, new TcpMenuContainer);
-		this->addMenuItem(3, new SerializationMenuContainer);
-		this->addMenuItem(4, new GpioMenuContainer);
-		this->addMenuItem(5, new SudokuContainer);
-	}
+void MainMenu::action()
+{
+    if (hasHelpArg())
+    {
+        registerArguments();
 
-	virtual string getHeader()
-	{
-		MainMenuHeader header;
+        string h = MainMenuArgumentAdapter::help();
+        h += MenuContainer::help();
 
-		return header.getRandomHeader();
-	}
+        cout << endl << h << endl;
 
-};
+        return;
+    }
+
+    if (hasTreeArg())
+    {
+        tree();
+        return;
+    }
+
+    if (!hasMenuItem())
+    {
+        MenuContainer::action();
+        return;
+    }
+
+    string name = getMenuItem();
+    MenuItem* foundItem = findMenuItemByName(name);
+
+    if (foundItem == NULL)
+    {
+        throw DomainException(GeneralDomainErrorCode::GNR0002, name);
+    }
+
+    if (dynamic_cast<MenuContainer*>(foundItem) != NULL)
+    {
+        throw DomainException(GeneralDomainErrorCode::GNR0003, name);
+    }
+
+    foundItem->action();
+}
+
+void MainMenu::fillOptions()
+{
+	this->addMenuItem(new LogServiceMenuContainer);
+	this->addMenuItem(new EulerProblemContainer);
+	this->addMenuItem(new TcpMenuContainer);
+	this->addMenuItem(new SerializationMenuContainer);
+	this->addMenuItem(new GpioMenuContainer);
+	this->addMenuItem(new NoiseStreamerMenuContainer);
+	this->addMenuItem(new GameMenuContainer);
+    this->addMenuItem(new SudokuContainer);
+}
+
+string MainMenu::getHeader()
+{
+	MainMenuHeader header;
+	return header.getRandomHeader();
+}

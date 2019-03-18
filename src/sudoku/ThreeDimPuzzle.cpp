@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../menu/MenuItem.h"
+#include "../kernel/menu/MenuItem.h"
 #include "ThreeDimPuzzle.h"
 #include "Sudoku.h"
 

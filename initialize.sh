@@ -9,6 +9,7 @@ cd ..
 
 cd "${RES}"
 EXAMPLEFILES=$(find -type f -printf '%d\t%P\n' | cut -f2-);
+RESDIRS=$(find -type d -printf '%d\t%P\n' | cut -f2-);
 cd ..
 
 cd "${TESTDIR}"
@@ -26,7 +27,7 @@ if [[ ! -d $BINDIR ]]; then
 fi
 
 for i in $CDIRS; do
-	
+
 	DIR="${BUILDDIR}/${i}";
 
 	TESTER="${TESTDIR}/${i}";
@@ -45,14 +46,22 @@ for i in $CDIRS; do
 
 done
 
-# Copy all files from resources to bin
-for i in $EXAMPLEFILES; do
-	
-	FROM="${RES}/${i}";
 
-	cp $FROM $BINDIR;
+# Create resource folders into bin folder
+for i in $RESDIRS; do
+
+    DIR="${BINDIR}/${i}";
+
+    # Create each folder if is not exists
+	if [[ ! -d $DIR ]]; then
+		mkdir $DIR;
+	fi
+
+    # Copy files from resource folder into bin folder
+    cp ${RES}/${i}/* ${DIR}
 
 done
+
 
 # Create extra test folders
 for i in $TESTDIRS; do

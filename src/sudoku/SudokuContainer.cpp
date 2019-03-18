@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../menu/MenuContainer.h"
+#include "../kernel/menu/MenuContainer.h"
 #include "Sudoku.h"
 #include "ThreeDimPuzzle.h"
 #include "SudokuHeader.cpp"
@@ -8,10 +8,9 @@ class SudokuContainer : public MenuContainer
 {
 public:
 	SudokuContainer() : MenuContainer(
-		6,
+		8,
 		"Sudoku Problems",
-		"Sudoku Problems",
-		1)
+		"Sudoku Problems")
 	{
 		this->setContinueQuestion(true);
 	}
@@ -24,7 +23,7 @@ public:
 protected:
 	virtual void fillOptions()
 	{
-		this->addMenuItem(0, new ThreeDimPuzzle);
+		this->addMenuItem(new ThreeDimPuzzle);
 	}
 
 	virtual string getHeader()
