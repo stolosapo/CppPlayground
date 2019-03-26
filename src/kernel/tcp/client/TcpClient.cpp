@@ -100,26 +100,21 @@ void TcpClient::start()
 		bool cont = true;
 		while (cont)
 		{
-
 			/* Check for interruption */
 			if (sigSrv->gotSigInt())
 			{
-
 				logSrv->debug("Stopping client.. ");
-
 				break;
 			}
 
 			/* Proccess client */
 			cont = cycle(client);
 		}
-
 	}
 	catch (DomainException& e)
 	{
 		logSrv->error(handle(e));
 	}
-
 
 	finalizeClient(client);
 }
@@ -195,10 +190,14 @@ bool TcpClient::cycle(ClientInfo *client)
 		return false;
 	}
 
-
 	/* Send messege to server */
 	stream->send(userInput);
 
+    /* Get error if exist */
+    int errorCode = stream->connectionErrorCode();
+    if (errorCode != 0) {
+        cout << "ErrorCode: " << errorCode << endl;
+    }
 
 	/* Receive messege from server */
 	string serverInput = "";

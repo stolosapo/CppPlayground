@@ -105,3 +105,11 @@ ssize_t TcpStream::receiveAll(string& message)
 
 	return totalSize;
 }
+
+int TcpStream::connectionErrorCode()
+{
+    int error_code;
+    socklen_t error_code_size = sizeof(error_code);
+    getsockopt(m_sd, SOL_SOCKET, SO_ERROR, &error_code, &error_code_size);
+    return error_code;
+}

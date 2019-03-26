@@ -27,6 +27,8 @@ class TcpStream
     ssize_t receive(char* buffer, size_t len);
     ssize_t receiveAll(string& message);
 
+    int connectionErrorCode();
+
     string getPeerIP();
     int getPeerPort();
 
