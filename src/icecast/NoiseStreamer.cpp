@@ -63,15 +63,9 @@ NoiseStreamerConfig* NoiseStreamer::getConfig()
     return config;
 }
 
-void NoiseStreamer::logNowPlaying(NoiseStreamerPlaylistItem* nssItem)
+void NoiseStreamer::logNowPlaying(const NoiseStreamerPlaylistItem& nssItem)
 {
-    PlaylistItem item = nssItem->getTrack();
-	string i = Convert<int>::NumberToString(item.getTrackIndex());
-
-	logSrv->info("Index: " + i);
-	// logSrv->info("-- Playing: " + item.getTrack());
-	logSrv->info("-- Playing: " + nssItem->getTrackFile());
-	logSrv->info("-- Track: " + item.getTrackTitle());
+	logSrv->info("Playing: " + nssItem.getTrackFile());
 }
 
 void NoiseStreamer::onLibShoutError(void* sender, EventArgs* e)
@@ -172,7 +166,7 @@ void NoiseStreamer::streamPlaylist()
                 nssItem->waitToFinishEncode();
             }
 
-            logNowPlaying(nssItem);
+            logNowPlaying(*nssItem);
             streamAudioFile(nssItem);
             archiveTrack(nssItem);
 		}

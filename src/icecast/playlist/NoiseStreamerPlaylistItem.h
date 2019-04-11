@@ -30,7 +30,7 @@ public:
     PlaylistItem getTrack();
     Thread* getEncodeThread();
     NoiseStreamerEncodeContext* getContext();
-    string getTrackFile();
+    string getTrackFile() const;
 
     bool readyToPlay();
     void prepare();

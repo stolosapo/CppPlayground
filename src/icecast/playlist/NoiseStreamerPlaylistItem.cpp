@@ -39,7 +39,7 @@ Thread* NoiseStreamerPlaylistItem::getEncodeThread()
     return context->getEncodeThread();
 }
 
-string NoiseStreamerPlaylistItem::getTrackFile()
+string NoiseStreamerPlaylistItem::getTrackFile() const
 {
     if (needEncode)
     {
