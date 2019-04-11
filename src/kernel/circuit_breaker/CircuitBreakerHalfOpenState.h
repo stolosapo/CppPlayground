@@ -6,7 +6,7 @@
 class CircuitBreakerHalfOpenState : public CircuitBreakerState
 {
 private:
-    static const double chance = 0.02;
+    static const double chance;
 
 public:
 	CircuitBreakerHalfOpenState(CircuitBreaker* cb, ITimeService* timeSrv);

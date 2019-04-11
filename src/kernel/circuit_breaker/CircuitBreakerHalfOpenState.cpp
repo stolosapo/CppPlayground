@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+const double CircuitBreakerHalfOpenState::chance = 0.02;
+
 CircuitBreakerHalfOpenState::CircuitBreakerHalfOpenState(CircuitBreaker* cb, ITimeService* timeSrv)
     : CircuitBreakerState(cb, timeSrv, CB_HALFOPEN)
 {
