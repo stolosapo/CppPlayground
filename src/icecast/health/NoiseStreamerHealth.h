@@ -4,10 +4,17 @@
 class NoiseStreamerHealth
 {
 private:
+    static const int ERROR_THRESHOLD;
+
     int shoutQueueLength;
+    int errorCounter;
 
 protected:
     void setShoutQueueLenth(int queueLength);
+
+    void incrementErrorCounter();
+    void checkIfErrorCounterThresholdReached();
+    void resetErrorCounter();
 
 public:
 	NoiseStreamerHealth();

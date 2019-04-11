@@ -157,18 +157,13 @@ void NoiseStreamer::streamPlaylist()
 {
 	try
 	{
+        resetErrorCounter();
+
 		while (hasNext() && !sigSrv->gotSigInt())
 		{
-			NoiseStreamerPlaylistItem* nssItem = nextTrack();
+            checkIfErrorCounterThresholdReached();
 
-            if (!nssItem->readyToPlay())
-            {
-                nssItem->waitToFinishEncode();
-            }
-
-            logNowPlaying(*nssItem);
-            streamAudioFile(nssItem);
-            archiveTrack(nssItem);
+			streamNextTrack();
 		}
 
 		logSrv->info("Playlist finished!");
@@ -176,6 +171,29 @@ void NoiseStreamer::streamPlaylist()
 	catch (DomainException& e)
 	{
 		logSrv->error(handle(e));
+	}
+}
+
+void NoiseStreamer::streamNextTrack()
+{
+    try
+    {
+        NoiseStreamerPlaylistItem* nssItem = nextTrack();
+
+        if (!nssItem->readyToPlay())
+        {
+            nssItem->waitToFinishEncode();
+        }
+
+        logNowPlaying(*nssItem);
+        streamAudioFile(nssItem);
+        archiveTrack(nssItem);
+    }
+    catch (DomainException& e)
+	{
+		logSrv->error(handle(e));
+
+        incrementErrorCounter();
 	}
 }
 

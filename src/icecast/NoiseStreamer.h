@@ -33,6 +33,7 @@ private:
 	void initializeShout();
 
 	void loadConfig();
+    void streamNextTrack();
 	void streamAudioFile(NoiseStreamerPlaylistItem* nssItem);
     void reEncodeAudioFile(PlaylistItem item);
 

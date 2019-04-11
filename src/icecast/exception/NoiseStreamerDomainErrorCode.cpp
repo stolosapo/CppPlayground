@@ -28,7 +28,7 @@ const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0021 = DomainErrorCode("N
 
 const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0022 = DomainErrorCode("NSS0022", "Please specify playlist strategy (SIMPLE, RANDOM, RANDOM_ONCE)");
 
-const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0023 = DomainErrorCode("NSS0023", "Maximum of retries reached. Give up..");
+const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0023 = DomainErrorCode("NSS0023", "Maximum of error count reached. Give up..");
 const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0024 = DomainErrorCode("NSS0024", "Libshout error occured. Playlist stopped");
 
 const DomainErrorCode NoiseStreamerDomainErrorCode::NSS0025 = DomainErrorCode("NSS0025", "NoiseStreamer is not running!");
