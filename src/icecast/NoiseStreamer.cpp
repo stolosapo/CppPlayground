@@ -191,9 +191,9 @@ void NoiseStreamer::streamNextTrack()
     }
     catch (DomainException& e)
 	{
-		logSrv->error(handle(e));
-
-        incrementErrorCounter();
+		// logSrv->error(handle(e));
+        // incrementErrorCounter(); ERROR NEVER ENDING
+        throw e;
 	}
 }
 
