@@ -219,7 +219,7 @@ void* nss_history(void* context)
         return static_cast<void*>(new string(""));
     }
 
-    int historyLength = 10;
+    int historyLength = 5;
 
     if (lengthParam != "")
     {

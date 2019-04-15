@@ -73,7 +73,7 @@ string NoiseStreamerAgentProtocol::help()
 	result += "next                         	Navigate to the next track\n";
 	result += "request?[track_index]        	Create a track request based on track index\n";
 	result += "\n";
-    result += "history?[length=10]          	Return the history of given length. Default is the last 10 tracks.\n";
+    result += "history?[length=5]             	Return the history of given length. Default is the last 5 tracks.\n";
     result += "\n";
 	result += "stats-genre                  	See statistics of played genres\n";
 	result += "stats-artist                 	See statistics of played artists\n";
