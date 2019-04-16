@@ -13,6 +13,10 @@ void test__pad__return_correct_result__possitive();
 void test__pad__return_correct_result__zero();
 void test__pad__return_correct_result__negative();
 
+void test__removeStart__return_correct_result__string_exist();
+void test__removeStart__return_correct_result__string_not_exist();
+void test__removeStart__return_correct_result__string_is_empty();
+
 class StringHelperTest: public UnitTestSuite
 {
 protected:

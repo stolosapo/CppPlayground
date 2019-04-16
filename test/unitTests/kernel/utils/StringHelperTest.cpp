@@ -24,6 +24,7 @@ void StringHelperTest::registerTests()
 {
 	registerCoveredMethod("split");
 	registerCoveredMethod("pad");
+	registerCoveredMethod("removeStart");
 
 	registerTest("Test split method return correct result size", &test_split_return_correct_result_count);
 	registerTest("Test split method return correct results", &test_split_return_correct_results);
@@ -31,6 +32,10 @@ void StringHelperTest::registerTests()
     registerTest("Test pad method return correct result when times is possitive", &test__pad__return_correct_result__possitive);
 	registerTest("Test pad method return wrong result when times is zero", &test__pad__return_correct_result__zero);
 	registerTest("Test pad method return wrong result when times is negative", &test__pad__return_correct_result__negative);
+
+    registerTest("Test removeStart method return correct result when substring exists", &test__removeStart__return_correct_result__string_exist);
+    registerTest("Test removeStart method return correct result when substring not exists", &test__removeStart__return_correct_result__string_not_exist);
+    registerTest("Test removeStart method return correct result when substring is empty", &test__removeStart__return_correct_result__string_is_empty);
 }
 
 void test_split_return_correct_result_count()
@@ -73,4 +78,22 @@ void test__pad__return_correct_result__negative()
 {
     string result = StringHelper::pad("*", -1);
     assertEqual("", result);
+}
+
+void test__removeStart__return_correct_result__string_exist()
+{
+    string result = StringHelper::removeStart("/home/user/a/path/to/a/file.mp3", "/home/user/a/path/to/a/");
+    assertEqual("file.mp3", result);
+}
+
+void test__removeStart__return_correct_result__string_not_exist()
+{
+    string result = StringHelper::removeStart("/home/user/a/path/to/a/file.mp3", "/home/user/a/path/to/b/");
+    assertEqual("/home/user/a/path/to/a/file.mp3", result);
+}
+
+void test__removeStart__return_correct_result__string_is_empty()
+{
+    string result = StringHelper::removeStart("/home/user/a/path/to/a/file.mp3", "");
+    assertEqual("/home/user/a/path/to/a/file.mp3", result);
 }
