@@ -100,6 +100,7 @@ void* nss_now_playing(void* context)
 	string value = "\n";
 
     value += "Index: " + Convert<int>::NumberToString(index) + "\n";
+    value += "Track: " + track.getTrack() + "\n";
 	value += "Title: " + tag->getTitle() + "\n";
 	value += "Artist: " + tag->getArtist() + "\n";
 	value += "Album: " + tag->getAlbum() + "\n";
@@ -126,6 +127,7 @@ void* nss_preview_next(void* context)
     string value = "\n";
 
     value += "Index: " + Convert<int>::NumberToString(index) + "\n";
+    value += "Track: " + track.getTrack() + "\n";
     value += "Title: " + tag->getTitle() + "\n";
     value += "Artist: " + tag->getArtist() + "\n";
     value += "Album: " + tag->getAlbum() + "\n";
@@ -158,6 +160,7 @@ void* nss_preview_track(void* context)
     string value = "\n";
 
     value += "Index: " + Convert<int>::NumberToString(index) + "\n";
+    value += "Track: " + track.getTrack() + "\n";
     value += "Title: " + tag->getTitle() + "\n";
     value += "Artist: " + tag->getArtist() + "\n";
     value += "Album: " + tag->getAlbum() + "\n";
