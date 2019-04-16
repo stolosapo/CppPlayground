@@ -220,9 +220,11 @@ void* nss_history(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
+    NoiseStreamerConfig* config = client->getConfig();
 
     string lengthParam = ctx->getParam(0);
     int historySize = client->historySize();
+    string pathPrefix = config->getCommonTrackFilePrefix();
 
     if (historySize == 0)
     {
@@ -252,10 +254,10 @@ void* nss_history(void* context)
     {
         int inverseIndex = (historySize - 1) - i;
 
-        string track = client->history(inverseIndex);
+        string track =  client->history(inverseIndex);
         int plsIndex = client->trackPlaylistIndex(track);
 
-        value += Playlist::itemDescription(plsIndex, track) + "\n";
+        value += Playlist::itemDescription(plsIndex, StringHelper::removeStart(track, pathPrefix)) + "\n";
     }
 
     return static_cast<void*>(new string(value));
