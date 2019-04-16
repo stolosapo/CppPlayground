@@ -21,4 +21,5 @@
     "reencode":true,
     "pcm_out_path":"icecast/",
     "mp3_out_path":"icecast/"
+    "common_trackfile_prefix":""
 }

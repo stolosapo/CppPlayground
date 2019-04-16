@@ -45,6 +45,8 @@ public:
     string getPcmOutPath();
     string getMp3OutPath();
 
+    string getCommonTrackFilePrefix();
+
 protected:
 	virtual void registerProperties();
 

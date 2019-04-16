@@ -38,6 +38,7 @@ void NoiseStreamerConfig::registerProperties()
     registerPropertyName(20, "reencode", BOOL);
     registerPropertyName(21, "pcm_out_path", STRING);
     registerPropertyName(22, "mp3_out_path", STRING);
+    registerPropertyName(23, "common_trackfile_prefix", STRING);
 }
 
 Model* NoiseStreamerConfig::factory()
@@ -180,4 +181,9 @@ string NoiseStreamerConfig::getPcmOutPath()
 string NoiseStreamerConfig::getMp3OutPath()
 {
     return getStringProperty("mp3_out_path", "");
+}
+
+string NoiseStreamerConfig::getCommonTrackFilePrefix()
+{
+    return getStringProperty("common_trackfile_prefix", "");
 }
