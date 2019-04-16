@@ -19,6 +19,7 @@ public:
     // static string format(const string& pattern, va_list args);
     static string pad(const string& str, int times);
 
+    static string removeStart(const string& str, const string& subStr);
 };
 
 #endif // StringHelper_h__

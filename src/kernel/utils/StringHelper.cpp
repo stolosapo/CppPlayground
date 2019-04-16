@@ -72,3 +72,17 @@ string StringHelper::pad(const string& str, int times)
 
     return mess;
 }
+
+string StringHelper::removeStart(const string& str, const string& subStr)
+{
+    int size = subStr.size();
+    size_t found = str.find(subStr);
+
+    // If substring not in start or not at all, then do nothing
+    if (found != 0)
+    {
+        return str;
+    }
+
+    return str.substr(size);
+}
