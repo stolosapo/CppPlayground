@@ -7,6 +7,7 @@
 #include "../../kernel/task/TaskContext.h"
 #include "../../kernel/converter/Convert.h"
 #include "../../kernel/exception/ExceptionMapper.h"
+#include "../../kernel/utils/StringHelper.h"
 
 using namespace std;
 
@@ -85,6 +86,7 @@ void* nss_now_playing(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
+    NoiseStreamerConfig* config = client->getConfig();
 
 	PlaylistItem track = client->nowPlaying();
 	AudioTag* tag = track.getMetadata();
@@ -92,6 +94,7 @@ void* nss_now_playing(void* context)
 	int remaining = client->remainingTrackTime();
 	int minutes = (remaining / 60) % 60;
 	int seconds = remaining % 60;
+    string pathPrefix = config->getCommonTrackFilePrefix();
 
 	char s[25];
 	sprintf(s, "%02d:%02d", minutes, seconds);
@@ -100,7 +103,7 @@ void* nss_now_playing(void* context)
 	string value = "\n";
 
     value += "Index: " + Convert<int>::NumberToString(index) + "\n";
-    value += "Track: " + track.getTrack() + "\n";
+    value += "Track: " + StringHelper::removeStart(track.getTrack(), pathPrefix) + "\n";
 	value += "Title: " + tag->getTitle() + "\n";
 	value += "Artist: " + tag->getArtist() + "\n";
 	value += "Album: " + tag->getAlbum() + "\n";
@@ -119,15 +122,17 @@ void* nss_preview_next(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
+    NoiseStreamerConfig* config = client->getConfig();
 
 	PlaylistItem track = client->previewNext();
     AudioTag* tag = track.getMetadata();
     int index = track.getTrackIndex();
+    string pathPrefix = config->getCommonTrackFilePrefix();
 
     string value = "\n";
 
     value += "Index: " + Convert<int>::NumberToString(index) + "\n";
-    value += "Track: " + track.getTrack() + "\n";
+    value += "Track: " + StringHelper::removeStart(track.getTrack(), pathPrefix) + "\n";
     value += "Title: " + tag->getTitle() + "\n";
     value += "Artist: " + tag->getArtist() + "\n";
     value += "Album: " + tag->getAlbum() + "\n";
@@ -145,6 +150,7 @@ void* nss_preview_track(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
+    NoiseStreamerConfig* config = client->getConfig();
     string indexParam = ctx->getParam(0);
 
     if (indexParam == "")
@@ -156,11 +162,12 @@ void* nss_preview_track(void* context)
 	PlaylistItem track = client->previewTrack(trackIndex);
     AudioTag* tag = track.getMetadata();
     int index = track.getTrackIndex();
+    string pathPrefix = config->getCommonTrackFilePrefix();
 
     string value = "\n";
 
     value += "Index: " + Convert<int>::NumberToString(index) + "\n";
-    value += "Track: " + track.getTrack() + "\n";
+    value += "Track: " + StringHelper::removeStart(track.getTrack(), pathPrefix) + "\n";
     value += "Title: " + tag->getTitle() + "\n";
     value += "Artist: " + tag->getArtist() + "\n";
     value += "Album: " + tag->getAlbum() + "\n";
