@@ -187,6 +187,7 @@ void NoiseStreamer::streamNextTrack()
 
         if (!nssItem->isSuccessEncoded())
         {
+            archiveTrack(nssItem);
             return;
         }
 
