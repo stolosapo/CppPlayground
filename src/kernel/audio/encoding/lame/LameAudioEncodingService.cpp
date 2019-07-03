@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <cstring>
 
+#include "../exception/EncodingDomainErrorCode.h"
+#include "../../../exception/domain/DomainException.h"
 #include "../../../converter/Convert.h"
 #include "../../../utils/FileHelper.h"
 
@@ -19,6 +21,10 @@ https://stackoverflow.com/questions/9137297/generating-sounds-without-a-library
 https://medium.com/@audiowaves/lets-write-a-simple-sine-wave-generator-with-c-and-juce-c8ab42d1f54f
 
 https://github.com/pbohun/sound-gen/blob/master/lesson2/sound.h
+
+About the encode Segmentation Fault issue:
+https://stackoverflow.com/questions/16926725/audio-speed-changes-on-converting-wav-to-mp3
+https://stackoverflow.com/questions/2495420/is-there-any-lame-c-wrapper-simplifier-working-on-linux-mac-and-win-from-pure/2496831#2496831
 */
 
 LameAudioEncodingService::LameAudioEncodingService() : AudioEncodingService()
@@ -257,6 +263,11 @@ void LameAudioEncodingService::encode(
         else
         {
             write = lame.encodeBufferInterleaved(pcm_buffer, read, mp3_buffer, MP3_SIZE);
+        }
+
+        if (write == -1)
+        {
+            throw DomainException(EncodingDomainErrorCode::ENC0003, pcm_in_file);
         }
 
         fwrite(mp3_buffer, write, sizeof(char), mp3);

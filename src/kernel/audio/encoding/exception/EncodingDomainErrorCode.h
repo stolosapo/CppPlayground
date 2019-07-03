@@ -8,6 +8,7 @@ class EncodingDomainErrorCode
 public:
     static const DomainErrorCode ENC0001;
     static const DomainErrorCode ENC0002;
+    static const DomainErrorCode ENC0003;
 
 	EncodingDomainErrorCode();
 	virtual ~EncodingDomainErrorCode();

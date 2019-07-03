@@ -15,6 +15,7 @@ private:
 
     bool needEncode;
     string encodedTrackFile;
+    bool successEncoded;
 
     NoiseStreamerEncodeContext* context;
 
@@ -31,6 +32,7 @@ public:
     Thread* getEncodeThread();
     NoiseStreamerEncodeContext* getContext();
     string getTrackFile() const;
+    bool isSuccessEncoded();
 
     bool readyToPlay();
     void prepare();

@@ -185,6 +185,11 @@ void NoiseStreamer::streamNextTrack()
             nssItem->waitToFinishEncode();
         }
 
+        if (!nssItem->isSuccessEncoded())
+        {
+            return;
+        }
+
         logNowPlaying(*nssItem);
         streamAudioFile(nssItem);
         archiveTrack(nssItem);
