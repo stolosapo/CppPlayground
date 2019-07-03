@@ -161,7 +161,7 @@ void* NoiseStreamerPlaylistItem::encodeTrack(void* context)
         if (FileHelper::exists(encodedFile.c_str()))
         {
             item->encodedTrackFile = encodedFile;
-            item->successEncoded = true;
+            // item->successEncoded = true;
         }
     }
     catch (DomainException& e)
