@@ -8,13 +8,13 @@
 
 
 NoiseStreamerPlaylistItem::NoiseStreamerPlaylistItem(PlaylistItem track)
-    : track(track), needEncode(false), context(NULL)
+    : track(track), needEncode(false), successEncoded(true), context(NULL)
 {
 
 }
 
 NoiseStreamerPlaylistItem::NoiseStreamerPlaylistItem(PlaylistItem track, NoiseStreamerEncodeContext* context)
-    : track(track), needEncode(true), encodedTrackFile(""), context(context)
+    : track(track), needEncode(true), successEncoded(false), encodedTrackFile(""), context(context)
 {
 
 }
@@ -161,7 +161,7 @@ void* NoiseStreamerPlaylistItem::encodeTrack(void* context)
         if (FileHelper::exists(encodedFile.c_str()))
         {
             item->encodedTrackFile = encodedFile;
-            // item->successEncoded = true;
+            item->successEncoded = true;
         }
     }
     catch (DomainException& e)

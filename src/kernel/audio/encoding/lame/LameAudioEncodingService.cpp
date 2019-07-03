@@ -267,7 +267,7 @@ void LameAudioEncodingService::encode(
 
         if (write == -1)
         {
-            // throw DomainException(EncodingDomainErrorCode::ENC0003, pcm_in_file);
+            throw DomainException(EncodingDomainErrorCode::ENC0003, pcm_in_file);
         }
 
         fwrite(mp3_buffer, write, sizeof(char), mp3);
