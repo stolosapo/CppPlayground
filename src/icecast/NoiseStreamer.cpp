@@ -71,7 +71,7 @@ void NoiseStreamer::logNowPlaying(NoiseStreamerPlaylistItem& nssItem)
     }
     else
     {
-        logSrv->warn("Skipping: " + nssItem.getTrackFile());
+        logSrv->warn("Skipping: " + nssItem.getTrack().getTrack());
     }
 }
 
