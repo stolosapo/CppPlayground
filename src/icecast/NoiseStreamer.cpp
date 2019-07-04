@@ -63,9 +63,16 @@ NoiseStreamerConfig* NoiseStreamer::getConfig()
     return config;
 }
 
-void NoiseStreamer::logNowPlaying(const NoiseStreamerPlaylistItem& nssItem)
+void NoiseStreamer::logNowPlaying(NoiseStreamerPlaylistItem& nssItem)
 {
-	logSrv->info("Playing: " + nssItem.getTrackFile());
+    if (nssItem.isSuccessEncoded())
+    {
+        logSrv->info("Playing: " + nssItem.getTrackFile());
+    }
+    else
+    {
+        logSrv->warn("Skipping: " + nssItem.getTrackFile());
+    }
 }
 
 void NoiseStreamer::onLibShoutError(void* sender, EventArgs* e)
@@ -188,6 +195,7 @@ void NoiseStreamer::streamNextTrack()
         if (!nssItem->isSuccessEncoded())
         {
             /* TODO: Should log this track as failed */
+            logNowPlaying(*nssItem);
             archiveTrack(nssItem);
             return;
         }

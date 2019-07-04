@@ -28,7 +28,7 @@ private:
 	NoiseStreamerConfig* config;
 	LibShout* libShout;
 
-	void logNowPlaying(const NoiseStreamerPlaylistItem& nssItem);
+	void logNowPlaying(NoiseStreamerPlaylistItem& nssItem);
 
 	void initializeShout();
 
