@@ -150,7 +150,9 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 
 			remainingIndex = randomLine();
 
-            logSrv->warn("TrackIndex: " + remainingIndexStr + " does not extsist in remaining playlist, getting new index..");
+            string left = "remainingTracks=" + Convert<int>::NumberToString(remainingTracks.size()) +  " trackToOriginalIndex=" + Convert<int>::NumberToString(trackToOriginalIndex.size());
+
+            logSrv->warn("TrackIndex: " + remainingIndexStr + " does not exist, " + left);
 		}
 	}
 
