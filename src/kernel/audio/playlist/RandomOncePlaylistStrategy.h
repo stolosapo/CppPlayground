@@ -22,8 +22,9 @@ private:
 protected:
 	virtual void clonePlaylist();
 	virtual void removeHistory();
-	virtual void removeFromRemaining(string track);
-	virtual void removeFromRemaining(int remainingIndex);
+	virtual void removeFromRemainingMapping(string track);
+    virtual void removeFromRemainingTracks(string track);
+	virtual void removeFromRemainingTracks(int remainingIndex);
 	virtual bool trackExist(string track);
 
 	virtual int randomLine();

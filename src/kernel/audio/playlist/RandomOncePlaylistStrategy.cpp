@@ -56,16 +56,25 @@ void RandomOncePlaylistStrategy::removeHistory()
 	for (int i = 0; i < history->size(); ++i)
 	{
 		string track = history->read(i);
-		removeFromRemaining(track);
+
+        // TODO: Must!!! remove from tracks too!!!
+        removeFromRemainingTracks(track);
+        removeFromRemainingMapping(track);
 	}
 }
 
-void RandomOncePlaylistStrategy::removeFromRemaining(string track)
+void RandomOncePlaylistStrategy::removeFromRemainingMapping(string track)
 {
 	trackToOriginalIndex.erase(track);
 }
 
-void RandomOncePlaylistStrategy::removeFromRemaining(int remainingIndex)
+void RandomOncePlaylistStrategy::removeFromRemainingTracks(string track)
+{
+    remainingTracks.erase(remove(remainingTracks.begin(), remainingTracks.end(), track), remainingTracks.end());
+    // remainingTracks.erase(remainingTracks.begin() + remainingIndex);
+}
+
+void RandomOncePlaylistStrategy::removeFromRemainingTracks(int remainingIndex)
 {
 	remainingTracks.erase(remainingTracks.begin() + remainingIndex);
 }
@@ -141,7 +150,7 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 
 
 		/* remove this random index from remainings */
-		removeFromRemaining(remainingIndex);
+		removeFromRemainingTracks(remainingIndex);
 
 
 		if (!exists)
@@ -176,7 +185,7 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 			randomTrack = remainingTracks[newTrackIndex];
 		}
 
-		removeFromRemaining(randomTrack);
+		removeFromRemainingMapping(randomTrack);
 
 		newTrack = getTrack(newTrackIndex);
 	}
