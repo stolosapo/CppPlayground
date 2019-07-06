@@ -32,6 +32,8 @@ void RandomOncePlaylistStrategy::load()
 
 	removeHistory();
 
+    logSrv->info("Playlist has: remainingTracks=" + Convert<int>::NumberToString(remainingTracks.size()) +  " trackToOriginalIndex=" + Convert<int>::NumberToString(trackToOriginalIndex.size()));
+
 	_locker.unlock();
 }
 
@@ -146,8 +148,9 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 		{
             string remainingIndexStr = Convert<int>::NumberToString(remainingIndex);
 
-            logSrv->warn("TrackIndex: " + remainingIndexStr + ": " + randomTrack + " does not extsist in remaining playlist, getting new index..");
 			remainingIndex = randomLine();
+
+            logSrv->warn("TrackIndex: " + remainingIndexStr + " does not extsist in remaining playlist, getting new index..");
 		}
 	}
 
