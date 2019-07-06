@@ -19,6 +19,8 @@ private:
 	vector<string> remainingTracks;
 	map<string, int> trackToOriginalIndex;
 
+    bool checkRemainingMappings();
+
 protected:
 	virtual void clonePlaylist();
 	virtual void removeHistory();

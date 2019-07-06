@@ -32,9 +32,24 @@ void RandomOncePlaylistStrategy::load()
 
 	removeHistory();
 
-    logSrv->info("Playlist has: remainingTracks=" + Convert<int>::NumberToString(remainingTracks.size()) +  " trackToOriginalIndex=" + Convert<int>::NumberToString(trackToOriginalIndex.size()));
+    checkRemainingMappings();
 
 	_locker.unlock();
+}
+
+bool RandomOncePlaylistStrategy::checkRemainingMappings()
+{
+    int tracksSize = remainingTracks.size();
+    int mappingsSize = trackToOriginalIndex.size();
+
+    bool check = tracksSize == mappingsSize;
+
+    if (!check)
+    {
+        logSrv->warn("Remaining Mappings has been diverged: remainingTracks=" + Convert<int>::NumberToString(tracksSize) +  " trackToOriginalIndex=" + Convert<int>::NumberToString(mappingsSize));
+    }
+
+    return check;
 }
 
 void RandomOncePlaylistStrategy::clonePlaylist()
@@ -57,7 +72,6 @@ void RandomOncePlaylistStrategy::removeHistory()
 	{
 		string track = history->read(i);
 
-        // TODO: Must!!! remove from tracks too!!!
         removeFromRemainingTracks(track);
         removeFromRemainingMapping(track);
 	}
@@ -71,7 +85,6 @@ void RandomOncePlaylistStrategy::removeFromRemainingMapping(string track)
 void RandomOncePlaylistStrategy::removeFromRemainingTracks(string track)
 {
     remainingTracks.erase(remove(remainingTracks.begin(), remainingTracks.end(), track), remainingTracks.end());
-    // remainingTracks.erase(remainingTracks.begin() + remainingIndex);
 }
 
 void RandomOncePlaylistStrategy::removeFromRemainingTracks(int remainingIndex)
@@ -97,6 +110,7 @@ int RandomOncePlaylistStrategy::randomLine()
 	}
 
     int rnd = rand() % size;
+
     // string rndStr = Convert<int>::NumberToString(rnd);
     // string sizeStr = Convert<int>::NumberToString(size);
 
@@ -157,11 +171,9 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 		{
             string remainingIndexStr = Convert<int>::NumberToString(remainingIndex);
 
-			remainingIndex = randomLine();
+            logSrv->warn("TrackIndex: " + remainingIndexStr + " does not exist, getting new index..");
 
-            string left = "remainingTracks=" + Convert<int>::NumberToString(remainingTracks.size()) +  " trackToOriginalIndex=" + Convert<int>::NumberToString(trackToOriginalIndex.size());
-
-            logSrv->warn("TrackIndex: " + remainingIndexStr + " does not exist, " + left);
+            remainingIndex = randomLine();
 		}
 	}
 
@@ -189,6 +201,8 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 
 		newTrack = getTrack(newTrackIndex);
 	}
+
+    checkRemainingMappings();
 
 	_locker.unlock();
 
