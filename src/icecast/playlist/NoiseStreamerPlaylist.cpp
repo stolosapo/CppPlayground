@@ -60,6 +60,8 @@ void NoiseStreamerPlaylist::initializePlaylist(NoiseStreamerConfig* config)
 
 void NoiseStreamerPlaylist::loadPlaylist()
 {
+    logSrv->info("NoiseStreamer playlist start loading..");
+
 	string playlistFile = config->getPlaylist();
 	string historyFile = config->getHistory();
 	playlistHandler->load();
