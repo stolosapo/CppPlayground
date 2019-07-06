@@ -86,10 +86,10 @@ int RandomOncePlaylistStrategy::randomLine()
 	}
 
     int rnd = rand() % size;
-    string rndStr = Convert<int>::NumberToString(rnd);
-    string sizeStr = Convert<int>::NumberToString(size);
+    // string rndStr = Convert<int>::NumberToString(rnd);
+    // string sizeStr = Convert<int>::NumberToString(size);
 
-    logSrv->trace("random: " + rndStr + "/" + sizeStr);
+    // logSrv->trace("random: " + rndStr + "/" + sizeStr);
 
 	return rnd;
 }
@@ -144,6 +144,9 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 
 		if (!exists)
 		{
+            string remainingIndexStr = Convert<int>::NumberToString(remainingIndex);
+
+            logSrv->warn("TrackIndex: " + remainingIndexStr + ": " + randomTrack + " does not extsist in remaining playlist, getting new index..");
 			remainingIndex = randomLine();
 		}
 	}
