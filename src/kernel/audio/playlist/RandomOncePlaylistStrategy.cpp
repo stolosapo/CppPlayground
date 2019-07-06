@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "../../converter/Convert.h"
+
 RandomOncePlaylistStrategy::RandomOncePlaylistStrategy(
 	ILogService* logSrv,
 	Playlist* playlist,
@@ -83,7 +85,13 @@ int RandomOncePlaylistStrategy::randomLine()
 		return -1;
 	}
 
-	return rand() % size;
+    int rnd = rand() % size;
+    string rndStr = Convert<int>::NumberToString(rnd);
+    string sizeStr = Convert<int>::NumberToString(size);
+
+    logSrv->trace("random: " + rndStr + "/" + sizeStr);
+
+	return rnd;
 }
 
 bool RandomOncePlaylistStrategy::hasNext(PlaylistItem currentTrack)
@@ -151,6 +159,11 @@ PlaylistItem RandomOncePlaylistStrategy::nextTrack(PlaylistItem currentTrack)
 
 		if (newTrackIndex >= playlist->size())
 		{
+            string nti = Convert<int>::NumberToString(newTrackIndex);
+            string ps = Convert<int>::NumberToString(playlist->size());
+
+            logSrv->warn("newTrackIndex: " + nti + " >= " + ps);
+
 			newTrackIndex = 0;
 			randomTrack = remainingTracks[newTrackIndex];
 		}
