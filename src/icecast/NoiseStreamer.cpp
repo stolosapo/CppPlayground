@@ -237,6 +237,12 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
 			break;
 		}
 
+        if (!libShout->isConnected())
+        {
+            string connStr = Convert<int>::NumberToString(libShout->getConnected());
+            throw DomainException(NoiseStreamerDomainErrorCode::NSS0020, "Connection status '" + connStr + "'");
+        }
+
 		libShout->shoutSend(buff, read);
 
         setShoutQueueLenth(libShout->shoutQueuelen());
