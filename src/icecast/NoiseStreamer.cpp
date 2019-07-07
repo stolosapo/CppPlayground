@@ -243,7 +243,8 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
             throw DomainException(NoiseStreamerDomainErrorCode::NSS0020, "Connection status '" + connStr + "'");
         }
 
-		cout << libShout->shoutSend(buff, read) << endl;
+		// cout << libShout->shoutSend(buff, read) << endl;
+        libShout->shoutSend(buff, read);
 
         setShoutQueueLenth(libShout->shoutQueuelen());
 
