@@ -242,6 +242,10 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
             string connStr = Convert<int>::NumberToString(libShout->getConnected());
             throw DomainException(NoiseStreamerDomainErrorCode::NSS0020, "Connection status '" + connStr + "'");
         }
+        else
+        {
+            cout << read << ", ";
+        }
 
 		libShout->shoutSend(buff, read);
 
