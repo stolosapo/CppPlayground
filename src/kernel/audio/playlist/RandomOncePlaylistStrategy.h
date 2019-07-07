@@ -19,6 +19,7 @@ private:
 	vector<string> remainingTracks;
 	map<string, int> trackToOriginalIndex;
 
+    bool existInRemainingTracks(string track);
     bool checkRemainingMappings();
 
 protected:

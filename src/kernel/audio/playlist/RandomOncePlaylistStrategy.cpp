@@ -37,6 +37,11 @@ void RandomOncePlaylistStrategy::load()
 	_locker.unlock();
 }
 
+bool RandomOncePlaylistStrategy::existInRemainingTracks(string track)
+{
+    return find(remainingTracks.begin(), remainingTracks.end(), track) != remainingTracks.end();
+}
+
 bool RandomOncePlaylistStrategy::checkRemainingMappings()
 {
     int tracksSize = remainingTracks.size();
@@ -61,8 +66,12 @@ void RandomOncePlaylistStrategy::clonePlaylist()
 	{
 		string track = playlist->read(i);
 
-		remainingTracks.push_back(track);
 		trackToOriginalIndex[track] = i;
+
+        if (!existInRemainingTracks(track))
+        {
+            remainingTracks.push_back(track);
+        }
 	}
 
     int tracksSize = remainingTracks.size();
