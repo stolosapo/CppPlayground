@@ -64,6 +64,11 @@ void RandomOncePlaylistStrategy::clonePlaylist()
 		remainingTracks.push_back(track);
 		trackToOriginalIndex[track] = i;
 	}
+
+    int tracksSize = remainingTracks.size();
+    int mappingsSize = trackToOriginalIndex.size();
+
+    logSrv->info("Playlist cloned: remainingTracks=" + Convert<int>::NumberToString(tracksSize) +  " trackToOriginalIndex=" + Convert<int>::NumberToString(mappingsSize));
 }
 
 void RandomOncePlaylistStrategy::removeHistory()
@@ -127,6 +132,8 @@ bool RandomOncePlaylistStrategy::hasNext(PlaylistItem currentTrack)
 
 	if (isEmpty)
 	{
+        logSrv->info("Playlist is empty, so clone playlist again..");
+
 		clonePlaylist();
 
 		isEmpty = false;
