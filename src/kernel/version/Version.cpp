@@ -2,7 +2,7 @@
 
 #include "../converter/Convert.h"
 
-Version::Version(const int major, const int minor, const int patch) 
+Version::Version(const int major, const int minor, const int patch)
 	: MAJOR_VERSION(major), MINOR_VERSION(minor), PATCH_VERSION(patch)
 {
 
@@ -28,7 +28,7 @@ const int Version::patchVersion() const
 	return PATCH_VERSION;
 }
 
-const char* Version::version() const
+string Version::version() const
 {
 	string maj = Convert<const int>::NumberToString(MAJOR_VERSION);
 	string min = Convert<const int>::NumberToString(MINOR_VERSION);
@@ -36,5 +36,5 @@ const char* Version::version() const
 
 	string fullVersion = maj + "." + min + "." + pat;
 
-	return fullVersion.c_str();
+	return fullVersion;
 }

@@ -2,6 +2,7 @@
 #define Version_h__
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -20,8 +21,7 @@ public:
 	const int minorVersion() const;
 	const int patchVersion() const;
 
-	const char* version() const;
-
+	string version() const;
 };
 
 #endif // Version_h__

@@ -55,7 +55,7 @@ NoiseStreamer::~NoiseStreamer()
 
 string NoiseStreamer::agentVersion()
 {
-	return string(USER_AGENT) + "/" + string(version());
+	return string(USER_AGENT) + "/" + version();
 }
 
 NoiseStreamerConfig* NoiseStreamer::getConfig()
