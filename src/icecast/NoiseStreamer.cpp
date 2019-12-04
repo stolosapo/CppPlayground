@@ -47,10 +47,7 @@ NoiseStreamer::~NoiseStreamer()
 		delete config;
 	}
 
-	if (libShout != NULL)
-	{
-		delete libShout;
-	}
+	finilizeShout();
 }
 
 string NoiseStreamer::agentVersion()
@@ -137,7 +134,12 @@ void NoiseStreamer::connectShout()
 
 void NoiseStreamer::finilizeShout()
 {
-	libShout->finilizeShout();
+    if (libShout != NULL)
+    {
+        libShout->finilizeShout();
+        delete libShout;
+        libShout = NULL;
+    }
 }
 
 string NoiseStreamer::shoutVersion()
