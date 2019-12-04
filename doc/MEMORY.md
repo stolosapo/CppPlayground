@@ -15,7 +15,7 @@ sudo make install
 
 #### run
 ```bash
-valgrind --tool=memcheck <your_app> <your_apps_params>
+valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --log-file=valgrind.log ./runner
 ```
 - more args:
 
@@ -23,4 +23,5 @@ valgrind --tool=memcheck <your_app> <your_apps_params>
 --leak-check=yes
 --leak-check=full
 --show-leak-kinds=all
+--log-file=<filename>
 ```
