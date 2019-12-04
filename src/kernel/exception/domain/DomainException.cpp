@@ -29,6 +29,8 @@ string DomainException::message() const throw()
 
 	string res = string(mess);
 
+    delete mess;
+
 	return res;
 }
 
