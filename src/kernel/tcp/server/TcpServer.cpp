@@ -169,16 +169,12 @@ void TcpServer::start()
 {
 	int clientCount = 0;
 
-	vector<ClientInfo*> clients;
-
-
 	logSrv->trace("Server is starting...");
 
 	if (acceptor->start() != 0)
 	{
 		throw DomainException(TcpServerErrorCode::TCS0001);
 	}
-
 
 	logSrv->info("Server is started");
 
@@ -216,8 +212,6 @@ void TcpServer::start()
 		th->start(client);
         string name = "TcpClient" + Convert<int>::NumberToString(clientCount);
 		// th->setName(name.c_str());
-
-		clients.push_back(client);
 
 
 		/* Increase thead counter */
