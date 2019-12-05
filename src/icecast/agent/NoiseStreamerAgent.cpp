@@ -98,6 +98,8 @@ void NoiseStreamerAgent::disposeNoiseStreamer()
 {
     if (nss != NULL)
     {
+        // First must wait for graceful shutdown maybe like:
+        // nss->shutdown();
         delete nss;
         nss = NULL;
     }
