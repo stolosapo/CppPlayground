@@ -2,7 +2,7 @@
 
 #include "../../converter/Convert.h"
 
-TestStatefullTcpServer::TestStatefullTcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv) 
+TestStatefullTcpServer::TestStatefullTcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService* timeSrv)
 	: StatefullTcpServer(logSrv, sigSrv, timeSrv)
 {
 
@@ -27,9 +27,15 @@ void TestStatefullTcpServer::stateMutation(ClientInfo *client, string input)
 
 	if (input == "clear")
 	{
+        if (state != NULL)
+        {
+            delete state;
+            state = NULL;
+        }
+
 		state = createNewState();
 		logger->trace(identity + " State cleared");
-		
+
 		return;
 	}
 

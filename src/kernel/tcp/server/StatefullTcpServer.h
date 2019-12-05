@@ -27,7 +27,7 @@ public:
 
 protected:
 	T* state;
-	
+
 	virtual T* createNewState() = 0;
 
 	virtual void initialize();
@@ -46,10 +46,12 @@ protected:
 
 
 template <typename T>
-StatefullTcpServer<T>::StatefullTcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv) 
+StatefullTcpServer<T>::StatefullTcpServer(ILogService *logSrv, SignalService *sigSrv, ITimeService *timeSrv)
 	: TcpServer(logSrv, sigSrv, timeSrv)
 {
-	locker.init();	
+	locker.init();
+
+    state = NULL;
 }
 
 template <typename T>
@@ -83,7 +85,7 @@ void StatefullTcpServer<T>::safeStateMutation(ClientInfo *client, string input)
 	catch(DomainException& e)
 	{
 		ILogService* logger = ((StatefullTcpServer<T>*) client->getServer())->logger();
-		
+
 		logger->error(handle(e));
 
 		logger = NULL;
