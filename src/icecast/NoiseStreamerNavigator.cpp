@@ -2,12 +2,13 @@
 
 #include <unistd.h>
 
-NoiseStreamerNavigator::NoiseStreamerNavigator(ILogService *logSrv, SignalService* sigSrv) 
+NoiseStreamerNavigator::NoiseStreamerNavigator(ILogService *logSrv, SignalService* sigSrv)
 	: logSrv(logSrv), sigSrv(sigSrv)
 {
 	_pause = 0;
 	_stop = 0;
 	_next = 0;
+    _shutdown = 0;
 }
 
 NoiseStreamerNavigator::~NoiseStreamerNavigator()
@@ -50,6 +51,12 @@ void NoiseStreamerNavigator::normal()
 	_next = 0;
 }
 
+void NoiseStreamerNavigator::shutdown()
+{
+	_shutdown = 1;
+    logSrv->info("Playlist is shutdown");
+}
+
 bool NoiseStreamerNavigator::isPaused()
 {
 	return _pause == 1;
@@ -65,6 +72,11 @@ bool NoiseStreamerNavigator::isGoToNext()
 	return _next == 1;
 }
 
+bool NoiseStreamerNavigator::isShutdown()
+{
+	return _shutdown == 1;
+}
+
 void NoiseStreamerNavigator::waitForResume()
 {
 	int ms = 500;
@@ -74,4 +86,17 @@ void NoiseStreamerNavigator::waitForResume()
 	{
 		usleep(us);
 	}
+}
+
+void NoiseStreamerNavigator::waitForShutdown()
+{
+    int ms = 500;
+	int us = ms * 1000;
+
+    logSrv->info("Playlist is waiting for shutdown");
+	while (!isShutdown())
+	{
+		usleep(us);
+	}
+    logSrv->info("Playlist ended shutdown");
 }

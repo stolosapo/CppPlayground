@@ -35,7 +35,6 @@ private:
 	void loadConfig();
     void streamNextTrack();
 	void streamAudioFile(NoiseStreamerPlaylistItem* nssItem);
-    void reEncodeAudioFile(PlaylistItem item);
 
 	static void onLibShoutError(void* sender, EventArgs* e);
 
@@ -62,7 +61,7 @@ public:
     string shoutError();
 
 	void streamPlaylist();
-	void stopPlaying();
+    void shutdownStreamer();
 
 };
 

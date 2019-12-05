@@ -84,22 +84,22 @@ NoiseStreamer* NoiseStreamerAgent::createNewStreamer()
 
 void NoiseStreamerAgent::disposeStreamerThread()
 {
+    disposeNoiseStreamer();
+
     if (streamerThread != NULL)
     {
         logger()->trace("Waiting Icecast thread to finnished..");
         delete streamerThread;
         logger()->trace("Icecast thread finnished!");
     }
-
-    disposeNoiseStreamer();
 }
 
 void NoiseStreamerAgent::disposeNoiseStreamer()
 {
     if (nss != NULL)
     {
-        // First must wait for graceful shutdown maybe like:
-        // nss->shutdown();
+        // First must wait for graceful shutdown
+        nss->shutdownStreamer();
         delete nss;
         nss = NULL;
     }

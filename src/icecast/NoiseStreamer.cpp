@@ -168,7 +168,7 @@ void NoiseStreamer::streamPlaylist()
 	{
         resetErrorCounter();
 
-		while (hasNext() && !sigSrv->gotSigInt())
+		while (hasNext() && !sigSrv->gotSigInt() && !isStoped())
 		{
             checkIfErrorCounterThresholdReached();
 
@@ -228,7 +228,7 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
 	/* Update metadata */
 	libShout->updateMetadata(item.getTrackTitle());
 
-	while (!sigSrv->gotSigInt() && !isGoToNext())
+	while (!sigSrv->gotSigInt() && !isGoToNext() && !isStoped())
 	{
 		waitForResume();
 
@@ -245,39 +245,19 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
             throw DomainException(NoiseStreamerDomainErrorCode::NSS0020, "Connection status '" + connStr + "'");
         }
 
-		// cout << libShout->shoutSend(buff, read) << endl;
         libShout->shoutSend(buff, read);
 
         setShoutQueueLenth(libShout->shoutQueuelen());
 
-        // if (libShout->shoutQueuelen() >= 0)
-        // {
-        //     string ql = Convert<int>::NumberToString(libShout->shoutQueuelen());
-        //
-        //     logSrv->warn("Queue Length: " + ql);
-        // }
-
 		libShout->shoutSync();
 	}
 
-	normal();
+    if (!isStoped())
+    {
+        normal();
+    }
 
 	fclose(mp3file);
-}
-
-void NoiseStreamer::reEncodeAudioFile(PlaylistItem item)
-{
-    cout << "Start Decoding.." << endl;
-	encSrv->decode(item.getTrack(), "audio.wav");
-    cout << "End Decoding.." << endl;
-
-    int samplerate = Convert<int>::StringToNumber(config->getSamplerate());
-    AudioTag* metadata = item.getMetadata();
-    metadata->setReencodeData(VBR, BR_16kbps, samplerate, 3);
-
-    cout << "Start Re-Encoding.." << endl;
-	encSrv->encode("audio.wav", "audio.mp3", metadata);
-    cout << "End Re-Encoding.." << endl;
 }
 
 void NoiseStreamer::action()
@@ -295,9 +275,19 @@ void NoiseStreamer::action()
 	streamPlaylist();
 
 	finilizeShout();
+
+    shutdown();
 }
 
-void NoiseStreamer::stopPlaying()
+void NoiseStreamer::shutdownStreamer()
 {
-	logSrv->debug("Stop Playing");
+    if (!isStoped())
+    {
+        stop();
+    }
+
+    if (!isShutdown())
+    {
+        waitForShutdown();
+    }
 }

@@ -50,7 +50,7 @@ void* nss_shout_status(void* context);
 /* Navigation tasks */
 void* nss_start_client(void* agent);
 void* nss_start(void* context);
-void* nss_stop_playing(void* context);
+void* nss_stop(void* context);
 void* nss_pause(void* context);
 void* nss_resume(void* context);
 void* nss_next_track(void* context);

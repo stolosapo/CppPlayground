@@ -298,12 +298,12 @@ void* nss_start(void* context)
 	return NULL;
 }
 
-void* nss_stop_playing(void* context)
+void* nss_stop(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 
-	a->noiseStreamer()->stopPlaying();
+	a->noiseStreamer()->stop();
 
 	return NULL;
 }

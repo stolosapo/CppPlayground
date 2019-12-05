@@ -28,7 +28,7 @@ void NoiseStreamerAgentProtocol::registerTasks()
 
 	/* Navigation tasks */
 	registerTask("start", &nss_start);
-	registerTask("stop", &nss_stop_playing);
+	registerTask("stop", &nss_stop);
 	registerTask("pause", &nss_pause);
 	registerTask("resume", &nss_resume);
 	registerTask("next", &nss_next_track);

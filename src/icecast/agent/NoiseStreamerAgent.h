@@ -61,7 +61,7 @@ public:
     friend void* nss_history(void* context);
     friend void* nss_start_client(void* agent);
     friend void* nss_start(void* context);
-    friend void* nss_stop_playing(void* context);
+    friend void* nss_stop(void* context);
     friend void* nss_pause(void* context);
     friend void* nss_resume(void* context);
     friend void* nss_next_track(void* context);

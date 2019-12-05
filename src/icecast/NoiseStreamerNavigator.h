@@ -14,12 +14,16 @@ private:
 	volatile sig_atomic_t _pause;
 	volatile sig_atomic_t _stop;
 	volatile sig_atomic_t _next;
+	volatile sig_atomic_t _shutdown;
 
 	ILogService *logSrv;
 	SignalService* sigSrv;
 
 protected:
+    void shutdown();
+    bool isShutdown();
 	void waitForResume();
+	void waitForShutdown();
 
 public:
 	NoiseStreamerNavigator(ILogService* logSrv, SignalService* sigSrv);
