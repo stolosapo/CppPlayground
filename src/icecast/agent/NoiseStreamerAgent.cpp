@@ -18,6 +18,8 @@ NoiseStreamerAgent::NoiseStreamerAgent(
     tagSrv(tagSrv),
     encSrv(encSrv)
 {
+    _locker.init();
+
 	streamerThread = NULL;
 	nss = NULL;
 }
@@ -25,6 +27,8 @@ NoiseStreamerAgent::NoiseStreamerAgent(
 NoiseStreamerAgent::~NoiseStreamerAgent()
 {
 	disposeStreamerThread();
+
+    _locker.destroy();
 }
 
 NoiseStreamerAgentProtocol* NoiseStreamerAgent::agentProtocol()
@@ -96,6 +100,8 @@ void NoiseStreamerAgent::disposeStreamerThread()
 
 void NoiseStreamerAgent::disposeNoiseStreamer()
 {
+    _locker.lock();
+
     if (nss != NULL)
     {
         // First must wait for graceful shutdown
@@ -103,6 +109,8 @@ void NoiseStreamerAgent::disposeNoiseStreamer()
         delete nss;
         nss = NULL;
     }
+
+    _locker.unlock();
 }
 
 void NoiseStreamerAgent::startStreamer()

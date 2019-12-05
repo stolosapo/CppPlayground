@@ -25,6 +25,8 @@ private:
 	Thread* streamerThread;
 	NoiseStreamer *nss;
 
+    Locker _locker;
+
     NoiseStreamer* noiseStreamer();
     NoiseStreamer* createNewStreamer();
     void disposeStreamerThread();
