@@ -3,7 +3,7 @@
 
 AppContext::AppContext()
 {
-    // cout << "AppContext: " << this << endl;
+
 }
 
 
@@ -33,8 +33,6 @@ AppContext::~AppContext()
 	}
 
 	services.clear();
-
-    // cout << "~AppContext: " << this << endl;
 }
 
 
