@@ -11,11 +11,8 @@ AppContext appContext;
 
 void initializeAppContext(int argc, char* argv[])
 {
-	/* Create context */
-	appContext = AppContext();
-
+	/* Created context */
 	cout << "* Created appContext: " << &appContext << endl;
-
 
 	/* register all services */
 	registerServices(argc, argv);

@@ -3,7 +3,7 @@
 
 AppContext::AppContext()
 {
-
+    // cout << "AppContext: " << this << endl;
 }
 
 
@@ -14,8 +14,8 @@ AppContext::~AppContext()
 
 
 	/* Clear service factories */
-	for (map<string, IServiceFactory*>::iterator it = serviceFactories.begin(); 
-		it != serviceFactories.end(); 
+	for (map<string, IServiceFactory*>::iterator it = serviceFactories.begin();
+		it != serviceFactories.end();
 		++it)
 	{
 		delete it->second;
@@ -25,14 +25,16 @@ AppContext::~AppContext()
 
 
 	/* Clear singleton services */
-	for (map<string, IService*>::iterator it = services.begin(); 
-		it != services.end(); 
+	for (map<string, IService*>::iterator it = services.begin();
+		it != services.end();
 		++it)
 	{
 		delete it->second;
 	}
 
 	services.clear();
+
+    // cout << "~AppContext: " << this << endl;
 }
 
 
@@ -83,13 +85,20 @@ IService* AppContext::instantiateService(string serviceName)
 {
 	IServiceFactory* factory = serviceFactories.find(serviceName)->second;
 
+    if (serviceExists(serviceName))
+    {
+        map<string, IService*>::iterator it = services.find(serviceName);
+        delete it->second;
+        services.erase(it);
+    }
+
 	IService* service = factory->create();
 
 	services[serviceName] = service;
 
 	return service;
 }
-	
+
 
 IService* AppContext::getSingletonService(string serviceName)
 {
@@ -133,6 +142,6 @@ IService* AppContext::getService(string serviceName)
 			return getStartupService(serviceName);
 
 		default:
-			return getRequestedService(serviceName);			
+			return getRequestedService(serviceName);
 	}
 }
