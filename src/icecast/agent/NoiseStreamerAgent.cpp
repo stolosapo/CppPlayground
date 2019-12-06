@@ -51,6 +51,16 @@ NoiseStreamer* NoiseStreamerAgent::noiseStreamer()
     return nss;
 }
 
+bool NoiseStreamerAgent::noiseStreamerRunning()
+{
+    if (nss == NULL)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 ITcpProtocol* NoiseStreamerAgent::createProtocol()
 {
 	return (ITcpProtocol*) new NoiseStreamerAgentProtocol(true);

@@ -39,6 +39,7 @@ public:
     static const DomainErrorCode NSS0025;
     static const DomainErrorCode NSS0026;
     static const DomainErrorCode NSS0027;
+    static const DomainErrorCode NSS0028;
 
 	NoiseStreamerDomainErrorCode();
 	virtual ~NoiseStreamerDomainErrorCode();

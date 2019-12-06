@@ -27,6 +27,7 @@ private:
 
     Locker _locker;
 
+    bool noiseStreamerRunning();
     NoiseStreamer* noiseStreamer();
     NoiseStreamer* createNewStreamer();
     void disposeStreamerThread();

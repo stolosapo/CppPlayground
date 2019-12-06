@@ -4,6 +4,7 @@
 
 #include "../NoiseStreamer.h"
 #include "../agent/NoiseStreamerAgent.h"
+#include "../exception/NoiseStreamerDomainErrorCode.h"
 #include "../../kernel/task/TaskContext.h"
 #include "../../kernel/converter/Convert.h"
 #include "../../kernel/exception/ExceptionMapper.h"
@@ -295,7 +296,14 @@ void* nss_start(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 
-	return NULL;
+    if (a->noiseStreamerRunning())
+    {
+        throw DomainException(NoiseStreamerDomainErrorCode::NSS0028);
+    }
+
+	a->startStreamer();
+
+    return NULL;
 }
 
 void* nss_stop(void* context)
