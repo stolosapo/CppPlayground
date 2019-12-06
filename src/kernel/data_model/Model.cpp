@@ -61,7 +61,9 @@ void Model::registerPropertyName(int index, string name, PropertyType type)
 {
     if (propertyNameExists(name))
     {
-        allProperties.erase(allProperties.find(name));
+        map<string, Property*>::iterator it = allProperties.find(name);
+        delete it->second;
+        allProperties.erase(it);
     }
 
     PropertyFactory factory;
@@ -74,7 +76,9 @@ void Model::registerPropertyName(int index, string name, PropertyType type, Mode
 {
     if (propertyNameExists(name))
     {
-        allProperties.erase(allProperties.find(name));
+        map<string, Property*>::iterator it = allProperties.find(name);
+        delete it->second;
+        allProperties.erase(it);
     }
 
     PropertyFactory factory;
