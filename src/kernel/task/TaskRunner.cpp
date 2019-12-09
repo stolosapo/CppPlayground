@@ -4,6 +4,7 @@
 
 #include "TaskContext.h"
 #include "../utils/StringHelper.h"
+#include "../exception/domain/DomainException.h"
 
 using namespace std;
 
@@ -118,13 +119,31 @@ void* TaskRunner::runParametrizedTask(string task, void* data)
     }
 
     TaskContext* context = new TaskContext(taskName, params, data);
+    void* result = NULL;
 
-    void* result = delegate(context);
+    try
+    {
+        result = delegate(context);
+    }
+    catch(DomainException& e)
+    {
+        delete context;
+        throw e;
+    }
+    catch(RuntimeException& e)
+    {
+        delete context;
+        throw e;
+    }
+    catch(exception& e)
+    {
+        delete context;
+        throw e;
+    }
 
     delete context;
 
     return result;
-
 }
 
 string TaskRunner::list()
