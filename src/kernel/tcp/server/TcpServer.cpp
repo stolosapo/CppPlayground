@@ -58,6 +58,19 @@ TcpServer::~TcpServer()
 		delete this->protocol;
 	}
 
+    for (map<int, ClientInfo*>::iterator it = activeClients.begin();
+        it != activeClients.end();
+        ++it)
+	{
+        if (it->second != NULL)
+        {
+            delete it->second;
+            logSrv->info("Finalized client: " + Convert<int>::NumberToString(it->first));
+        }
+	}
+
+	activeClients.clear();
+
 	logSrv->trace("Server finalized!");
 }
 
@@ -135,7 +148,13 @@ void TcpServer::finalizeClient(ClientInfo* client)
 
 	server->pool->putBack(client->getThread());
 
-	delete client;
+    map<int, ClientInfo*>::iterator it = server->activeClients.find(client->getIndex());
+    if (it != server->activeClients.end())
+    {
+        server->activeClients.erase(it);
+    }
+
+    delete client;
 }
 
 /*********************************
@@ -212,6 +231,10 @@ void TcpServer::start()
 		th->start(client);
         string name = "TcpClient" + Convert<int>::NumberToString(clientCount);
 		// th->setName(name.c_str());
+
+
+        /* Add this client to active clients */
+        activeClients[client->getIndex()] = client;
 
 
 		/* Increase thead counter */

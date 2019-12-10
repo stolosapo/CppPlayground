@@ -97,6 +97,7 @@ bool Thread::start(void* data)
 		return false;
 	}
 
+    /* TODO: WARNING!! This produces memory leak if thread will not finished gracefully!! */
 	ThreadInterceptionData* interception = new ThreadInterceptionData(this, delegate, data);
 
 	int status = pthread_create(&_thread, NULL, delegateInterceptor, interception);

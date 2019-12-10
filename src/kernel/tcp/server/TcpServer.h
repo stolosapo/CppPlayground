@@ -2,6 +2,8 @@
 #define TcpServer_h__
 
 #include <string>
+#include <map>
+
 #include "ITcpServer.h"
 #include "../config/TcpServerConfig.h"
 #include "../protocol/ITcpProtocol.h"
@@ -20,6 +22,7 @@ private:
 	ITcpProtocol *protocol;
 	TcpAcceptor *acceptor;
 	ThreadPool* pool;
+    map<int, ClientInfo*> activeClients;
 
 	time_t startTime;
 
