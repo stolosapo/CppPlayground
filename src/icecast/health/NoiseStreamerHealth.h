@@ -5,6 +5,7 @@ class NoiseStreamerHealth
 {
 private:
     static const int ERROR_THRESHOLD;
+    static const int SHOUT_QUEUE_LENGTH_THRESHOLD;
 
     int shoutQueueLength;
     int errorCounter;
@@ -14,6 +15,7 @@ protected:
 
     void incrementErrorCounter();
     void checkIfErrorCounterThresholdReached();
+    void checkIfShoutQueueLengthThresholdReached();
     void resetErrorCounter();
 
 public:

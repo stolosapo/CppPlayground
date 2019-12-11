@@ -248,6 +248,7 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
         libShout->shoutSend(buff, read);
 
         setShoutQueueLenth(libShout->shoutQueuelen());
+        checkIfShoutQueueLengthThresholdReached();
 
 		libShout->shoutSync();
 	}
