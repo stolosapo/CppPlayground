@@ -18,6 +18,8 @@
 class NoiseStreamer : public Version, public NoiseStreamerNavigator, public NoiseStreamerPlaylist, public NoiseStreamerHealth
 {
 private:
+    static const char* USER_AGENT;
+
 	ILogService *logSrv;
 	SignalService* sigSrv;
 	AudioTagService *tagSrv;
@@ -31,8 +33,12 @@ private:
 	void logNowPlaying(NoiseStreamerPlaylistItem& nssItem);
 
 	void initializeShout();
+    void connectShout();
+	void finilizeShout();
 
 	void loadConfig();
+
+    void streamPlaylist();
     void streamNextTrack();
 	void streamAudioFile(NoiseStreamerPlaylistItem* nssItem);
 
@@ -48,20 +54,18 @@ public:
         string configFilename);
 	virtual ~NoiseStreamer();
 
-	static const char* USER_AGENT;
-
 	string agentVersion();
     NoiseStreamerConfig* getConfig();
 
+    void initialize();
+    void connect();
+    void stream();
+    void disconnect();
+    void shutdownStreamer();
 	void action();
 
-	void connectShout();
-	void finilizeShout();
     string shoutVersion();
     string shoutError();
-
-	void streamPlaylist();
-    void shutdownStreamer();
 
 };
 

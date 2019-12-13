@@ -261,22 +261,47 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
 	fclose(mp3file);
 }
 
-void NoiseStreamer::action()
+void NoiseStreamer::initialize()
 {
-	loadConfig();
+    loadConfig();
 
 	initializePlaylist(config);
 
 	loadPlaylist();
+}
 
-	initializeShout();
+void NoiseStreamer::connect()
+{
+    initializeShout();
 
 	connectShout();
+}
 
-	streamPlaylist();
+void NoiseStreamer::disconnect()
+{
+    finilizeShout();
+}
 
-	finilizeShout();
+void NoiseStreamer::stream()
+{
+    streamPlaylist();
+}
 
+void NoiseStreamer::action()
+{
+    /* Load Config, initialize and load Playlist */
+	initialize();
+
+    /* Initialize and connect to Shout */
+	connect();
+
+    /* Stream Playlist */
+    stream();
+
+    /* Finilize Shout */
+	disconnect();
+
+    /* Shout down streamer */
     shutdown();
 }
 
