@@ -1,6 +1,7 @@
 #include "NoiseStreamerMenuContainer.h"
 #include "NoiseStreamerAgentMenuItem.h"
 #include "NoiseStreamerAgentClientMenuItem.h"
+#include "SineWaveGeneratorMenuItem.h"
 
 NoiseStreamerMenuContainer::NoiseStreamerMenuContainer() : MenuContainer(
 	6,
@@ -19,6 +20,7 @@ void NoiseStreamerMenuContainer::fillOptions()
 {
 	this->addMenuItem(new NoiseStreamerAgentMenuItem(logSrv));
 	this->addMenuItem(new NoiseStreamerAgentClientMenuItem(logSrv));
+	this->addMenuItem(new SineWaveGeneratorMenuItem(logSrv));
 }
 
 string NoiseStreamerMenuContainer::getHeader()
