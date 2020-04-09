@@ -43,6 +43,7 @@ endif
 # ALSA feature
 ifeq ($(WITH_ALSA), 1)
 OPTS += -DALSA
+# libasound2-dev needed
 LIB += -lasound
 endif
 

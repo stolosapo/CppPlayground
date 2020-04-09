@@ -18,8 +18,6 @@ private:
 	snd_pcm_t *snd_handle;
 #endif
 
-	
-
 public:
 	AlsaCapture();
 	virtual ~AlsaCapture();
@@ -27,7 +25,7 @@ public:
 	void initialize();
 
 	void playback();
-        void capture();
+    void capture();
 };
 
 #endif // AlsaCapture_h__
