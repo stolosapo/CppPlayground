@@ -163,10 +163,11 @@ void AlsaCapture::capture()
 
     fprintf(stdout, "buffer allocated\n");
 
-    std::ofstream output("my_file.wav", std::ios::out | std::ios::binary);
+    // std::ofstream output("my_file.wav", std::ios::out | std::ios::binary);
 
     // for (i = 0; i < 10000; ++i)
-    for (int i = ((duration * 1000) / (rate / buffer_frames)); i > 0; i--)
+    // for (int i = ((duration * 1000) / (rate / buffer_frames)); i > 0; i--)
+    while(1)
     {
         if ((err = snd_pcm_readi (capture_handle, buffer, buffer_frames)) != buffer_frames)
         {
@@ -177,11 +178,18 @@ void AlsaCapture::capture()
 
             throw DomainException(AlsaDomainErrorCode::ALS0016, snd_strerror(err));
         }
-        fprintf(stdout, "read %d done\n", i);
-        output.write(buffer, sizeof(buffer));
+        // fprintf(stdout, "read %d done\n", i);
+        // output.write(buffer, sizeof(buffer));
+
+        for (size_t b = 0; b < sizeof(buffer); b++)
+        {
+            cout << (uint8_t) buffer[b];
+        }
+
+        // cout << buffer;
     }
 
-    output.close();
+    // output.close();
 
     free(buffer);
 

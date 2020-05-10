@@ -6,7 +6,7 @@
 #include "../../kernel/di/GlobalAppContext.h"
 #include "../../kernel/interruption/SignalService.h"
 #include "../../kernel/arguments/ArgumentService.h"
-#include "../../kernel/audio/Alsa/AlsaCapture.h"
+#include "../../kernel/audio/alsa/AlsaCapture.h"
 
 
 AlsaCaptureMenuItem::AlsaCaptureMenuItem(ILogService *logSrv) : MenuItem()

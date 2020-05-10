@@ -44,3 +44,6 @@ test/**/*
 
 # Ignore Mac specific files
 .DS_Store
+
+# Ignore IDE
+.vscode/*
