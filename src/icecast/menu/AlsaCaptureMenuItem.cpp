@@ -6,7 +6,7 @@
 #include "../../kernel/di/GlobalAppContext.h"
 #include "../../kernel/interruption/SignalService.h"
 #include "../../kernel/arguments/ArgumentService.h"
-#include "../../kernel/audio/alsa/AlsaCapture.h"
+#include "../../kernel/audio/alsa/AlsaAudioSource.h"
 
 
 AlsaCaptureMenuItem::AlsaCaptureMenuItem(ILogService *logSrv) : MenuItem()
@@ -33,6 +33,15 @@ void AlsaCaptureMenuItem::action()
 {
     SignalService* sigSrv = inject<SignalService>("signalService");
 
-    AlsaCapture alsa;
+    AlsaConfig *config = new AlsaConfig(
+        "hw:0,0",
+        44100,
+        2,
+        "SND_PCM_FORMAT_S16_LE",
+        128);
+
+    AlsaAudioSource alsa(config);
     alsa.capture();
+
+    delete config;
 }
