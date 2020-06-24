@@ -1,6 +1,6 @@
 #include "LogAppender.h"
 
-LogAppender::LogAppender(const char* className, LogLevel level) : 
+LogAppender::LogAppender(const char* className, LogLevel level) :
 	className(className),
 	level(level)
 {
@@ -10,6 +10,27 @@ LogAppender::LogAppender(const char* className, LogLevel level) :
 LogAppender::~LogAppender()
 {
 
+}
+
+string LogAppender::levelToString()
+{
+    switch (level)
+    {
+    case TRACE:
+        return "TRACE";
+    case DEBUG:
+        return "DEBUG";
+    case INFO:
+        return "INFO";
+    case WARN:
+        return "WARN";
+    case ERROR:
+        return "ERROR";
+    case FATAL:
+        return "FATAL";
+    default:
+        return "NOLEVEL";
+    }
 }
 
 bool LogAppender::isTraceEnabled()

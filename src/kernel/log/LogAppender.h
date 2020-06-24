@@ -10,12 +10,13 @@ using namespace std;
 
 class LogAppender
 {
-private:
-	const char* className;
+protected:
+    const char* className;
 	LogLevel level;
 
-protected:
-	virtual void appendOutput(const char* message) = 0;
+	virtual void appendOutput(string message) = 0;
+
+    string levelToString();
 
 public:
 	LogAppender(const char* className, LogLevel level);
