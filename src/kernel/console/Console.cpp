@@ -45,6 +45,11 @@ string Console::inLine()
 	return s;
 }
 
+void Console::clearScreen()
+{
+    outString(string(50, '\n'));
+}
+
 void Console::outInt(int number)
 {
 	cout << number;

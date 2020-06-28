@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "LogLevel.h"
+#include "../LogLevel.h"
 #include "LogAppender.h"
 
 using namespace std;
@@ -12,13 +12,13 @@ using namespace std;
 class ConsoleAppender: public LogAppender
 {
 private:
-    string formatMessage(string message);
+    string formatMessage(const LogRecord &record);
 
 protected:
-	virtual void appendOutput(string message);
+	virtual void appendOutput(const LogRecord &record);
 
 public:
-	ConsoleAppender(const char* className, LogLevel level);
+	ConsoleAppender(LogLevel level);
 	virtual ~ConsoleAppender();
 
 };

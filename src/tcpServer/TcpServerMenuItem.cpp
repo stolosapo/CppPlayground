@@ -6,6 +6,7 @@
 #include "../kernel/di/GlobalAppContext.h"
 #include "../kernel/interruption/SignalService.h"
 #include "../kernel/time/ITimeService.h"
+#include "../kernel/console/Console.h"
 
 TcpServerMenuItem::TcpServerMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -25,7 +26,7 @@ TcpServerMenuItem::~TcpServerMenuItem()
 void TcpServerMenuItem::action()
 {
         this->identify();
-        this->logSrv->outString("\n\n");
+        Console::outStringln("\n");
 
         // ITcpServer* server = TcpServerFactory::create(this->logSrv);
 

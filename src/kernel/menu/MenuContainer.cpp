@@ -7,6 +7,7 @@
 
 #include "../utils/StringHelper.h"
 #include "../converter/Convert.h"
+#include "../console/Console.h"
 
 #include "../exception/domain/DomainException.h"
 #include "../exception/ExceptionMapper.h"
@@ -177,10 +178,10 @@ MenuItem *MenuContainer::findMenuItem()
 	}
 
 	this->selection = this->exitCode;
-	logSrv->outString("No such item exists!!!\n\n");
-	logSrv->outString("Choose again: ");
+	Console::outString("No such item exists!!!\n\n");
+	Console::outString("Choose again: ");
 
-	this->selection = logSrv->inInt();
+	this->selection = Console::inInt();
 
 	/* Check for Interruption */
 	if (sigSrv->gotSigIntAndReset())
@@ -246,16 +247,16 @@ MenuItem* MenuContainer::findMenuItemByName(string name)
 
 int MenuContainer::promptQuestion()
 {
-	logSrv->print(question);
-	this->selection = logSrv->inInt();
+    Console::outString(question);
+    this->selection = Console::inInt();
 
 	return this->selection;
 }
 
 bool MenuContainer::promptContinueQuestion()
 {
-	logSrv->print("Choose other option? (y/n): ");
-	string cont = logSrv->inString();
+    Console::outString("Choose other option? (y/n): ");
+	string cont = Console::inString();
 
 	if (cont == "y" || cont == "Y")
 	{
@@ -274,25 +275,23 @@ void MenuContainer::showOptions()
 
 	if (this->useOptions)
 	{
-
-		logSrv->print("\n");
-		logSrv->outInt(this->exitCode);
-		logSrv->print(". Exit");
-		logSrv->print("\n\n");
+        Console::outStringln("");
+        Console::outInt(this->exitCode);
+		Console::outStringln(". Exit");
+		Console::outStringln("");
 
 		for (int i = 0; i < items.size(); ++i)
 		{
 			if (items.at(i) != NULL)
 			{
 				MenuItem *current = items.at(i);
-				logSrv->outInt(current->getId());
-				logSrv->outString(". ");
-				logSrv->outString(current->getTitle());
-				logSrv->outString("\n");
+                Console::outInt(current->getId());
+				Console::outString(". ");
+				Console::outStringln(current->getTitle());
 			}
 		}
 
-		logSrv->outString("\n");
+        Console::outStringln("");
 	}
 }
 
@@ -310,9 +309,8 @@ void MenuContainer::action()
 	{
 		while(1)
 		{
-			logSrv->clearScreen();
-
-			logSrv->outString(this->identify());
+			Console::clearScreen();
+			Console::outString(this->identify());
 
 			this->showOptions();
 
@@ -324,8 +322,8 @@ void MenuContainer::action()
 				break;
 			}
 
-			logSrv->clearScreen();
-			logSrv->outString(selectedItem->identify());
+			Console::clearScreen();
+			Console::outString(selectedItem->identify());
 
 			selectedItem->check();
 			selectedItem->action();

@@ -1,5 +1,7 @@
 #include "LogMenuItem.h"
 
+#include "../kernel/console/Console.h"
+
 LogMenuItem::LogMenuItem(ILogService *logSrv) : MenuItem()
 {
 	this->logSrv = logSrv;
@@ -17,31 +19,28 @@ LogMenuItem::~LogMenuItem()
 
 void LogMenuItem::action()
 {
-	logSrv->outString("Type a messege to test: ");
-	string message = logSrv->inString();
-	logSrv->outString("\n\n");
+	Console::outString("Type a messege to test: ");
+	string message = Console::inString();
+	Console::outStringln("");
+	Console::outStringln("");
 
-	logSrv->print(message);
-	logSrv->printl("");
+	Console::outStringln(message);
 
 	logSrv->trace(message);
-	logSrv->printl("");
+	Console::outStringln("");
 
 	logSrv->info(message);
-	logSrv->printl("");
+    Console::outStringln("");
 
 	logSrv->debug(message);
-	logSrv->printl("");
+	Console::outStringln("");
 
 	logSrv->warn(message);
-	logSrv->printl("");
+	Console::outStringln("");
 
 	logSrv->error(message);
-	logSrv->printl("");
+	Console::outStringln("");
 
 	logSrv->fatal(message);
-	logSrv->printl("");
-
-	logSrv->test();
-	logSrv->printl("");
+	Console::outStringln("");
 }

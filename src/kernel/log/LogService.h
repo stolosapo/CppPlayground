@@ -1,22 +1,18 @@
-#ifndef ILogService_h__
-#define ILogService_h__
+#ifndef LogService_h__
+#define LogService_h__
 
 #include <iostream>
 #include <string>
 
-#include "../service/IService.h"
-#include "../io/InOut.h"
+#include "ILogService.h"
 
 using namespace std;
 
-class ILogService : public IService, public InOut
+class LogService : public ILogService
 {
-protected:
-	bool useColor;
-
 public:
-	ILogService(): IService(), InOut() { };
-	virtual ~ILogService() { };
+	LogService();
+	virtual ~LogService();
 
 	virtual void trace(string message) = 0;
 	virtual void info(string message) = 0;
@@ -27,4 +23,4 @@ public:
 
 };
 
-#endif // ILogService_h__
+#endif // LogService_h__

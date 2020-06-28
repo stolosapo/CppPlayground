@@ -16,6 +16,7 @@ public:
 	static string inString();
 	static string inLine();
 
+    static void clearScreen();
 	static void outInt(int number);
 	static void outIntln(int number);
 	static void outString(string message);

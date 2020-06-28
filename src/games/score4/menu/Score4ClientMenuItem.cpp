@@ -3,6 +3,7 @@
 #include "../client/Score4Client.h"
 #include "../../../kernel/di/GlobalAppContext.h"
 #include "../../../kernel/interruption/SignalService.h"
+#include "../../../kernel/console/Console.h"
 
 Score4ClientMenuItem::Score4ClientMenuItem(ILogService *logSrv) : MenuItem()
 {
@@ -22,7 +23,7 @@ Score4ClientMenuItem::~Score4ClientMenuItem()
 void Score4ClientMenuItem::action()
 {
 	this->identify();
-	this->logSrv->outString("\n\n");
+	Console::outStringln("\n");
 
 	SignalService* sigSrv = inject<SignalService>("signalService");
 

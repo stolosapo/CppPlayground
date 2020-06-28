@@ -2,11 +2,21 @@
 #include <string>
 #include "ILogService.h"
 #include "../definitions/Colors.h"
+#include "../console/Console.h"
 
 using namespace std;
 
 class LogConsoleService : public ILogService
 {
+private:
+    void printColor(string COLOR)
+	{
+		if (this->useColor)
+		{
+			Console::outString(COLOR);
+		}
+	}
+
 public:
 	LogConsoleService() : ILogService()
 	{
@@ -18,38 +28,13 @@ public:
 
 	}
 
-	void clearScreen()
-	{
-		outString(string(50, '\n'));
-	}
-
-	void print(string message)
-	{
-		outString(message);
-	}
-
-	void printl(string message)
-	{
-		outString(message);
-		outString("\n");
-	}
-
-	void printColor(string COLOR)
-	{
-		if (this->useColor)
-		{
-			outString(COLOR);
-		}
-	}
-
 	void trace(string message)
 	{
 		printColor(BOLDGREEN);
-		outString(" *** [ TRACE ]: ");
+		Console::outString(" *** [ TRACE ]: ");
 
 		printColor(WHITE);
-		outString(message);
-		outString("\n");
+		Console::outStringln(message);
 
 		printColor(RESET);
 	}
@@ -57,11 +42,10 @@ public:
 	void info(string message)
 	{
 		printColor(BOLDYELLOW);
-		outString(" *** [ INFO ]: ");
+		Console::outString(" *** [ INFO ]: ");
 
 		printColor(WHITE);
-		outString(message);
-		outString("\n");
+		Console::outStringln(message);
 
 		printColor(RESET);
 	}
@@ -69,11 +53,10 @@ public:
 	void debug(string message)
 	{
 		printColor(BOLDBLUE);
-		outString(" *** [ DEBUG ]: ");
+		Console::outString(" *** [ DEBUG ]: ");
 
 		printColor(WHITE);
-		outString(message);
-		outString("\n");
+		Console::outStringln(message);
 
 		printColor(RESET);
 	}
@@ -81,11 +64,10 @@ public:
 	void warn(string message)
 	{
 		printColor(BOLDMAGENTA);
-		outString(" *** [ WARN ]: ");
+		Console::outString(" *** [ WARN ]: ");
 
 		printColor(WHITE);
-		outString(message);
-		outString("\n");
+		Console::outStringln(message);
 
 		printColor(RESET);
 	}
@@ -93,11 +75,10 @@ public:
 	void error(string message)
 	{
 		printColor(BOLDRED);
-		outString(" *** [ ERROR ]: ");
+		Console::outString(" *** [ ERROR ]: ");
 
 		printColor(WHITE);
-		outString(message);
-		outString("\n");
+		Console::outStringln(message);
 
 		printColor(RESET);
 	}
@@ -105,19 +86,14 @@ public:
 	void fatal(string message)
 	{
 		printColor(BOLDRED);
-		outString(" *** [ FATAL ]: ");
+		Console::outString(" *** [ FATAL ]: ");
 
 		printColor(WHITE);
-		outString(message);
-		outString("\n");
+		Console::outStringln(message);
 
 		// exit(1);
 
 		printColor(RESET);
 	}
 
-	void test()
-	{
-		outString("Hello World!!");
-	}
 };

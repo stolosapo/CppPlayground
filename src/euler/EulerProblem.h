@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "../kernel/converter/Convert.h"
+#include "../kernel/console/Console.h"
 #include "../kernel/menu/MenuItem.h"
 #include "../kernel/log/ILogService.h"
 
@@ -177,7 +178,7 @@ void EulerProblem<T>::output(string message)
 {
 	if (this->showOutput)
 	{
-		this->logSrv->outString(message);
+		Console::outString(message);
 	}
 }
 
@@ -194,10 +195,10 @@ void EulerProblem<T>::output(string message)
 template <typename T>
 void EulerProblem<T>::action()
 {
-	logSrv->outString("\n\n");
-	logSrv->outString("################\n");
-	logSrv->outString("### SOLUTION ###\n");
-	logSrv->outString("################\n\n");
+	Console::outString("\n\n");
+	Console::outString("################\n");
+	Console::outString("### SOLUTION ###\n");
+	Console::outString("################\n\n");
 
 	this->beforeSolve();
 
@@ -205,22 +206,19 @@ void EulerProblem<T>::action()
 	{
 		string exampleSolution = Convert<T>::NumberToString(this->example());
 
-		logSrv->outString("Example : ");
-		logSrv->outString(exampleSolution);
-		logSrv->outString("\n");
+		Console::outString("Example : ");
+		Console::outStringln(exampleSolution);
 	}
 
 	this->solution = solve();
 
 	string strSolution = Convert<T>::NumberToString(this->solution);
 
-	logSrv->outString(strSolution);
-	logSrv->outString("\n");
-
+	Console::outStringln(strSolution);
 
 	this->afterSolve();
 
-	logSrv->outString("\n\n");
-	logSrv->outString("################\n\n");
+	Console::outString("\n\n");
+	Console::outString("################\n\n");
 }
 #endif // EulerProblem_h__
