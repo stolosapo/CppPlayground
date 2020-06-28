@@ -5,17 +5,13 @@
 #include <string>
 
 #include "../service/IService.h"
-#include "../io/InOut.h"
 
 using namespace std;
 
-class ILogService : public IService, public InOut
+class ILogService : public IService
 {
-protected:
-	bool useColor;
-
 public:
-	ILogService(): IService(), InOut() { };
+	ILogService(): IService() { };
 	virtual ~ILogService() { };
 
 	virtual void trace(string message) = 0;

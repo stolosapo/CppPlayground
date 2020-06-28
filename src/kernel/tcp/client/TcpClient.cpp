@@ -5,6 +5,7 @@
 #include "../lib/TcpConnector.h"
 #include "../lib/TcpProtocol.h"
 #include "../../converter/Convert.h"
+#include "../../console/Console.h"
 
 #include "../ClientInfo.h"
 
@@ -23,8 +24,6 @@ using namespace std;
 **********************************/
 TcpClient::TcpClient(ILogService *logSrv, SignalService *sigSrv) : ITcpClient(), logSrv(logSrv), sigSrv(sigSrv)
 {
-	this->in = new InOut;
-
 	this->connector = NULL;
 	this->config = NULL;
 	this->protocol = NULL;
@@ -45,11 +44,6 @@ TcpClient::~TcpClient()
 	if (protocol != NULL)
 	{
 		delete protocol;
-	}
-
-	if (in != NULL)
-	{
-		delete in;
 	}
 }
 
@@ -171,8 +165,8 @@ bool TcpClient::cycle(ClientInfo *client)
 
 
 	/* Prompt user for input */
-	in->outString(protocol->prompt());
-	string userInput = in->inLine();
+	Console::outString(protocol->prompt());
+	string userInput = Console::inLine();
 
 	if (userInput == "")
 	{
@@ -181,7 +175,7 @@ bool TcpClient::cycle(ClientInfo *client)
 
 	if (protocol->isHelp(userInput))
 	{
-		in->outString(protocol->help());
+		Console::outString(protocol->help());
 		return true;
 	}
 
@@ -225,5 +219,5 @@ bool TcpClient::cycle(ClientInfo *client)
 
 void TcpClient::processCommand(ClientInfo *client, string command)
 {
-	in->outString(command + "\n");
+	Console::outStringln(command);
 }

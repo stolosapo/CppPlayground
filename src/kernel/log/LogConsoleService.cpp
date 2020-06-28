@@ -9,6 +9,8 @@ using namespace std;
 class LogConsoleService : public ILogService
 {
 private:
+    bool useColor;
+
     void printColor(string COLOR)
 	{
 		if (this->useColor)

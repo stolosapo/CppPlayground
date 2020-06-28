@@ -1,5 +1,8 @@
 #include "Score4Client.h"
 
+#include "../../../kernel/console/Console.h"
+
+
 Score4Client::Score4Client(ILogService *logSrv, SignalService *sigSrv) : TcpClient(logSrv, sigSrv)
 {
 
@@ -16,9 +19,9 @@ bool Score4Client::cycle(ClientInfo *client)
 
 
 	/* Prompt user for input */
-	in->outString(protocol->prompt());
+	Console::outString(protocol->prompt());
 
-	string userInput = in->inLine();
+	string userInput = Console::inLine();
 
 	if (ITcpProtocol::exit(userInput))
 	{
@@ -55,5 +58,5 @@ bool Score4Client::cycle(ClientInfo *client)
 
 void Score4Client::processCommand(ClientInfo *client, string command)
 {
-	in->outString(command + "\n");
+	Console::outStringln(command);
 }

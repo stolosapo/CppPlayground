@@ -27,7 +27,6 @@ public:
 	virtual void action();
 
 protected:
-	InOut *in;
 	ILogService *logSrv;
 
 	ITcpProtocol *protocol;
