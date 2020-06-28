@@ -49,23 +49,18 @@ void LogService::init()
     // Create Loggers
     Logger* logger = new Logger(loggerConfig->getName(), appenders);
     loggers.push_back(logger);
-
-    // Clean up
-    delete appenderConfig;
-    delete loggerConfig;
 }
 
 void LogService::log(LogLevel level, string message)
 {
     // Create a log record
-    LogRecord record("", message, timeService->rawNow());
+    LogRecord record("", level, message, timeService->rawNow());
 
     // Log it through all loggers
     for (int i = 0; i < loggers.size(); i++)
     {
-        loggers[i]->log(level, record);
+        loggers[i]->log(record);
     }
-
 }
 
 void LogService::trace(string message)

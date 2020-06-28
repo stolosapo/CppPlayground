@@ -21,7 +21,7 @@ public:
 
     string getName() const;
 
-    void log(LogLevel level, LogRecord record);
+    void log(LogRecord record);
 
 };
 

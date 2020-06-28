@@ -22,10 +22,10 @@ string Logger::getName() const
     return name;
 }
 
-void Logger::log(LogLevel level, LogRecord record)
+void Logger::log(LogRecord record)
 {
     for (int i = 0; i < appenders.size(); ++i)
 	{
-        appenders[i]->log(level, record);
+        appenders[i]->log(record);
     }
 }

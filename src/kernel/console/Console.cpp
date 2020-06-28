@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <stdio.h>
 
 #include "Console.h"
 
@@ -48,6 +49,11 @@ string Console::inLine()
 void Console::clearScreen()
 {
     outString(string(50, '\n'));
+}
+
+void Console::stringPrintf(const char* format, string arg...)
+{
+    printf(format, arg);
 }
 
 void Console::outInt(int number)

@@ -17,6 +17,7 @@ public:
 	static string inLine();
 
     static void clearScreen();
+    static void stringPrintf(const char* format, string arg...);
 	static void outInt(int number);
 	static void outIntln(int number);
 	static void outString(string message);

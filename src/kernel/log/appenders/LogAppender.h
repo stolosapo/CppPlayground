@@ -21,7 +21,7 @@ public:
 	virtual ~LogAppender();
 
     virtual bool isLevelEnabled(LogLevel level);
-    virtual void log(LogLevel level, LogRecord record);
+    virtual void log(LogRecord record);
 
 };
 

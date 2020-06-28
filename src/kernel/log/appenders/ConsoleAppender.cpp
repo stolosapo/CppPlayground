@@ -1,7 +1,10 @@
 #include "ConsoleAppender.h"
 #include "../../console/Console.h"
 
+#include <iostream>
 #include <stdio.h>
+
+using namespace std;
 
 ConsoleAppender::ConsoleAppender(LogLevel level) :
 	LogAppender(level)
@@ -16,20 +19,25 @@ ConsoleAppender::~ConsoleAppender()
 
 string ConsoleAppender::formatMessage(const LogRecord &record)
 {
-    const char* format = "[DATETIME] %s %s %s";
-    char *formattedMessage = new char;
+    const char* format = "DATETIME [%s]: %s %s";
 
-    sprintf(
-        formattedMessage,
+    size_t recordSize = record.size();
+    size_t formatSize = string(format).size();
+    size_t bufferSize = recordSize + formatSize;
+
+    char* buffer = new char[bufferSize];
+
+    int sz = sprintf(
+        buffer,
         format,
-        logLevelToString(level),
+        record.getLogLevelName().c_str(),
         record.getClassName(),
-        record.getMessage()
+        record.getMessage().c_str()
     );
 
-    string mess = string(formattedMessage);
+    string mess = string(buffer);
 
-    delete formattedMessage;
+    delete[] buffer;
 
     return mess;
 }

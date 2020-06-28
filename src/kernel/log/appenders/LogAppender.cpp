@@ -16,9 +16,9 @@ bool LogAppender::isLevelEnabled(LogLevel level)
     return this->level <= level;
 }
 
-void LogAppender::log(LogLevel level, LogRecord record)
+void LogAppender::log(LogRecord record)
 {
-    if (!isLevelEnabled(level))
+    if (!isLevelEnabled(record.getLogLevel()))
     {
         return;
     }
