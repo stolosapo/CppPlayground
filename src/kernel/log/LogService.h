@@ -3,23 +3,38 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "ILogService.h"
+#include "Logger.h"
+#include "config/LogServiceConfig.h"
+#include "../time/ITimeService.h"
 
 using namespace std;
 
 class LogService : public ILogService
 {
+private:
+    static const char* DEFAULT_CONF_FILENAME;
+
+    ITimeService *timeService;
+    LogServiceConfig* config;
+    vector<Logger*> loggers;
+
+    void log(LogLevel level, string message);
+
 public:
-	LogService();
+	LogService(ITimeService *timeService);
 	virtual ~LogService();
 
-	virtual void trace(string message) = 0;
-	virtual void info(string message) = 0;
-	virtual void debug(string message) = 0;
-	virtual void warn(string message) = 0;
-	virtual void error(string message) = 0;
-	virtual void fatal(string message) = 0;
+     void init();
+
+	virtual void trace(string message);
+	virtual void info(string message);
+	virtual void debug(string message);
+	virtual void warn(string message);
+	virtual void error(string message);
+	virtual void fatal(string message);
 
 };
 

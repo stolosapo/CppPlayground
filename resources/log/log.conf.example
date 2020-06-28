@@ -1,0 +1,9 @@
+{
+    "loggers": {
+        "name": "A Console Logger",
+        "appenders": {
+            "type": "CONSOLE",
+            "level": "TRACE"
+        }
+    }
+}

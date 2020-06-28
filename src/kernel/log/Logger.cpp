@@ -9,7 +9,12 @@ Logger::Logger(string name, vector<LogAppender*> appenders) :
 
 Logger::~Logger()
 {
+    for (int i = 0; i < appenders.size(); i++)
+    {
+        delete appenders[i];
+    }
 
+    appenders.clear();
 }
 
 string Logger::getName() const
