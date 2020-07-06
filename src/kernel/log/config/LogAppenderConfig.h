@@ -23,6 +23,8 @@ public:
     string getLevel();
     LogLevel getLogLevel();
 
+    string getFormat();
+    bool useColor();
     string getFilename();
 
 protected:

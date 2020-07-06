@@ -18,7 +18,9 @@ void LogAppenderConfig::registerProperties()
 {
     this->registerPropertyName(0, "type", STRING);
     this->registerPropertyName(1, "level", STRING);
-    this->registerPropertyName(2, "filename", STRING);
+    this->registerPropertyName(2, "format", STRING);
+    this->registerPropertyName(3, "filename", STRING);
+    this->registerPropertyName(4, "use_color", BOOL);
 }
 
 string LogAppenderConfig::getType()
@@ -43,9 +45,19 @@ LogLevel LogAppenderConfig::getLogLevel()
     return logLevelFromString(level);
 }
 
+string LogAppenderConfig::getFormat()
+{
+    return getStringProperty("format");
+}
+
 string LogAppenderConfig::getFilename()
 {
     return getStringProperty("filename");
+}
+
+bool LogAppenderConfig::useColor()
+{
+    return getBoolProperty("use_color");
 }
 
 Model* LogAppenderConfig::factory()
