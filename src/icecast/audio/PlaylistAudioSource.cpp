@@ -105,7 +105,7 @@ int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
         return 0;
     }
 
-    int read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), file);
+    long read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), file);
     if (read <= 0)
     {
         // Mp3 File finished, so close it.
