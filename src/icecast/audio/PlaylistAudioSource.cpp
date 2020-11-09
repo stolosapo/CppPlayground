@@ -98,17 +98,19 @@ FILE* PlaylistAudioSource::mp3File()
 
 int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
 {
-    if (currentMp3File == NULL)
+    FILE* file = mp3File();
+
+    if (file == NULL)
     {
         return 0;
     }
 
-    int read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), currentMp3File);
+    int read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), file);
     if (read <= 0)
     {
         // Mp3 File finished, so close it.
-        fclose(currentMp3File);
-        currentMp3File = NULL;
+        fclose(file);
+        file = NULL;
     }
 
     return read;
