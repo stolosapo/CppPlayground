@@ -6,10 +6,10 @@ PlaylistAudioSource::PlaylistAudioSource(
     ILogService* logSrv,
     ITimeService* timeSrv,
     AudioEncodingService *encSrv)
-    : AudioSource(),
+    : logSrv(logSrv),
+    AudioSource(),
     NoiseStreamerPlaylist(logSrv, timeSrv, encSrv)
 {
-    this->logSrv = logSrv;
     this->currentMp3File = NULL;
     this->currentNssItem = NULL;
 }
@@ -36,6 +36,11 @@ void PlaylistAudioSource::initialize(NoiseStreamerConfig* config)
 
 string PlaylistAudioSource::audioMetadata()
 {
+    if (currentNssItem == NULL)
+    {
+        loadNextMp3File();
+    }
+
     return nowPlaying().getTrackTitle();
 }
 

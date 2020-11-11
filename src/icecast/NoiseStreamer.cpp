@@ -4,6 +4,8 @@
 
 #include "exception/NoiseStreamerDomainErrorCode.h"
 
+#include "audio/PlaylistAudioSource.h"
+
 #include "../kernel/converter/Convert.h"
 #include "../kernel/utils/FileHelper.h"
 #include "../kernel/exception/domain/DomainException.h"
@@ -32,12 +34,14 @@ NoiseStreamer::NoiseStreamer(
     NoiseStreamerHealth(),
 	logSrv(logSrv),
 	sigSrv(sigSrv),
+    timeSrv(timeSrv),
 	tagSrv(tagSrv),
     encSrv(encSrv),
     configFilename(configFilename)
 {
 	this->config = NULL;
 	this->libShout = NULL;
+    this->audioSource = NULL;
 }
 
 NoiseStreamer::~NoiseStreamer()
@@ -48,6 +52,11 @@ NoiseStreamer::~NoiseStreamer()
 	}
 
 	finilizeShout();
+
+    if (audioSource != NULL)
+    {
+        delete audioSource;
+    }
 }
 
 string NoiseStreamer::agentVersion()
@@ -162,6 +171,62 @@ string NoiseStreamer::shoutError()
     return string(libShout->getError());
 }
 
+AudioSource* NoiseStreamer::createNewAudioSource()
+{
+    return new PlaylistAudioSource(
+        logSrv,
+        timeSrv,
+        encSrv);
+}
+
+void NoiseStreamer::initializeAudioSource()
+{
+    if (audioSource != NULL)
+    {
+        delete audioSource;
+    }
+
+    audioSource = createNewAudioSource();
+
+    audioSource->initialize(config);
+}
+
+void NoiseStreamer::streamAudioSource()
+{
+    const int AUDIO_SIZE = 4096;
+
+	unsigned char buff[AUDIO_SIZE];
+	long read;
+
+    /* Update metadata */
+	libShout->updateMetadata(audioSource->audioMetadata());
+
+    while (!sigSrv->gotSigInt() && !isGoToNext() && !isStoped())
+	{
+        waitForResume();
+
+        read = audioSource->readNextMp3Data(buff);
+
+		if (read <= 0)
+		{
+			break;
+		}
+
+        if (!libShout->isConnected())
+        {
+            string connStr = Convert<int>::NumberToString(libShout->getConnected());
+            throw DomainException(NoiseStreamerDomainErrorCode::NSS0020, "Connection status '" + connStr + "'");
+        }
+
+        libShout->shoutSend(buff, read);
+
+        setShoutQueueLenth(libShout->shoutQueuelen());
+        checkIfShoutQueueLengthThresholdReached();
+
+		libShout->shoutSync();
+    }
+}
+
 void NoiseStreamer::streamPlaylist()
 {
 	try
@@ -265,9 +330,11 @@ void NoiseStreamer::initialize()
 {
     loadConfig();
 
-	initializePlaylist(config);
+    initializeAudioSource();
 
-	loadPlaylist();
+	// initializePlaylist(config);
+
+	// loadPlaylist();
 }
 
 void NoiseStreamer::connect()
@@ -284,7 +351,9 @@ void NoiseStreamer::disconnect()
 
 void NoiseStreamer::stream()
 {
-    streamPlaylist();
+    // streamPlaylist();
+
+    streamAudioSource();
 }
 
 void NoiseStreamer::action()

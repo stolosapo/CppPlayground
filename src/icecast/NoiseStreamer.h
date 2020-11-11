@@ -5,6 +5,7 @@
 #include "config/NoiseStreamerConfig.h"
 #include "playlist/NoiseStreamerPlaylist.h"
 #include "health/NoiseStreamerHealth.h"
+#include "audio/AudioSource.h"
 #include "../kernel/log/ILogService.h"
 #include "../kernel/time/ITimeService.h"
 #include "../kernel/interruption/SignalService.h"
@@ -22,6 +23,7 @@ private:
 
 	ILogService *logSrv;
 	SignalService* sigSrv;
+    ITimeService *timeSrv;
 	AudioTagService *tagSrv;
     AudioEncodingService *encSrv;
 
@@ -29,6 +31,7 @@ private:
 
 	NoiseStreamerConfig* config;
 	LibShout* libShout;
+    AudioSource* audioSource;
 
 	void logNowPlaying(NoiseStreamerPlaylistItem& nssItem);
 
@@ -36,8 +39,12 @@ private:
     void connectShout();
 	void finilizeShout();
 
+    AudioSource* createNewAudioSource();
+    void initializeAudioSource();
+
 	void loadConfig();
 
+    void streamAudioSource();
     void streamPlaylist();
     void streamNextTrack();
 	void streamAudioFile(NoiseStreamerPlaylistItem* nssItem);
