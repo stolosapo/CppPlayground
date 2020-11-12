@@ -16,7 +16,7 @@
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
 
 
-class NoiseStreamer : public Version, public NoiseStreamerNavigator, public NoiseStreamerPlaylist, public NoiseStreamerHealth
+class NoiseStreamer : public Version, public NoiseStreamerNavigator, public NoiseStreamerHealth
 {
 private:
     static const char* USER_AGENT;
@@ -45,9 +45,6 @@ private:
 	void loadConfig();
 
     void streamAudioSource();
-    void streamPlaylist();
-    void streamNextTrack();
-	void streamAudioFile(NoiseStreamerPlaylistItem* nssItem);
 
 	static void onLibShoutError(void* sender, EventArgs* e);
 
