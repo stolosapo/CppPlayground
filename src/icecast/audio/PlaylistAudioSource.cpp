@@ -1,5 +1,6 @@
 #include "PlaylistAudioSource.h"
 
+#include "AudioSourceType.h"
 #include "../../kernel/utils/FileHelper.h"
 
 PlaylistAudioSource::PlaylistAudioSource(
@@ -7,7 +8,7 @@ PlaylistAudioSource::PlaylistAudioSource(
     ITimeService* timeSrv,
     AudioEncodingService *encSrv)
     : logSrv(logSrv),
-    AudioSource(),
+    AudioSource(SOURCE_PLAYLIST),
     NoiseStreamerPlaylist(logSrv, timeSrv, encSrv)
 {
     this->currentMp3File = NULL;

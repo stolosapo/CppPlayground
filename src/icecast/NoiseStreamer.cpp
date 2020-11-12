@@ -386,3 +386,8 @@ void NoiseStreamer::shutdownStreamer()
         waitForShutdown();
     }
 }
+
+AudioSource* NoiseStreamer::getAudioSource()
+{
+    return audioSource;
+}

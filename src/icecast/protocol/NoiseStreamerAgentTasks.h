@@ -7,6 +7,7 @@
 help
 
 agent-status (active connections, uptime, version ..)
+audio-status (info about audio source)
 
 shout-status (errors, version ..)
 shout-config
@@ -44,6 +45,7 @@ next
 
 /* Status tasks */
 void* nss_agent_status(void* context);
+void* nss_audio_status(void* context);
 void* nss_shout_status(void* context);
 
 

@@ -2,7 +2,9 @@
 
 #include <iostream>
 
+#include "PlaylistTasks.h"
 #include "../NoiseStreamer.h"
+#include "../audio/PlaylistAudioSource.h"
 #include "../agent/NoiseStreamerAgent.h"
 #include "../exception/NoiseStreamerDomainErrorCode.h"
 #include "../../kernel/task/TaskContext.h"
@@ -21,12 +23,7 @@ void* nss_agent_status(void* context)
 
 	double uptimeSec = a->uptime();
 	int connections = a->numberOfActiveConnections();
-	int numOfTracks = client->getNumberOfPlayedTracks();
-    int historySize = client->historySize();
-    int playlistSize = client->playlistSize();
-	int queueSize = client->queueSize();
-	int requestQueueSize = client->requestQueueSize();
-	int shoutQueueLength = client->getShoutQueueLength();
+    int shoutQueueLength = client->getShoutQueueLength();
 
 	int sec = uptimeSec;
 
@@ -44,14 +41,27 @@ void* nss_agent_status(void* context)
 	value += "Version: " + string(client->version()) + "\n";
 	value += "Uptime: " + str + "\n";
 	value += "Active connections: " + Convert<int>::NumberToString(connections) + "\n";
-    value += "Playlist Size: " + Convert<int>::NumberToString(playlistSize) + "\n";
-    value += "History Size: " + Convert<int>::NumberToString(historySize) + "\n";
-	value += "Number of played tracks: " + Convert<int>::NumberToString(numOfTracks) + "\n";
-	value += "Playlist Queue Size: " + Convert<int>::NumberToString(queueSize) + "\n";
-	value += "Request Queue Size: " + Convert<int>::NumberToString(requestQueueSize) + "\n";
-	value += "Shout Queue Length: " + Convert<int>::NumberToString(shoutQueueLength) + "\n";
+    value += "Shout Queue Length: " + Convert<int>::NumberToString(shoutQueueLength) + "\n";
 
 	return static_cast<void*>(new string(value));
+}
+
+void* nss_audio_status(void* context)
+{
+    TaskContext* ctx = (TaskContext*) context;
+	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+	NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
+
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_audio_status(client);
+    default:
+        return NULL;
+    }
 }
 
 void* nss_shout_status(void* context)
@@ -87,35 +97,17 @@ void* nss_now_playing(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
-    NoiseStreamerConfig* config = client->getConfig();
+    AudioSource* source = client->getAudioSource();
 
-	PlaylistItem track = client->nowPlaying();
-	AudioTag* tag = track.getMetadata();
-    int index = track.getTrackIndex();
-	int remaining = client->remainingTrackTime();
-	int minutes = (remaining / 60) % 60;
-	int seconds = remaining % 60;
-    string pathPrefix = config->getCommonTrackFilePrefix();
-
-	char s[25];
-	sprintf(s, "%02d:%02d", minutes, seconds);
-	string strRemaining(s);
-
-	string value = "\n";
-
-    value += "Index: " + Convert<int>::NumberToString(index) + "\n";
-    value += "Track: " + StringHelper::removeStart(track.getTrack(), pathPrefix) + "\n";
-	value += "Title: " + tag->getTitle() + "\n";
-	value += "Artist: " + tag->getArtist() + "\n";
-	value += "Album: " + tag->getAlbum() + "\n";
-	value += "Genre: " + tag->getGenre() + "\n";
-	value += "Duration: " + tag->getStrDuration() + "\n";
-	value += "Remaining: " + strRemaining + "\n";
-    value += "Bitrate: " + Convert<int>::NumberToString(tag->getBitrate()) + "\n";
-    value += "Samplerate: " + Convert<int>::NumberToString(tag->getSamplerate()) + "\n";
-    value += "Channels: " + Convert<int>::NumberToString(tag->getChannels()) + "\n";
-
-	return static_cast<void*>(new string(value));
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_now_playing(client);
+    default:
+        return NULL;
+    }
 }
 
 void* nss_preview_next(void* context)
@@ -124,26 +116,17 @@ void* nss_preview_next(void* context)
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
     NoiseStreamerConfig* config = client->getConfig();
+    AudioSource* source = client->getAudioSource();
 
-	PlaylistItem track = client->previewNext();
-    AudioTag* tag = track.getMetadata();
-    int index = track.getTrackIndex();
-    string pathPrefix = config->getCommonTrackFilePrefix();
-
-    string value = "\n";
-
-    value += "Index: " + Convert<int>::NumberToString(index) + "\n";
-    value += "Track: " + StringHelper::removeStart(track.getTrack(), pathPrefix) + "\n";
-    value += "Title: " + tag->getTitle() + "\n";
-    value += "Artist: " + tag->getArtist() + "\n";
-    value += "Album: " + tag->getAlbum() + "\n";
-    value += "Genre: " + tag->getGenre() + "\n";
-    value += "Duration: " + tag->getStrDuration() + "\n";
-    value += "Bitrate: " + Convert<int>::NumberToString(tag->getBitrate()) + "\n";
-    value += "Samplerate: " + Convert<int>::NumberToString(tag->getSamplerate()) + "\n";
-    value += "Channels: " + Convert<int>::NumberToString(tag->getChannels()) + "\n";
-
-    return static_cast<void*>(new string(value));
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_preview_next(client);
+    default:
+        return NULL;
+    }
 }
 
 void* nss_preview_track(void* context)
@@ -151,34 +134,17 @@ void* nss_preview_track(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
-    NoiseStreamerConfig* config = client->getConfig();
-    string indexParam = ctx->getParam(0);
+    AudioSource* source = client->getAudioSource();
 
-    if (indexParam == "")
+    switch (source->getType())
     {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_preview_track(ctx, client);
+    default:
         return NULL;
     }
-
-    int trackIndex = Convert<int>::StringToNumber(indexParam);
-	PlaylistItem track = client->previewTrack(trackIndex);
-    AudioTag* tag = track.getMetadata();
-    int index = track.getTrackIndex();
-    string pathPrefix = config->getCommonTrackFilePrefix();
-
-    string value = "\n";
-
-    value += "Index: " + Convert<int>::NumberToString(index) + "\n";
-    value += "Track: " + StringHelper::removeStart(track.getTrack(), pathPrefix) + "\n";
-    value += "Title: " + tag->getTitle() + "\n";
-    value += "Artist: " + tag->getArtist() + "\n";
-    value += "Album: " + tag->getAlbum() + "\n";
-    value += "Genre: " + tag->getGenre() + "\n";
-    value += "Duration: " + tag->getStrDuration() + "\n";
-    value += "Bitrate: " + Convert<int>::NumberToString(tag->getBitrate()) + "\n";
-    value += "Samplerate: " + Convert<int>::NumberToString(tag->getSamplerate()) + "\n";
-    value += "Channels: " + Convert<int>::NumberToString(tag->getChannels()) + "\n";
-
-    return static_cast<void*>(new string(value));
 }
 
 void* nss_search(void* context)
@@ -186,34 +152,17 @@ void* nss_search(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
 
-    string query = ctx->getParam(0);
-    string strLimit = ctx->getParam(1);
-    string strOffset = ctx->getParam(2);
-
-    int limit = 5;
-    int offset = 1;
-
-    if (strLimit != "")
+    switch (source->getType())
     {
-        limit = Convert<int>::StringToNumber(strLimit);
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_search(ctx, client);
+    default:
+        return NULL;
     }
-
-    if (strOffset != "")
-    {
-        offset = Convert<int>::StringToNumber(strOffset);
-    }
-
-    vector<string> results = client->searchTracks(query, limit, offset);
-
-    string value = "\n";
-
-    for (size_t i = 0; i < results.size(); i++)
-    {
-        value += results.at(i) + "\n";
-    }
-
-    return static_cast<void*>(new string(value));
 }
 
 void* nss_history(void* context)
@@ -221,47 +170,17 @@ void* nss_history(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
-    NoiseStreamerConfig* config = client->getConfig();
+    AudioSource* source = client->getAudioSource();
 
-    string lengthParam = ctx->getParam(0);
-    int historySize = client->historySize();
-    string pathPrefix = config->getCommonTrackFilePrefix();
-
-    if (historySize == 0)
+    switch (source->getType())
     {
-        return static_cast<void*>(new string(""));
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_history(ctx, client);
+    default:
+        return NULL;
     }
-
-    int historyLength = 5;
-
-    if (lengthParam != "")
-    {
-        int l = Convert<int>::StringToNumber(lengthParam);
-
-        if (l < historySize)
-        {
-            historyLength = l;
-        }
-    }
-
-    if (historyLength >= historySize)
-    {
-        historyLength = historySize;
-    }
-
-    string value = "\n";
-
-    for (int i = 0; i < historyLength; i++)
-    {
-        int inverseIndex = (historySize - 1) - i;
-
-        string track =  client->history(inverseIndex);
-        int plsIndex = client->trackPlaylistIndex(track);
-
-        value += Playlist::itemDescription(plsIndex, StringHelper::removeStart(track, pathPrefix)) + "\n";
-    }
-
-    return static_cast<void*>(new string(value));
 }
 
 void* nss_start_client(void* agent)
@@ -340,28 +259,38 @@ void* nss_next_track(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+    NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
 
-	a->noiseStreamer()->next();
-
-	return NULL;
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_next_track(client);
+    default:
+        return NULL;
+    }
 }
 
 void* nss_request_track(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+    NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
+
     string indexParam = ctx->getParam(0);
 
-    if (indexParam == "")
+    switch (source->getType())
     {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_request_track(ctx, client);
+    default:
         return NULL;
     }
-
-    int index = Convert<int>::StringToNumber(indexParam);
-
-    a->noiseStreamer()->requestTrack(index);
-
-    return NULL;
 }
 
 void* nss_stats_genre(void* context)
@@ -369,12 +298,17 @@ void* nss_stats_genre(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
 
-	string value = "\n";
-
-	value += client->getGenreStats();
-
-	return static_cast<void*>(new string(value));
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_stats_genre(client);
+    default:
+        return NULL;
+    }
 }
 
 void* nss_stats_artist(void* context)
@@ -382,10 +316,15 @@ void* nss_stats_artist(void* context)
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
 	NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
 
-	string value = "\n";
-
-	value += client->getArtistStats();
-
-	return static_cast<void*>(new string(value));
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_stats_artist(client);
+    default:
+        return NULL;
+    }
 }

@@ -74,6 +74,8 @@ public:
     string shoutVersion();
     string shoutError();
 
+    AudioSource* getAudioSource();
+
 };
 
 #endif // NoiseStreamer_h__
