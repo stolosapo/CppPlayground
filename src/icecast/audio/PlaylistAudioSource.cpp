@@ -62,29 +62,35 @@ void PlaylistAudioSource::loadNextMp3File()
     // First archive previous Playlist item, if any
     if (currentNssItem != NULL)
     {
+        cout << "currentNssItem is NOT null" << endl;
         archiveTrack(currentNssItem);
     }
 
     if (!hasNext())
     {
+        cout << "Playlist has NO more items" << endl;
         // Playlist has no more items
         return;
     }
 
+    cout << "Playlist HAS more items" << endl;
     currentNssItem = nextTrack();
 
     if (!currentNssItem->readyToPlay())
     {
+        cout << "currentNssItem is NOT ready to play" << endl;
         currentNssItem->waitToFinishEncode();
     }
 
     if (!currentNssItem->isSuccessEncoded())
     {
+        cout << "currentNssItem is NOT isSuccessEncoded" << endl;
         /* TODO: Should log this track as failed */
         logNowPlaying(*currentNssItem);
         return;
     }
 
+    cout << "currentNssItem is ok: " << currentNssItem->getTrackFile() << endl;
     currentMp3File = FileHelper::openReadBinary(currentNssItem->getTrackFile());
 
     logNowPlaying(*currentNssItem);
@@ -97,6 +103,7 @@ FILE* PlaylistAudioSource::mp3File()
         return this->currentMp3File;
     }
 
+    cout << "File IS null" << endl;
     this->loadNextMp3File();
 
     return this->currentMp3File;
@@ -105,7 +112,6 @@ FILE* PlaylistAudioSource::mp3File()
 int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
 {
     FILE* file = mp3File();
-
     if (file == NULL)
     {
         return 0;
@@ -114,6 +120,7 @@ int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
     long read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), file);
     if (read <= 0)
     {
+        cout << "no more file read: " << read << endl;
         // Mp3 File finished, so close it.
         fclose(file);
         file = NULL;
