@@ -1,6 +1,8 @@
 #include "PlaylistAudioSource.h"
 
 #include "AudioSourceType.h"
+#include "../../kernel/exception/domain/DomainException.h"
+#include "../../kernel/exception/ExceptionMapper.h"
 #include "../../kernel/utils/FileHelper.h"
 
 PlaylistAudioSource::PlaylistAudioSource(
@@ -17,16 +19,7 @@ PlaylistAudioSource::PlaylistAudioSource(
 
 PlaylistAudioSource::~PlaylistAudioSource()
 {
-    if (this->currentMp3File != NULL)
-    {
-        fclose(this->currentMp3File);
-        this->currentMp3File = NULL;
-    }
-
-    if (this->currentNssItem != NULL)
-    {
-        archiveTrack(this->currentNssItem);
-    }
+    currentPlaylistItemFinished();
 }
 
 void PlaylistAudioSource::initialize(NoiseStreamerConfig* config)
@@ -39,91 +32,116 @@ string PlaylistAudioSource::audioMetadata()
 {
     if (currentNssItem == NULL)
     {
-        loadNextMp3File();
+        bool hasNext = loadNextPlaylistItem();
+        if (!hasNext)
+        {
+            return "";
+        }
     }
 
     return nowPlaying().getTrackTitle();
 }
 
-void PlaylistAudioSource::logNowPlaying(NoiseStreamerPlaylistItem& nssItem)
+NoiseStreamerPlaylistItem* PlaylistAudioSource::fetchNextPlaylistItem()
 {
-    if (nssItem.isSuccessEncoded())
-    {
-        logSrv->info("Playing: " + nssItem.getTrackFile());
-    }
-    else
-    {
-        logSrv->warn("Skipping: " + nssItem.getTrack().getTrack());
-    }
-}
-
-void PlaylistAudioSource::loadNextMp3File()
-{
-    // First archive previous Playlist item, if any
-    if (currentNssItem != NULL)
-    {
-        cout << "currentNssItem is NOT null" << endl;
-        archiveTrack(currentNssItem);
-    }
-
     if (!hasNext())
     {
-        cout << "Playlist has NO more items" << endl;
         // Playlist has no more items
-        return;
+        return NULL;
     }
 
-    cout << "Playlist HAS more items" << endl;
-    currentNssItem = nextTrack();
+    NoiseStreamerPlaylistItem* nextNssItem = nextTrack();
 
-    if (!currentNssItem->readyToPlay())
+    if (!nextNssItem->readyToPlay())
     {
-        cout << "currentNssItem is NOT ready to play" << endl;
-        currentNssItem->waitToFinishEncode();
+        nextNssItem->waitToFinishEncode();
     }
 
-    if (!currentNssItem->isSuccessEncoded())
+    if (!nextNssItem->isSuccessEncoded())
     {
-        cout << "currentNssItem is NOT isSuccessEncoded" << endl;
         /* TODO: Should log this track as failed */
-        logNowPlaying(*currentNssItem);
-        return;
+        logSrv->warn("Skipping: " + nextNssItem->getTrack().getTrack());
+
+        // Fetch next
+        return fetchNextPlaylistItem();
     }
 
-    cout << "currentNssItem is ok: " << currentNssItem->getTrackFile() << endl;
-    currentMp3File = FileHelper::openReadBinary(currentNssItem->getTrackFile());
-
-    logNowPlaying(*currentNssItem);
+    return nextNssItem;
 }
 
-FILE* PlaylistAudioSource::mp3File()
+bool PlaylistAudioSource::loadNextPlaylistItem()
 {
-    if (this->currentMp3File != NULL)
+    try
     {
-        return this->currentMp3File;
+        // Fetch next Playlist item
+        NoiseStreamerPlaylistItem* nextNssItem = fetchNextPlaylistItem();
+        if (nextNssItem == NULL)
+        {
+            return false;
+        }
+
+        // Set instances
+        currentNssItem = nextNssItem;
+        currentMp3File = FileHelper::openReadBinary(currentNssItem->getTrackFile());
+
+        logSrv->info("Playing: " + currentNssItem->getTrackFile());
+
+        // Raise audioMetedata Event
+        //audioMetadataChanged.raise(this, NULL);
+
+        return true;
+    }
+    catch(DomainException& e)
+    {
+        logSrv->error(handle(e));
+
+        // Raise errorAppeared Event
+        //errorAppeared.raise(this, NULL);
+
+        // Clear current state
+        currentPlaylistItemFinished();
+
+        // and suppress this error
+    }
+}
+
+void PlaylistAudioSource::currentPlaylistItemFinished()
+{
+    // Close Mp3 file
+    if (currentMp3File != NULL)
+    {
+        fclose(currentMp3File);
+        currentMp3File = NULL;
     }
 
-    cout << "File IS null" << endl;
-    this->loadNextMp3File();
-
-    return this->currentMp3File;
+    // Archive playlist item
+    if (currentNssItem != NULL)
+    {
+        archiveTrack(currentNssItem);
+        currentNssItem = NULL;
+    }
 }
 
 int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
 {
-    FILE* file = mp3File();
-    if (file == NULL)
+    if (currentMp3File == NULL)
     {
-        return 0;
+        // load next if any
+        bool hasNext = loadNextPlaylistItem();
+        if (!hasNext)
+        {
+            return 0;
+        }
     }
 
-    long read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), file);
+    long read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), currentMp3File);
     if (read <= 0)
     {
-        cout << "no more file read: " << read << endl;
-        // Mp3 File finished, so close it.
-        fclose(file);
-        file = NULL;
+        // Mp3 File finished
+        currentPlaylistItemFinished();
+
+        // Read next
+        return readNextMp3Data(mp3OutBuffer);
     }
 
     return read;

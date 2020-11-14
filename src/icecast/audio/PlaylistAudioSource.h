@@ -17,9 +17,9 @@ private:
     FILE *currentMp3File;
     NoiseStreamerPlaylistItem* currentNssItem;
 
-    FILE* mp3File();
-    void loadNextMp3File();
-    void logNowPlaying(NoiseStreamerPlaylistItem& nssItem);
+    NoiseStreamerPlaylistItem* fetchNextPlaylistItem();
+    bool loadNextPlaylistItem();
+    void currentPlaylistItemFinished();
 
 public:
 	PlaylistAudioSource(
