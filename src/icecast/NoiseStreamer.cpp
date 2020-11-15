@@ -196,7 +196,7 @@ void NoiseStreamer::initializeAudioSource()
         new AudioMetadataChangedEventHandler(logSrv, this);
 
     audioSource = createNewAudioSource();
-    // audioSource->audi += audioMetadataChangedEventHandler
+    // audioSource->audioMetadataChanged += audioMetadataChangedEventHandler;
 
     audioSource->initialize(config);
 }
@@ -210,7 +210,7 @@ void NoiseStreamer::updateAudioMetadata(string metadata)
     }
 
     libShout->updateMetadata(metadata);
-    logSrv->debug("libshout audio metadata updated successfully");
+    logSrv->trace("libshout audio metadata updated");
 }
 
 void NoiseStreamer::streamAudioSource()

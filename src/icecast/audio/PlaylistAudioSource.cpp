@@ -1,6 +1,7 @@
 #include "PlaylistAudioSource.h"
 
 #include "AudioSourceType.h"
+#include "AudioMetadataChangedEventArgs.h"
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../../kernel/exception/ExceptionMapper.h"
 #include "../../kernel/utils/FileHelper.h"
@@ -87,7 +88,10 @@ bool PlaylistAudioSource::loadNextPlaylistItem()
         logSrv->info("Playing: " + currentNssItem->getTrackFile());
 
         // Raise audioMetedata Event
-        //audioMetadataChanged.raise(this, NULL);
+        // string metadata = nowPlaying().getTrackTitle();
+        // AudioMetadataChangedEventArgs* args =
+        //     new AudioMetadataChangedEventArgs(metadata);
+        // audioMetadataChanged.raise(this, args);
 
         return true;
     }
