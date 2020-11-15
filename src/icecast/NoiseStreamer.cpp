@@ -196,7 +196,7 @@ void NoiseStreamer::initializeAudioSource()
         new AudioMetadataChangedEventHandler(logSrv, this);
 
     audioSource = createNewAudioSource();
-    // audioSource->audioMetadataChanged += audioMetadataChangedEventHandler;
+    audioSource->audioMetadataChanged += audioMetadataChangedEventHandler;
 
     audioSource->initialize(config);
 }
@@ -210,7 +210,7 @@ void NoiseStreamer::updateAudioMetadata(string metadata)
     }
 
     libShout->updateMetadata(metadata);
-    logSrv->trace("libshout audio metadata updated");
+    logSrv->trace("libshout audio metadata updated: " + metadata);
 }
 
 void NoiseStreamer::streamAudioSource()
@@ -219,9 +219,6 @@ void NoiseStreamer::streamAudioSource()
 
     unsigned char buff[AUDIO_SIZE];
     long read;
-
-    /* Update metadata */
-    libShout->updateMetadata(audioSource->audioMetadata());
 
     while (!sigSrv->gotSigInt() && !isGoToNext() && !isStoped())
     {

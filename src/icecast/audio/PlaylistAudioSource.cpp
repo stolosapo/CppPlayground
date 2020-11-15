@@ -29,20 +29,6 @@ void PlaylistAudioSource::initialize(NoiseStreamerConfig* config)
     loadPlaylist();
 }
 
-string PlaylistAudioSource::audioMetadata()
-{
-    if (currentNssItem == NULL)
-    {
-        bool hasNext = loadNextPlaylistItem();
-        if (!hasNext)
-        {
-            return "";
-        }
-    }
-
-    return nowPlaying().getTrackTitle();
-}
-
 NoiseStreamerPlaylistItem* PlaylistAudioSource::fetchNextPlaylistItem()
 {
     if (!hasNext())
@@ -88,10 +74,10 @@ bool PlaylistAudioSource::loadNextPlaylistItem()
         logSrv->info("Playing: " + currentNssItem->getTrackFile());
 
         // Raise audioMetedata Event
-        // string metadata = nowPlaying().getTrackTitle();
-        // AudioMetadataChangedEventArgs* args =
-        //     new AudioMetadataChangedEventArgs(metadata);
-        // audioMetadataChanged.raise(this, args);
+        string metadata = nextNssItem->getTrack().getTrackTitle();
+        AudioMetadataChangedEventArgs* args =
+            new AudioMetadataChangedEventArgs(metadata);
+        audioMetadataChanged.raise(this, args);
 
         return true;
     }
@@ -139,14 +125,14 @@ int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
     }
 
     long read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), currentMp3File);
-    if (read <= 0)
+    if (read > 0)
     {
-        // Mp3 File finished
-        currentPlaylistItemFinished();
-
-        // Read next
-        return readNextMp3Data(mp3OutBuffer);
+        return read;
     }
 
-    return read;
+    // Mp3 File finished
+    currentPlaylistItemFinished();
+
+    // Read next
+    return readNextMp3Data(mp3OutBuffer);
 }

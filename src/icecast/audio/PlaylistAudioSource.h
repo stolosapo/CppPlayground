@@ -30,8 +30,6 @@ public:
 
     virtual void initialize(NoiseStreamerConfig* config);
 
-    virtual string audioMetadata();
-
     virtual int readNextMp3Data(unsigned char* mp3OutBuffer);
 };
 
