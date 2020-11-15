@@ -229,30 +229,54 @@ void* nss_stop(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+    NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
 
-	a->noiseStreamer()->stop();
-
-	return NULL;
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_stop(client);
+    default:
+        return NULL;
+    }
 }
 
 void* nss_pause(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+    NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
 
-	a->noiseStreamer()->pause();
-
-	return NULL;
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_pause(client);
+    default:
+        return NULL;
+    }
 }
 
 void* nss_resume(void* context)
 {
     TaskContext* ctx = (TaskContext*) context;
 	NoiseStreamerAgent* a = (NoiseStreamerAgent*) ctx->getData();
+    NoiseStreamer* client = a->noiseStreamer();
+    AudioSource* source = client->getAudioSource();
 
-	a->noiseStreamer()->resume();
-
-	return NULL;
+    switch (source->getType())
+    {
+    case SOURCE_NONE:
+        return NULL;
+    case SOURCE_PLAYLIST:
+        return nss_playlist_resume(client);
+    default:
+        return NULL;
+    }
 }
 
 void* nss_next_track(void* context)

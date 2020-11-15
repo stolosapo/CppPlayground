@@ -30,7 +30,6 @@ NoiseStreamer::NoiseStreamer(
     AudioEncodingService *encSrv,
     string configFilename)
     : Version(1, 0, 0),
-    NoiseStreamerNavigator(logSrv, sigSrv),
     NoiseStreamerHealth(),
     logSrv(logSrv),
     sigSrv(sigSrv),
@@ -181,6 +180,7 @@ AudioSource* NoiseStreamer::createNewAudioSource()
 {
     return new PlaylistAudioSource(
         logSrv,
+        sigSrv,
         timeSrv,
         encSrv);
 }
@@ -220,9 +220,9 @@ void NoiseStreamer::streamAudioSource()
     unsigned char buff[AUDIO_SIZE];
     long read;
 
-    while (!sigSrv->gotSigInt() && !isGoToNext() && !isStoped())
+    while (!sigSrv->gotSigInt())
     {
-        waitForResume();
+        checkIfErrorCounterThresholdReached();
 
         read = audioSource->readNextMp3Data(buff);
 
@@ -243,11 +243,6 @@ void NoiseStreamer::streamAudioSource()
         checkIfShoutQueueLengthThresholdReached();
 
         libShout->shoutSync();
-    }
-
-    if (!isStoped())
-    {
-        normal();
     }
 }
 
@@ -355,10 +350,6 @@ void NoiseStreamer::initialize()
     loadConfig();
 
     initializeAudioSource();
-
-    // initializePlaylist(config);
-
-    // loadPlaylist();
 }
 
 void NoiseStreamer::connect()
@@ -375,9 +366,16 @@ void NoiseStreamer::disconnect()
 
 void NoiseStreamer::stream()
 {
-    // streamPlaylist();
+    try
+    {
+        resetErrorCounter();
 
-    streamAudioSource();
+        streamAudioSource();
+    }
+    catch(DomainException& e)
+    {
+        logSrv->error(handle(e));
+    }
 }
 
 void NoiseStreamer::action()
@@ -394,21 +392,13 @@ void NoiseStreamer::action()
     /* Finilize Shout */
     disconnect();
 
-    /* Shout down streamer */
-    shutdown();
+    /* Shout down audio source */
+    audioSource->shutdown();
 }
 
 void NoiseStreamer::shutdownStreamer()
 {
-    if (!isStoped())
-    {
-        stop();
-    }
-
-    if (!isShutdown())
-    {
-        waitForShutdown();
-    }
+    audioSource->shutdownAudioSource();
 }
 
 AudioSource* NoiseStreamer::getAudioSource()

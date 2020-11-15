@@ -6,14 +6,13 @@
 
 #include "AudioSource.h"
 #include "../playlist/NoiseStreamerPlaylist.h"
+#include "../../kernel/interruption/SignalService.h"
 
 using namespace std;
 
 class PlaylistAudioSource: public AudioSource, public NoiseStreamerPlaylist
 {
 private:
-    ILogService* logSrv;
-
     FILE *currentMp3File;
     NoiseStreamerPlaylistItem* currentNssItem;
 
@@ -24,6 +23,7 @@ private:
 public:
 	PlaylistAudioSource(
         ILogService* logSrv,
+        SignalService *sigSrv,
         ITimeService* timeSrv,
         AudioEncodingService *encSrv);
 	virtual ~PlaylistAudioSource();

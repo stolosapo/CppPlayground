@@ -6,7 +6,7 @@
 #include "playlist/NoiseStreamerPlaylist.h"
 #include "health/NoiseStreamerHealth.h"
 #include "audio/AudioSource.h"
-#include "audio/AudioMetadataChangedEventHandlerClass.h"
+#include "audio/AudioSourceEventHandlers.h"
 #include "../kernel/log/ILogService.h"
 #include "../kernel/time/ITimeService.h"
 #include "../kernel/interruption/SignalService.h"
@@ -17,7 +17,7 @@
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
 
 
-class NoiseStreamer : public Version, public NoiseStreamerNavigator, public NoiseStreamerHealth
+class NoiseStreamer : public Version, public NoiseStreamerHealth
 {
 private:
     static const char* USER_AGENT;
@@ -60,6 +60,8 @@ public:
         AudioEncodingService *encSrv,
         string configFilename);
 	virtual ~NoiseStreamer();
+
+    friend class AudioMetadataChangedEventHandler;
 
 	string agentVersion();
     NoiseStreamerConfig* getConfig();

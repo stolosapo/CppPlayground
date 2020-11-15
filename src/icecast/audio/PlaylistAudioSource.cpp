@@ -8,10 +8,10 @@
 
 PlaylistAudioSource::PlaylistAudioSource(
     ILogService* logSrv,
+    SignalService* sigSrv,
     ITimeService* timeSrv,
     AudioEncodingService *encSrv)
-    : logSrv(logSrv),
-    AudioSource(SOURCE_PLAYLIST),
+    : AudioSource(logSrv, sigSrv, SOURCE_PLAYLIST),
     NoiseStreamerPlaylist(logSrv, timeSrv, encSrv)
 {
     this->currentMp3File = NULL;
@@ -47,7 +47,7 @@ NoiseStreamerPlaylistItem* PlaylistAudioSource::fetchNextPlaylistItem()
     if (!nextNssItem->isSuccessEncoded())
     {
         /* TODO: Should log this track as failed */
-        logSrv->warn("Skipping: " + nextNssItem->getTrack().getTrack());
+        AudioSource::logSrv->warn("Skipping: " + nextNssItem->getTrack().getTrack());
 
         // Fetch next
         return fetchNextPlaylistItem();
@@ -71,7 +71,7 @@ bool PlaylistAudioSource::loadNextPlaylistItem()
         currentNssItem = nextNssItem;
         currentMp3File = FileHelper::openReadBinary(currentNssItem->getTrackFile());
 
-        logSrv->info("Playing: " + currentNssItem->getTrackFile());
+        AudioSource::logSrv->info("Playing: " + currentNssItem->getTrackFile());
 
         // Raise audioMetedata Event
         string metadata = nextNssItem->getTrack().getTrackTitle();
@@ -83,10 +83,10 @@ bool PlaylistAudioSource::loadNextPlaylistItem()
     }
     catch(DomainException& e)
     {
-        logSrv->error(handle(e));
+        AudioSource::logSrv->error(handle(e));
 
         // Raise errorAppeared Event
-        //errorAppeared.raise(this, NULL);
+        errorAppeared.raise(this, NULL);
 
         // Clear current state
         currentPlaylistItemFinished();
@@ -114,8 +114,18 @@ void PlaylistAudioSource::currentPlaylistItemFinished()
 
 int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
 {
-    if (currentMp3File == NULL)
+    if (sigSrv->gotSigInt() || isStoped())
     {
+        // Mp3 File finished
+        currentPlaylistItemFinished();
+        return 0;
+    }
+
+    if (currentMp3File == NULL || isGoToNext())
+    {
+        // Bring back to normal in case of goToNext
+        normal();
+
         // load next if any
         bool hasNext = loadNextPlaylistItem();
         if (!hasNext)

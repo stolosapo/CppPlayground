@@ -206,9 +206,38 @@ void* nss_playlist_history(TaskContext* context, NoiseStreamer* client)
     return static_cast<void*>(new string(value));
 }
 
+void* nss_playlist_stop(NoiseStreamer* client)
+{
+    PlaylistAudioSource* playlistSource = playlist_audio_source(client);
+
+	playlistSource->stop();
+
+	return NULL;
+}
+
+void* nss_playlist_pause(NoiseStreamer* client)
+{
+    PlaylistAudioSource* playlistSource = playlist_audio_source(client);
+
+	playlistSource->pause();
+
+	return NULL;
+}
+
+void* nss_playlist_resume(NoiseStreamer* client)
+{
+    PlaylistAudioSource* playlistSource = playlist_audio_source(client);
+
+	playlistSource->resume();
+
+	return NULL;
+}
+
 void* nss_playlist_next_track(NoiseStreamer* client)
 {
-	client->next();
+    PlaylistAudioSource* playlistSource = playlist_audio_source(client);
+
+	playlistSource->next();
 
 	return NULL;
 }
