@@ -1,0 +1,6 @@
+#ifndef AudioMetadataChangedEventHandlerClass_h__
+#define AudioMetadataChangedEventHandlerClass_h__
+
+class AudioMetadataChangedEventHandler;
+
+#endif // AudioMetadataChangedEventHandlerClass_h__

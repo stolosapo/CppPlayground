@@ -6,6 +6,7 @@
 #include "playlist/NoiseStreamerPlaylist.h"
 #include "health/NoiseStreamerHealth.h"
 #include "audio/AudioSource.h"
+#include "audio/AudioMetadataChangedEventHandlerClass.h"
 #include "../kernel/log/ILogService.h"
 #include "../kernel/time/ITimeService.h"
 #include "../kernel/interruption/SignalService.h"
@@ -32,6 +33,8 @@ private:
 	NoiseStreamerConfig* config;
 	LibShout* libShout;
     AudioSource* audioSource;
+
+    AudioMetadataChangedEventHandler* audioMetadataChangedEventHandler;
 
 	void logNowPlaying(NoiseStreamerPlaylistItem& nssItem);
 
@@ -67,6 +70,7 @@ public:
     void disconnect();
     void shutdownStreamer();
 	void action();
+    void updateAudioMetadata(string metadata);
 
     string shoutVersion();
     string shoutError();

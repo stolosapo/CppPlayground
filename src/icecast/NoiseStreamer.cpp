@@ -5,6 +5,7 @@
 #include "exception/NoiseStreamerDomainErrorCode.h"
 
 #include "audio/PlaylistAudioSource.h"
+#include "audio/AudioMetadataChangedEventHandler.h"
 
 #include "../kernel/converter/Convert.h"
 #include "../kernel/utils/FileHelper.h"
@@ -41,6 +42,7 @@ NoiseStreamer::NoiseStreamer(
     this->config = NULL;
     this->libShout = NULL;
     this->audioSource = NULL;
+    this->audioMetadataChangedEventHandler = NULL;
 }
 
 NoiseStreamer::~NoiseStreamer()
@@ -55,6 +57,11 @@ NoiseStreamer::~NoiseStreamer()
     if (audioSource != NULL)
     {
         delete audioSource;
+    }
+
+    if (audioMetadataChangedEventHandler != NULL)
+    {
+        delete audioMetadataChangedEventHandler;
     }
 }
 
@@ -185,9 +192,25 @@ void NoiseStreamer::initializeAudioSource()
         delete audioSource;
     }
 
+    audioMetadataChangedEventHandler =
+        new AudioMetadataChangedEventHandler(logSrv, this);
+
     audioSource = createNewAudioSource();
+    // audioSource->audi += audioMetadataChangedEventHandler
 
     audioSource->initialize(config);
+}
+
+void NoiseStreamer::updateAudioMetadata(string metadata)
+{
+    if (libShout == NULL)
+    {
+        logSrv->warn("Trying to update metadata on NULL libshout");
+        return;
+    }
+
+    libShout->updateMetadata(metadata);
+    logSrv->debug("libshout audio metadata updated successfully");
 }
 
 void NoiseStreamer::streamAudioSource()
