@@ -35,6 +35,7 @@ private:
     AudioSource* audioSource;
 
     AudioMetadataChangedEventHandler* audioMetadataChangedEventHandler;
+    ErrorAppearedEventHandler* errorAppearedEventHandler;
 
 	void logNowPlaying(NoiseStreamerPlaylistItem& nssItem);
 
@@ -62,6 +63,7 @@ public:
 	virtual ~NoiseStreamer();
 
     friend class AudioMetadataChangedEventHandler;
+    friend class ErrorAppearedEventHandler;
 
 	string agentVersion();
     NoiseStreamerConfig* getConfig();

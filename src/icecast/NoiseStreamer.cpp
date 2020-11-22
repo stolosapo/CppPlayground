@@ -6,6 +6,7 @@
 
 #include "audio/PlaylistAudioSource.h"
 #include "audio/AudioMetadataChangedEventHandler.h"
+#include "audio/ErrorAppearedEventHandler.h"
 
 #include "../kernel/converter/Convert.h"
 #include "../kernel/utils/FileHelper.h"
@@ -42,6 +43,7 @@ NoiseStreamer::NoiseStreamer(
     this->libShout = NULL;
     this->audioSource = NULL;
     this->audioMetadataChangedEventHandler = NULL;
+    this->errorAppearedEventHandler = NULL;
 }
 
 NoiseStreamer::~NoiseStreamer()
@@ -61,6 +63,11 @@ NoiseStreamer::~NoiseStreamer()
     if (audioMetadataChangedEventHandler != NULL)
     {
         delete audioMetadataChangedEventHandler;
+    }
+
+    if (errorAppearedEventHandler != NULL)
+    {
+        delete errorAppearedEventHandler;
     }
 }
 
@@ -195,8 +202,12 @@ void NoiseStreamer::initializeAudioSource()
     audioMetadataChangedEventHandler =
         new AudioMetadataChangedEventHandler(logSrv, this);
 
+    errorAppearedEventHandler =
+        new ErrorAppearedEventHandler(this);
+
     audioSource = createNewAudioSource();
     audioSource->audioMetadataChanged += audioMetadataChangedEventHandler;
+    audioSource->errorAppeared += errorAppearedEventHandler;
 
     audioSource->initialize(config);
 }
