@@ -22,11 +22,11 @@ public:
     Event OnError;
     Event OnAudioMetadataChanged;
 
-	AudioSource(
+    AudioSource(
         ILogService* logSrv,
         SignalService *sigSrv,
         const AudioSourceType type);
-	virtual ~AudioSource();
+    virtual ~AudioSource();
 
     AudioSourceType getType() const;
 

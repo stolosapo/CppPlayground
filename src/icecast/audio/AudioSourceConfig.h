@@ -8,8 +8,8 @@ using namespace std;
 class AudioSourceConfig
 {
 public:
-	AudioSourceConfig();
-	virtual ~AudioSourceConfig();
+    AudioSourceConfig();
+    virtual ~AudioSourceConfig();
 
 };
 
