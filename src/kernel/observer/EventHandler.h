@@ -10,7 +10,7 @@ public:
 	EventHandler();
 	virtual ~EventHandler();
 
-        virtual void onEvent(void* sender, EventArgs* e) = 0;
+    virtual void onEvent(void* sender, EventArgs* e) = 0;
 };
 
 #endif // EventHandler_h__

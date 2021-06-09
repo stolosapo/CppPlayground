@@ -74,6 +74,7 @@ public:
     void setWriteId3tagAutomatic(bool enabled);
 
     int encodeFlush(unsigned char* mp3_buffer, int size);
+    int encodeBuffer(short int* pcm_buffer_l, short int* pcm_buffer_r, int num_samples, unsigned char* mp3_buffer, int mp3_buffer_size);
     int encodeBufferInterleaved(short int* pcm_buffer, int num_samples, unsigned char* mp3_buffer, int mp3_buffer_size);
 
 };

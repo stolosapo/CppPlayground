@@ -22,6 +22,9 @@ https://medium.com/@audiowaves/lets-write-a-simple-sine-wave-generator-with-c-an
 
 https://github.com/pbohun/sound-gen/blob/master/lesson2/sound.h
 
+Change BitRate
+https://stackoverflow.com/questions/48318801/lame-mp3-change-bitrate-cpp
+
 About the encode Segmentation Fault issue:
 https://stackoverflow.com/questions/16926725/audio-speed-changes-on-converting-wav-to-mp3
 https://stackoverflow.com/questions/2495420/is-there-any-lame-c-wrapper-simplifier-working-on-linux-mac-and-win-from-pure/2496831#2496831
@@ -421,5 +424,83 @@ void LameAudioEncodingService::decode(string mp3_in_file, string pcm_out_file)
 
     // Progress Log: DONE
 
+#endif
+}
+
+int LameAudioEncodingService::reencode(
+    unsigned char* mp3_in_buffer,
+    int mp3_in_buffer_size,
+    unsigned char* mp3_out_buffer,
+    AudioTag* settings)
+{
+#ifdef LAME
+    // Multiplier, not sure exaclty why ?
+    const int MULT = 1;
+
+    short int pcm_buffer[PCM_SIZE * MULT * 2];
+    short int pcm_buffer_l[PCM_SIZE * MULT];
+    short int pcm_buffer_r[PCM_SIZE * MULT];
+
+    memset(pcm_buffer, 0, sizeof(pcm_buffer));
+    memset(pcm_buffer_l, 0, sizeof(pcm_buffer_l));
+    memset(pcm_buffer_r, 0, sizeof(pcm_buffer_r));
+
+    LibLame lame;
+
+    lame.init();
+    lame.initParams();
+
+    lame.setInSamplerate(settings->getReSamplerate());
+    lame.setModeJointStereo();
+    lame.setBrate(settings->getBitrate());
+    lame.setNumChannels(settings->getChannels());
+
+    hip_t hip = lame.hipDecodeInit();
+
+    mp3data_struct mp3data;
+    memset(&mp3data, 0, sizeof(mp3data));
+
+    int numdec = lame.hipDecode1Headers(
+        hip,
+        mp3_in_buffer,
+        mp3_in_buffer_size,
+        pcm_buffer_l,
+        pcm_buffer_r,
+        &mp3data);
+
+    if (numdec <= 0)
+    {
+        cout << "hipDecode empty read: " << numdec << endl;
+        cout << "header_parsed: " << mp3data.header_parsed << endl;
+        cout << "samplerate: " << mp3data.samplerate << endl;
+        cout << "stereo: " << mp3data.stereo << endl;
+        return 0;
+    }
+
+
+    memcpy(pcm_buffer, pcm_buffer_l, numdec);
+    memcpy(&pcm_buffer[numdec], pcm_buffer_r, numdec);
+
+    int write = lame.encodeBuffer(
+        pcm_buffer_l,
+        pcm_buffer_r,
+        numdec,
+        mp3_out_buffer,
+        sizeof(mp3_out_buffer));
+
+    cout << "Encode write: " << write << endl;
+
+    // __mp3_out_buffer = mp3_out_buffer;
+
+    memset(pcm_buffer, 0, sizeof(pcm_buffer));
+    memset(pcm_buffer_l, 0, sizeof(pcm_buffer_l));
+    memset(pcm_buffer_r, 0, sizeof(pcm_buffer_r));
+
+    // memset(mp3_out_buffer, 0, sizeof(mp3_out_buffer));
+
+    lame.hipDecodeExit(hip);
+    lame.close();
+
+    return write;
 #endif
 }

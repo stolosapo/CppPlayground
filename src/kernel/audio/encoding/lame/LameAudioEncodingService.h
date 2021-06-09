@@ -35,6 +35,8 @@ public:
 
     virtual void encode(string pcm_in_file, string mp3_out_file, AudioTag* settings);
     virtual void decode(string mp3_in_file, string pcm_out_file);
+
+    virtual int reencode(unsigned char* mp3_in_buffer, int mp3_in_buffer_size, unsigned char* mp3_out_buffer, AudioTag* settings);
 };
 
 #endif // LameAudioEncodingService_h__

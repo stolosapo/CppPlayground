@@ -7,5 +7,5 @@ EventArgs::EventArgs()
 
 EventArgs::~EventArgs()
 {
-        
+
 }

@@ -5,6 +5,8 @@
 #include "config/NoiseStreamerConfig.h"
 #include "playlist/NoiseStreamerPlaylist.h"
 #include "health/NoiseStreamerHealth.h"
+#include "audio/AudioSource.h"
+#include "audio/AudioSourceEventHandlers.h"
 #include "../kernel/log/ILogService.h"
 #include "../kernel/time/ITimeService.h"
 #include "../kernel/interruption/SignalService.h"
@@ -15,13 +17,14 @@
 #include "../kernel/audio/playlist/PlaylistHandlerFactory.h"
 
 
-class NoiseStreamer : public Version, public NoiseStreamerNavigator, public NoiseStreamerPlaylist, public NoiseStreamerHealth
+class NoiseStreamer : public Version, public NoiseStreamerHealth
 {
 private:
     static const char* USER_AGENT;
 
 	ILogService *logSrv;
 	SignalService* sigSrv;
+    ITimeService *timeSrv;
 	AudioTagService *tagSrv;
     AudioEncodingService *encSrv;
 
@@ -29,6 +32,10 @@ private:
 
 	NoiseStreamerConfig* config;
 	LibShout* libShout;
+    AudioSource* audioSource;
+
+    AudioMetadataChangedEventHandler* audioMetadataChangedEventHandler;
+    ErrorAppearedEventHandler* errorAppearedEventHandler;
 
 	void logNowPlaying(NoiseStreamerPlaylistItem& nssItem);
 
@@ -36,11 +43,11 @@ private:
     void connectShout();
 	void finilizeShout();
 
+    void initializeAudioSource();
+
 	void loadConfig();
 
-    void streamPlaylist();
-    void streamNextTrack();
-	void streamAudioFile(NoiseStreamerPlaylistItem* nssItem);
+    void streamAudioSource();
 
 	static void onLibShoutError(void* sender, EventArgs* e);
 
@@ -54,6 +61,9 @@ public:
         string configFilename);
 	virtual ~NoiseStreamer();
 
+    friend class AudioMetadataChangedEventHandler;
+    friend class ErrorAppearedEventHandler;
+
 	string agentVersion();
     NoiseStreamerConfig* getConfig();
 
@@ -63,9 +73,12 @@ public:
     void disconnect();
     void shutdownStreamer();
 	void action();
+    void updateAudioMetadata(string metadata);
 
     string shoutVersion();
     string shoutError();
+
+    AudioSource* getAudioSource();
 
 };
 

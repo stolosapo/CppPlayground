@@ -4,6 +4,10 @@
 
 #include "exception/NoiseStreamerDomainErrorCode.h"
 
+#include "audio/PlaylistAudioSource.h"
+#include "audio/AudioMetadataChangedEventHandler.h"
+#include "audio/ErrorAppearedEventHandler.h"
+
 #include "../kernel/converter/Convert.h"
 #include "../kernel/utils/FileHelper.h"
 #include "../kernel/exception/domain/DomainException.h"
@@ -20,39 +24,56 @@ const char* NoiseStreamer::USER_AGENT = "NoiseStreamer";
 
 
 NoiseStreamer::NoiseStreamer(
-	ILogService *logSrv,
-	SignalService *sigSrv,
+    ILogService *logSrv,
+    SignalService *sigSrv,
     ITimeService *timeSrv,
-	AudioTagService *tagSrv,
+    AudioTagService *tagSrv,
     AudioEncodingService *encSrv,
     string configFilename)
-	: Version(1, 0, 0),
-	NoiseStreamerNavigator(logSrv, sigSrv),
-    NoiseStreamerPlaylist(logSrv, timeSrv, encSrv),
+    : Version(1, 0, 0),
     NoiseStreamerHealth(),
-	logSrv(logSrv),
-	sigSrv(sigSrv),
-	tagSrv(tagSrv),
+    logSrv(logSrv),
+    sigSrv(sigSrv),
+    timeSrv(timeSrv),
+    tagSrv(tagSrv),
     encSrv(encSrv),
     configFilename(configFilename)
 {
-	this->config = NULL;
-	this->libShout = NULL;
+    this->config = NULL;
+    this->libShout = NULL;
+    this->audioSource = NULL;
+    this->audioMetadataChangedEventHandler = NULL;
+    this->errorAppearedEventHandler = NULL;
 }
 
 NoiseStreamer::~NoiseStreamer()
 {
-	if (config != NULL)
-	{
-		delete config;
-	}
+    if (config != NULL)
+    {
+        delete config;
+    }
 
-	finilizeShout();
+    finilizeShout();
+
+    if (audioSource != NULL)
+    {
+        delete audioSource;
+    }
+
+    if (audioMetadataChangedEventHandler != NULL)
+    {
+        delete audioMetadataChangedEventHandler;
+    }
+
+    if (errorAppearedEventHandler != NULL)
+    {
+        delete errorAppearedEventHandler;
+    }
 }
 
 string NoiseStreamer::agentVersion()
 {
-	return string(USER_AGENT) + "/" + version();
+    return string(USER_AGENT) + "/" + version();
 }
 
 NoiseStreamerConfig* NoiseStreamer::getConfig()
@@ -74,62 +95,62 @@ void NoiseStreamer::logNowPlaying(NoiseStreamerPlaylistItem& nssItem)
 
 void NoiseStreamer::onLibShoutError(void* sender, EventArgs* e)
 {
-	LibShout* shout = (LibShout*) sender;
+    LibShout* shout = (LibShout*) sender;
 
-	if (!shout->isConnected())
-	{
-		shout->restartShout();
-	}
+    if (!shout->isConnected())
+    {
+        shout->restartShout();
+    }
 
-	throw DomainException(NoiseStreamerDomainErrorCode::NSS0024);
+    throw DomainException(NoiseStreamerDomainErrorCode::NSS0024);
 }
 
 void NoiseStreamer::loadConfig()
 {
-	ConfigLoader<NoiseStreamerConfig> loader(configFilename);
+    ConfigLoader<NoiseStreamerConfig> loader(configFilename);
 
-	this->config = loader.load();
+    this->config = loader.load();
 }
 
 void NoiseStreamer::initializeShout()
 {
-	libShout = new LibShout(logSrv, sigSrv);
-	libShout->errorEvent += onLibShoutError;
-	libShout->initializeShout();
+    libShout = new LibShout(logSrv, sigSrv);
+    libShout->errorEvent += onLibShoutError;
+    libShout->initializeShout();
 
-	string shoutVersion = libShout->shoutFullVersion();
-	string clientVersion = agentVersion();
+    string shoutVersion = libShout->shoutFullVersion();
+    string clientVersion = agentVersion();
     string lameVersion = encSrv->version();
-	string fullVersion = clientVersion + " " + shoutVersion + " " + lameVersion;
+    string fullVersion = clientVersion + " " + shoutVersion + " " + lameVersion;
 
-	libShout->setAgent(fullVersion);
-	libShout->setProtocolHttp();
-	libShout->setHost(config->getHostname());
-	libShout->setPort(Convert<unsigned short>::StringToNumber(config->getPort()));
-	libShout->setMount(config->getMountpoint());
+    libShout->setAgent(fullVersion);
+    libShout->setProtocolHttp();
+    libShout->setHost(config->getHostname());
+    libShout->setPort(Convert<unsigned short>::StringToNumber(config->getPort()));
+    libShout->setMount(config->getMountpoint());
 
-	libShout->setUser(config->getUsername());
-	libShout->setPassword(config->getPassword());
+    libShout->setUser(config->getUsername());
+    libShout->setPassword(config->getPassword());
 
-	libShout->setFormatMp3();
-	libShout->setPublic(Convert<unsigned int>::StringToNumber(config->getPublic()));
-	libShout->setNonblocking(1);
+    libShout->setFormatMp3();
+    libShout->setPublic(Convert<unsigned int>::StringToNumber(config->getPublic()));
+    libShout->setNonblocking(1);
 
-	libShout->setName(config->getName());
-	libShout->setUrl(config->getUrl());
-	libShout->setGenre(config->getGenre());
-	libShout->setDescription(config->getDescription());
+    libShout->setName(config->getName());
+    libShout->setUrl(config->getUrl());
+    libShout->setGenre(config->getGenre());
+    libShout->setDescription(config->getDescription());
 
-	libShout->setAudioInfoBitrate(config->getBitrate());
-	libShout->setAudioInfoSamplerate(config->getSamplerate());
-	libShout->setAudioInfoChannels(config->getChannels());
+    libShout->setAudioInfoBitrate(config->getBitrate());
+    libShout->setAudioInfoSamplerate(config->getSamplerate());
+    libShout->setAudioInfoChannels(config->getChannels());
 
-	logSrv->info("LibShout initialized: " + shoutVersion);
+    logSrv->info("LibShout initialized: " + shoutVersion);
 }
 
 void NoiseStreamer::connectShout()
 {
-	libShout->startShout();
+    libShout->startShout();
 }
 
 void NoiseStreamer::finilizeShout()
@@ -162,82 +183,63 @@ string NoiseStreamer::shoutError()
     return string(libShout->getError());
 }
 
-void NoiseStreamer::streamPlaylist()
+void NoiseStreamer::initializeAudioSource()
 {
-	try
-	{
-        resetErrorCounter();
-
-		while (hasNext() && !sigSrv->gotSigInt() && !isStoped())
-		{
-            checkIfErrorCounterThresholdReached();
-
-			streamNextTrack();
-		}
-
-		logSrv->info("Playlist finished!");
-	}
-	catch (DomainException& e)
-	{
-		logSrv->error(handle(e));
-	}
-}
-
-void NoiseStreamer::streamNextTrack()
-{
-    try
+    if (audioSource != NULL)
     {
-        NoiseStreamerPlaylistItem* nssItem = nextTrack();
-
-        if (!nssItem->readyToPlay())
-        {
-            nssItem->waitToFinishEncode();
-        }
-
-        if (!nssItem->isSuccessEncoded())
-        {
-            /* TODO: Should log this track as failed */
-            logNowPlaying(*nssItem);
-            archiveTrack(nssItem);
-            return;
-        }
-
-        logNowPlaying(*nssItem);
-        streamAudioFile(nssItem);
-        archiveTrack(nssItem);
+        delete audioSource;
     }
-    catch (DomainException& e)
-	{
-		// logSrv->error(handle(e));
-        // incrementErrorCounter(); ERROR NEVER ENDING
-        throw e;
-	}
+
+    audioMetadataChangedEventHandler =
+        new AudioMetadataChangedEventHandler(logSrv, this);
+
+    errorAppearedEventHandler =
+        new ErrorAppearedEventHandler(this);
+
+    audioSource = new PlaylistAudioSource(
+        logSrv,
+        sigSrv,
+        timeSrv,
+        encSrv,
+        config);
+
+    audioSource->OnAudioMetadataChanged += audioMetadataChangedEventHandler;
+    audioSource->OnError += errorAppearedEventHandler;
+
+    AudioSourceConfig c;
+    audioSource->initialize(c);
 }
 
-void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
+void NoiseStreamer::updateAudioMetadata(string metadata)
+{
+    if (libShout == NULL)
+    {
+        logSrv->warn("Trying to update metadata on NULL libshout");
+        return;
+    }
+
+    libShout->updateMetadata(metadata);
+    logSrv->trace("libshout audio metadata updated: " + metadata);
+}
+
+void NoiseStreamer::streamAudioSource()
 {
     const int AUDIO_SIZE = 4096;
 
-	unsigned char buff[AUDIO_SIZE];
-	long read;
-    PlaylistItem item = nssItem->getTrack();
+    unsigned char buff[AUDIO_SIZE * 100];
+    long read;
 
-	FILE* mp3file;
-    mp3file = FileHelper::openReadBinary(nssItem->getTrackFile());
+    while (!sigSrv->gotSigInt())
+    {
+        checkIfErrorCounterThresholdReached();
 
-	/* Update metadata */
-	libShout->updateMetadata(item.getTrackTitle());
+        read = audioSource->readNextMp3Data(buff, AUDIO_SIZE);
+        // read = ((PlaylistAudioSource*) audioSource)->readNextEncodedMp3Data(buff);
 
-	while (!sigSrv->gotSigInt() && !isGoToNext() && !isStoped())
-	{
-		waitForResume();
-
-		read = fread(buff, 1, sizeof(buff), mp3file);
-
-		if (read <= 0)
-		{
-			break;
-		}
+        if (read <= 0)
+        {
+            break;
+        }
 
         if (!libShout->isConnected())
         {
@@ -250,31 +252,121 @@ void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
         setShoutQueueLenth(libShout->shoutQueuelen());
         checkIfShoutQueueLengthThresholdReached();
 
-		libShout->shoutSync();
-	}
-
-    if (!isStoped())
-    {
-        normal();
+        libShout->shoutSync();
     }
-
-	fclose(mp3file);
 }
+
+// void NoiseStreamer::streamPlaylist()
+// {
+// 	try
+// 	{
+//         resetErrorCounter();
+
+// 		while (hasNext() && !sigSrv->gotSigInt() && !isStoped())
+// 		{
+//             checkIfErrorCounterThresholdReached();
+
+// 			streamNextTrack();
+// 		}
+
+// 		logSrv->info("Playlist finished!");
+// 	}
+// 	catch (DomainException& e)
+// 	{
+// 		logSrv->error(handle(e));
+// 	}
+// }
+
+// void NoiseStreamer::streamNextTrack()
+// {
+//     try
+//     {
+//         NoiseStreamerPlaylistItem* nssItem = nextTrack();
+
+//         if (!nssItem->readyToPlay())
+//         {
+//             nssItem->waitToFinishEncode();
+//         }
+
+//         if (!nssItem->isSuccessEncoded())
+//         {
+//             /* TODO: Should log this track as failed */
+//             logNowPlaying(*nssItem);
+//             archiveTrack(nssItem);
+//             return;
+//         }
+
+//         logNowPlaying(*nssItem);
+//         streamAudioFile(nssItem);
+//         archiveTrack(nssItem);
+//     }
+//     catch (DomainException& e)
+// 	{
+// 		// logSrv->error(handle(e));
+//         // incrementErrorCounter(); ERROR NEVER ENDING
+//         throw e;
+// 	}
+// }
+
+// void NoiseStreamer::streamAudioFile(NoiseStreamerPlaylistItem* nssItem)
+// {
+//     const int AUDIO_SIZE = 4096;
+
+// 	unsigned char buff[AUDIO_SIZE];
+// 	long read;
+//     PlaylistItem item = nssItem->getTrack();
+
+// 	FILE* mp3file;
+//     mp3file = FileHelper::openReadBinary(nssItem->getTrackFile());
+
+// 	/* Update metadata */
+// 	libShout->updateMetadata(item.getTrackTitle());
+
+// 	while (!sigSrv->gotSigInt() && !isGoToNext() && !isStoped())
+// 	{
+// 		waitForResume();
+
+// 		read = fread(buff, 1, sizeof(buff), mp3file);
+
+// 		if (read <= 0)
+// 		{
+// 			break;
+// 		}
+
+//         if (!libShout->isConnected())
+//         {
+//             string connStr = Convert<int>::NumberToString(libShout->getConnected());
+//             throw DomainException(NoiseStreamerDomainErrorCode::NSS0020, "Connection status '" + connStr + "'");
+//         }
+
+//         libShout->shoutSend(buff, read);
+
+//         setShoutQueueLenth(libShout->shoutQueuelen());
+//         checkIfShoutQueueLengthThresholdReached();
+
+// 		libShout->shoutSync();
+// 	}
+
+//     if (!isStoped())
+//     {
+//         normal();
+//     }
+
+// 	fclose(mp3file);
+// }
 
 void NoiseStreamer::initialize()
 {
     loadConfig();
 
-	initializePlaylist(config);
-
-	loadPlaylist();
+    initializeAudioSource();
 }
 
 void NoiseStreamer::connect()
 {
     initializeShout();
 
-	connectShout();
+    connectShout();
 }
 
 void NoiseStreamer::disconnect()
@@ -284,36 +376,42 @@ void NoiseStreamer::disconnect()
 
 void NoiseStreamer::stream()
 {
-    streamPlaylist();
+    try
+    {
+        resetErrorCounter();
+
+        streamAudioSource();
+    }
+    catch(DomainException& e)
+    {
+        logSrv->error(handle(e));
+    }
 }
 
 void NoiseStreamer::action()
 {
     /* Load Config, initialize and load Playlist */
-	initialize();
+    initialize();
 
     /* Initialize and connect to Shout */
-	connect();
+    connect();
 
     /* Stream Playlist */
     stream();
 
     /* Finilize Shout */
-	disconnect();
+    disconnect();
 
-    /* Shout down streamer */
-    shutdown();
+    /* Shout down audio source */
+    audioSource->shutdownAudioSource();
 }
 
 void NoiseStreamer::shutdownStreamer()
 {
-    if (!isStoped())
-    {
-        stop();
-    }
+    audioSource->shutdownAudioSource();
+}
 
-    if (!isShutdown())
-    {
-        waitForShutdown();
-    }
+AudioSource* NoiseStreamer::getAudioSource()
+{
+    return audioSource;
 }

@@ -20,8 +20,6 @@ private:
 	SignalService* sigSrv;
 
 protected:
-    void shutdown();
-    bool isShutdown();
 	void waitForResume();
 	void waitForShutdown();
 
@@ -35,10 +33,12 @@ public:
 	void play();
 	void next();
 	void normal();
+    void shutdown();
 
 	bool isPaused();
 	bool isStoped();
 	bool isGoToNext();
+    bool isShutdown();
 
 };
 

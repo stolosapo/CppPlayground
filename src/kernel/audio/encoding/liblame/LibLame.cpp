@@ -299,6 +299,15 @@ int LibLame::encodeFlush(unsigned char* mp3_buffer, int size)
     return -1;
 }
 
+int LibLame::encodeBuffer(short int* pcm_buffer_l, short int* pcm_buffer_r, int num_samples, unsigned char* mp3_buffer, int mp3_buffer_size)
+{
+#ifdef LAME
+    return lame_encode_buffer(lame, pcm_buffer_l, pcm_buffer_r, num_samples, mp3_buffer, mp3_buffer_size);
+#endif
+
+    return -1;
+}
+
 int LibLame::encodeBufferInterleaved(short int* pcm_buffer, int num_samples, unsigned char* mp3_buffer, int mp3_buffer_size)
 {
 #ifdef LAME
