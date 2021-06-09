@@ -30,7 +30,7 @@ public:
         AudioEncodingService *encSrv);
 	virtual ~PlaylistAudioSource();
 
-    virtual void initialize(NoiseStreamerConfig* config);
+    virtual void initialize(AudioSourceConfig config);
 
     virtual int readNextMp3Data(unsigned char* mp3OutBuffer, size_t buffer_size);
     virtual int readNextEncodedMp3Data(unsigned char* mp3OutBuffer);

@@ -206,10 +206,11 @@ void NoiseStreamer::initializeAudioSource()
         new ErrorAppearedEventHandler(this);
 
     audioSource = createNewAudioSource();
-    audioSource->audioMetadataChanged += audioMetadataChangedEventHandler;
-    audioSource->errorAppeared += errorAppearedEventHandler;
+    audioSource->OnAudioMetadataChanged += audioMetadataChangedEventHandler;
+    audioSource->OnError += errorAppearedEventHandler;
 
-    audioSource->initialize(config);
+    AudioSourceConfig* c = (AudioSourceConfig*) config;
+    audioSource->initialize(*c);
 }
 
 void NoiseStreamer::updateAudioMetadata(string metadata)
@@ -405,7 +406,7 @@ void NoiseStreamer::action()
     disconnect();
 
     /* Shout down audio source */
-    audioSource->shutdown();
+    audioSource->shutdownAudioSource();
 }
 
 void NoiseStreamer::shutdownStreamer()

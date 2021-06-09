@@ -2,6 +2,7 @@
 
 #include "AudioSourceType.h"
 #include "AudioMetadataChangedEventArgs.h"
+#include "../config/NoiseStreamerConfig.h"
 #include "../../kernel/audio/encoding/lame/LameAudioEncodingService.h"
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../../kernel/exception/ExceptionMapper.h"
@@ -25,9 +26,9 @@ PlaylistAudioSource::~PlaylistAudioSource()
     currentPlaylistItemFinished();
 }
 
-void PlaylistAudioSource::initialize(NoiseStreamerConfig* config)
+void PlaylistAudioSource::initialize(AudioSourceConfig config)
 {
-    initializePlaylist(config);
+    initializePlaylist((NoiseStreamerConfig*) &config);
     loadPlaylist();
 }
 
@@ -79,7 +80,7 @@ bool PlaylistAudioSource::loadNextPlaylistItem()
         string metadata = nextNssItem->getTrack().getTrackTitle();
         AudioMetadataChangedEventArgs* args =
             new AudioMetadataChangedEventArgs(metadata);
-        audioMetadataChanged.raise(this, args);
+        OnAudioMetadataChanged.raise(this, args);
 
         return true;
     }
@@ -88,7 +89,7 @@ bool PlaylistAudioSource::loadNextPlaylistItem()
         AudioSource::logSrv->error(handle(e));
 
         // Raise errorAppeared Event
-        errorAppeared.raise(this, NULL);
+        OnError.raise(this, NULL);
 
         // Clear current state
         currentPlaylistItemFinished();
