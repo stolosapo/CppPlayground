@@ -13,6 +13,8 @@ using namespace std;
 class PlaylistAudioSource: public AudioSource, public NoiseStreamerPlaylist
 {
 private:
+    AudioEncodingService *encSrv;
+
     FILE *currentMp3File;
     NoiseStreamerPlaylistItem* currentNssItem;
 
@@ -30,7 +32,8 @@ public:
 
     virtual void initialize(NoiseStreamerConfig* config);
 
-    virtual int readNextMp3Data(unsigned char* mp3OutBuffer);
+    virtual int readNextMp3Data(unsigned char* mp3OutBuffer, size_t buffer_size);
+    virtual int readNextEncodedMp3Data(unsigned char* mp3OutBuffer);
 };
 
 #endif // PlaylistAudioSource_h__

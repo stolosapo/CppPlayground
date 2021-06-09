@@ -228,14 +228,15 @@ void NoiseStreamer::streamAudioSource()
 {
     const int AUDIO_SIZE = 4096;
 
-    unsigned char buff[AUDIO_SIZE];
+    unsigned char buff[AUDIO_SIZE * 100];
     long read;
 
     while (!sigSrv->gotSigInt())
     {
         checkIfErrorCounterThresholdReached();
 
-        read = audioSource->readNextMp3Data(buff);
+        read = audioSource->readNextMp3Data(buff, AUDIO_SIZE);
+        // read = ((PlaylistAudioSource*) audioSource)->readNextEncodedMp3Data(buff);
 
         if (read <= 0)
         {

@@ -2,6 +2,7 @@
 
 #include "AudioSourceType.h"
 #include "AudioMetadataChangedEventArgs.h"
+#include "../../kernel/audio/encoding/lame/LameAudioEncodingService.h"
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../../kernel/exception/ExceptionMapper.h"
 #include "../../kernel/utils/FileHelper.h"
@@ -12,7 +13,8 @@ PlaylistAudioSource::PlaylistAudioSource(
     ITimeService* timeSrv,
     AudioEncodingService *encSrv)
     : AudioSource(logSrv, sigSrv, SOURCE_PLAYLIST),
-    NoiseStreamerPlaylist(logSrv, timeSrv, encSrv)
+    NoiseStreamerPlaylist(logSrv, timeSrv, encSrv),
+    encSrv(encSrv)
 {
     this->currentMp3File = NULL;
     this->currentNssItem = NULL;
@@ -92,6 +94,7 @@ bool PlaylistAudioSource::loadNextPlaylistItem()
         currentPlaylistItemFinished();
 
         // and suppress this error
+        return false;
     }
 }
 
@@ -112,7 +115,7 @@ void PlaylistAudioSource::currentPlaylistItemFinished()
     }
 }
 
-int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
+int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer, size_t buffer_size)
 {
     if (sigSrv->gotSigInt() || isStoped())
     {
@@ -134,7 +137,8 @@ int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
         }
     }
 
-    long read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), currentMp3File);
+    // long read = fread(mp3OutBuffer, 1, sizeof(mp3OutBuffer), currentMp3File);
+    long read = fread(mp3OutBuffer, sizeof(char), buffer_size, currentMp3File);
     if (read > 0)
     {
         return read;
@@ -144,5 +148,30 @@ int PlaylistAudioSource::readNextMp3Data(unsigned char* mp3OutBuffer)
     currentPlaylistItemFinished();
 
     // Read next
-    return readNextMp3Data(mp3OutBuffer);
+    return readNextMp3Data(mp3OutBuffer, buffer_size);
+}
+
+int PlaylistAudioSource::readNextEncodedMp3Data(unsigned char* mp3OutBuffer)
+{
+    const int AUDIO_SIZE = 4096;
+    unsigned char mp3_buffer[AUDIO_SIZE];
+    int read;
+
+    read = readNextMp3Data(mp3_buffer, AUDIO_SIZE);
+    cout << "Read next " << read << endl;
+    if (read <= 0)
+    {
+        return 0;
+    }
+
+    LameAudioEncodingService* lameEnc =
+        (LameAudioEncodingService*) this->encSrv;
+
+    int write = lameEnc->reencode(
+        mp3_buffer,
+        read,
+        mp3OutBuffer,
+        currentNssItem->getTrack().getMetadata());
+
+    return write;
 }
