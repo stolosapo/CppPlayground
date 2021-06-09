@@ -43,7 +43,6 @@ private:
     void connectShout();
 	void finilizeShout();
 
-    AudioSource* createNewAudioSource();
     void initializeAudioSource();
 
 	void loadConfig();

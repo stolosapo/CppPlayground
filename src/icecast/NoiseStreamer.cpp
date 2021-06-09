@@ -183,15 +183,6 @@ string NoiseStreamer::shoutError()
     return string(libShout->getError());
 }
 
-AudioSource* NoiseStreamer::createNewAudioSource()
-{
-    return new PlaylistAudioSource(
-        logSrv,
-        sigSrv,
-        timeSrv,
-        encSrv);
-}
-
 void NoiseStreamer::initializeAudioSource()
 {
     if (audioSource != NULL)
@@ -205,12 +196,18 @@ void NoiseStreamer::initializeAudioSource()
     errorAppearedEventHandler =
         new ErrorAppearedEventHandler(this);
 
-    audioSource = createNewAudioSource();
+    audioSource = new PlaylistAudioSource(
+        logSrv,
+        sigSrv,
+        timeSrv,
+        encSrv,
+        config);
+
     audioSource->OnAudioMetadataChanged += audioMetadataChangedEventHandler;
     audioSource->OnError += errorAppearedEventHandler;
 
-    AudioSourceConfig* c = (AudioSourceConfig*) config;
-    audioSource->initialize(*c);
+    AudioSourceConfig c;
+    audioSource->initialize(c);
 }
 
 void NoiseStreamer::updateAudioMetadata(string metadata)

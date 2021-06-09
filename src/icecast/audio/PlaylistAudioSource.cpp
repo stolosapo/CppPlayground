@@ -2,7 +2,6 @@
 
 #include "AudioSourceType.h"
 #include "AudioMetadataChangedEventArgs.h"
-#include "../config/NoiseStreamerConfig.h"
 #include "../../kernel/audio/encoding/lame/LameAudioEncodingService.h"
 #include "../../kernel/exception/domain/DomainException.h"
 #include "../../kernel/exception/ExceptionMapper.h"
@@ -12,10 +11,12 @@ PlaylistAudioSource::PlaylistAudioSource(
     ILogService* logSrv,
     SignalService* sigSrv,
     ITimeService* timeSrv,
-    AudioEncodingService *encSrv)
+    AudioEncodingService *encSrv,
+    NoiseStreamerConfig *config)
     : AudioSource(logSrv, sigSrv, SOURCE_PLAYLIST),
     NoiseStreamerPlaylist(logSrv, timeSrv, encSrv),
-    encSrv(encSrv)
+    encSrv(encSrv),
+    config(config)
 {
     this->currentMp3File = NULL;
     this->currentNssItem = NULL;
@@ -28,7 +29,7 @@ PlaylistAudioSource::~PlaylistAudioSource()
 
 void PlaylistAudioSource::initialize(AudioSourceConfig config)
 {
-    initializePlaylist((NoiseStreamerConfig*) &config);
+    initializePlaylist(this->config);
     loadPlaylist();
 }
 
