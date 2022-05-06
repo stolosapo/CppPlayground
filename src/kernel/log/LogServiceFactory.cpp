@@ -17,11 +17,11 @@ LogServiceFactory::~LogServiceFactory()
 
 IService *LogServiceFactory::create()
 {
-	// LogConsoleService* srv = new LogConsoleService;
+	LogConsoleService* srv = new LogConsoleService;
 
-    ITimeService* timeService = inject<ITimeService>("timeService");
-    LogService * srv = new LogService(timeService);
-    srv->init();
+    // ITimeService* timeService = inject<ITimeService>("timeService");
+    // LogService * srv = new LogService(timeService);
+    // srv->init();
 
     return (IService*) srv;
 }
