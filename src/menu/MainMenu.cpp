@@ -8,6 +8,7 @@
 #include "../gpio/GpioMenuContainer.h"
 #include "../icecast/menu/NoiseStreamerMenuContainer.h"
 #include "../games/GameMenuContainer.h"
+#include "../sudoku/SudokuContainer.cpp"
 
 #include "../kernel/exception/domain/DomainException.h"
 #include "../kernel/exception/domain/GeneralDomainErrorCode.h"
@@ -76,6 +77,7 @@ void MainMenu::fillOptions()
 	this->addMenuItem(new GpioMenuContainer);
 	this->addMenuItem(new NoiseStreamerMenuContainer);
 	this->addMenuItem(new GameMenuContainer);
+    this->addMenuItem(new SudokuContainer);
 }
 
 string MainMenu::getHeader()
