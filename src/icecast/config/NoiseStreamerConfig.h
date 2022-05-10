@@ -3,13 +3,14 @@
 
 #include <string>
 
+#include "../audio/AudioSourceConfig.h"
 #include "../../kernel/configuration/IConfig.h"
 #include "../../kernel/audio/playlist/PlaylistStrategyType.h"
 #include "../../kernel/audio/AudioBitrate.h"
 
 using namespace std;
 
-class NoiseStreamerConfig : public IConfig
+class NoiseStreamerConfig : public IConfig, public AudioSourceConfig
 {
 public:
 	NoiseStreamerConfig();

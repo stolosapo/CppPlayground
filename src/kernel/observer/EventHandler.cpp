@@ -7,5 +7,5 @@ EventHandler::EventHandler()
 
 EventHandler::~EventHandler()
 {
-        
+
 }

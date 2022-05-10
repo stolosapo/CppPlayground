@@ -4,8 +4,8 @@
 class EventArgs
 {
 public:
-	EventArgs();
-	virtual ~EventArgs();
+    EventArgs();
+    virtual ~EventArgs();
 };
 
 #endif // EventArgs_h__
